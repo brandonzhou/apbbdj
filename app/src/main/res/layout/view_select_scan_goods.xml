@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="#00000000"
+        android:id="@+id/layout_scan_left_close"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <LinearLayout
+        android:paddingBottom="20dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:gravity="center"
+            android:text="添加商品"
+            android:textColor="@color/grey_7"
+            android:textSize="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:textColor="@color/grey_7"
+            android:textSize="13dp"
+            android:text="商品名称"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="35dp" />
+
+        <EditText
+            android:id="@+id/et_scan_name"
+            android:paddingLeft="10dp"
+            android:textColor="@color/grey_7"
+            android:textSize="13dp"
+            android:hint="填写商品名称"
+            android:background="@drawable/shap_et_bg"
+            android:gravity="top"
+            android:paddingTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp" />
+
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:textColor="@color/grey_7"
+            android:textSize="13dp"
+            android:text="设置售卖价格"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/rl_scan_goods_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            zhy:max_select="1"/>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shap_et_bg"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:text="￥"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <EditText
+                android:id="@+id/et_scan_price_self"
+                android:textColor="@color/grey_7"
+                android:textSize="13dp"
+                android:hint="填写自定义价格"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:inputType="number|numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:textColor="@color/grey_7"
+            android:textSize="13dp"
+            android:text="商品图片"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+        
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp">
+
+            <RelativeLayout
+                android:layout_centerInParent="true"
+                android:id="@+id/rl_scan_picture"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/shap_dotted_line_grey"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:id="@+id/add"
+                    android:layout_width="20dp"
+                    android:clickable="false"
+                    android:layout_height="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_add" />
+
+
+                <ImageView
+                    android:id="@+id/iv_scan_goods_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="77dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="3dp"
+                    android:scaleType="centerInside" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/iv_scan_delete"
+                android:src="@drawable/ic_delete_4"
+                android:layout_alignParentRight="true"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:id="@+id/tv_scan_add_confirm"
+            android:layout_marginTop="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:clickable="false"
+            android:gravity="center"
+            android:background="@drawable/shap_solid_green_circle"
+            android:text="确认添加"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

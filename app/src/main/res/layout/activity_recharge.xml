@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".community.activity.RechargeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/iv_back"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_araw_left_grey" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="充值"
+            android:textColor="@color/grey_7"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:textStyle="bold"
+        android:textColor="@color/grey_7"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="充值金额（元）"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+
+    <EditText
+        android:id="@+id/et_money"
+        android:background="@null"
+        android:textColor="@color/mainColor"
+        android:gravity="center"
+        android:inputType="number|numberDecimal"
+        android:singleLine="true"
+        android:textSize="22sp"
+        android:layout_marginTop="-10dp"
+        android:hint="请输入任意金额"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp"
+        android:background="@null"
+        android:textColor="@color/grey_2"
+        android:gravity="center_vertical"
+        android:textSize="15sp"
+        android:hint="请选择支付方式"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_wechat"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        
+        <ImageView
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_wechat"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+        
+        <TextView
+            android:text="微信"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:textColor="@color/grey_7"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/iv_check_wechat"
+            android:background="@drawable/ic_check_true"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_ali"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <ImageView
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_ali_"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:text="支付宝"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:textColor="@color/grey_7"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/iv_check_ali"
+            android:background="@drawable/shap_circle_grey"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/bt_recharge"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/bt_bg_1"
+        android:text="充   值"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+
+</LinearLayout>
