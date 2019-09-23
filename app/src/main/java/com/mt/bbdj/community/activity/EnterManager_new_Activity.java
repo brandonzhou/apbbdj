@@ -280,6 +280,24 @@ public class EnterManager_new_Activity extends ActivityBase {
 
 
     private void initListener() {
+
+        findViewById(R.id.tv_test_hide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findViewById(R.id.ll_scan_phone_number).setVisibility(View.GONE);
+                findViewById(R.id.capture_crop_layout).setVisibility(View.VISIBLE);
+            }
+        });
+
+        findViewById(R.id.tv_test_show).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findViewById(R.id.ll_scan_phone_number).setVisibility(View.VISIBLE);
+                findViewById(R.id.capture_crop_layout).setVisibility(View.GONE);
+            }
+        });
+
+
         //删除
         mAdapter.setDeleteClickListener(new EnterManagerAdapter.onDeleteClickListener() {
             @Override

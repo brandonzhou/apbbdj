@@ -88,7 +88,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 contractManager();
                 break;
         }
-
     }
 
     private void contractManager() {

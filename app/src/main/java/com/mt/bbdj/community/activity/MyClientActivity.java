@@ -128,8 +128,6 @@ public class MyClientActivity extends BaseActivity implements XRecyclerView.Load
 
     private void handleEvent(int what, JSONObject jsonObject) throws JSONException {
         JSONObject dataObj = jsonObject.getJSONObject("data");
-        mList.clear();
-        mAdapter.notifyDataSetChanged();
 
         JSONArray fans = dataObj.getJSONArray("fans");
         for (int i = 0; i < fans.length();i++) {

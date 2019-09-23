@@ -22,6 +22,7 @@ import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.model.TakeOutModel;
 import com.mt.bbdj.baseconfig.utls.DateUtil;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
+import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
@@ -118,10 +119,9 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
 
             @Override
             public void OnCannelOrderClick(int position) {
-                //取消
-                TakeOutModel productModel = mList.get(position);
-                String order_id = productModel.getOrders_id();
-                cannelOrder(order_id);
+
+                showProitDialog(position);
+
             }
 
             @Override
@@ -143,6 +143,26 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
                 finish();
             }
         });
+    }
+
+    private void showProitDialog(int position) {
+        new CircleDialog.Builder()
+                .setTitle("提示")
+                .setText("\n确定要删除此订单吗?\n")
+                .setWidth(0.8f)
+                .setCanceledOnTouchOutside(true)
+                .setCancelable(true)
+                .setPositive("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //取消
+                        TakeOutModel productModel = mList.get(position);
+                        String order_id = productModel.getOrders_id();
+                        cannelOrder(order_id);
+                    }
+                })
+                .setNegative("取消", null)
+                .show(getSupportFragmentManager());
     }
 
     private void changeSendType(int position) {
@@ -258,7 +278,7 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
     OnResponseListener<String> mResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
-
+            LoadDialogUtils.getInstance().showLoadingDialog(WaitHandleOrderActivity.this);
         }
 
         @Override
@@ -284,17 +304,19 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
             } catch (JSONException e) {
                 e.printStackTrace();
                 ToastUtil.showShort("网络不稳定！");
+                LoadDialogUtils.cannelLoadingDialog();
             }
+            LoadDialogUtils.cannelLoadingDialog();
         }
 
         @Override
         public void onFailed(int what, Response<String> response) {
-
+            LoadDialogUtils.cannelLoadingDialog();
         }
 
         @Override
         public void onFinish(int what) {
-
+            LoadDialogUtils.cannelLoadingDialog();
         }
     };
 

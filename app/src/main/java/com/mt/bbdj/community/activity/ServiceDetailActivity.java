@@ -58,6 +58,7 @@ public class ServiceDetailActivity extends BaseActivity {
     private TextView tv_action_by_express;
     private TextView tv_send_by_me;
     private RelativeLayout rl_phone;
+    private RelativeLayout rl_bottom_action;
     private RecyclerView recycler;
     private RelativeLayout rl_back;
     private TakeOutModel intentData;
@@ -228,6 +229,7 @@ public class ServiceDetailActivity extends BaseActivity {
         tv_send_finish.setVisibility(View.GONE);    //已送达
         tv_action_by_express.setVisibility(View.GONE);    //快递员操作
         tv_send_by_me.setVisibility(View.GONE);    //自己配送
+        rl_bottom_action.setVisibility(View.VISIBLE);
         if ("1".equals(states)) {
             tv_confirm_receive.setVisibility(View.VISIBLE);   //确认接单
         } else if ("2".equals(states)) {
@@ -246,6 +248,8 @@ public class ServiceDetailActivity extends BaseActivity {
             } else {
                 tv_send_finish.setVisibility(View.VISIBLE);
             }
+        } else if ("5".equals(states)) {
+            rl_bottom_action.setVisibility(View.GONE);
         }
         //设置商品
         setGoodsList(detailedArray);
@@ -289,6 +293,7 @@ public class ServiceDetailActivity extends BaseActivity {
         tv_end_time = findViewById(R.id.tv_end_time);
         tv_dispath_type = findViewById(R.id.tv_dispatch_type);
         tv_remark = findViewById(R.id.tv_remark);
+        rl_bottom_action = findViewById(R.id.rl_bottom_action);
 
         tv_address.setText(intentData.getAddress());
         tv_name.setText(intentData.getName());
