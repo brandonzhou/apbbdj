@@ -149,7 +149,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     public OnResponseListener<String> mResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
-            LoadDialogUtils.getInstance().showLoadingDialog(getActivity());
+          //  LoadDialogUtils.getInstance().showLoadingDialog(getActivity());
         }
 
         @Override
@@ -166,14 +166,14 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                LoadDialogUtils.cannelLoadingDialog();
+                //  LoadDialogUtils.cannelLoadingDialog();
             }
-            LoadDialogUtils.cannelLoadingDialog();
+           // LoadDialogUtils.cannelLoadingDialog();
         }
 
         @Override
         public void onFailed(int what, Response<String> response) {
-            LoadDialogUtils.cannelLoadingDialog();
+            // LoadDialogUtils.cannelLoadingDialog();
         }
 
         @Override

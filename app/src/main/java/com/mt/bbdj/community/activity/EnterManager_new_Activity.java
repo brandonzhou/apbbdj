@@ -9,8 +9,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,7 +26,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -35,6 +41,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.zxing.BarcodeFormat;
@@ -50,6 +57,7 @@ import com.king.zxing.util.ResizeAbleSurfaceView;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.activity.ActivityBase;
 import com.mt.bbdj.baseconfig.activity.RegisterCompleteActivity;
+import com.mt.bbdj.baseconfig.application.MyApplication;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
 import com.mt.bbdj.baseconfig.db.ExpressLogo;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
@@ -237,6 +245,13 @@ public class EnterManager_new_Activity extends ActivityBase {
     private HkDialogLoading dialogLoading;
     private SensorController sensorControler;
 
+    private Camera mCamera;
+    private Camera.Parameters mParams;
+    private DisplayMetrics dm = new DisplayMetrics();
+    private boolean mIsStop;
+    private Handler mHandler = new Handler();
+    private SurfaceHolder surfaceHolder;
+
     /**
      * 设置扫描信息回调
      */
@@ -259,7 +274,6 @@ public class EnterManager_new_Activity extends ActivityBase {
         //扫描动画初始化
         initScanerAnimation();
         initListener();
-        sensorControler = SensorController.getInstance();    //焦点
         initScanPhoneNumber();
         expressSelect.post(new Runnable() {
             @Override
@@ -274,8 +288,32 @@ public class EnterManager_new_Activity extends ActivityBase {
     }
 
     private void initScanPhoneNumber() {
+        //初始化相机参数
+        ResizeAbleSurfaceView surfaceView = findViewById(R.id.capture_preview);
+        int width = ScreenUtils.getScreenWidth(this);
+        int height = ScreenUtils.dip2px(this, 280);
+        surfaceView.resize(width, height);
+        surfaceHolder = surfaceView.getHolder();
 
-
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        surfaceHolder.addCallback(new SurfaceHolderCallBack());
+        llFocus = (LinearLayout) this.findViewById(R.id.llFocus);
+        llFocus.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                autoFocus();
+                return false;
+            }
+        });
+        sensorControler = SensorController.getInstance();
+        sensorControler.setCameraFocusListener(new SensorController.CameraFocusListener() {
+            @Override
+            public void onFocus() {
+                Log.d(TAG, "onFocus");
+                autoFocus();
+            }
+        });
     }
 
 
@@ -656,11 +694,6 @@ public class EnterManager_new_Activity extends ActivityBase {
     protected void onResume() {
         super.onResume();
         mPrintList.clear();
-        ResizeAbleSurfaceView surfaceView = findViewById(R.id.capture_preview);
-        int width = ScreenUtils.getScreenWidth(this);
-        int height = ScreenUtils.dip2px(this, 280);
-        surfaceView.resize(width, height);
-        SurfaceHolder surfaceHolder = surfaceView.getHolder();
         if (hasSurface) {
             //Camera初始化
             initCamera(surfaceHolder);
@@ -687,6 +720,9 @@ public class EnterManager_new_Activity extends ActivityBase {
             });
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
+
+        mIsStop = false;
+        sensorControler.onStart();
     }
 
     @Override
@@ -698,6 +734,8 @@ public class EnterManager_new_Activity extends ActivityBase {
             handler = null;
         }
         CameraManager.get().closeDriver();
+        mIsStop = true;
+        sensorControler.onStop();
     }
 
     @Override
@@ -723,6 +761,7 @@ public class EnterManager_new_Activity extends ActivityBase {
             lists.add(waillMessage);
         }
         mWaillMessageDao.saveInTx(lists);
+        closeCamera(mCamera);
     }
 
     private void initView() {
@@ -1086,11 +1125,13 @@ public class EnterManager_new_Activity extends ActivityBase {
             restartPreviewAndDecode();
         }
 
+
         @Override
         public void handleMessage(Message message) {
             if (message.what == R.id.auto_focus) {
                 if (state == State.PREVIEW) {
                     CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
+
                 }
             } else if (message.what == R.id.restart_preview) {
                 //显示扫描框
@@ -1252,6 +1293,8 @@ public class EnterManager_new_Activity extends ActivityBase {
     }
 
 
+
+
     private enum State {
         //预览
         PREVIEW,
@@ -1261,4 +1304,220 @@ public class EnterManager_new_Activity extends ActivityBase {
         DONE
     }
 
+
+    //#########################################################################################
+    public void autoFocus() {
+        if (mCamera != null) {
+            try {
+                if (mCamera.getParameters().getSupportedFocusModes() != null && mCamera.getParameters()
+                        .getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                    mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                        public void onAutoFocus(boolean success, Camera camera) {
+                            mIsStop = success;
+                        }
+                    });
+                } else {
+//                    Log.e(TAG, getString(R.string.unsupport_auto_focus));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                mCamera.stopPreview();
+                mCamera.startPreview();
+//                Log.e(TAG, getString(R.string.toast_autofocus_failure));
+            }
+        }
+    }
+
+    /**
+     * @return ${return_type} 返回类型
+     * @throws
+     * @Title: 关闭相机
+     * @Description: 释放相机资源
+     */
+    public Camera closeCamera(Camera camera) {
+        try {
+            if (camera != null) {
+                mParams = null;
+                camera.setPreviewCallback(null);
+                camera.stopPreview();
+                camera.release();
+                camera = null;
+            }
+        } catch (Exception e) {
+            Log.i("TAG", e.getMessage());
+        }
+        return camera;
+    }
+
+    public class SurfaceHolderCallBack implements SurfaceHolder.Callback {
+
+        @Override
+        public void surfaceCreated(SurfaceHolder surfaceHolder) {
+            try {
+                if (null == mCamera) {
+                    mCamera =  CameraManager.get().getCamera();
+                    setDisplayOrientation();
+                }
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!mIsStop) {
+                            autoFocus();
+                            mHandler.postDelayed(this, 2500);
+                        }
+
+                    }
+                }, 1000);
+            } catch (Exception e) {
+                Toast.makeText(MyApplication.getInstance(), "暂未获取到拍照权限", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
+
+
+        @Override
+        public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+            if (mCamera != null) {
+                mParams = mCamera.getParameters();
+                mParams.setPictureFormat(PixelFormat.JPEG);//设置拍照后存储的图片格式
+                //设置PreviewSize和PictureSize
+                List<Camera.Size> pictureSizes = mParams.getSupportedPictureSizes();
+                Camera.Size size = getOptimalPictureSize(pictureSizes);
+                if (size == null) {
+                    Toast.makeText(getApplication(), "相机出错,请尝试换一台手机!", Toast.LENGTH_SHORT).show();
+                } else {
+                    System.out.println("surfaceChanged picture size width=" + size.width + " height=" + size.height);
+                    mParams.setPictureSize(size.width, size.height);
+                }
+
+                if (mParams.getSupportedFocusModes().contains(
+                        mParams.FOCUS_MODE_AUTO)) {
+                    mParams.setFocusMode(mParams.FOCUS_MODE_AUTO);
+                }
+                Log.d("surfaceChanged", "widthPixels=" + dm.widthPixels + " heightPixels=" + dm.heightPixels);
+                Camera.Size optimalPreviewSize = getOptimalPreviewSize(EnterManager_new_Activity.this,
+                        mParams.getSupportedPreviewSizes(),
+                        (float) dm.widthPixels / dm.heightPixels);
+                mParams.setPreviewSize(optimalPreviewSize.width,
+                        optimalPreviewSize.height);
+                try {
+                    mCamera.setPreviewDisplay(surfaceHolder);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                mCamera.setParameters(mParams);
+                try {
+//                mCamera.setParameters(mParams);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                mCamera.startPreview();
+                Log.d(TAG, "mParams heightPixels=" + mParams.getPictureSize().height + " widthPixels=" + mParams.getPictureSize().width);
+            }
+        }
+
+        @Override
+        public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+
+        }
+    }
+
+    private void setDisplayOrientation() {
+        int rotation = getWindowManager()
+                .getDefaultDisplay().getRotation();
+        int degree = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0:	degree = 0; break;
+            case Surface.ROTATION_90:	degree = 90; break;
+            case Surface.ROTATION_180:	degree = 180; break;
+            case Surface.ROTATION_270:	degree = 270; break;
+        }
+        int result;
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(0, info);
+        if(info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT){
+            result = (info.orientation + degree) % 360;
+            result = (360 - result) % 360;
+        }else{
+            result =(info.orientation - degree + 360 ) % 360;
+        }
+        mCamera.setDisplayOrientation(result);
+    }
+
+    private Camera.Size getOptimalPictureSize(List<Camera.Size> pictureSizes) {
+        Camera.Size pictureSize = null;
+        for (int i = 0; i < pictureSizes.size(); i++) {
+            pictureSize = pictureSizes.get(i);
+            if (pictureSize.width == dm.widthPixels && pictureSize.height == dm.heightPixels) {
+                return pictureSize;
+            }
+        }
+
+        for (int i = 0; i < pictureSizes.size(); i++) {
+            pictureSize = pictureSizes.get(i);
+            if (pictureSize.width > dm.widthPixels && pictureSize.height > dm.heightPixels) {
+                return pictureSize;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * @param currentActivity
+     * @param sizes           最理想的预览分辨率的宽和高
+     * @param targetRatio
+     * @return 获得最理想的预览尺寸
+     */
+    public static Camera.Size getOptimalPreviewSize(Activity currentActivity,
+                                                    List<Camera.Size> sizes, double targetRatio) {
+        // Use a very small tolerance because we want an exact match.
+        final double ASPECT_TOLERANCE = 0.001;
+        if (sizes == null)
+            return null;
+
+        Camera.Size optimalSize = null;
+        double minDiff = Double.MAX_VALUE;
+
+        // Because of bugs of overlay and layout, we sometimes will try to
+        // layout the viewfinder in the portrait orientation and thus get the
+        // wrong size of mSurfaceView. When we change the preview size, the
+        // new overlay will be created before the old one closed, which causes
+        // an exception. For now, just get the screen size
+
+        Display display = currentActivity.getWindowManager()
+                .getDefaultDisplay();
+        int targetHeight = Math.min(display.getHeight(), display.getWidth());
+
+        if (targetHeight <= 0) {
+            // We don't know the size of SurfaceView, use screen height
+            targetHeight = display.getHeight();
+        }
+
+        // Try to find an size match aspect ratio and size
+        for (Camera.Size size : sizes) {
+            double ratio = (double) size.width / size.height;
+            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE)
+                continue;
+            if (Math.abs(size.height - targetHeight) < minDiff) {
+                optimalSize = size;
+                minDiff = Math.abs(size.height - targetHeight);
+            }
+        }
+
+        // Cannot find the one match the aspect ratio. This should not happen.
+        // Ignore the requirement.
+        if (optimalSize == null) {
+            System.out.println("No preview size match the aspect ratio");
+            minDiff = Double.MAX_VALUE;
+            for (Camera.Size size : sizes) {
+                if (Math.abs(size.height - targetHeight) < minDiff) {
+                    optimalSize = size;
+                    minDiff = Math.abs(size.height - targetHeight);
+                }
+            }
+        }
+        return optimalSize;
+    }
 }

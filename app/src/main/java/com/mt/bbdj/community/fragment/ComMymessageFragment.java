@@ -211,7 +211,6 @@ public class ComMymessageFragment extends BaseFragment {
     }
 
     private void showConnectService() {
-
         new CircleDialog.Builder()
                 .setTitle("联系管家")
                 .setText("\n400-775-0008\n")

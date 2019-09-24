@@ -82,9 +82,10 @@ public class NoHttpRequest {
                                                         String latitude, String longitude,HashMap<String,String> params) {
 
         String signature = StringUtil.getsignature(params);
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW
                 + InterApi.ACTION_COMMIT_REGISTER_MESSAGE, RequestMethod.POST);
         request.add("signature", signature);
+        request.add("type_id", "");
         request.add("phone", phone);        //注册电话
         request.add("number", number);        //工号
         request.add("password", password);    //密码

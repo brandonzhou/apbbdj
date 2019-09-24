@@ -1,5 +1,6 @@
 package com.mt.bbdj.baseconfig.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
+import cn.ycbjie.ycstatusbarlib.bar.YCAppBar;
 
 public class RegisterFinishActivity extends BaseActivity {
 
@@ -24,6 +27,8 @@ public class RegisterFinishActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_finish);
+        YCAppBar.setStatusBarLightMode(this, Color.WHITE);
+        StatusBarUtils.StatusBarLightMode(RegisterFinishActivity.this);
         ButterKnife.bind(this);
     }
 

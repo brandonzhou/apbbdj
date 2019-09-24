@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -48,6 +49,8 @@ import java.lang.ref.WeakReference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
+import cn.ycbjie.ycstatusbarlib.bar.YCAppBar;
 
 public class RegisterAccountActivity extends BaseActivity {
 
@@ -81,6 +84,8 @@ public class RegisterAccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_account);
+        YCAppBar.setStatusBarLightMode(this, Color.WHITE);
+        StatusBarUtils.StatusBarLightMode(RegisterAccountActivity.this);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initData();

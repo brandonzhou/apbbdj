@@ -84,6 +84,8 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
+import cn.ycbjie.ycstatusbarlib.bar.YCAppBar;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
@@ -196,6 +198,8 @@ public class RegisterCompleteActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_complete);
+        YCAppBar.setStatusBarLightMode(this, Color.WHITE);
+        StatusBarUtils.StatusBarLightMode(RegisterCompleteActivity.this);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initParams();
@@ -287,10 +291,10 @@ public class RegisterCompleteActivity extends BaseActivity {
                     }
 
                 } else {
-                    ToastUtil.showShort("定位失败，请重试");
+                   // ToastUtil.showShort("定位失败，请重试");
                 }
             } else {
-                ToastUtil.showShort("定位失败，请重试");
+               // ToastUtil.showShort("定位失败，请重试");
             }
             LoadDialogUtils.cannelLoadingDialog();
             //定位之后进行上传
@@ -799,9 +803,7 @@ public class RegisterCompleteActivity extends BaseActivity {
         if (appLocationPersion()) {
             locationClient.startLocation();
         }
-
     }
-
 
     private void finishRegisterRequest() {
         String phone = mSharedPreferences.getString("phone", "");
