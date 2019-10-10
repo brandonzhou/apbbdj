@@ -1,7 +1,6 @@
 package com.mt.bbdj.community.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,13 +11,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,11 +23,8 @@ import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.activity.LoginActivity;
 import com.mt.bbdj.baseconfig.application.MyApplication;
 import com.mt.bbdj.baseconfig.base.BaseFragment;
-import com.mt.bbdj.baseconfig.db.City;
-import com.mt.bbdj.baseconfig.db.County;
 import com.mt.bbdj.baseconfig.db.ExpressLogo;
 import com.mt.bbdj.baseconfig.db.MingleArea;
-import com.mt.bbdj.baseconfig.db.Province;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.gen.CityDao;
 import com.mt.bbdj.baseconfig.db.gen.CountyDao;
@@ -43,7 +35,6 @@ import com.mt.bbdj.baseconfig.db.gen.ProvinceDao;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.internet.InterApi;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
-import com.mt.bbdj.baseconfig.model.AddressBean;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.baseconfig.utls.DateUtil;
 import com.mt.bbdj.baseconfig.utls.DialogUtil;
@@ -57,13 +48,11 @@ import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.SystemUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
-import com.mt.bbdj.baseconfig.view.CustomProgressDialog;
 import com.mt.bbdj.baseconfig.view.HorizontalProgressBar;
 import com.mt.bbdj.baseconfig.view.MyGridView;
 import com.mt.bbdj.community.activity.ChangeManagerdActivity;
 import com.mt.bbdj.community.activity.ClearOrderActivity;
 import com.mt.bbdj.community.activity.ClientManagerActivity;
-import com.mt.bbdj.community.activity.CommunityActivity;
 import com.mt.bbdj.community.activity.ComplainManagerdActivity;
 import com.mt.bbdj.community.activity.EnterManagerActivity;
 import com.mt.bbdj.community.activity.EnterManager_new_Activity;
@@ -74,7 +63,6 @@ import com.mt.bbdj.community.activity.MessageManagerdActivity;
 import com.mt.bbdj.community.activity.MessageRechargePannelActivity;
 import com.mt.bbdj.community.activity.MoneyFormatManagerActivity;
 import com.mt.bbdj.community.activity.OpearteActivity;
-import com.mt.bbdj.community.activity.OutManagerActivity;
 import com.mt.bbdj.community.activity.OutManager_new_Activity;
 import com.mt.bbdj.community.activity.PannelRechargeActivity;
 import com.mt.bbdj.community.activity.RechargeActivity;
@@ -83,7 +71,6 @@ import com.mt.bbdj.community.activity.RepertoryStoreActivity;
 import com.mt.bbdj.community.activity.SearchPackageActivity;
 import com.mt.bbdj.community.activity.SendManagerActivity;
 import com.mt.bbdj.community.activity.SendResByHandActivity;
-import com.mt.bbdj.community.activity.StoreManagerdActivity;
 import com.mt.bbdj.community.activity.SystemMessageAboutActivity;
 import com.mt.bbdj.community.activity.WaterOrderActivity;
 import com.mt.bbdj.community.adapter.MyGridViewAdapter;
@@ -101,10 +88,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -493,8 +478,8 @@ public class ComFirstFragment extends BaseFragment {
     }
 
     private void handleEnterManagerEvent() {
-        // Intent intent = new Intent(getActivity(), EnterManagerActivity.class);
-        Intent intent = new Intent(getActivity(), EnterManager_new_Activity.class);
+         Intent intent = new Intent(getActivity(), EnterManagerActivity.class);
+        // Intent intent = new Intent(getActivity(), EnterManager_new_Activity.class);
         startActivity(intent);
     }
 
@@ -1015,7 +1000,7 @@ public class ComFirstFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_address:   //地址
-                break;
+            break;
             case R.id.tv_time:
                 break;
             case R.id.tv_receive_wait:       //待收件

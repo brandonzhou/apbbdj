@@ -58,6 +58,7 @@ import com.mt.bbdj.community.activity.ClearOrderActivity;
 import com.mt.bbdj.community.activity.ClientManagerActivity;
 import com.mt.bbdj.community.activity.ComplainManagerdActivity;
 import com.mt.bbdj.community.activity.CouponActivity;
+import com.mt.bbdj.community.activity.EnterManagerActivity;
 import com.mt.bbdj.community.activity.EnterManager_new_Activity;
 import com.mt.bbdj.community.activity.GlobalSearchActivity;
 import com.mt.bbdj.community.activity.GoodsManagerActivity;
@@ -68,12 +69,14 @@ import com.mt.bbdj.community.activity.MessageRechargePannelActivity;
 import com.mt.bbdj.community.activity.MoneyFormatManagerActivity;
 import com.mt.bbdj.community.activity.MyClientActivity;
 import com.mt.bbdj.community.activity.OpearteActivity;
+import com.mt.bbdj.community.activity.OutManagerActivity;
 import com.mt.bbdj.community.activity.OutManager_new_Activity;
 import com.mt.bbdj.community.activity.PannelRechargeActivity;
 import com.mt.bbdj.community.activity.RechargeActivity;
 import com.mt.bbdj.community.activity.RecommendUserActivity;
 import com.mt.bbdj.community.activity.RepertoryActivity;
 import com.mt.bbdj.community.activity.RepertoryStoreActivity;
+import com.mt.bbdj.community.activity.SaveManagerMoneyActivity;
 import com.mt.bbdj.community.activity.SearchPackageActivity;
 import com.mt.bbdj.community.activity.SendManagerActivity;
 import com.mt.bbdj.community.activity.SendResByHandActivity;
@@ -507,6 +510,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
                     handleOutManagerEvent();
                 }
                 break;
+
             case "3":       //我的存放
                 if (isHidden) {
                     ToastUtil.showShort("暂不开放！");
@@ -514,7 +518,19 @@ public class ComFirst_3_Fragment extends BaseFragment {
                     handleSaveManagerEvent();
                 }
                 break;
+
+            case "4":       //寄存费用
+                if (isHidden) {
+                    ToastUtil.showShort("暂不开放！");
+                } else {
+                    handleSaveManagerMoneyEvent();
+                }
+                break;
         }
+    }
+
+    private void handleSaveManagerMoneyEvent() {
+        SaveManagerMoneyActivity.actionTo(getActivity(), user_id);
     }
 
     private void handleSaveManagerEvent() {
@@ -617,14 +633,14 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void handleOutManagerEvent() {
-        //Intent intent = new Intent(getActivity(), OutManagerActivity.class);
-        Intent intent = new Intent(getActivity(), OutManager_new_Activity.class);
+        Intent intent = new Intent(getActivity(), OutManagerActivity.class);
+        // Intent intent = new Intent(getActivity(), OutManager_new_Activity.class);
         startActivity(intent);
     }
 
     private void handleEnterManagerEvent() {
-        // Intent intent = new Intent(getActivity(), EnterManagerActivity.class);
-        Intent intent = new Intent(getActivity(), EnterManager_new_Activity.class);
+        Intent intent = new Intent(getActivity(), EnterManagerActivity.class);
+        // Intent intent = new Intent(getActivity(), EnterManager_new_Activity.class);
         startActivity(intent);
     }
 
@@ -759,7 +775,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void setThreeItemData() {
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 9; i++) {
             HashMap<String, Object> item = new HashMap<>();
 
             if (i == 0) {
@@ -775,7 +791,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("ic", R.drawable.ic_three_2);
             }
 
-            if (i == 2) {
+          /*  if (i == 2) {
                 item.put("tag", "0");
                 item.put("id", "2");
                 item.put("name", "桶装水");
@@ -787,46 +803,46 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("id", "3");
                 item.put("name", "干洗服务");
                 item.put("ic", R.drawable.ic_three_4);
-            }
+            }*/
 
 
-            if (i == 4) {
+            if (i == 2) {
                 item.put("tag", "0");
                 item.put("id", "4");
                 item.put("name", "财务管理");
                 item.put("ic", R.drawable.ic_three_5);
             }
-            if (i == 5) {
+            if (i == 3) {
                 item.put("tag", "0");
                 item.put("id", "5");
                 item.put("name", "客户管理");
                 item.put("ic", R.drawable.ic_three_6);
             }
-            if (i == 6) {
+            if (i == 4) {
                 item.put("tag", "0");
                 item.put("id", "6");
                 item.put("name", "短信管理");
                 item.put("ic", R.drawable.ic_three_7);
             }
-            if (i == 7) {
+            if (i == 5) {
                 item.put("tag", "0");
                 item.put("id", "7");
                 item.put("name", "投诉管理");
                 item.put("ic", R.drawable.ic_three_9);
             }
-            if (i == 8) {
+            if (i == 6) {
                 item.put("tag", "0");
                 item.put("id", "8");
                 item.put("name", "操作手册");
                 item.put("ic", R.drawable.ic_three_10);
             }
-            if (i == 9) {
+            if (i == 7) {
                 item.put("tag", "0");
                 item.put("id", "9");
                 item.put("name", "推荐的订单");
                 item.put("ic", R.drawable.ic_three_2);
             }
-            if (i == 10) {
+            if (i == 8) {
                 item.put("tag", "0");
                 item.put("id", "10");
                 item.put("name", "绑定的用户");
@@ -839,8 +855,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
         mComGridViewThree.setAdapter(myGridViewAdapter);
     }
 
+
     private void setTwoItemData() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             HashMap<String, Object> item = new HashMap<>();
 
             if (i == 0) {
@@ -861,6 +878,20 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("id", "2");
                 item.put("name", "用户取件");
                 item.put("ic", R.drawable.ic_two_3);
+            }
+
+            if (i == 3) {
+                item.put("tag", "0");
+                item.put("id", "3");
+                item.put("name", "我的存放");
+                item.put("ic", R.drawable.ic_three_2);
+            }
+
+            if (i == 4) {
+                item.put("tag", "0");
+                item.put("id", "4");
+                item.put("name", "寄存费用");
+                item.put("ic", R.drawable.ic_three_5);
             }
 
             mListTwo.add(item);
@@ -944,7 +975,6 @@ public class ComFirst_3_Fragment extends BaseFragment {
         EventBus.getDefault().post(new TargetEvent(111));
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
-        getActivity().onBackPressed();//销毁自己
     }
 
     private void handleEvent(int what, JSONObject jsonObject) throws JSONException {
@@ -1029,7 +1059,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
             }
         }
 
-        mListZero.get(0).put("tag",orders_sum);
+        mListZero.get(0).put("tag", orders_sum);
         myGridViewAdapter.notifyDataSetChanged();
     }
 

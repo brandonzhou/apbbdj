@@ -58,21 +58,23 @@ public class StringUtil {
 
     public static String getEffectCode(int code) {
         if (code < 10) {
-            return "00"+code;
+            return "00" + code;
         } else if (code < 100) {
-            return "0"+code;
+            return "0" + code;
         } else {
-            return code+"";
+            return code + "";
         }
     }
 
     // 判断一个字符串是否都为数字
     public static boolean isDigit(String strNum) {
-        return strNum.matches("[0-9]{1,}");
+        // return strNum.matches("[0-9]{1,}");
+        String reg = "\\d+(\\.\\d+)?";
+        return strNum.matches(reg);
     }
 
 
-    public static String getWxChartPayforSign(Map<String,String> map) {
+    public static String getWxChartPayforSign(Map<String, String> map) {
         String result = "";
         try {
             List<Map.Entry<String, String>> infoIds = new ArrayList<Map.Entry<String, String>>(map.entrySet());
@@ -152,18 +154,16 @@ public class StringUtil {
     }
 
     /**
-
-     中国电信号段 133、149、153、173、177、180、181、189、199
-     中国联通号段 130、131、132、145、155、156、166、175、176、185、186
-     中国移动号段 134(0-8)、135、136、137、138、139、147、150、151、152、157、158、159、178、182、183、184、187、188、198
-     其他号段
-     14号段以前为上网卡专属号段，如中国联通的是145，中国移动的是147等等。
-     虚拟运营商
-     电信：1700、1701、1702
-     移动：1703、1705、1706
-     联通：1704、1707、1708、1709、171
-     卫星通信：1349
-
+     * 中国电信号段 133、149、153、173、177、180、181、189、199
+     * 中国联通号段 130、131、132、145、155、156、166、175、176、185、186
+     * 中国移动号段 134(0-8)、135、136、137、138、139、147、150、151、152、157、158、159、178、182、183、184、187、188、198
+     * 其他号段
+     * 14号段以前为上网卡专属号段，如中国联通的是145，中国移动的是147等等。
+     * 虚拟运营商
+     * 电信：1700、1701、1702
+     * 移动：1703、1705、1706
+     * 联通：1704、1707、1708、1709、171
+     * 卫星通信：1349
      **/
 
     public static String isPhone(String number) {
@@ -175,7 +175,7 @@ public class StringUtil {
             Matcher matcher = pattern.matcher(number);
 
             //查找字符串中是否有符合的子字符串
-            while (matcher.find()){
+            while (matcher.find()) {
                 return matcher.group();
             }
             return "";
@@ -288,7 +288,7 @@ public class StringUtil {
 
     //处理字符串类型但是为null的数据
     public static String handleNullResultForString(String data) {
-        if (data == null || "null".equals(data)||"nullnull".equals(data)) {
+        if (data == null || "null".equals(data) || "nullnull".equals(data)) {
             return "";
         } else {
             return data;
@@ -374,9 +374,9 @@ public class StringUtil {
         return Integer.parseInt(data);
     }
 
-    public static String formatDouble(double data){
+    public static String formatDouble(double data) {
         DecimalFormat df = new DecimalFormat("######0.00");
-        return df.format(data)+"";
+        return df.format(data) + "";
     }
 
     //加密方式 sha1、md5
@@ -411,7 +411,7 @@ public class StringUtil {
             sb.append(Constant.key);
             result = sb.toString();
 
-            LogUtil.d("AAAAAAAAAAAAAAA",result);
+            LogUtil.d("AAAAAAAAAAAAAAA", result);
 
             result = EncryptUtil.getSha1(result);
             //进行MD5加密

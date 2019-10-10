@@ -863,7 +863,7 @@ public class RegisterCompleteActivity extends BaseActivity {
                         //注册完成之后发送消息，销毁之前的注册的界面
                         EventBus.getDefault().post(new DestroyEvent(1));
                         finish();
-                    } else if ("4002".equals(code)) {
+                    } else {
                         ToastUtil.showShort(msg);
                     }
                 } catch (JSONException e) {

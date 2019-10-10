@@ -62,7 +62,7 @@ public class MyApplication extends Application {
         RxTool.init(this);
         ToastUtil.init(this);
 
-       // CrashReport.initCrashReport(getApplicationContext(), "28ee43e70a", false);
+        //CrashReport.initCrashReport(getApplicationContext(), "28ee43e70a", false);
         //bug收集
         // CrashHandler.getInstance().init(this);
 
@@ -71,8 +71,7 @@ public class MyApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        //  MultiDex.install(this);
-
+        // MultiDex.install(this);
 
     }
 

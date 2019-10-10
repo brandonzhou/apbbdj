@@ -49,7 +49,8 @@ public class EnterManagerAdapter extends RecyclerView.Adapter<EnterManagerAdapte
         HashMap<String,String> map = mList.get(position);
         holder.tvPackageCode.setText(map.get("package_code"));
         holder.tvWailNumber.setText(map.get("wail_number"));
-        holder.tvExpress.setText(map.get("express_name"));
+        holder.tvExpress.setText(map.get("phone_number"));
+
         //删除
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +60,7 @@ public class EnterManagerAdapter extends RecyclerView.Adapter<EnterManagerAdapte
                 }
             }
         });
+
 
         //item点击
         holder.itemView.setOnClickListener(new View.OnClickListener() {

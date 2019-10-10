@@ -152,7 +152,6 @@ public class CommunityActivity extends BaseActivity {
         }
     };
 
-
     //暂时解决重叠问题
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -173,11 +172,7 @@ public class CommunityActivity extends BaseActivity {
         upLoadexpressLogo();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
 
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

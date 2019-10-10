@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 /**
  * @author vondear
  */
-final class CameraConfigurationManager {
+public class CameraConfigurationManager {
 
     private static final String TAG = CameraConfigurationManager.class.getSimpleName();
 
@@ -24,7 +24,7 @@ final class CameraConfigurationManager {
 
     private final Context context;
     private Point screenResolution;
-    private Point cameraResolution;
+    public  static Point cameraResolution;
     private int previewFormat;
     private String previewFormatString;
 
@@ -167,7 +167,7 @@ final class CameraConfigurationManager {
         camera.setParameters(parameters);
     }
 
-    Point getCameraResolution() {
+    public static Point getCameraResolution() {
         return cameraResolution;
     }
 

@@ -16,6 +16,7 @@
 
 package com.rxfeature.module.scaner;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
@@ -23,9 +24,14 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.SurfaceHolder;
 
+import com.mt.bbdj.community.activity.EnterManager_new_Activity;
+
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author vondear
@@ -121,7 +127,6 @@ public final class CameraManager {
                 throw new IOException();
             }
             camera.setPreviewDisplay(holder);
-
             if (!initialized) {
                 initialized = true;
                 configManager.initFromCameraParameters(camera);
@@ -332,4 +337,6 @@ public final class CameraManager {
             camera.setParameters(parameter);
         }
     }
+
+
 }

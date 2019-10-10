@@ -12,19 +12,18 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
+        <activity android:name=".community.activity.SaveManagerMoneyActivity"></activity>
         <!-- 适配全面屏 -->
         <activity
             android:name=".community.activity.SettingActivity"
             android:screenOrientation="portrait" /> <!-- 适配华为(hua wei)刘海屏 -->
-        <!--适配华为（huawei）刘海屏-->
+        <!-- 适配华为（huawei）刘海屏 -->
         <activity
             android:name=".community.activity.SearchShelvesActivity"
-            android:screenOrientation="portrait" />
-        <!--适配小米（xiaomi）刘海屏-->
+            android:screenOrientation="portrait" /> <!-- 适配小米（xiaomi）刘海屏 -->
         <activity
             android:name=".community.activity.SearchShelvesGoodsActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".community.activity.AddShelvesAndGoodsActivity"
             android:screenOrientation="portrait" />
@@ -90,7 +89,6 @@
         <activity
             android:name=".corporation.activity.CorporationActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".baseconfig.activity.LoginActivity"
             android:launchMode="singleTask"
@@ -165,11 +163,9 @@
             android:name=".community.activity.IdentificationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".community.activity.SendManagerActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".community.activity.MailingdetailActivity"
             android:screenOrientation="portrait" />
@@ -231,15 +227,12 @@
         <activity
             android:name=".community.activity.MessageManagerdActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".community.activity.ComplainManagerdActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".community.activity.SearchPackageActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".community.activity.ShowPackageMessageActivity"
             android:screenOrientation="portrait" />
@@ -286,6 +279,9 @@
             android:name="com.king.zxing.CaptureActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".community.activity.EnterManagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".community.activity.SendBymeActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -300,9 +296,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".community.activity.MoneyFormatManagerActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".community.activity.EnterManagerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".community.activity.OutManagerActivity"
@@ -423,15 +416,12 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.4" />
-
         <meta-data
             android:name="android.notch_support"
             android:value="true" />
-
         <meta-data
             android:name="notch.config"
             android:value="portrait|landscape" />
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="ad46bd828313c14fdd3f0377bb2dd4b2" />
@@ -457,6 +447,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <receiver
             android:name=".baseconfig.receiver.JPushReceiver"
             android:enabled="true">
@@ -494,10 +485,8 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 往SDCard写入数据权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 访问internet权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.READ_APP_BADGE" />
@@ -505,7 +494,6 @@
     <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
     <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- 解锁屏幕需要的权限 -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" /> <!-- 申请电源锁需要的权限 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required -->

@@ -74,31 +74,50 @@
         android:layout_height="match_parent"
         android:background="@color/grey_2">
 
-        <com.king.zxing.util.ResizeAbleSurfaceView
-            android:id="@+id/preview_view"
+        <com.mt.bbdj.baseconfig.view.glsurface.RoundTextureView
+            android:id="@+id/texture_preview"
             android:layout_width="match_parent"
-            android:layout_height="260dp" />
-g
-        <com.king.zxing.ViewfinderView
-            android:paddingTop="10dp"
-            android:id="@+id/viewfinder_view"
+            android:layout_height="270dp"
+            android:layout_below="@+id/rl_title_layout"
+            android:clipToPadding="true"
+            android:fitsSystemWindows="true" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_scan"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cornerColor="@color/colorPrimary"
-            app:frameColor="@color/colorPrimary"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-            app:frameHeight="250dp"
-            app:labelText="测试"
-            app:labelTextLocation="bottom"
-            app:labelTextSize="14sp"
-            app:laserColor="@color/colorPrimary"
-            app:resultPointColor="@color/colorPrimary" />
+            android:layout_height="270dp"
+            android:layout_below="@+id/rl_title_layout">
+
+
+            <RelativeLayout
+                android:id="@+id/capture_crop_layout"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/capture"
+                android:contentDescription="@string/app_name">
+
+                <ImageView
+                    android:id="@+id/capture_scan_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rxtool_scan_ray"
+                    android:contentDescription="@string/app_name" />
+            </RelativeLayout>
+
+        </RelativeLayout>
         
         <LinearLayout
             android:background="@color/white"
             android:orientation="vertical"
-            android:layout_marginTop="260dp"
+            android:layout_marginTop="270dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

@@ -9,11 +9,14 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -28,11 +31,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -43,6 +44,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.ocr.sdk.OCR;
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.GeneralBasicParams;
+import com.baidu.ocr.sdk.model.GeneralResult;
+import com.baidu.ocr.sdk.model.WordSimple;
 import com.bumptech.glide.Glide;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -56,9 +63,6 @@ import com.king.zxing.util.ResizeAbleSurfaceView;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.activity.ActivityBase;
-import com.mt.bbdj.baseconfig.activity.RegisterCompleteActivity;
-import com.mt.bbdj.baseconfig.application.MyApplication;
-import com.mt.bbdj.baseconfig.base.BaseActivity;
 import com.mt.bbdj.baseconfig.db.ExpressLogo;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.WaillMessage;
@@ -67,19 +71,15 @@ import com.mt.bbdj.baseconfig.db.gen.ExpressLogoDao;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.db.gen.WaillMessageDao;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
-import com.mt.bbdj.baseconfig.model.Entermodel;
 import com.mt.bbdj.baseconfig.model.PrintTagModel;
-import com.mt.bbdj.baseconfig.utls.DateUtil;
+import com.mt.bbdj.baseconfig.utls.CameraUtils;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.HkDialogLoading;
-import com.mt.bbdj.baseconfig.utls.IntegerUtil;
+import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
-import com.mt.bbdj.baseconfig.utls.RxBarTool;
-import com.mt.bbdj.baseconfig.utls.RxBeepTool;
 import com.mt.bbdj.baseconfig.utls.RxConstants;
 import com.mt.bbdj.baseconfig.utls.RxDataTool;
 import com.mt.bbdj.baseconfig.utls.RxDialogSure;
-import com.mt.bbdj.baseconfig.utls.RxPhotoTool;
 import com.mt.bbdj.baseconfig.utls.RxSPTool;
 import com.mt.bbdj.baseconfig.utls.RxToast;
 import com.mt.bbdj.baseconfig.utls.SensorController;
@@ -88,21 +88,19 @@ import com.mt.bbdj.baseconfig.utls.SoundHelper;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.SystemUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
-import com.mt.bbdj.baseconfig.view.CustomProgressDialog;
 import com.mt.bbdj.baseconfig.view.MarginDecoration;
 import com.mt.bbdj.baseconfig.view.MyDecoration;
 import com.mt.bbdj.baseconfig.view.MyPopuwindow;
-import com.mt.bbdj.baseconfig.view.RxActivityTool;
 import com.mt.bbdj.baseconfig.view.RxAnimationTool;
 import com.mt.bbdj.community.adapter.EnterManagerAdapter;
 import com.mt.bbdj.community.adapter.SimpleStringAdapter;
-import com.rxfeature.activity.ActivityScanerCode;
+import com.mylhyl.circledialog.CircleDialog;
+import com.rxfeature.module.scaner.CameraConfigurationManager;
 import com.rxfeature.module.scaner.CameraManager;
 import com.rxfeature.module.scaner.OnRxScanerListener;
 import com.rxfeature.module.scaner.PlanarYUVLuminanceSource;
 import com.rxfeature.module.scaner.decoding.InactivityTimer;
 import com.rxfeature.tool.RxQrBarTool;
-import com.wildma.idcardcamera.utils.ScreenUtils;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -113,6 +111,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -121,14 +120,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 import static android.content.ContentValues.TAG;
 
@@ -142,7 +137,7 @@ public class EnterManager_new_Activity extends ActivityBase {
     private RelativeLayout ivBack;    //返回
     private TextView tv_enter_number;     //入库数
     private TextView tv_enter;
-    private LinearLayout ll_scan_phone_number,llFocus;
+    private LinearLayout ll_scan_phone_number, llFocus;
     private List<HashMap<String, String>> mList = new ArrayList<>();
     private List<HashMap<String, String>> mPrintList = new ArrayList<>();
     private List<String> mTempList = new ArrayList<>();//临时数据
@@ -156,7 +151,8 @@ public class EnterManager_new_Activity extends ActivityBase {
     private MyPopuwindow popupWindow;
 
     private List<HashMap<String, String>> mFastData = new ArrayList<>();    //快递公司
-    private HashMap<String, String>currentMap = new HashMap<>();    //当前数据
+    private HashMap<String, String> currentMap = new HashMap<>();    //当前数据
+    private List<HashMap<String, String>> mData = new ArrayList<>();
     private ExpressLogoDao mExpressLogoDao;
 
     private final int CHECK_WAY_BILL_STATE = 100;    //检测
@@ -249,8 +245,11 @@ public class EnterManager_new_Activity extends ActivityBase {
     private Camera.Parameters mParams;
     private DisplayMetrics dm = new DisplayMetrics();
     private boolean mIsStop;
-    private Handler mHandler = new Handler();
     private SurfaceHolder surfaceHolder;
+    private ImageView testImage;
+    private File testFile;
+    private Camera.Size optimalPreviewSize;
+    private ResizeAbleSurfaceView surfaceViewLayout;
 
     /**
      * 设置扫描信息回调
@@ -258,7 +257,6 @@ public class EnterManager_new_Activity extends ActivityBase {
     public static void setScanerListener(OnRxScanerListener scanerListener) {
         mScanerListener = scanerListener;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -289,16 +287,15 @@ public class EnterManager_new_Activity extends ActivityBase {
 
     private void initScanPhoneNumber() {
         //初始化相机参数
-        ResizeAbleSurfaceView surfaceView = findViewById(R.id.capture_preview);
-        int width = ScreenUtils.getScreenWidth(this);
+        surfaceViewLayout = findViewById(R.id.capture_preview);
+       /* int width = ScreenUtils.getScreenWidth(this);
         int height = ScreenUtils.dip2px(this, 280);
-        surfaceView.resize(width, height);
-        surfaceHolder = surfaceView.getHolder();
+        surfaceView.resize(width, height);*/
+
+        surfaceHolder = surfaceViewLayout.getHolder();
 
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        surfaceHolder.addCallback(new SurfaceHolderCallBack());
-        llFocus = (LinearLayout) this.findViewById(R.id.llFocus);
+
         llFocus.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -306,36 +303,99 @@ public class EnterManager_new_Activity extends ActivityBase {
                 return false;
             }
         });
-        sensorControler = SensorController.getInstance();
+      /*  sensorControler = SensorController.getInstance();
         sensorControler.setCameraFocusListener(new SensorController.CameraFocusListener() {
             @Override
             public void onFocus() {
                 Log.d(TAG, "onFocus");
                 autoFocus();
             }
-        });
+        });*/
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        surfaceViewLayout.getGlobalVisibleRect(mPreviewRect);
+        DisplayMetrics dm = new DisplayMetrics();
+        this.getWindowManager()
+                .getDefaultDisplay().getMetrics(dm);
+        LogUtil.e("AAAAAAAAA", mPreviewRect.left + " " + mPreviewRect.top + " " + mPreviewRect.right + " " + mPreviewRect.bottom);
+        LogUtil.e("AAAAAAAAABBB", dm.widthPixels+ " " + dm.heightPixels );
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPrintList.clear();
+        if (hasSurface) {
+            //Camera初始化
+            initCamera(surfaceHolder);
+        } else {
+            surfaceHolder.addCallback(new SurfaceHolder.Callback() {
+                @Override
+                public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+                    if (mCamera != null) {
+                        mParams = mCamera.getParameters();
+                        mParams.setPictureFormat(PixelFormat.JPEG);//设置拍照后存储的图片格式
+                        //设置PreviewSize和PictureSize
+                        List<Camera.Size> pictureSizes = mParams.getSupportedPictureSizes();
+                        Camera.Size size = getOptimalPictureSize(pictureSizes);
+                        if (size == null) {
+                            Toast.makeText(getApplication(), "相机出错,请尝试换一台手机!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            System.out.println("surfaceChanged picture size width=" + size.width + " height=" + size.height);
+                            mParams.setPictureSize(size.width, size.height);
+                        }
+
+                        if (mParams.getSupportedFocusModes().contains(
+                                mParams.FOCUS_MODE_FIXED)) {
+                            mParams.setFocusMode(mParams.FOCUS_MODE_FIXED);
+                        }
+
+                        Log.d("surfaceChanged", "widthPixels=" + dm.widthPixels + " heightPixels=" + dm.heightPixels);
+                        optimalPreviewSize = getOptimalPreviewSize(EnterManager_new_Activity.this,
+                                mParams.getSupportedPreviewSizes(),
+                                (float) dm.widthPixels / dm.heightPixels);
+                        Point screenPoint = CameraConfigurationManager.getCameraResolution();
+                        mParams.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
+                        try {
+                            mCamera.setPreviewDisplay(surfaceHolder);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        mCamera.setDisplayOrientation(90);
+                        mCamera.setParameters(mParams);
+                        try {
+                            //mCamera.setParameters(mParams);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        mCamera.startPreview();
+                        Log.d(TAG, "mParams heightPixels=" + mParams.getPictureSize().height + " widthPixels=" + mParams.getPictureSize().width);
+                    }
+                }
+
+                @Override
+                public void surfaceCreated(SurfaceHolder holder) {
+                    if (!hasSurface) {
+                        hasSurface = true;
+                        initCamera(holder);
+                    }
+                }
+
+                @Override
+                public void surfaceDestroyed(SurfaceHolder holder) {
+                    hasSurface = false;
+
+                }
+            });
+            surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        }
+    }
 
     private void initListener() {
-
-        findViewById(R.id.tv_test_hide).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                findViewById(R.id.ll_scan_phone_number).setVisibility(View.GONE);
-                findViewById(R.id.capture_crop_layout).setVisibility(View.VISIBLE);
-            }
-        });
-
-        findViewById(R.id.tv_test_show).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                findViewById(R.id.ll_scan_phone_number).setVisibility(View.VISIBLE);
-                findViewById(R.id.capture_crop_layout).setVisibility(View.GONE);
-            }
-        });
-
-
         //删除
         mAdapter.setDeleteClickListener(new EnterManagerAdapter.onDeleteClickListener() {
             @Override
@@ -380,7 +440,7 @@ public class EnterManager_new_Activity extends ActivityBase {
         tv_enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                enterRecorde();    //入库请求
+                showConfirmDialog();
             }
         });
 
@@ -440,6 +500,25 @@ public class EnterManager_new_Activity extends ActivityBase {
         });
     }
 
+    private void showConfirmDialog() {
+        new CircleDialog.Builder()
+                .setTitle("提示")
+                .setText("\n非正式环境不可入库\n")
+                .setWidth(0.8f)
+                .setCanceledOnTouchOutside(true)
+                .setCancelable(true)
+                .setPositive("确认", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //入库
+                        //enterRecorde();
+                    }
+                })
+                .setNegative("取消", null)
+                .show(getSupportFragmentManager());
+
+    }
+
     private void enterRecorde() {
         if (mList.size() == 0) {
             ToastUtil.showShort("无可提交数据");
@@ -452,7 +531,7 @@ public class EnterManager_new_Activity extends ActivityBase {
         mRequestQueue.add(ENTER_RECORDE_REQUEST, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-                dialogLoading.show();
+                LoadDialogUtils.getInstance().showLoadingDialog(EnterManager_new_Activity.this);
             }
 
             @Override
@@ -463,7 +542,7 @@ public class EnterManager_new_Activity extends ActivityBase {
                     enterRecorderResult(jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    dialogLoading.dismiss();
+                    LoadDialogUtils.cannelLoadingDialog();
                     tv_enter.setEnabled(true);
                 }
                 tv_enter.setEnabled(true);
@@ -471,13 +550,13 @@ public class EnterManager_new_Activity extends ActivityBase {
 
             @Override
             public void onFailed(int what, Response<String> response) {
-                dialogLoading.dismiss();
+                LoadDialogUtils.cannelLoadingDialog();
                 tv_enter.setEnabled(true);
             }
 
             @Override
             public void onFinish(int what) {
-                dialogLoading.dismiss();
+                LoadDialogUtils.cannelLoadingDialog();
                 tv_enter.setEnabled(true);
             }
         });
@@ -493,7 +572,7 @@ public class EnterManager_new_Activity extends ActivityBase {
             mAdapter.notifyDataSetChanged();
             JSONArray data = jsonObject.getJSONArray("data");
             printNumber(data);    //打印取件码
-            dialogLoading.cancel();
+            LoadDialogUtils.cannelLoadingDialog();
         } else {
             ToastUtil.showShort(msg);
         }
@@ -528,7 +607,7 @@ public class EnterManager_new_Activity extends ActivityBase {
             sb.append("|");
             sb.append(data.get("express_name"));
             sb.append("|");
-            sb.append(data.get("name"));
+            sb.append("李**");
             sb.append("|");
             sb.append(data.get("wail_number"));
             sb.append(",");
@@ -589,7 +668,7 @@ public class EnterManager_new_Activity extends ActivityBase {
             }
         }
 
-        mAdapter = new EnterManagerAdapter(mList);
+        mAdapter = new EnterManagerAdapter(mData);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new MyDecoration(this, LinearLayoutManager.VERTICAL, Color.parseColor("#e9e9e9"), 1));
@@ -649,12 +728,17 @@ public class EnterManager_new_Activity extends ActivityBase {
         }
         mRequestQueue = NoHttp.newRequestQueue();
         printTagModel = new PrintTagModel();
+
+        String testFilePaht = Environment.getExternalStorageDirectory().getAbsolutePath() + "/abc/";
+        testFile = new File(testFilePaht);
+        if (!new File(testFilePaht).exists()) {
+            testFile.mkdirs();
+        }
     }
 
 
     private void initDecode() {
         multiFormatReader = new MultiFormatReader();
-
         // 解码的参数
         Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>(2);
         // 可以解析的编码类型
@@ -689,41 +773,6 @@ public class EnterManager_new_Activity extends ActivityBase {
         multiFormatReader.setHints(hints);
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mPrintList.clear();
-        if (hasSurface) {
-            //Camera初始化
-            initCamera(surfaceHolder);
-        } else {
-            surfaceHolder.addCallback(new SurfaceHolder.Callback() {
-                @Override
-                public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-                }
-
-                @Override
-                public void surfaceCreated(SurfaceHolder holder) {
-                    if (!hasSurface) {
-                        hasSurface = true;
-                        initCamera(holder);
-                    }
-                }
-
-                @Override
-                public void surfaceDestroyed(SurfaceHolder holder) {
-                    hasSurface = false;
-
-                }
-            });
-            surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        }
-
-        mIsStop = false;
-        sensorControler.onStart();
-    }
 
     @Override
     protected void onPause() {
@@ -735,7 +784,6 @@ public class EnterManager_new_Activity extends ActivityBase {
         }
         CameraManager.get().closeDriver();
         mIsStop = true;
-        sensorControler.onStop();
     }
 
     @Override
@@ -779,11 +827,13 @@ public class EnterManager_new_Activity extends ActivityBase {
         tv_enter_number = findViewById(R.id.tv_enter_number);
 
         ll_scan_phone_number = findViewById(R.id.ll_scan_phone_number);
+
         llFocus = findViewById(R.id.llFocus);
-        ll_scan_phone_number.setVisibility(View.GONE);
         rl_scan.setVisibility(View.VISIBLE);
         tv_enter = findViewById(R.id.tv_enter);
         ivBack = findViewById(R.id.iv_back);
+        testImage = findViewById(R.id.image);
+
         initRecyclerView();    //初始化列表
 
     }
@@ -822,7 +872,10 @@ public class EnterManager_new_Activity extends ActivityBase {
 
     private void initCamera(SurfaceHolder surfaceHolder) {
         try {
+            surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+            surfaceHolder.addCallback(new SurfaceHolderCallBack());
             CameraManager.get().openDriver(surfaceHolder);
+            mCamera = CameraManager.get().getCamera();
             Point point = CameraManager.get().getCameraResolution();
             AtomicInteger width = new AtomicInteger(point.y);
             AtomicInteger height = new AtomicInteger(point.x);
@@ -919,7 +972,7 @@ public class EnterManager_new_Activity extends ActivityBase {
     public void handleDecode(Result result, String imagePath) {
         // inactivityTimer.onActivity();
         //扫描成功之后的振动与声音提示
-     //   SoundHelper.getInstance().playNotifiSound();
+        SoundHelper.getInstance().playNotifiSound();
         String result1 = result.getText();
 
         if (result1.length() < 7) {
@@ -930,7 +983,8 @@ public class EnterManager_new_Activity extends ActivityBase {
             return;
         }
 
-        if (mList.size() == 30) {
+
+        if (mData.size() == 30) {
             ToastUtil.showShort("超出数量限制！");
             if (handler != null) {
                 // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
@@ -941,16 +995,23 @@ public class EnterManager_new_Activity extends ActivityBase {
 
         if (isContain(result1)) {   //判断是否重复
             SoundHelper.getInstance().playNotifiRepeatSound();
-
             if (handler != null) {
                 // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
                 handler.sendEmptyMessage(R.id.restart_preview);
             }
         } else {
-            mTempList.add(result1);
+            HashMap<String, String> map = new HashMap<>();
+            map.put("wail_number", result1);
+            mData.add(map);
+            map = null;
             //上传图片
-           // uploadImage(imagePath);
-            checkWaybillState(wayNumber, "");
+            // uploadImage(imagePath);
+            //  checkWaybillState(wayNumber, "");
+            mCropLayout.setVisibility(View.GONE);
+            ll_scan_phone_number.setVisibility(View.VISIBLE);
+            if (handler != null) {
+                handler.sendEmptyMessage(R.id.phone_number);
+            }
         }
     }
 
@@ -963,20 +1024,6 @@ public class EnterManager_new_Activity extends ActivityBase {
         return false;
     }
 
-    private void checkWaybillState(String number, String picturl) {
-        if ("".equals(express_id)) {
-            ToastUtil.showShort("请选择快递公司");
-            return;
-        }
-        Request<String> request = NoHttpRequest.checkWaybillRequest(user_id, express_id, number, picturl);
-        mRequestQueue.add(CHECK_WAY_BILL_STATE, request, mOnresponseListener);
-    }
-
-
-    private void uploadImage(String imagePath) {
-        Request<String> request = NoHttpRequest.commitScanPictureRequest(imagePath);
-        mRequestQueue.add(COMMIT_PICTURE_REQUEST, request, mOnresponseListener);
-    }
 
     private OnResponseListener<String> mOnresponseListener = new OnResponseListener<String>() {
         @Override
@@ -1017,98 +1064,14 @@ public class EnterManager_new_Activity extends ActivityBase {
     private void handleResultForEnter(int what, JSONObject jsonObject) throws JSONException {
         switch (what) {
             case CHECK_WAY_BILL_STATE:     //检测运单号
-                checkWaybillStateResult(jsonObject);
+
                 break;
             case COMMIT_PICTURE_REQUEST:    //上传图片
-                commitPictureResult(jsonObject);
+
                 break;
         }
     }
 
-    private void commitPictureResult(JSONObject jsonObject) throws JSONException {
-        JSONObject data = jsonObject.getJSONObject("data");
-        String picurl = data.getString("picurl");
-        //检测运单号
-        checkWaybillState(wayNumber, picurl);
-    }
-
-    private void checkWaybillStateResult(JSONObject jsonObject) throws JSONException {
-        String code = jsonObject.get("code").toString();
-        String msg = jsonObject.get("msg").toString();
-        if ("5001".equals(code)) {
-            setListData(jsonObject);
-            tagNumber++;
-        } else if ("4004".equals(code)) {
-            SoundHelper.getInstance().playEnterSound();
-            resetScan(jsonObject, msg);
-        }else if ("4003".equals(code)){
-            SoundHelper.getInstance().playChangeSound();
-            resetScan(jsonObject, msg);
-        } else {
-            resetScan(jsonObject, msg);
-        }
-
-        tv_enter_number.setText("(" + mList.size() + "/30)");
-    }
-
-    private void resetScan(JSONObject jsonObject, String msg) throws JSONException {
-        JSONObject dataArray = jsonObject.getJSONObject("data");
-        String resultCode = dataArray.getString("number");
-        mTempList.remove(resultCode);
-        ToastUtil.showShort(msg);
-
-        if (handler != null) {
-            // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
-            handler.sendEmptyMessage(R.id.restart_preview);
-        }
-    }
-
-    private void setListData(JSONObject jsonObject) throws JSONException {
-        JSONObject dataArray = jsonObject.getJSONObject("data");
-        String package_code = dataArray.getString("code");
-        String mobile = dataArray.getString("mobile");
-        mobile = StringUtil.handleNullResultForString(mobile);
-        String type = dataArray.getString("type");
-        String name = dataArray.getString("name");
-        String number = dataArray.getString("number");
-
-        HashMap<String, String> map = new HashMap<>();
-        int codeTag = IntegerUtil.getStringChangeToNumber(package_code);    //最新的数据库的提货码
-        codeTag = codeTag + tagNumber;
-        String currentData = DateUtil.getCurrentDay();
-        String effectCode = StringUtil.getEffectCode(codeTag);
-        String result = currentData +"0"+ effectCode;
-
-        map.put("package_code", result);
-        map.put("wail_number", number);
-        map.put("express_name", mobile);
-        map.put("type", type);
-        map.put("name", name);
-
-        tv_phone.setText(mobile);
-        tvPackageCode.setText(result);
-        tv_yundan.setText(number);
-        currentMap = map;
-
-        if ("".equals(mobile)) {
-            rl_scan.setVisibility(View.GONE);
-            ll_scan_phone_number.setVisibility(View.VISIBLE);
-            //SystemUtil.showKeyBoard(EnterManager_new_Activity.this, tv_phone);
-            isAdd = true;
-        } else {
-            tv_phone.setText("");
-            tvPackageCode.setText("");
-            tv_yundan.setText("");
-            rl_scan.setVisibility(View.VISIBLE);
-            mList.add(0, map);
-            mAdapter.notifyDataSetChanged();
-
-            if (handler != null) {
-                // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
-                handler.sendEmptyMessage(R.id.restart_preview);
-            }
-        }
-    }
 
     //==============================================================================================解析结果 及 后续处理 end
 
@@ -1131,12 +1094,18 @@ public class EnterManager_new_Activity extends ActivityBase {
             if (message.what == R.id.auto_focus) {
                 if (state == State.PREVIEW) {
                     CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
-
+                } else if (state == State.PHONE) {
+                    mCropLayout.setVisibility(View.GONE);
+                    ll_scan_phone_number.setVisibility(View.VISIBLE);
+                    //识别手机号码
+                    imgCamera();
                 }
+
             } else if (message.what == R.id.restart_preview) {
                 //显示扫描框
                 rl_scan.setVisibility(View.VISIBLE);
                 restartPreviewAndDecode();
+
             } else if (message.what == R.id.decode_succeeded) {
                 state = State.SUCCESS;
                 Result result = (Result) message.obj;
@@ -1144,6 +1113,7 @@ public class EnterManager_new_Activity extends ActivityBase {
                 String imagePath = saveBitmap(result.getText(), barcode_bitmap);
                 wayNumber = result.getText();
                 boolean isRight = StringUtil.isDigit(wayNumber);
+
                 if (isRight) {
                     handleDecode((Result) message.obj, imagePath);// 解析成功，回调
                 } else {
@@ -1156,6 +1126,10 @@ public class EnterManager_new_Activity extends ActivityBase {
             } else if (message.what == R.id.decode_failed) {
                 state = State.PREVIEW;
                 CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
+            } else if (message.what == R.id.phone_number) {
+                state = State.PHONE;
+                CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
+                // CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.auto_focus);
             }
         }
 
@@ -1167,6 +1141,7 @@ public class EnterManager_new_Activity extends ActivityBase {
             removeMessages(R.id.decode_failed);
             removeMessages(R.id.decode);
             removeMessages(R.id.auto_focus);
+            removeMessages(R.id.phone_number);
         }
 
         private void restartPreviewAndDecode() {
@@ -1268,7 +1243,6 @@ public class EnterManager_new_Activity extends ActivityBase {
     }
 
 
-
     private String saveBitmap(String imageName, Bitmap bitmap) {
         File rootPath = new File(rootPaht);
         if (!rootPath.exists()) {
@@ -1293,15 +1267,15 @@ public class EnterManager_new_Activity extends ActivityBase {
     }
 
 
-
-
     private enum State {
         //预览
         PREVIEW,
         //成功
         SUCCESS,
         //完成
-        DONE
+        DONE,
+        //手机
+        PHONE
     }
 
 
@@ -1310,10 +1284,11 @@ public class EnterManager_new_Activity extends ActivityBase {
         if (mCamera != null) {
             try {
                 if (mCamera.getParameters().getSupportedFocusModes() != null && mCamera.getParameters()
-                        .getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                        .getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_FIXED)) {
                     mCamera.autoFocus(new Camera.AutoFocusCallback() {
                         public void onAutoFocus(boolean success, Camera camera) {
                             mIsStop = success;
+                            imgCamera();
                         }
                     });
                 } else {
@@ -1355,21 +1330,13 @@ public class EnterManager_new_Activity extends ActivityBase {
         public void surfaceCreated(SurfaceHolder surfaceHolder) {
             try {
                 if (null == mCamera) {
-                    mCamera =  CameraManager.get().getCamera();
+                    mCamera = CameraManager.get().getCamera();
                     setDisplayOrientation();
                 }
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!mIsStop) {
-                            autoFocus();
-                            mHandler.postDelayed(this, 2500);
-                        }
 
-                    }
-                }, 1000);
+                //handler.sendEmptyMessageDelayed(R.id.auto_focus,1000);
             } catch (Exception e) {
-                Toast.makeText(MyApplication.getInstance(), "暂未获取到拍照权限", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MyApplication.getInstance(), "暂未获取到拍照权限", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
@@ -1391,21 +1358,23 @@ public class EnterManager_new_Activity extends ActivityBase {
                 }
 
                 if (mParams.getSupportedFocusModes().contains(
-                        mParams.FOCUS_MODE_AUTO)) {
-                    mParams.setFocusMode(mParams.FOCUS_MODE_AUTO);
+                        mParams.FOCUS_MODE_FIXED)) {
+                    mParams.setFocusMode(mParams.FOCUS_MODE_FIXED);
                 }
-                Log.d("surfaceChanged", "widthPixels=" + dm.widthPixels + " heightPixels=" + dm.heightPixels);
-                Camera.Size optimalPreviewSize = getOptimalPreviewSize(EnterManager_new_Activity.this,
+
+                optimalPreviewSize = getOptimalPreviewSize(EnterManager_new_Activity.this,
                         mParams.getSupportedPreviewSizes(),
                         (float) dm.widthPixels / dm.heightPixels);
-                mParams.setPreviewSize(optimalPreviewSize.width,
-                        optimalPreviewSize.height);
+
+                //Point screenPoint = CameraConfigurationManager.getCameraResolution();
+                mParams.setPreviewSize(optimalPreviewSize.width, optimalPreviewSize.height);
                 try {
                     mCamera.setPreviewDisplay(surfaceHolder);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                mCamera.setDisplayOrientation(90);
                 mCamera.setParameters(mParams);
                 try {
 //                mCamera.setParameters(mParams);
@@ -1428,19 +1397,27 @@ public class EnterManager_new_Activity extends ActivityBase {
                 .getDefaultDisplay().getRotation();
         int degree = 0;
         switch (rotation) {
-            case Surface.ROTATION_0:	degree = 0; break;
-            case Surface.ROTATION_90:	degree = 90; break;
-            case Surface.ROTATION_180:	degree = 180; break;
-            case Surface.ROTATION_270:	degree = 270; break;
+            case Surface.ROTATION_0:
+                degree = 0;
+                break;
+            case Surface.ROTATION_90:
+                degree = 90;
+                break;
+            case Surface.ROTATION_180:
+                degree = 180;
+                break;
+            case Surface.ROTATION_270:
+                degree = 270;
+                break;
         }
         int result;
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(0, info);
-        if(info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT){
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
             result = (info.orientation + degree) % 360;
             result = (360 - result) % 360;
-        }else{
-            result =(info.orientation - degree + 360 ) % 360;
+        } else {
+            result = (info.orientation - degree + 360) % 360;
         }
         mCamera.setDisplayOrientation(result);
     }
@@ -1470,8 +1447,8 @@ public class EnterManager_new_Activity extends ActivityBase {
      * @param targetRatio
      * @return 获得最理想的预览尺寸
      */
-    public static Camera.Size getOptimalPreviewSize(Activity currentActivity,
-                                                    List<Camera.Size> sizes, double targetRatio) {
+    public Camera.Size getOptimalPreviewSize(Activity currentActivity,
+                                             List<Camera.Size> sizes, double targetRatio) {
         // Use a very small tolerance because we want an exact match.
         final double ASPECT_TOLERANCE = 0.001;
         if (sizes == null)
@@ -1485,14 +1462,18 @@ public class EnterManager_new_Activity extends ActivityBase {
         // wrong size of mSurfaceView. When we change the preview size, the
         // new overlay will be created before the old one closed, which causes
         // an exception. For now, just get the screen size
+        DisplayMetrics dm = new DisplayMetrics();
+        currentActivity.getWindowManager()
+                .getDefaultDisplay().getMetrics(dm);
 
-        Display display = currentActivity.getWindowManager()
-                .getDefaultDisplay();
-        int targetHeight = Math.min(display.getHeight(), display.getWidth());
 
+        int screenWidth = 1080;
+        int screenHeight = 1055;
+
+        int targetHeight = Math.min(screenHeight, screenWidth);
         if (targetHeight <= 0) {
             // We don't know the size of SurfaceView, use screen height
-            targetHeight = display.getHeight();
+            targetHeight = screenHeight;
         }
 
         // Try to find an size match aspect ratio and size
@@ -1505,6 +1486,7 @@ public class EnterManager_new_Activity extends ActivityBase {
                 minDiff = Math.abs(size.height - targetHeight);
             }
         }
+
 
         // Cannot find the one match the aspect ratio. This should not happen.
         // Ignore the requirement.
@@ -1519,5 +1501,186 @@ public class EnterManager_new_Activity extends ActivityBase {
             }
         }
         return optimalSize;
+    }
+
+    Rect mRect = new Rect();
+    Rect mPreviewRect = new Rect();
+
+
+    /**
+     * 点击拍照
+     *
+     * @param
+     */
+    public void imgCamera() {
+        try {
+            mIsStop = true;
+            //将正方形的大小映射到mRect上,为了截取大小
+            llFocus.getGlobalVisibleRect(mRect);
+            mCamera.takePicture(null, null, null, new CropPictureCallback());
+        } catch (Throwable t) {
+            t.printStackTrace();
+            try {
+                handler.sendEmptyMessage(R.id.auto_focus);
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * 拍照完成的回调
+     */
+    private final class CropPictureCallback implements Camera.PictureCallback {
+
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            new SavePicTask(data).execute();
+            try {
+                mIsStop = false;
+                camera.startPreview(); // 拍完照后，重新开始预览
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private class SavePicTask extends AsyncTask<Void, Void, String> {
+        long currentTime = 0;
+        private byte[] data;
+
+        SavePicTask(byte[] data) {
+            this.data = data;
+        }
+
+        protected void onPreExecute() {
+            // showProgressDialog("处理中");
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Bitmap bitmap = null;
+            try {
+                bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+            }
+
+            String filePath = testFile.getPath() + UUID.randomUUID() + ".jpg";
+
+            //获取宽高比
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                    bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            //saveImage(filePath, bitmap);
+            if (bitmap != null) {
+                imageCrop(filePath, bitmap, mRect);
+                recognnizeImageView(filePath);
+            }
+            return filePath;
+        }
+
+        @Override
+        protected void onPostExecute(final String result) {
+            super.onPostExecute(result);
+            Glide.with(EnterManager_new_Activity.this).load(result).skipMemoryCache(true).into(testImage);
+        }
+    }
+
+
+    /**
+     * 按正方形裁切图片
+     */
+    public void imageCrop(String filePath, Bitmap bitmap, Rect focusRect) {
+        Log.d(TAG, "imageCrop heightPixels=" + dm.heightPixels + " widthPixels=" + dm.widthPixels);
+        Log.d(TAG, "imageCrop bitmap w=" + bitmap.getWidth() + " h=" + bitmap.getHeight());
+        Log.d(TAG, "imageCrop focusRect left=" + focusRect.left + " top=" + focusRect.top);
+        // 下面这句是关键
+        float hScale = (float) bitmap.getHeight() / optimalPreviewSize.height;
+        float wScale = (float) bitmap.getWidth() / optimalPreviewSize.width;
+        Log.d(TAG, "imageCrop wScale=" + wScale + " hScale=" + hScale);
+        int x = (int) (focusRect.left * wScale);
+        int y = (int) (focusRect.top * hScale)+20;
+       /*x += x * 0.3;
+        y += y * 0.6;*/
+        Log.d(TAG, "imageCrop x=" + x + " y=" + y);
+        int width = focusRect.width();
+        int height = focusRect.height();
+        Log.d(TAG, "imageCrop width=" + width + " height=" + height);
+        //Camera.Size size = mCamera.getParameters().getPreviewSize();
+        //Bitmap bitmapTemp = Bitmap.createBitmap(bitmap,  focusRect.left, focusRect.top, width, height);
+        Bitmap bitmapTemp = Bitmap.createBitmap(bitmap, x, y, (int) (width * hScale), (int) (height * wScale));
+        //saveImage(filePath, toGrayscale(bitmapTemp));
+        saveImage(filePath, bitmapTemp);
+    }
+
+    private static void saveImage(String path, Bitmap bitmap) {
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if ((bitmap != null) && (!bitmap.isRecycled())) {
+            bitmap.recycle();
+        }
+    }
+
+
+    private void recognnizeImageView(String imgPath) {
+        // 通用文字识别参数设置
+        GeneralBasicParams param = new GeneralBasicParams();
+        param.setDetectDirection(true);
+        param.setImageFile(new File(imgPath));
+        // 调用通用文字识别服务
+        OCR.getInstance(this).recognizeGeneralBasic(param, new OnResultListener<GeneralResult>() {
+            @Override
+            public void onResult(GeneralResult result) {
+                int resultNumber = result.getWordsResultNumber();
+                setData(result);
+               /* if (resultNumber == 0) {
+                    mCamera.startPreview();
+                } else {
+                    setData(result);
+                }*/
+
+            }
+
+            @Override
+            public void onError(OCRError error) {
+                // 调用失败，返回OCRError对象
+                LogUtil.d("AAAAAAAAAAA", error.getMessage());
+            }
+        });
+    }
+
+    private void setData(GeneralResult result) {
+        LogUtil.d("AAAAAAAAAAA", result.getJsonRes());
+        StringBuilder sb = new StringBuilder();
+        // 调用成功，返回GeneralResult对象
+        for (WordSimple wordSimple : result.getWordList()) {
+            sb.append(wordSimple.getWords());
+        }
+        String phoneNumber = StringUtil.isPhone(sb.toString());
+        if (!"".equals(phoneNumber)) {
+            mData.get(mData.size() - 1).put("phone_number", phoneNumber);
+            mCropLayout.setVisibility(View.VISIBLE);
+            ll_scan_phone_number.setVisibility(View.GONE);
+            if (handler != null) {
+                // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
+                handler.sendEmptyMessage(R.id.restart_preview);
+            }
+        } else {
+            if (handler != null) {
+                handler.sendEmptyMessage(R.id.phone_number);
+            }
+        }
+        mAdapter.notifyDataSetChanged();
+        //String phone = getPhoneNumber(sb.toString());
     }
 }

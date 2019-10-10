@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.mt.bbdj.baseconfig.model.ExpressMoney;
 import com.mt.bbdj.baseconfig.utls.DateUtil;
 import com.mt.bbdj.baseconfig.utls.MD5Util;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
@@ -2533,6 +2534,27 @@ public class NoHttpRequest {
     }
 
     /**
+     * 提货码
+     * @param user_id   用户id
+     * @return
+     */
+    public static Request<String> getNewPackagerCodeFromHourse(String user_id) {
+        String timeStamp = DateUtil.getCurrentTimeStamp();
+        String randomStr = StringUtil.getRandomNumberString(7);
+        String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
+        String signature = StringUtil.getSignatureString(timeStamp, randomStr, encryption);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_ADDRESS_ENTER
+                + InterApi.ACTION_GET_NEW_PACKAGE_REQUEST, RequestMethod.GET);
+        request.add("method", InterApi.ACTION_GET_NEW_PACKAGE_REQUEST);
+        request.add("signature", signature);
+        request.add("timeStamp", timeStamp);     //时间戳
+        request.add("randomStr", randomStr);     //随机值
+        request.add("Encryption", encryption);    //加密值
+        request.add("user_id", user_id);
+        return request;
+    }
+
+    /**
      * 检测出库订单的状态
      * @param user_id   用户id
      * @param number  运单号
@@ -3513,5 +3535,48 @@ public class NoHttpRequest {
         request.add("signature", signature);
         request.add("user_id", params.get("user_id"));
         return request;
+    }
+
+    /**
+     * 派件 对快递公司 收费管理
+     * @param user_id
+     * @return
+     */
+    public static Request<String> getExpressMoney(String user_id) {
+        String str1 = DateUtil.getCurrentTimeStamp();
+        String str2 = StringUtil.getRandomNumberString(7);
+        String str3 = StringUtil.splitStringFromLast(str1, 4);
+        String str4 = StringUtil.getSignatureString(str1, str2, str3);
+        Request localRequest = NoHttp.createStringRequest(InterApi.SERVER_ADDRESS_ENTER + InterApi.ACTION_REQUEST_EXPRESS_MONEY, RequestMethod.GET);
+        localRequest.add("method", "getExpressMoney");
+        localRequest.add("signature", str4);
+        localRequest.add("timeStamp", str1);
+        localRequest.add("randomStr", str2);
+        localRequest.add("Encryption", str3);
+        localRequest.add("distributor_id", user_id);
+        return localRequest;
+    }
+
+    /**
+     *更改 驿站对快递员的收费
+     * @param user_id
+     * @return
+     */
+    public static Request<String> changeExpressMoney(ExpressMoney expressMoney,String user_id) {
+        String str1 = DateUtil.getCurrentTimeStamp();
+        String str2 = StringUtil.getRandomNumberString(7);
+        String str3 = StringUtil.splitStringFromLast(str1, 4);
+        String str4 = StringUtil.getSignatureString(str1, str2, str3);
+        Request localRequest = NoHttp.createStringRequest(InterApi.SERVER_ADDRESS_ENTER + InterApi.ACTION_REQUEST_SET_EXPRESS_MONEY, RequestMethod.GET);
+        localRequest.add("method", "saveExpressMoney");
+        localRequest.add("signature", str4);
+        localRequest.add("timeStamp", str1);
+        localRequest.add("randomStr", str2);
+        localRequest.add("Encryption", str3);
+        localRequest.add("distributor_id", user_id);
+        localRequest.add("money_id", expressMoney.getMoney_id());
+        localRequest.add("express_id", expressMoney.getExpress_id());
+        localRequest.add("money", expressMoney.getPrice());
+        return localRequest;
     }
 }

@@ -115,7 +115,7 @@ public class ChangeManagerFragmnet extends BaseFragment implements XRecyclerView
                 showAddMarkDialog(position);
             }
         });
-    }
+}
 
     private void showAddMarkDialog(int position) {
         HashMap<String,String> map = mData.get(position);

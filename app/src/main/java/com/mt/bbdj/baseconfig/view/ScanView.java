@@ -70,7 +70,6 @@ public class ScanView extends View{
     }
 
     private void drawScanLine(Canvas canvas) {
-
         //画扫描线
         mPaint.setColor(Color.GREEN);
         canvas.drawBitmap(lineBitmap,null,scanLineRect,null);

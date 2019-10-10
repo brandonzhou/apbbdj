@@ -522,7 +522,7 @@ public class InterApi {
     /**
      * 全部入库
      */
-    public static final String ACTION_ENTER_RECORDE_REQUEST = "WarehousingData2010";
+    public static final String ACTION_ENTER_RECORDE_REQUEST = "WarehousingData300";
 
     /**
      * 入库列表
@@ -533,6 +533,11 @@ public class InterApi {
      * 出库列表
      */
     public static final String ACTION_OUT_REPERTORY_REQUEST = "getOutWarehouselist2010";
+
+    /**
+     * 获取最新提货码
+     */
+    public static final String ACTION_GET_NEW_PACKAGE_REQUEST = "TestingExpress300";
 
     /**
      * 检测出库单号状态
@@ -768,4 +773,14 @@ public class InterApi {
      * 我的界面
      */
     public static final String ACTION_REQUEST_MY_MESSAGE = "getUserInfo";
+
+    /**
+     * 派件 对快递公司 收费管理
+     */
+    public static final String ACTION_REQUEST_EXPRESS_MONEY = "getExpressMoney";
+
+    /**
+     * 派件 对快递公司 收费管理
+     */
+    public static final String ACTION_REQUEST_SET_EXPRESS_MONEY = "saveExpressMoney";
 }

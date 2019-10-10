@@ -129,7 +129,8 @@ android {
         implementation 'com.tencent.bugly:nativecrashreport:3.0'
 
         implementation('com.aliyun.ams:alicloud-android-hotfix:3.2.8') {//热修复
-            exclude(module: 'alicloud-android-utdid')//移除，避免出现Error:Program type already present: com.ta.utdid2.b.a.a
+            exclude(module: 'alicloud-android-utdid')
+//移除，避免出现Error:Program type already present: com.ta.utdid2.b.a.a
         }
 
         compile 'cn.jzvd:jiaozivideoplayer:7.0.4'
