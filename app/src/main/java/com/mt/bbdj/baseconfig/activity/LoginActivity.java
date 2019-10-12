@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.application.MyApplication;
@@ -67,6 +68,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText mUsername;
     @BindView(R.id.et_loging_password)
     EditText mPassword;
+    @BindView(R.id.tv_login_by_code)
+    TextView tv_login_by_code;
     private RequestQueue mRequestQueue;
     private HkDialogLoading dialogLoading;
 
@@ -137,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    @OnClick({R.id.bt_main_login, R.id.tv_login_nocount, R.id.tv_login_forget})
+    @OnClick({R.id.bt_main_login, R.id.tv_login_nocount, R.id.tv_login_forget,R.id.tv_login_by_code})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_main_login:
@@ -153,8 +156,17 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.tv_login_forget:
                 searchPassword();       //找回密码
                 break;
+            case R.id.tv_login_by_code:
+                actionLogin();      //验证码登录
+                break;
         }
 
+    }
+
+    private void actionLogin() {
+        Intent intent = new Intent(this,LoginByCodeActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void handleEvent(int what, JSONObject jsonObject) throws JSONException {

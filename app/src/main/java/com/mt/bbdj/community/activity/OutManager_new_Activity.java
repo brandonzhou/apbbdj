@@ -204,7 +204,7 @@ public class OutManager_new_Activity extends ActivityBase {
         //扫描动画初始化
         initScanerAnimation();
         //初始化 CameraManager
-        CameraManager.init(mContext);
+        CameraManager.init(mContext,null);
         hasSurface = false;
      //   inactivityTimer = new InactivityTimer(this);
 
@@ -239,8 +239,6 @@ public class OutManager_new_Activity extends ActivityBase {
         tvWailNumber = findViewById(R.id.tv_yundan);
         recyclerView = findViewById(R.id.rl_order_list);
         expressSelect = findViewById(R.id.tv_expressage_select);
-
-
     }
 
     private void initRecyclerView() {

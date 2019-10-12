@@ -118,7 +118,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@color/colorGray" />
-                
+
                 <RelativeLayout
                     android:layout_width="200dip"
                     android:layout_height="60dip">
@@ -138,7 +138,7 @@
                         android:background="@color/mainColor"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"/>
-                    
+
                 </RelativeLayout>
 
 

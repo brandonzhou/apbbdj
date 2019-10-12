@@ -25,9 +25,12 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.SurfaceHolder;
+import android.widget.RelativeLayout;
 
+import com.mt.bbdj.baseconfig.utls.RxImageTool;
 import com.mt.bbdj.community.activity.EnterManager_new_Activity;
 
 import java.io.IOException;
@@ -74,15 +77,16 @@ public final class CameraManager {
     private Camera camera;
     private Rect framingRect;
     private Rect framingRectInPreview;
+    private RelativeLayout scanLayout;
     private boolean initialized;
     private boolean previewing;
     private Camera.Parameters parameter;
 
-    private CameraManager(Context context) {
+    private CameraManager(Context context,RelativeLayout scanLayout) {
 
         this.context = context;
         this.configManager = new CameraConfigurationManager(context);
-
+        this.scanLayout = scanLayout;
         // Camera.setOneShotPreviewCallback() has a race condition in Cupcake, so we use the older
         // Camera.setPreviewCallback() on 1.5 and earlier. For Donut and later, we need to use
         // the more efficient one shot callback, as the older one can swamp the system and cause it
@@ -99,9 +103,9 @@ public final class CameraManager {
      *
      * @param context The Activity which wants to use the camera.
      */
-    public static void init(Context context) {
+    public static void init(Context context, RelativeLayout scanLayout) {
         if (cameraManager == null) {
-            cameraManager = new CameraManager(context);
+            cameraManager = new CameraManager(context,scanLayout);
         }
     }
 
@@ -242,7 +246,41 @@ public final class CameraManager {
      * not UI / screen.
      */
     public Rect getFramingRectInPreview() {
+/*
         if (framingRectInPreview == null) {
+            Rect localRect = new Rect();
+            int framgHeight = RxImageTool.dp2px(270);    //扫码框的高
+            scanLayout.getGlobalVisibleRect(localRect);
+            framgHeight = framgHeight + localRect.top;
+            int scale = screenResolution.y / framgHeight;
+           // Rect rect = new Rect(getFramingRect());
+            Point cameraResolution = configManager.getCameraResolution();
+            Point screenResolution = configManager.getScreenResolution();
+            //modify here
+            localRect.left = localRect.left * cameraResolution.y / screenResolution.x;
+            localRect.right = localRect.right * cameraResolution.y / screenResolution.x;
+            localRect.top = localRect.top * cameraResolution.x / screenResolution.y;
+            localRect.bottom = localRect.bottom * preViewPoint.x / (screenResolution.y * scale);
+            framingRectInPreview = localRect;
+        }*/
+
+        if (framingRectInPreview == null) {
+            Rect rect = new Rect(getFramingRect());
+            Log.d("B--rect",rect.toString());
+            Point cameraResolution = configManager.getCameraResolution();
+            Log.d("B--cameraResolution",cameraResolution.toString());
+            Point screenResolution = configManager.getScreenResolution();
+            Log.d("B--screenResolution",screenResolution.toString());
+            //modify here
+            rect.left = rect.left * cameraResolution.y / screenResolution.x;
+            rect.right = rect.right * cameraResolution.y / screenResolution.x;
+            rect.top = rect.top * cameraResolution.x / screenResolution.y;
+            rect.bottom = rect.bottom * cameraResolution.x / (screenResolution.y);
+            Log.d("B--rect",rect.toString());
+            framingRectInPreview = rect;
+        }
+
+     /*  if (framingRectInPreview == null) {
             Rect rect = new Rect(getFramingRect());
             Point cameraResolution = configManager.getCameraResolution();
             Point screenResolution = configManager.getScreenResolution();
@@ -252,7 +290,7 @@ public final class CameraManager {
             rect.top = rect.top * cameraResolution.x / screenResolution.y;
             rect.bottom = rect.bottom * cameraResolution.x / screenResolution.y;
             framingRectInPreview = rect;
-        }
+        }*/
         return framingRectInPreview;
     }
 

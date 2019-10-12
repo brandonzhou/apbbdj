@@ -336,6 +336,9 @@
             android:name=".community.activity.YesterdayPayActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".baseconfig.activity.LoginByCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".community.activity.YesterdSendPayActivity"
             android:screenOrientation="portrait" />
         <activity

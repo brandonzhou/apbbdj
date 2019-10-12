@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.activity.LoginActivity;
+import com.mt.bbdj.baseconfig.activity.LoginByCodeActivity;
 import com.mt.bbdj.baseconfig.application.MyApplication;
 import com.mt.bbdj.baseconfig.base.BaseFragment;
 import com.mt.bbdj.baseconfig.db.ExpressLogo;
@@ -973,7 +974,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         editor.putBoolean("update", false);
         editor.commit();
         EventBus.getDefault().post(new TargetEvent(111));
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        Intent intent = new Intent(getActivity(), LoginByCodeActivity.class);
         startActivity(intent);
     }
 
@@ -1119,7 +1120,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        Intent intent = new Intent(getActivity(), LoginByCodeActivity.class);
                         startActivity(intent);
                         getActivity().finish();
                     }

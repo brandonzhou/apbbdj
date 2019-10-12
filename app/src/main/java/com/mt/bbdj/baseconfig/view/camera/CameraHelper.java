@@ -140,12 +140,12 @@ public class CameraHelper {
                 //对焦模式设置
                 List<String> supportedFocusModes = parameters.getSupportedFocusModes();
                 if (supportedFocusModes != null && supportedFocusModes.size() > 0) {
-                    if (supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                     if (supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                    }else if (supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
                         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                     } else if (supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
                         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-                    } else if (supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-                        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
                     }
                 }
                 mCamera.setParameters(parameters);
@@ -261,10 +261,21 @@ public class CameraHelper {
             autoFocusCallback.setHandler(handler, tag);
            /* Message message = handler.obtainMessage(tag, tag);
             handler.sendMessageDelayed(message, 1500L);*/
+            //mCamera.autoFocus(autoFocusCallback);
+            delayHandler.sendEmptyMessageDelayed(1,2000L);
             Log.d(TAG, "Requesting auto-focus callback");
-            mCamera.autoFocus(autoFocusCallback);
         }
     }
+
+    private Handler delayHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (mCamera != null) {
+                mCamera.autoFocus(autoFocusCallback);
+            }
+        }
+    };
 
     public boolean isStopped() {
         synchronized (this) {

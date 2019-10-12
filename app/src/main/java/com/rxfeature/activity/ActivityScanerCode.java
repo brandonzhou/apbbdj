@@ -145,7 +145,7 @@ public class ActivityScanerCode extends ActivityBase {
         //扫描动画初始化
         initScanerAnimation();
         //初始化 CameraManager
-        CameraManager.init(mContext);
+        CameraManager.init(mContext,null);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
     }

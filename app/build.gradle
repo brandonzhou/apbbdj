@@ -133,7 +133,7 @@ android {
 //移除，避免出现Error:Program type already present: com.ta.utdid2.b.a.a
         }
 
-        compile 'cn.jzvd:jiaozivideoplayer:7.0.4'
+        implementation 'cn.jzvd:jiaozivideoplayer:7.0.4'
         //沉浸式
         compileOnly 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 

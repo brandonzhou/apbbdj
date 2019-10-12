@@ -280,7 +280,7 @@ public class EnterManager_new_Activity extends ActivityBase {
             }
         });
         //初始化 CameraManager
-        CameraManager.init(mContext);
+        CameraManager.init(mContext,mCropLayout);
         hasSurface = false;
         //  inactivityTimer = new InactivityTimer(this);
     }
@@ -458,26 +458,29 @@ public class EnterManager_new_Activity extends ActivityBase {
 
             @Override
             public void afterTextChanged(Editable s) {
-                int legth = tv_phone.getText().toString().length();
-                if (legth == 11 && isAdd) {
+                String phoneNumber = tv_phone.getText().toString();
+                int legth = phoneNumber.length();
+                if (legth == 11) {
                     String yundan = tv_yundan.getText().toString();
                     if (yundan.length() == 0) {
                         ToastUtil.showShort("运单号不可为空！");
                         return;
                     }
 
-                    isAdd = false;
-
                     SystemUtil.hideKeyBoard(EnterManager_new_Activity.this, tv_yundan);
-                    //设置数据
-                    currentMap.put("express_name", s.toString());
-                    mList.add(currentMap);
-
+                    mData.get(mData.size() - 1).put("phone_number", phoneNumber);
                     tv_enter_number.setText("(" + mList.size() + "/30)");
 
                     tv_phone.setText("");
                     tvPackageCode.setText("");
                     tv_yundan.setText("");
+
+                    mCropLayout.setVisibility(View.VISIBLE);
+                    ll_scan_phone_number.setVisibility(View.GONE);
+                    if (handler != null) {
+                        // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
+                        handler.sendEmptyMessage(R.id.restart_preview);
+                    }
                 }
             }
         });
@@ -1100,7 +1103,6 @@ public class EnterManager_new_Activity extends ActivityBase {
                     //识别手机号码
                     imgCamera();
                 }
-
             } else if (message.what == R.id.restart_preview) {
                 //显示扫描框
                 rl_scan.setVisibility(View.VISIBLE);
@@ -1122,7 +1124,6 @@ public class EnterManager_new_Activity extends ActivityBase {
                         handler.sendEmptyMessage(R.id.restart_preview);
                     }
                 }
-
             } else if (message.what == R.id.decode_failed) {
                 state = State.PREVIEW;
                 CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
@@ -1213,7 +1214,6 @@ public class EnterManager_new_Activity extends ActivityBase {
         height = tmp;
 
         //    Bitmap phoneBitmap = getBitmap(data);
-
 
         PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData, width, height);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
@@ -1333,7 +1333,6 @@ public class EnterManager_new_Activity extends ActivityBase {
                     mCamera = CameraManager.get().getCamera();
                     setDisplayOrientation();
                 }
-
                 //handler.sendEmptyMessageDelayed(R.id.auto_focus,1000);
             } catch (Exception e) {
                 //Toast.makeText(MyApplication.getInstance(), "暂未获取到拍照权限", Toast.LENGTH_SHORT).show();

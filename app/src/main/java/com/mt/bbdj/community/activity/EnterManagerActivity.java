@@ -147,7 +147,6 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
     private TextView tv_enter;
     SensorController sensorControler;
     private LinearLayout ll_scan_phone_number, llFocus;
-    private List<HashMap<String, String>> mList = new ArrayList<>();
     private List<HashMap<String, String>> mPrintList = new ArrayList<>();
     private List<String> mTempList = new ArrayList<>();//临时数据
 
@@ -211,7 +210,7 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
     private CameraHelper cameraHelper;
     private Camera.Size previewSize;
     private MyPopuwindow popupWindow;
-    private int package_code = 0;
+    private int package_number = 0;
 
 
     /**
@@ -236,6 +235,14 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
         initScanerAnimation();
         initListener();
         initScanPhoneNumber();
+
+        expressSelect.post(new Runnable() {
+            @Override
+            public void run() {
+                selectExpressDialog(expressSelect);
+            }
+        });
+
         if (cameraHelper != null) {
             cameraHelper.start();
         }
@@ -262,7 +269,7 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
         expressSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mList.size() != 0) {
+                if (mData.size() != 0) {
                     ToastUtil.showShort("请先入库后再切换快递公司！");
                     return;
                 }
@@ -274,8 +281,11 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
         mAdapter.setDeleteClickListener(new EnterManagerAdapter.onDeleteClickListener() {
             @Override
             public void onDelete(int position) {
+                HashMap<String, String> map = mData.get(position);
+                String resultCode = map.get("wail_number");
+                mWaillMessageDao.queryBuilder().where(WaillMessageDao.Properties.WailNumber.eq(resultCode)).buildDelete();
                 mData.remove(mData.get(position));
-                mTempList.remove(mTempList.get(position));
+                mTempList.remove(resultCode);
                 mAdapter.notifyDataSetChanged();
                 tv_enter_number.setText("(" + mData.size() + "/30)");
             }
@@ -288,6 +298,49 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
                 showConfirmDialog();
             }
         });
+
+
+        //手动输入号码的监听
+        tv_phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String phoneNumber = tv_phone.getText().toString();
+                int legth = phoneNumber.length();
+                if (legth == 11) {
+                    String yundan = tv_yundan.getText().toString();
+                    if (yundan.length() == 0) {
+                        ToastUtil.showShort("运单号不可为空！");
+                        return;
+                    }
+
+                    SystemUtil.hideKeyBoard(EnterManagerActivity.this, tv_yundan);
+                    mData.get(mData.size() - 1).put("phone_number", phoneNumber);
+                    tv_enter_number.setText("(" + mData.size() + "/30)");
+
+                    tv_phone.setText("");
+                    tvPackageCode.setText("");
+                    tv_yundan.setText("");
+
+                    mCropLayout.setVisibility(View.VISIBLE);
+                    ll_scan_phone_number.setVisibility(View.GONE);
+                    if (handler != null) {
+                        // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
+                        handler.sendEmptyMessage(R.id.restart_preview);
+                    }
+                }
+            }
+        });
+
 
        /* sensorControler.setCameraFocusListener(new SensorController.CameraFocusListener() {
             @Override
@@ -543,7 +596,7 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
     protected void onPause() {
         super.onPause();
         mIsStop = true;
-      //  sensorControler.onStop();
+        // sensorControler.onStop();
         if (cameraHelper != null) {
             cameraHelper.stop();
         }
@@ -558,9 +611,31 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
     protected void onDestroy() {
         //  inactivityTimer.shutdown();
         mScanerListener = null;
+
         if (cameraHelper != null) {
             cameraHelper.release();
         }
+
+        mWaillMessageDao.deleteAll();
+        List<WaillMessage> lists = new ArrayList<>();
+        for (HashMap<String, String> map : mData) {
+            String package_code = map.get("package_code");
+            String wail_number = map.get("wail_number");
+            String mobile = map.get("phone_number");
+            String express_name = map.get("express_name");
+            String name = map.get("name");
+
+            WaillMessage waillMessage = new WaillMessage();
+            waillMessage.setName(name);
+            waillMessage.setExpressName(express_name);
+            waillMessage.setTagCode(package_code);
+            waillMessage.setMobile(mobile);
+            waillMessage.setWailNumber(wail_number);
+            waillMessage.setTagNumber(package_number);
+            lists.add(waillMessage);
+        }
+        mWaillMessageDao.saveInTx(lists);
+
         super.onDestroy();
     }
 
@@ -595,6 +670,22 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
     }
 
     private void initRecyclerView() {
+        List<WaillMessage> dataList = mWaillMessageDao.queryBuilder().list();
+        if (dataList != null && dataList.size() != 0) {
+            for (WaillMessage waillMessage : dataList) {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("package_code", waillMessage.getTagCode());
+                map.put("wail_number", waillMessage.getWailNumber());
+                map.put("express_name", waillMessage.getExpressName());
+                map.put("phone_number", waillMessage.getMobile());
+                map.put("name", waillMessage.getName());
+                map.put("type", "1");
+                mData.add(map);
+                mTempList.add(waillMessage.getWailNumber());
+                map = null;
+            }
+        }
+        tagNumber = dataList.size();
         recyclerView.setFocusable(false);
         mAdapter = new EnterManagerAdapter(mData);
         recyclerView.setNestedScrollingEnabled(false);
@@ -631,7 +722,6 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
         if (handler == null) {
             handler = new CaptureActivityHandler();
         }
-
     }
 
     private Camera.Size getOptimalPictureSize(List<Camera.Size> pictureSizes) {
@@ -703,7 +793,7 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
         SoundHelper.getInstance().playNotifiSound();
         String result1 = result.getText();
 
-        if (result1.length() < 7) {
+        if (result1.length() < 8) {
             if (handler != null) {
                 // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
                 handler.sendEmptyMessage(R.id.restart_preview);
@@ -727,6 +817,9 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
                 handler.sendEmptyMessage(R.id.restart_preview);
             }
         } else {
+
+            tv_yundan.setText(result1);
+
             mTempList.add(result1);
             HashMap<String, String> map = new HashMap<>();
             map.put("wail_number", result1);
@@ -801,13 +894,13 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
     private void handleCodeResult(JSONObject jsonObject) throws JSONException {
         JSONObject data = jsonObject.getJSONObject("data");
         String code = data.getString("code");
-        package_code = IntegerUtil.getStringChangeToNumber(code);    //最新的数据库的提货码
+        package_number = IntegerUtil.getStringChangeToNumber(code);    //最新的数据库的提货码
     }
 
     private String getPackage_code() {
-        package_code = package_code + tagNumber;
+        package_number = package_number + tagNumber;
         String currentData = DateUtil.getCurrentDay();
-        String effectCode = StringUtil.getEffectCode(package_code);
+        String effectCode = StringUtil.getEffectCode(package_number);
         String result = currentData +"0"+ effectCode;
         return result;
     }
@@ -950,9 +1043,8 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
             if (state == State.SUCCESS) {
                 state = State.PREVIEW;
                 cameraHelper.requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
-                //cameraHelper.requestAutoFocus(this, R.id.auto_focus);
-                mmhandler.sendEmptyMessageDelayed(1,1000L);
-
+                cameraHelper.requestAutoFocus(this, R.id.auto_focus);
+                //  mmhandler.sendEmptyMessageDelayed(1,5000L);
                 //CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
                 //CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
             }
@@ -1124,6 +1216,7 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
+            camera.stopPreview();
             new SavePicTask(data).execute();
             try {
                 mIsStop = false;
@@ -1270,6 +1363,8 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
         }
         String phoneNumber = StringUtil.isPhone(sb.toString());
         if (!"".equals(phoneNumber)) {
+            tv_phone.setText("");
+            tv_yundan.setText("");
             mData.get(mData.size() - 1).put("phone_number", phoneNumber);
             mCropLayout.setVisibility(View.VISIBLE);
             ll_scan_phone_number.setVisibility(View.GONE);
@@ -1278,11 +1373,12 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
                 handler.sendEmptyMessage(R.id.restart_preview);
                 handler.state = State.SUCCESS;
             }
+            mAdapter.notifyDataSetChanged();
         } else {
             if (handler != null) {
                 handler.sendEmptyMessage(R.id.phone_number);
             }
         }
-        mAdapter.notifyDataSetChanged();
+
     }
 }
