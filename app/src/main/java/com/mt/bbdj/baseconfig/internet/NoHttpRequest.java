@@ -168,6 +168,26 @@ public class NoHttpRequest {
     }
 
     /**
+     * 登录请求 验证码
+     * @param username     用户名
+     * @param password     密码
+     * @param receive_id    极光别名
+     * @param device      //设备类型  1： android  2:ios
+     * @return
+     */
+    public static Request<String> loginByCodeRequest(String username, String password, String receive_id, String device,HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW
+                + InterApi.ACTION_LOGIN_BY_CODE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("account", username);
+        request.add("code", password);
+        request.add("receive_id", receive_id);
+        request.add("device", device);
+        return request;
+    }
+
+    /**
      * 充值记录
      *
      * @param type    1： 短信  2：面单

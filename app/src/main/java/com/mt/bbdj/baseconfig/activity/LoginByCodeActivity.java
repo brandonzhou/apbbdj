@@ -130,7 +130,6 @@ public class LoginByCodeActivity extends AppCompatActivity {
         //初始化请求队列
         mRequestQueue = NoHttp.newRequestQueue();
         dialogLoading = new HkDialogLoading(LoginByCodeActivity.this, "登录中...");
-
         mDaoSession = GreenDaoManager.getInstance().getSession();
         mUserMessageDao = mDaoSession.getUserBaseMessageDao();
         mProvinceDao = mDaoSession.getProvinceDao();
@@ -144,6 +143,8 @@ public class LoginByCodeActivity extends AppCompatActivity {
         //初始化计时器
         mCountDownTimer = new MyCountDownTimer(60000, 1000, mIdentifyNumber);
     }
+
+
 
     @OnClick({R.id.bt_main_login, R.id.tv_login_nocount, R.id.tv_login_forget,R.id.tv_login_by_password,R.id.tv_identify_number})
     public void onViewClicked(View view) {
@@ -274,20 +275,20 @@ public class LoginByCodeActivity extends AppCompatActivity {
         userName = mUsername.getText().toString();
         password = mPassword.getText().toString();
         if ("".equals(userName)) {
-            ToastUtil.showShort("账号不可为空！");
+            ToastUtil.showShort("账号不可为空");
             return;
         }
         if ("".equals(password)) {
-            ToastUtil.showShort("密码不可为空！");
+            ToastUtil.showShort("验证码不可为空");
             return;
         }
         SharedPreferencesUtil.getEditor().putString("alias", Constant.alias);
         HashMap<String,String> params = new HashMap<>();
         params.put("account",userName);
-        params.put("password",password);
+        params.put("code",password);
         params.put("receive_id",Constant.alias);
         params.put("device",Constant.device);
-        Request<String> request = NoHttpRequest.loginRequest(userName, password, Constant.alias, Constant.device,params);
+        Request<String> request = NoHttpRequest.loginByCodeRequest(userName, password, Constant.alias, Constant.device,params);
         mRequestQueue.add(REQUEST_LOGIN, request, mResponseListener);
     }
 

@@ -168,6 +168,8 @@ public class CameraHelper {
         }
     }
 
+
+
     private Camera.Size getOptimalPictureSize(List<Camera.Size> pictureSizes) {
         Camera.Size pictureSize = null;
         for (int i = 0; i < pictureSizes.size(); i++) {

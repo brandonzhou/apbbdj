@@ -41,6 +41,11 @@ public class InterApi {
     public static final String ACTION_LOGIN = "login100";
 
     /**
+     * 登录
+     */
+    public static final String ACTION_LOGIN_BY_CODE = "loginSMS100";
+
+    /**
      * 上传图片
      */
     public static final String ACTION_COMMIT_PICTURE = "upload100";

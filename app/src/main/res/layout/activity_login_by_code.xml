@@ -129,7 +129,7 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:hint="请输入验证码"
-                    android:inputType="textPassword"
+                    android:inputType="number"
                     android:paddingLeft="15dp"
                     android:textColorHint="@color/grey_1"
                     android:textSize="@dimen/standardTextSize" />
@@ -138,8 +138,9 @@
                 <TextView
                     android:background="@drawable/shape_border_green_22"
                     android:id="@+id/tv_identify_number"
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minWidth="80dp"
                     android:gravity="center"
                     android:padding="5dp"
                     android:paddingLeft="5dp"
