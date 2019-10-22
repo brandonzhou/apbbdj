@@ -223,7 +223,6 @@ public class RechargeActivity extends BaseActivity {
                     String msg = jsonObject.get("msg").toString();
                     if ("5001".equals(code)) {
                         JSONObject data = jsonObject.getJSONObject("data");
-
                         PayReq request = new PayReq();
                         request.prepayId = data.getString("prepayid");
                         request.appId = data.getString("appid");

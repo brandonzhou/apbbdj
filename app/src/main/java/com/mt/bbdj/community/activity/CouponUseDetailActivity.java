@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
+import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.community.adapter.SimpleFragmentPagerAdapter;
 import com.mt.bbdj.community.fragment.CouponUserFragment;
 
@@ -64,6 +65,7 @@ public class CouponUseDetailActivity extends BaseActivity {
     }
 
     private void initFragment() {
+        LoadDialogUtils.cannelLoadingDialog();
         list_fragment.clear();
         list_fragment.add(new CouponUserFragment(user_id, "2", coupon_id));    //未领取
         list_fragment.add(new CouponUserFragment(user_id, "1", coupon_id));    //已领取

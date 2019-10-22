@@ -383,6 +383,7 @@ public class StringUtil {
     public static String getsignature(Map<String, String> map) {
         String result = "";
         String sign = "";
+
         try {
             List<Map.Entry<String, String>> infoIds = new ArrayList<Map.Entry<String, String>>(map.entrySet());
             // 对所有传入参数按照字段名的 ASCII 码从小到大排序（字典序）

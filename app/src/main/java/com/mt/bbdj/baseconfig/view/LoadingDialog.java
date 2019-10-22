@@ -9,9 +9,9 @@ import android.view.View;
 import com.mt.bbdj.R;
 
 /**
- * Author : ZSK
- * Date : 2019/7/19
- * Description : 加载等待的Loading
+ * @Author : ZSK
+ * @Date : 2019/10/21
+ * @Description :
  */
 public class LoadingDialog extends Dialog {
     public LoadingDialog(Context context) {

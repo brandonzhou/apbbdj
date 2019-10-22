@@ -20,12 +20,13 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     private ArrayList<String> mListString;
     private Context context;
 
-    public SimpleFragmentPagerAdapter(FragmentManager fm, Context context, ArrayList<Fragment>  mList, ArrayList<String> mListString) {
+    public SimpleFragmentPagerAdapter(FragmentManager fm, Context context, ArrayList<Fragment> mList, ArrayList<String> mListString) {
         super(fm);
         this.context = context;
         this.mList = mList;
         this.mListString = mListString;
     }
+
     private Map<Integer, Fragment> map = new HashMap<Integer, Fragment>();
 
     @Override
@@ -35,10 +36,12 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         map.put(position, fragment);
         return fragment;
     }
+
     //获取指定位置最后显示的Fragment
     public Fragment getCurrentFragment(int index) {
         return map.get(index);
     }
+
     @Override
     public Fragment getItem(int position) {
         return mList.get(position);
@@ -47,6 +50,14 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return mList.size();
+    }
+
+    // 动态设置我们标题的方法
+    public void setPageTitle(int position, String title) {
+        if (position >= 0 && position < mListString.size()) {
+            mListString.set(position, title);
+            notifyDataSetChanged();
+        }
     }
 
     @Override
