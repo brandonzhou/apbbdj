@@ -170,12 +170,6 @@ public class RechargeActivity extends BaseActivity {
             ToastUtil.showShort("金额不可为空！");
             return;
         }
-        float result = StringUtil.formatStringToFloat(money);
-        if (result < 0.01){
-            ToastUtil.showShort("充值金额不可少于0.01元");
-            return;
-        }
-
         requestPayforByAlia(money);
     }
 
@@ -184,11 +178,6 @@ public class RechargeActivity extends BaseActivity {
         String money = etMoney.getText().toString();
         if ("".equals(money) || "0".equals(money)) {
             ToastUtil.showShort("金额不可为空！");
-            return;
-        }
-        float result = StringUtil.formatStringToFloat(money);
-        if (result < 0.01){
-            ToastUtil.showShort("充值金额不可少于0.01元");
             return;
         }
         requestPayforByWechat(money);
