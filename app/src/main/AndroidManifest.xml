@@ -12,8 +12,13 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
-        <activity android:name=".community.activity.SaveManagerMoneyActivity"></activity>
-        <!-- 适配全面屏 -->
+        <activity
+            android:name=".community.activity.PrintPannelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.ManualMailingActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".community.activity.SaveManagerMoneyActivity" /> <!-- 适配全面屏 -->
         <activity
             android:name=".community.activity.SettingActivity"
             android:screenOrientation="portrait" /> <!-- 适配华为(hua wei)刘海屏 -->

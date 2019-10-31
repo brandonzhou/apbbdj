@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_6"
+    android:orientation="vertical"
+    tools:context=".community.activity.ManualMailingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/iv_back"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_araw_left_grey" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="打印快递面单"
+            android:textColor="@color/grey_7"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="7dp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/red_3"
+            android:gravity="center"
+            android:minHeight="45dp"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp">
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_notifition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:lineSpacingExtra="5dp"
+                android:text="请确认此次订单已经进行实名认证和开箱验视"
+                android:textColor="@color/red_4"
+                android:textSize="13dp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:background="@color/white"
+        android:id="@+id/ll_select_goods"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:text="请选择打印机打印面单"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/black"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:gravity="center_vertical"
+            android:text="刷新列表"
+            android:textColor="@color/grey_7"
+            android:textSize="14dp" />
+
+        <ProgressBar
+            android:id="@+id/pb_search"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="7dp"
+            style="@android:style/Widget.ProgressBar.Large"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/shape_progressbar" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:background="@color/whilte"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="1dp">
+
+        <View
+            android:background="@color/grey_splite"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_height="1dp"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@color/whilte"
+        android:minHeight="250dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="10dp"
+        android:id="@+id/rl_bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

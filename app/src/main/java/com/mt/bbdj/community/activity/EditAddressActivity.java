@@ -322,8 +322,8 @@ public class EditAddressActivity extends BaseActivity {
             ToastUtil.showShort("姓名不可为空！");
             return false;
         }
-        if (!StringUtil.isMobile(telephone)) {
-            ToastUtil.showShort("手机号码不合法！");
+        if ("".equals(telephone)) {
+            ToastUtil.showShort("手机号码不可为空！");
             return false;
         }
         if ("".equals(region) || "".equals(address)) {

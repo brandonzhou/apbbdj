@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="110dp"
-    android:layout_height="40dp"
+    android:layout_height="45dp"
     android:orientation="horizontal">
 
     <TextView
@@ -11,6 +11,6 @@
         android:background="@drawable/tv_bg_grey_circle"
         android:gravity="center"
         android:text="名称"
-        android:textColor="@color/grey_7"
-        android:textSize="13sp" />
+        android:textColor="@color/grey_13"
+        android:textSize="14dp" />
 </LinearLayout>

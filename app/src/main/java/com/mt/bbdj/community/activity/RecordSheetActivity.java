@@ -159,12 +159,20 @@ public class RecordSheetActivity extends BaseActivity {
                     LogUtil.i("photoFile--", "RecordSheetActivity::" + jsonObject.toString());
                     String code = jsonObject.get("code").toString();
                     String msg = jsonObject.get("msg").toString();
+
                     if ("5001".equals(code)) {
                         ToastUtil.showShort("提交成功！");
                         if (isWaitPrint) {    //立刻打印
-                            savePannelMessage(jsonObject);
-                            Intent intent = new Intent(RecordSheetActivity.this,BluetoothSearchActivity.class);
-                            startActivity(intent);
+                            //savePannelMessage(jsonObject);
+                            JSONObject dataObj = jsonObject.getJSONObject("data");
+                            String mailing_momey = dataObj.getString("mailing_momey"); //运费
+                            String mail_id = dataObj.getString("mail_id"); //运单号
+                            String goods_name = dataObj.getString("goods_name"); //商品名称
+                            String goods_weight = dataObj.getString("weight"); //计费重量
+
+                            PrintPannelActivity.actionTo(RecordSheetActivity.this,user_id,mail_id,goods_name,goods_weight,mailing_momey);
+//                            Intent intent = new Intent(RecordSheetActivity.this,BluetoothSearchActivity.class);
+//                            startActivity(intent);
                             EventBus.getDefault().post(new TargetEvent(2));
                         } else {
                             //寄件管理中 点击现存后打

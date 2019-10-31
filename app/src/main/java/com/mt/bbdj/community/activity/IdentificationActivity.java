@@ -270,8 +270,8 @@ public class IdentificationActivity extends AppCompatActivity {
                             handleRequestData(jsonObject);
                             break;
                         case REQUEST_COMMIT_IDMESSAGE:
-                            ToastUtil.showShort("提交成功！");
-                            setResult(RESULT_OK);
+                            ToastUtil.showShort("认证成功");
+                            //setResult(RESULT_OK);
                             finish();
                             break;
                     }
@@ -289,6 +289,7 @@ public class IdentificationActivity extends AppCompatActivity {
 
         @Override
         public void onFailed(int what, Response<String> response) {
+            ToastUtil.showShort("上传失败，请重试！");
             dialogLoading.cancel();
         }
 

@@ -34,6 +34,7 @@ import com.mt.bbdj.community.activity.CauseForcannelOrderActivity;
 import com.mt.bbdj.community.activity.ChangeMessageActivity;
 import com.mt.bbdj.community.activity.IdentificationActivity;
 import com.mt.bbdj.community.activity.MailingdetailActivity;
+import com.mt.bbdj.community.activity.PrintPannelActivity;
 import com.mt.bbdj.community.activity.RecordSheetActivity;
 import com.mt.bbdj.community.adapter.MessagePannelAdapter;
 import com.mt.bbdj.community.adapter.WaitCollectAdapter;
@@ -156,6 +157,7 @@ public class WaitCollectFragment extends BaseFragment implements XRecyclerView.L
                 mailing_momey = map.get("mailing_momey");
                 content = map.get("content");
 
+
                 //用来和“待打印”界面作区别
                 SharedPreferencesUtil.getEditor()
                         .putString("printType", "1")
@@ -243,6 +245,8 @@ public class WaitCollectFragment extends BaseFragment implements XRecyclerView.L
         intent.putExtra("content", content);
         intent.putExtra("waitPrint", waitPrint);
         startActivity(intent);
+
+
     }
 
     private void setData(JSONObject jsonObject) throws JSONException {

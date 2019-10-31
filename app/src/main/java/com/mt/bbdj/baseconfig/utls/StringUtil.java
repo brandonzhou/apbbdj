@@ -3,6 +3,7 @@ package com.mt.bbdj.baseconfig.utls;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.mt.bbdj.baseconfig.model.Constant;
 import com.mt.bbdj.community.activity.MatterShopActivity;
@@ -11,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -295,6 +297,13 @@ public class StringUtil {
         }
     }
 
+    //交换两个字符串
+    public static String[] changeStr1ToStr2(String str1,String str2){
+
+        return new String[]{str2,str1};
+    }
+
+
     //生成混合字符串
     public static String getMixString(int length) {
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
@@ -379,6 +388,14 @@ public class StringUtil {
         return df.format(data) + "";
     }
 
+
+    public static float formatStringToFloat(String str) {
+        if (str == null || "".equals(str)){
+            return 0;
+        }
+        return Float.parseFloat(str);
+    }
+
     //加密方式 sha1、md5
     public static String getsignature(Map<String, String> map) {
         String result = "";
@@ -411,8 +428,6 @@ public class StringUtil {
             }
             sb.append(Constant.key);
             result = sb.toString();
-
-            LogUtil.d("AAAAAAAAAAAAAAA", result);
 
             result = EncryptUtil.getSha1(result);
             //进行MD5加密

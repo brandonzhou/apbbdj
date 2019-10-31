@@ -273,7 +273,7 @@ public class ComMymessageFragment extends BaseFragment {
         editor.putBoolean("update", false);
         editor.commit();
         EventBus.getDefault().post(new TargetEvent(111));
-        Intent intent = new Intent(getActivity(), LoginByCodeActivity.class);
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
         getActivity().onBackPressed();//销毁自己
     }
@@ -383,7 +383,7 @@ public class ComMymessageFragment extends BaseFragment {
         editor.putBoolean("update", false);
         editor.commit();
         EventBus.getDefault().post(new TargetEvent(111));
-        Intent intent = new Intent(getActivity(), LoginByCodeActivity.class);
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
         getActivity().onBackPressed();//销毁自己
     }

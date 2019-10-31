@@ -52,8 +52,8 @@ public class FindPasswordActivity extends BaseActivity {
 
     private RequestQueue mRequestQueue;
     private HkDialogLoading dialogLoading;
-    private String mRegisterPhone;
-    private String mRandCode;
+    private String mRegisterPhone="";
+    private String mRandCode="";
 
 
     @Override

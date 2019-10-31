@@ -56,7 +56,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
     private ImageView head;
     private ImageView iv_manager_phone,iv_manager_head;
-    private LinearLayout ll_pill,ll_setting;
+    private LinearLayout ll_pill,ll_setting,ll_money;
     private TextView tv_name,tv_code,tv_phone,tv_money,tv_manager_name,tv_manager_phone,tv_service_phone;
 
     public static MyFragment getInstance() {
@@ -79,6 +79,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.ll_pill:    //账单
+            case R.id.ll_money:
                 showMyWalletPannel();
                 break;
             case R.id.ll_setting:  //设置
@@ -121,6 +122,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         ll_pill.setOnClickListener(this);
         ll_setting.setOnClickListener(this);
         iv_manager_phone.setOnClickListener(this);
+        ll_money.setOnClickListener(this);
 
     }
 
@@ -128,6 +130,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         head = view.findViewById(R.id.head);
         ll_pill = view.findViewById(R.id.ll_pill);
         ll_setting = view.findViewById(R.id.ll_setting);
+        ll_money = view.findViewById(R.id.ll_money);
         tv_name = view.findViewById(R.id.tv_name);
         tv_phone = view.findViewById(R.id.tv_phone);
         tv_code = view.findViewById(R.id.tv_code);

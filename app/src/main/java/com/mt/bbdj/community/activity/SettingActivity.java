@@ -18,6 +18,7 @@ import com.mt.bbdj.baseconfig.base.BaseActivity;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.baseconfig.utls.PackageUtils;
 import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
+import com.mt.bbdj.baseconfig.utls.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -106,7 +107,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         editor.putBoolean("update", false);
         editor.commit();
         EventBus.getDefault().post(new TargetEvent(111));
-        Intent intent = new Intent(this, LoginByCodeActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

@@ -33,6 +33,7 @@ import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.community.activity.MailingdetailActivity;
 import com.mt.bbdj.community.activity.OutManager_new_Activity;
+import com.mt.bbdj.community.activity.PrintPannelActivity;
 import com.mt.bbdj.community.adapter.HaveFinishAdapter;
 import com.mt.bbdj.community.adapter.WaitCollectAdapter;
 import com.yanzhenjie.nohttp.NoHttp;

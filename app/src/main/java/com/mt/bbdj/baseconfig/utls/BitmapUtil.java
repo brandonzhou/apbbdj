@@ -3,6 +3,10 @@ package com.mt.bbdj.baseconfig.utls;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
+import android.util.Size;
 
 import java.io.ByteArrayOutputStream;
 
@@ -54,5 +58,15 @@ public class BitmapUtil {
     public static Bitmap getAssertBitmap(Context context,int drawableBitmap) {
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),drawableBitmap);
         return bitmap;
+    }
+
+    //字节转换为bitmap
+    public static Bitmap byteToBitmap(byte[] b, int width ,int height){
+        YuvImage yuvimage=new YuvImage(b, ImageFormat.NV21, width, height, null);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        yuvimage.compressToJpeg(new Rect(0, 0, width, height), 100, baos);  //这里 80 是图片质量，取值范围 0-100，100为品质最高
+        byte[] jdata = baos.toByteArray();//这时候 bmp 就不为 null 了
+        Bitmap bmp = BitmapFactory.decodeByteArray(jdata, 0, jdata.length);
+        return bmp;
     }
 }

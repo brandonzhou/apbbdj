@@ -34,6 +34,7 @@ import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.MD5Util;
+import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -169,6 +170,11 @@ public class RechargeActivity extends BaseActivity {
             ToastUtil.showShort("金额不可为空！");
             return;
         }
+        float result = StringUtil.formatStringToFloat(money);
+        if (result < 0.01){
+            ToastUtil.showShort("充值金额不可少于0.01元");
+            return;
+        }
 
         requestPayforByAlia(money);
     }
@@ -178,6 +184,11 @@ public class RechargeActivity extends BaseActivity {
         String money = etMoney.getText().toString();
         if ("".equals(money) || "0".equals(money)) {
             ToastUtil.showShort("金额不可为空！");
+            return;
+        }
+        float result = StringUtil.formatStringToFloat(money);
+        if (result < 0.01){
+            ToastUtil.showShort("充值金额不可少于0.01元");
             return;
         }
         requestPayforByWechat(money);
@@ -336,7 +347,7 @@ public class RechargeActivity extends BaseActivity {
                 sb.append(k + "=" + v + "&");
             }
         }
-        sb.append("key=" + "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+        sb.append("key=" + "2cd620ce8605b9c0191dc5af32bd8455");
         // String sign = MD5Utils.encode(sb.toString()).toUpperCase();
         String sign = MD5Util.toMD5(sb.toString()).toUpperCase();
         return sign;

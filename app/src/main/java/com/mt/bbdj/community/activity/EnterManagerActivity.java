@@ -76,6 +76,7 @@ import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.db.gen.WaillMessageDao;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.model.PrintTagModel;
+import com.mt.bbdj.baseconfig.utls.BitmapUtil;
 import com.mt.bbdj.baseconfig.utls.DateUtil;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.HkDialogLoading;
@@ -1054,7 +1055,8 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
     Handler mmhandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            cameraHelper.requestAutoFocus(this, R.id.auto_focus);
+            //cameraHelper.requestAutoFocus(this, R.id.auto_focus);
+            Glide.with(EnterManagerActivity.this).load((Bitmap) msg.obj).into(image);
         }
     };
 
@@ -1104,7 +1106,7 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
     private void decode(byte[] data, int width, int height) {
         long start = System.currentTimeMillis();
         Result rawResult = null;
-
+        Log.e("AAAAAAA_qian",width+"====="+height);
         //modify here
         byte[] rotatedData = new byte[data.length];
         for (int y = 0; y < height; y++) {
@@ -1117,9 +1119,23 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
         width = height;
         height = tmp;
 
-        //    Bitmap phoneBitmap = getBitmap(data);
+/*
+        Bitmap phoneBitmap = BitmapUtil.byteToBitmap(data,width,height);
+        Message message = new Message();
+        message.what = 1;
+        message.obj = phoneBitmap;
+        mmhandler.sendMessage(message);
 
-        PlanarYUVLuminanceSource source = cameraHelper.buildLuminanceSource(rotatedData, width, height);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (handler != null) {
+            Message message1 = Message.obtain(handler, R.id.decode_failed);
+            message1.sendToTarget();
+
+       /* PlanarYUVLuminanceSource source = cameraHelper.buildLuminanceSource(rotatedData, width, height);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
         try {
             rawResult = multiFormatReader.decodeWithState(bitmap);
@@ -1143,7 +1159,7 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
                 Message message = Message.obtain(handler, R.id.decode_failed);
                 message.sendToTarget();
             }
-        }
+        }*/
     }
 
 

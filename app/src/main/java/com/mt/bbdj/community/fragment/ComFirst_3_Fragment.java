@@ -63,6 +63,7 @@ import com.mt.bbdj.community.activity.EnterManagerActivity;
 import com.mt.bbdj.community.activity.EnterManager_new_Activity;
 import com.mt.bbdj.community.activity.GlobalSearchActivity;
 import com.mt.bbdj.community.activity.GoodsManagerActivity;
+import com.mt.bbdj.community.activity.ManualMailingActivity;
 import com.mt.bbdj.community.activity.MatterShopActivity;
 import com.mt.bbdj.community.activity.MessageAboutActivity;
 import com.mt.bbdj.community.activity.MessageManagerdActivity;
@@ -309,15 +310,16 @@ public class ComFirst_3_Fragment extends BaseFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-
+        if (!hidden) {
+            requestPannelMessage();
+            requestBannerMessage();   //请求界面轮播图
+        }
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
 
-        }
     }
 
     private void requestPannelMessage() {
@@ -491,41 +493,46 @@ public class ComFirst_3_Fragment extends BaseFragment {
         String id = item.get("id").toString();
         switch (id) {
             case "0":     //寄存管理
-                if (isHidden) {
+               /* if (isHidden) {
                     ToastUtil.showShort("暂不开放！");
                 } else {
                     handleStoreManageEvent();
-                }
+                }*/
+                handleStoreManageEvent();
                 break;
             case "1":       //入库管理
-                if (isHidden) {
+              /*  if (isHidden) {
                     ToastUtil.showShort("暂不开放！");
                 } else {
                     handleEnterManagerEvent();
-                }
+                }*/
+                handleEnterManagerEvent();
                 break;
             case "2":       //出库管理
-                if (isHidden) {
+              /*  if (isHidden) {
                     ToastUtil.showShort("暂不开放！");
                 } else {
                     handleOutManagerEvent();
-                }
+                }*/
+                handleOutManagerEvent();
                 break;
 
             case "3":       //我的存放
-                if (isHidden) {
+              /*  if (isHidden) {
                     ToastUtil.showShort("暂不开放！");
                 } else {
                     handleSaveManagerEvent();
                 }
+                break;*/
+                handleSaveManagerEvent();
                 break;
-
             case "4":       //寄存费用
-                if (isHidden) {
+               /* if (isHidden) {
                     ToastUtil.showShort("暂不开放！");
                 } else {
                     handleSaveManagerMoneyEvent();
-                }
+                }*/
+                handleSaveManagerMoneyEvent();
                 break;
         }
     }
@@ -681,9 +688,10 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void handleSendByhandEvent() {
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), SendResByHandActivity.class);
-        startActivity(intent);
+        ManualMailingActivity.actionTo(getActivity());
+//        Intent intent = new Intent();
+//        intent.setClass(getActivity(), SendResByHandActivity.class);
+//        startActivity(intent);
     }
 
     //跳转物料商城界面
@@ -974,7 +982,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         editor.putBoolean("update", false);
         editor.commit();
         EventBus.getDefault().post(new TargetEvent(111));
-        Intent intent = new Intent(getActivity(), LoginByCodeActivity.class);
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
     }
 

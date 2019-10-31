@@ -55,7 +55,7 @@ public class LoadActivity extends AppCompatActivity {
             //未登录则跳转到登录界面
             if ("".equals(userName) || "".equals(password) || null == userName
                     || null == password || "null".equals(userName) || "null".equals(password)) {
-                intent.setClass(this,LoginByCodeActivity.class);
+                intent.setClass(this,LoginActivity.class);
             } else {
                 //若是已经登录过了，直接到程序主页
                 intent.setClass(this,CommunityActivity.class);

@@ -405,32 +405,16 @@ public class ComFirstFragment extends BaseFragment {
         String id = item.get("id").toString();
         switch (id) {
             case "0":     //寄存管理
-                if (isHidden) {
-                    ToastUtil.showShort("暂不开放！");
-                } else {
-                    handleStoreManageEvent();
-                }
+                handleStoreManageEvent();
                 break;
             case "1":       //入库管理
-                if (isHidden) {
-                    ToastUtil.showShort("暂不开放！");
-                } else {
-                    handleEnterManagerEvent();
-                }
+                handleEnterManagerEvent();
                 break;
             case "2":       //出库管理
-                if (isHidden) {
-                    ToastUtil.showShort("暂不开放！");
-                } else {
-                    handleOutManagerEvent();
-                }
+                handleOutManagerEvent();
                 break;
             case "3":       //我的存放
-                if (isHidden) {
-                    ToastUtil.showShort("暂不开放！");
-                } else {
-                    handleSaveManagerEvent();
-                }
+                handleSaveManagerEvent();
                 break;
         }
     }
@@ -684,7 +668,7 @@ public class ComFirstFragment extends BaseFragment {
                 editor.putBoolean("update", false);
                 editor.commit();
                 EventBus.getDefault().post(new TargetEvent(111));
-                Intent intent = new Intent(getActivity(), LoginByCodeActivity.class);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().onBackPressed();//销毁自己
             }
@@ -829,7 +813,7 @@ public class ComFirstFragment extends BaseFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent intent = new Intent(getActivity(),LoginByCodeActivity.class);
+                        Intent intent = new Intent(getActivity(),LoginActivity.class);
                         startActivity(intent);
                         getActivity().finish();
                     }

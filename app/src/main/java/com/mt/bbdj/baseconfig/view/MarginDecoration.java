@@ -12,17 +12,24 @@ import com.mt.bbdj.R;
  * Date : 2019/1/2
  * Description :
  */
-public class MarginDecoration  extends RecyclerView.ItemDecoration {
+public class MarginDecoration extends RecyclerView.ItemDecoration {
     private int margin;
+    private int left_right;
 
     public MarginDecoration(Context context) {
         margin = context.getResources().getDimensionPixelSize(R.dimen.dp_5);
+        left_right = 5;
+    }
+
+    public MarginDecoration(Context context, int left_right) {
+        margin = context.getResources().getDimensionPixelSize(R.dimen.dp_5);
+        this.left_right = left_right;
     }
 
     @Override
     public void getItemOffsets(
             Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         // outRect.set(margin, margin, margin, margin);
-        outRect.set(margin, 5, margin, 10);
+        outRect.set(margin, left_right, margin, left_right);
     }
 }

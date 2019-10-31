@@ -272,7 +272,7 @@ public class InterApi {
     /**
      * 立刻打印 之后的信息补充
      */
-    public static final String ACTION_PRINT_ONCE_REQUEST = "getWaybillNumber600";
+    public static final String ACTION_PRINT_ONCE_REQUEST = "getWaybillNumber700";
 
     /**
      * 获取首页面板中的信息

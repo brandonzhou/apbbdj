@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.model.ExpressMoney;
+import com.mt.bbdj.baseconfig.utls.BitmapUtil;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class ExpressMoneyAdapter extends RecyclerView.Adapter<ExpressMoneyAdapte
         ExpressMoney expressMoney = mList.get(position);
         Glide.with(context).load(expressMoney.getLogo()).into(holder.iv_head);
         holder.tv_name.setText(expressMoney.getName());
-        holder.tv_price.setText(expressMoney.getPrice());
+        holder.tv_price.setText(expressMoney.getPrice()+"元");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

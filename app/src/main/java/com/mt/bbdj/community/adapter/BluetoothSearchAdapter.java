@@ -19,6 +19,7 @@ import java.util.List;
  * Date : 2019/1/14
  * Description :
  */
+
 public class BluetoothSearchAdapter extends RecyclerView.Adapter<BluetoothSearchAdapter.BluetoothViewHolder> {
 
     private List<String> mList;

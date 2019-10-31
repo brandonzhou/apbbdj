@@ -167,11 +167,21 @@
                     android:textSize="13sp" />
 
                 <View
-                    android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
                 <TextView
+                    android:id="@+id/tv_login_nocount"
+                    android:gravity="center"
+                    android:text=" 立即注册"
+                    android:textSize="13sp"
+                    android:textColor="@color/grey_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:visibility="gone"
                     android:id="@+id/tv_login_by_code"
                     android:gravity="center"
                     android:text="验证码登录"
@@ -189,6 +199,7 @@
             android:layout_height="0dp" />
 
         <LinearLayout
+            android:visibility="gone"
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -204,7 +215,6 @@
 
 
             <TextView
-                android:id="@+id/tv_login_nocount"
                 android:gravity="center"
                 android:text=" 立即注册"
                 android:textSize="13sp"

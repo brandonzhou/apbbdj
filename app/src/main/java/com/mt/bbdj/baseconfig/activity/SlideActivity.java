@@ -69,7 +69,7 @@ public class SlideActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SlideActivity.this,LoginByCodeActivity.class);
+                Intent intent = new Intent(SlideActivity.this,LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

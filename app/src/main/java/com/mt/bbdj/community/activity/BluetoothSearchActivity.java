@@ -163,24 +163,24 @@ public class BluetoothSearchActivity extends BaseActivity {
         initClickListenr();   //给列表的中的蓝牙设备创建监听事件
     }
 
-    private void actionToPrintDetail() {
-        Intent intent = new Intent(this, PrintPreviewActivity.class);
-        startActivity(intent);
-    }
-
-    private void refreshDataList() {
-        if ("1".equals(printType)) {
-            //刷新“待收件”界面
-            EventBus.getDefault().post(new TargetEvent(0));
-        } else if ("2".equals(printType)) {
-            //刷新“待打印”界面
-            EventBus.getDefault().post(new TargetEvent(2));
+        private void actionToPrintDetail() {
+            Intent intent = new Intent(this, PrintPreviewActivity.class);
+            startActivity(intent);
         }
-    }
+
+        private void refreshDataList() {
+            if ("1".equals(printType)) {
+                //刷新“待收件”界面
+                EventBus.getDefault().post(new TargetEvent(0));
+            } else if ("2".equals(printType)) {
+                //刷新“待打印”界面
+                EventBus.getDefault().post(new TargetEvent(2));
+            }
+        }
 
 
-    private void initClickListenr() {
-        //已配对的列表
+        private void initClickListenr() {
+            //已配对的列表
         mPairehAdapter.setConnectClickListener(new BluetoothSearchAdapter.OnItemConnectClickListener() {
             @Override
             public void onConnect(int position) {

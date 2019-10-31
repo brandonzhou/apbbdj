@@ -19,8 +19,10 @@ import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.HkDialogLoading;
+import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.mt.bbdj.baseconfig.view.LoadingDialog;
 import com.mt.bbdj.baseconfig.view.MarginDecoration;
 import com.mt.bbdj.baseconfig.view.MyDecoration;
 import com.mt.bbdj.community.adapter.FastmailMessageAdapter;
@@ -123,6 +125,7 @@ public class FastmailMessageActivity extends BaseActivity implements XRecyclerVi
                 intent.putExtra("book_address",item.get("book_address"));
                 intent.putExtra("book_province",item.get("book_province"));
                 intent.putExtra("book_city",item.get("book_city"));
+                intent.putExtra("book_area",item.get("book_area"));
                 setResult(RESULT_OK,intent);
                 finish();
             }
@@ -174,7 +177,7 @@ public class FastmailMessageActivity extends BaseActivity implements XRecyclerVi
     private OnResponseListener<String> mResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
-          //  dialogLoading.show();
+            LoadDialogUtils.getInstance().showLoadingDialog(FastmailMessageActivity.this);
         }
 
         @Override
@@ -197,18 +200,19 @@ public class FastmailMessageActivity extends BaseActivity implements XRecyclerVi
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                LoadDialogUtils.cannelLoadingDialog();
             }
-          //  dialogLoading.cancel();
+            LoadDialogUtils.cannelLoadingDialog();
         }
 
         @Override
         public void onFailed(int what, Response<String> response) {
-         //   dialogLoading.cancel();
+            LoadDialogUtils.cannelLoadingDialog();
         }
 
         @Override
         public void onFinish(int what) {
-         //   dialogLoading.cancel();
+            LoadDialogUtils.cannelLoadingDialog();
         }
     };
 

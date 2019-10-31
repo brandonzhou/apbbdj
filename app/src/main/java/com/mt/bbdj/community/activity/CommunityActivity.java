@@ -162,7 +162,7 @@ public class CommunityActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
-        SophixManager.getInstance().queryAndLoadNewPatch();
+      //  SophixManager.getInstance().queryAndLoadNewPatch();
         Constant.context = this;
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
@@ -171,7 +171,6 @@ public class CommunityActivity extends BaseActivity {
         //下载快递logo
         upLoadexpressLogo();
     }
-
 
 
     @Override
@@ -267,7 +266,6 @@ public class CommunityActivity extends BaseActivity {
         if (expressLogoList == null || expressLogoList.size() == 0) {
             return;
         }
-
         for (ExpressLogo expressLogo : expressLogoList) {
             expressLogo.setLogoLocalPath(filePath);
             expressLogo.setId(expressLogo.getId());
@@ -276,7 +274,6 @@ public class CommunityActivity extends BaseActivity {
     }
 
     private void initView() {
-
         if (!f.exists()) {
             f.mkdirs();
         }
@@ -294,7 +291,6 @@ public class CommunityActivity extends BaseActivity {
     }
 
     private void showPatchDialog() {
-
         new CircleDialog.Builder()
                 .setTitle("标题")
                 .setWidth(0.8f)

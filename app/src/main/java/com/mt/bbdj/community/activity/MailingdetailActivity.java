@@ -82,6 +82,9 @@ public class MailingdetailActivity extends AppCompatActivity {
 
     private RequestQueue mRequestQueue;
     private int mType;    //0 ： 表示待收件进入  1： 已处理进入
+    private String mailing_momey="";
+    private String goods_name="";
+    private String goodsWeight="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,9 +174,7 @@ public class MailingdetailActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.bt_first_save:
-                Intent intent = new Intent(MailingdetailActivity.this, BluetoothSearchActivity.class);
-                intent.putExtra("printType", "3");
-                startActivity(intent);
+                PrintPannelActivity.actionTo(MailingdetailActivity.this,user_id,mail_id,goods_name,goodsWeight,mailing_momey);
                 finish();
                 break;
             case R.id.bt_cannel_order:
@@ -208,11 +209,11 @@ public class MailingdetailActivity extends AppCompatActivity {
         String collect_phone = jsonObject.getString("collect_phone");
         String collect_region = jsonObject.getString("collect_region");
         String collect_address = jsonObject.getString("collect_address");
-        String mailing_momey = jsonObject.getString("mailing_momey");
+        mailing_momey = jsonObject.getString("mailing_momey");
 
         String yundanhao = jsonObject.getString("yundanhao");    //运单号
-        String goods_name = jsonObject.getString("goods_name");
-        String weight = jsonObject.getString("weight");
+        goods_name = jsonObject.getString("goods_name");
+        goodsWeight = jsonObject.getString("weight");
         String content = StringUtil.handleNullResultForString(jsonObject.getString("content"));
         String handover_states = jsonObject.getString("handover_states");     // 1 :未交接   2： 已交接
         isEffectiveChange = "1".equals(handover_states) ? true : false;
@@ -226,40 +227,40 @@ public class MailingdetailActivity extends AppCompatActivity {
         tvReceivePhone.setText(collect_phone);
         tvReceiveAddress.setText(collect_region + collect_address);
         tvGoodsName.setText(goods_name);
-        tvGoodsWeiht.setText(weight);
+        tvGoodsWeiht.setText(goodsWeight);
         tvGoodsMark.setText(content);
         tvWayNubmer.setText(yundanhao);
 
         //  JSONObject dataObj = jsonObject.getJSONObject("data");
-        String mail_id = jsonObject.getString("mail_id");       //订单id
-        String express_id = jsonObject.getString("express_id");     //快递公司id
-        String number = jsonObject.getString("number");      //驿站代码
-        String code = jsonObject.getString("code");   //标识码
-        String place = jsonObject.getString("place");      //中转地
-        String transit = jsonObject.getString("transit");     //中转地标识码和时间
-
-        SharedPreferences.Editor editor = SharedPreferencesUtil.getEditor();
-        editor.putString("mail_id", StringUtil.handleNullResultForString(mail_id));
-        editor.putString("express_id", StringUtil.handleNullResultForString(express_id));
-        editor.putString("express_name", StringUtil.handleNullResultForString(express_name));
-        editor.putString("number", StringUtil.handleNullResultForString(number));
-        editor.putString("yundanhao", StringUtil.handleNullResultForString(yundanhao));
-        editor.putString("code", StringUtil.handleNullResultForString(code));
-        editor.putString("place", StringUtil.handleNullResultForString(place));
-        editor.putString("transit", StringUtil.handleNullResultForString(transit));
-        editor.putString("send_name", StringUtil.handleNullResultForString(send_name));
-        editor.putString("send_phone", StringUtil.handleNullResultForString(send_phone));
-        editor.putString("send_region", StringUtil.handleNullResultForString(send_region));
-        editor.putString("send_address", StringUtil.handleNullResultForString(send_address));
-        editor.putString("collect_name", StringUtil.handleNullResultForString(collect_name));
-        editor.putString("collect_phone", StringUtil.handleNullResultForString(collect_phone));
-        editor.putString("collect_region", StringUtil.handleNullResultForString(collect_region));
-        editor.putString("collect_address", StringUtil.handleNullResultForString(collect_address));
-        editor.putString("mailing_momey", StringUtil.handleNullResultForString(mailing_momey));
-        editor.putString("goods_name", StringUtil.handleNullResultForString(goods_name));
-        editor.putString("weight", StringUtil.handleNullResultForString(weight));
-        editor.putString("content", StringUtil.handleNullResultForString(content));
-        editor.apply();
+//        String mail_id = jsonObject.getString("mail_id");       //订单id
+//        String express_id = jsonObject.getString("express_id");     //快递公司id
+//        String number = jsonObject.getString("number");      //驿站代码
+//        String code = jsonObject.getString("code");   //标识码
+//        String place = jsonObject.getString("place");      //中转地
+//        String transit = jsonObject.getString("transit");     //中转地标识码和时间
+//
+//        SharedPreferences.Editor editor = SharedPreferencesUtil.getEditor();
+//        editor.putString("mail_id", StringUtil.handleNullResultForString(mail_id));
+//        editor.putString("express_id", StringUtil.handleNullResultForString(express_id));
+//        editor.putString("express_name", StringUtil.handleNullResultForString(express_name));
+//        editor.putString("number", StringUtil.handleNullResultForString(number));
+//        editor.putString("yundanhao", StringUtil.handleNullResultForString(yundanhao));
+//        editor.putString("code", StringUtil.handleNullResultForString(code));
+//        editor.putString("place", StringUtil.handleNullResultForString(place));
+//        editor.putString("transit", StringUtil.handleNullResultForString(transit));
+//        editor.putString("send_name", StringUtil.handleNullResultForString(send_name));
+//        editor.putString("send_phone", StringUtil.handleNullResultForString(send_phone));
+//        editor.putString("send_region", StringUtil.handleNullResultForString(send_region));
+//        editor.putString("send_address", StringUtil.handleNullResultForString(send_address));
+//        editor.putString("collect_name", StringUtil.handleNullResultForString(collect_name));
+//        editor.putString("collect_phone", StringUtil.handleNullResultForString(collect_phone));
+//        editor.putString("collect_region", StringUtil.handleNullResultForString(collect_region));
+//        editor.putString("collect_address", StringUtil.handleNullResultForString(collect_address));
+//        editor.putString("mailing_momey", StringUtil.handleNullResultForString(mailing_momey));
+//        editor.putString("goods_name", StringUtil.handleNullResultForString(goods_name));
+//        editor.putString("weight", StringUtil.handleNullResultForString(weight));
+//        editor.putString("content", StringUtil.handleNullResultForString(content));
+//        editor.apply();
     }
 
     @Override

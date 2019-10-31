@@ -1,6 +1,7 @@
 package com.mt.bbdj.community.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -31,7 +32,10 @@ public class WebDetailActivity extends BaseActivity {
     }
 
     private void loadData() {
-        WebSettings webSettings=webView.getSettings();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            webView.getSettings().setSafeBrowsingEnabled(false);
+        }
+        WebSettings webSettings = webView.getSettings();
         //支持屏幕缩放
         webSettings.setSupportZoom(false);
         webSettings.setTextZoom(100);

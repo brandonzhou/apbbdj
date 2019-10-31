@@ -187,9 +187,14 @@ public class RecordSheetDetailActivity extends BaseActivity {
                     String code = jsonObject.get("code").toString();
                     if ("5001".equals(code)) {
                         ToastUtil.showShort("提交成功！");
-                        savePannelMessage(jsonObject);
-                        Intent intent = new Intent(RecordSheetDetailActivity.this, BluetoothSearchAgainActivity.class);
-                        startActivity(intent);
+                        JSONObject dataObj = jsonObject.getJSONObject("data");
+                        String goods_name = dataObj.getString("goods_name");  //商品名称
+                        String weight = dataObj.getString("weight"); //计费重量
+                        String money = etGoodsMoney.getText().toString();
+                        //savePannelMessage(jsonObject);
+                        PrintPannelActivity.actionTo(RecordSheetDetailActivity.this,user_id,mail_id,goods_name,weight,money);
+//                        Intent intent = new Intent(RecordSheetDetailActivity.this, BluetoothSearchAgainActivity.class);
+//                        startActivity(intent);
                         finish();
                     } else {
                         ToastUtil.showShort("提交失败，请重试！");

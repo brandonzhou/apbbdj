@@ -504,7 +504,6 @@ public class OutManagerActivity extends ActivityBase implements ViewTreeObserver
         if (handler == null) {
             handler = new CaptureActivityHandler();
         }
-
     }
 
     //========================================打开本地图片识别二维码 end=================================
@@ -564,7 +563,6 @@ public class OutManagerActivity extends ActivityBase implements ViewTreeObserver
         mRequestQueue.add(CHECK_WAY_BILL_STATE, request, mOnresponseListener);
     }
 
-
     private OnResponseListener<String> mOnresponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
@@ -598,7 +596,6 @@ public class OutManagerActivity extends ActivityBase implements ViewTreeObserver
             case CHECK_WAY_BILL_STATE:    //运单状态
                 CheckWaybillResult(jsonObject);
                 break;
-
         }
     }
 
@@ -621,6 +618,7 @@ public class OutManagerActivity extends ActivityBase implements ViewTreeObserver
             map.put("pie_id", pie_id);
             mList.add(0, map);
             map = null;
+
             tvWailNumber.setText(number);
             tvPackageCode.setText(package_code);
             mAdapter.notifyDataSetChanged();
@@ -633,7 +631,6 @@ public class OutManagerActivity extends ActivityBase implements ViewTreeObserver
         }
         tv_out_number.setText("(" + mList.size() + ")");
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -716,12 +713,10 @@ public class OutManagerActivity extends ActivityBase implements ViewTreeObserver
                 if (state == State.PREVIEW) {
                     cameraHelper.requestAutoFocus(this, R.id.auto_focus);
                 }
-
             } else if (message.what == R.id.restart_preview) {
                 //显示扫描框
                 rl_scan.setVisibility(View.VISIBLE);
                 restartPreviewAndDecode();
-
             } else if (message.what == R.id.decode_succeeded) {
                 state = State.SUCCESS;
                 Result result = (Result) message.obj;
@@ -826,7 +821,6 @@ public class OutManagerActivity extends ActivityBase implements ViewTreeObserver
         height = tmp;
 
         //    Bitmap phoneBitmap = getBitmap(data);
-
 
         PlanarYUVLuminanceSource source = cameraHelper.buildLuminanceSource(rotatedData, width, height);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));

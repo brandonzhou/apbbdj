@@ -142,7 +142,7 @@ public class SaveManagerMoneyActivity extends BaseActivity {
             expressMoney.setExpress_id(obj.getString("express_id"));
             expressMoney.setMoney_id(obj.getString("id"));
             expressMoney.setLogo(obj.getString("express_logo"));
-            expressMoney.setPrice(StringUtil.handleNullResultForNumber(obj.getString("money"))+"元");
+            expressMoney.setPrice(StringUtil.handleNullResultForNumber(obj.getString("money")));
             expressMoney.setName(obj.getString("express_name"));
             mList.add(expressMoney);
         }
@@ -216,7 +216,7 @@ public class SaveManagerMoneyActivity extends BaseActivity {
                         ToastUtil.showShort("价格必须为数字");
                         return false;
                     }else {
-                        expressMoney.setPrice(getEffectiveNumber(text)+"元");
+                        expressMoney.setPrice(getEffectiveNumber(text));
                         mAdapter.notifyItemChanged(position);
                         commitMoney(expressMoney);
                         return true;

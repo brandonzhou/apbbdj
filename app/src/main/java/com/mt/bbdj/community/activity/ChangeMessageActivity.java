@@ -35,6 +35,7 @@ import com.mt.bbdj.baseconfig.db.gen.ProvinceDao;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.model.JsonBean;
+import com.mt.bbdj.baseconfig.utls.DateUtil;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.HkDialogLoading;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
@@ -110,9 +111,9 @@ public class ChangeMessageActivity extends AppCompatActivity {
 
     private RequestQueue mRequestQueue;
     private HkDialogLoading dialogLoading;
-    private String mProvince;
-    private String mCity;
-    private String mCountry;
+    private String mProvince="";
+    private String mCity="";
+    private String mCountry="";
 
 
     private final int TYPE_CHANGE_ADDRESS = 1;    //修改地址
@@ -161,6 +162,7 @@ public class ChangeMessageActivity extends AppCompatActivity {
                 intent.putExtra("book_address",item.get("book_address"));
                 intent.putExtra("book_province",item.get("book_province"));
                 intent.putExtra("book_city",item.get("book_city"));
+                intent.putExtra("book_area",item.get("book_area"));
                 setResult(RESULT_OK,intent);
                 finish();
             }
@@ -169,7 +171,7 @@ public class ChangeMessageActivity extends AppCompatActivity {
 
     private void initParams() {
         mIntent = getIntent();
-        book_id = mIntent.getStringExtra("book_id");
+        book_id = mIntent.getStringExtra("address_id");
         mType = mIntent.getIntExtra("type", 1);
         if (null == book_id || "".equals(book_id)) {
             isChange = false;
@@ -465,6 +467,10 @@ public class ChangeMessageActivity extends AppCompatActivity {
     private boolean isRightAboutMessage(String realName, String telephone, String region, String address) {
         if ("".equals(realName)) {
             ToastUtil.showShort("姓名不可为空！");
+            return false;
+        }
+        if ("".equals(telephone)) {
+            ToastUtil.showShort("手机号码不可为空！");
             return false;
         }
        /* if (!StringUtil.isMobile(telephone)) {

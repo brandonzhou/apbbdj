@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_left_close"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00000000"
     android:gravity="bottom"
     android:orientation="vertical">
+    
+    <View
+        android:id="@+id/layout_left_close"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +26,7 @@
             android:gravity="center"
             android:text="取消"
             android:textColor="@color/mainColor"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
         <View
             android:layout_width="0dp"
@@ -35,7 +40,7 @@
             android:gravity="center"
             android:text="确定"
             android:textColor="@color/mainColor"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <TextView
@@ -47,7 +52,7 @@
         android:paddingLeft="10dp"
         android:text="物品类型"
         android:textColor="@color/grey_7"
-        android:textSize="14sp" />
+        android:textSize="14dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gv_goods"
@@ -68,7 +73,7 @@
         android:paddingBottom="5dp"
         android:text="@string/no_trans"
         android:textColor="@color/grey_7"
-        android:textSize="13sp" />
+        android:textSize="13dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -79,7 +84,7 @@
         android:paddingLeft="10dp"
         android:text="预估重量"
         android:textColor="@color/grey_7"
-        android:textSize="14sp" />
+        android:textSize="14dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -98,7 +103,7 @@
             android:gravity="center"
             android:text="1kg"
             android:textColor="@color/grey_7"
-            android:textSize="13sp" />
+            android:textSize="13dp" />
 
 
         <TextView
@@ -111,7 +116,7 @@
             android:gravity="center"
             android:text="2kg"
             android:textColor="@color/grey_7"
-            android:textSize="13sp" />
+            android:textSize="13dp" />
 
 
         <TextView
@@ -124,7 +129,7 @@
             android:gravity="center"
             android:text="3kg"
             android:textColor="@color/grey_7"
-            android:textSize="13sp" />
+            android:textSize="13dp" />
 
     </LinearLayout>
 
@@ -151,7 +156,7 @@
             android:gravity="center"
             android:text="其他"
             android:textColor="@color/grey_7"
-            android:textSize="13sp" />
+            android:textSize="13dp" />
 
         <EditText
             android:id="@+id/id_other_weight"
@@ -160,10 +165,11 @@
             android:layout_weight="2"
             android:gravity="center"
             android:singleLine="true"
+            android:background="@drawable/shape_border_bottom_line"
             android:hint="请输入重量"
             android:inputType="number|numberDecimal"
             android:textColor="@color/grey_7"
-            android:textSize="14sp"
+            android:textSize="13dp"
             android:visibility="invisible" />
 
         <TextView
@@ -173,7 +179,7 @@
             android:gravity="center"
             android:text="kg"
             android:textColor="@color/grey_7"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:visibility="invisible" />
 
     </LinearLayout>

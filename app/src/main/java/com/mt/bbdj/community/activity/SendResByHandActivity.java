@@ -291,7 +291,7 @@ public class SendResByHandActivity extends BaseActivity {
 
     private void changeReceiveAddress() {
         Intent intent = new Intent(this, ChangeMessageActivity.class);
-        intent.putExtra("book_id", receive_id);
+        intent.putExtra("address_id", receive_id);
         intent.putExtra("book_name", tvReceiveName.getText().toString());
         intent.putExtra("book_telephone", tvReceivePhone.getText().toString());
         intent.putExtra("book_region", tvReceiveAddress.getText().toString());
@@ -311,7 +311,7 @@ public class SendResByHandActivity extends BaseActivity {
 
     private void changeSendAddress() {
         Intent intent = new Intent(this, ChangeMessageActivity.class);
-        intent.putExtra("book_id", book_id);
+        intent.putExtra("address_id", book_id);
         intent.putExtra("book_name", tvSendName.getText().toString());
         intent.putExtra("book_telephone", tvSendPhone.getText().toString());
         intent.putExtra("book_region", tvSendAddress.getText().toString());

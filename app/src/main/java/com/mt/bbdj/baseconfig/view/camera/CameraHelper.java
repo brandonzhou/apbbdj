@@ -148,10 +148,10 @@ public class CameraHelper {
                         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
                     }
                 }
+
                 mCamera.setParameters(parameters);
                 mCamera.setPreviewTexture(previewDisplayView.getSurfaceTexture());
                 mCamera.setPreviewCallbackWithBuffer(previewCallback);
-
                 mCamera.addCallbackBuffer(new byte[previewSize.width * previewSize.height * 3 / 2]);
 
                 mCamera.startPreview();
@@ -390,7 +390,7 @@ public class CameraHelper {
 
         }
     };
-
+    
     public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
         Rect rect = getFramingRectInPreview();
         int previewFormat = configManager.getPreviewFormat();
@@ -420,7 +420,6 @@ public class CameraHelper {
         Rect localRect = new Rect();
 
         int framgHeight = RxImageTool.dp2px(250);    //扫码框的高
-
         previewDisplayView.getGlobalVisibleRect(localRect);
         Log.d("A--localRect_old::::", localRect.toString());
         framgHeight = framgHeight + localRect.top;

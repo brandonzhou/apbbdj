@@ -12,14 +12,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mt.bbdj.R;
+import com.mt.bbdj.baseconfig.db.UserBaseMessage;
+import com.mt.bbdj.baseconfig.db.gen.DaoSession;
+import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.baseconfig.utls.EncodingUtil;
+import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +71,7 @@ public class PrintPreviewActivity extends AppCompatActivity {
     TextView tvDate;
     @BindView(R.id.tv_tag_number)
     TextView tvTagNumber;     //三段码
+    private String user_id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +79,22 @@ public class PrintPreviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_print_preview);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+        initParams();
         initView();
         //条形码
         Bitmap codeBitmap = EncodingUtil.createBarcode(tvCodeNumber.getText().toString(), 700, 150, false);
         ivCode.setImageBitmap(codeBitmap);
 
+    }
+
+    private void initParams() {
+        DaoSession daoSession = GreenDaoManager.getInstance().getSession();
+        UserBaseMessageDao userBaseMessageDao = daoSession.getUserBaseMessageDao();
+        List<UserBaseMessage> userBaseMessages = userBaseMessageDao.queryBuilder().list();
+        if (userBaseMessages.size() != 0) {
+            UserBaseMessage userBaseMessage = userBaseMessages.get(0);
+            user_id = userBaseMessage.getUser_id();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

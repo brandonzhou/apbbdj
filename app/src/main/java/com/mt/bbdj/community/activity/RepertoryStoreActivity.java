@@ -306,6 +306,10 @@ public class RepertoryStoreActivity extends BaseActivity implements XRecyclerVie
 
     private void confirmPackage() {
         String package_id = getPackageId();
+        if ("".equals(package_id)) {
+            ToastUtil.showShort("暂无数据");
+            return ;
+        }
         Request<String> request = NoHttpRequest.confirmEnterStoreRequest(user_id, package_id);
         mRequestQueue.add(2, request, new OnResponseListener<String>() {
             @Override
@@ -374,6 +378,9 @@ public class RepertoryStoreActivity extends BaseActivity implements XRecyclerVie
     }
 
     private String getPackageId() {
+        if (mList.size() == 0) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (HashMap<String, String> map : mList) {
             sb.append(map.get("id"));
