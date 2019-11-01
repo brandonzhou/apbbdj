@@ -95,7 +95,6 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
     Handler mPrintHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-
             LoadDialogUtils.cannelLoadingDialog();
             if (msg.what != 0) {
                 ToastUtil.showShort("连接失败，请重试！");
@@ -214,8 +213,6 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
         mAdapter.setConnectClickListener(new BluetoothScanAdapter.OnItemConnectClickListener() {
             @Override
             public void onConnect(int position) {
-                LoadDialogUtils.getInstance().showLoadingDialog(PrintPannelActivity.this);
-
                 connectPosition = position;
                 try {
                     if (mBtAdapter.isDiscovering()) {
@@ -399,7 +396,7 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
                     e.printStackTrace();
                     LoadDialogUtils.cannelLoadingDialog();
                 }
-                LoadDialogUtils.cannelLoadingDialog();
+               // LoadDialogUtils.cannelLoadingDialog();
             }
 
             @Override
@@ -410,7 +407,7 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onFinish(int what) {
-                LoadDialogUtils.cannelLoadingDialog();
+               // LoadDialogUtils.cannelLoadingDialog();
             }
         });
     }
@@ -510,9 +507,9 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
             Bitmap bitmap = BitmapFactory.decodeStream(inbmp);
             HPRTPrinterHelper.Expanded("20", "10", bitmap, (byte) 0);//第一联 顶部兵兵logo
 
-            InputStream inbmp6 = this.getResources().getAssets().open("ic_send_logo.png");
-            Bitmap bitmap6 = BitmapFactory.decodeStream(inbmp6);
-            HPRTPrinterHelper.Expanded("525", "100", bitmap6, (byte) 0);// 第一联 派
+//            InputStream inbmp6 = this.getResources().getAssets().open("ic_send_logo.png");
+//            Bitmap bitmap6 = BitmapFactory.decodeStream(inbmp6);
+//            HPRTPrinterHelper.Expanded("525", "100", bitmap6, (byte) 0);// 第一联 派
             InputStream inbmp7 = this.getResources().getAssets().open("ic_receive_logo.png");
             Bitmap bitmap7 = BitmapFactory.decodeStream(inbmp7);
             HPRTPrinterHelper.Expanded("525", "795", bitmap7, (byte) 0);// 第二联 收
@@ -545,7 +542,7 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
 
             InputStream inbmp2 = this.getResources().getAssets().open(fastLogoBig);
             Bitmap bitmap2 = BitmapFactory.decodeStream(inbmp2);
-            HPRTPrinterHelper.Expanded("310", "1215", bitmap2, (byte) 0);//第三联 快递公司logo
+            HPRTPrinterHelper.Expanded("325", "1215", bitmap2, (byte) 0);//第三联 快递公司logo
             if ("1".equals(BluetoothSearchActivity.paper)) {
                 HPRTPrinterHelper.Form();
             }
