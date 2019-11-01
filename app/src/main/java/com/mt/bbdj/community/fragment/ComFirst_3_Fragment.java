@@ -982,7 +982,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         editor.putBoolean("update", false);
         editor.commit();
         EventBus.getDefault().post(new TargetEvent(111));
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        Intent intent = new Intent(getActivity(), LoginByCodeActivity.class);
         startActivity(intent);
     }
 

@@ -209,6 +209,8 @@ public class ManualMailingActivity extends BaseActivity implements View.OnClickL
     }
 
     private void getWayNumber(JSONObject data) throws JSONException {
+        JSONObject dataObj = data.getJSONObject("data");
+        String mail_id = dataObj.getString("mail_id");
         PrintPannelActivity.actionTo(this, user_id, mail_id, selectGoodsName, mWeight, et_money.getText().toString());
         finish();
     }

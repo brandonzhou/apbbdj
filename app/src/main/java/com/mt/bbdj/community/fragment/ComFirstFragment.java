@@ -668,7 +668,7 @@ public class ComFirstFragment extends BaseFragment {
                 editor.putBoolean("update", false);
                 editor.commit();
                 EventBus.getDefault().post(new TargetEvent(111));
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                Intent intent = new Intent(getActivity(), LoginByCodeActivity.class);
                 startActivity(intent);
                 getActivity().onBackPressed();//销毁自己
             }
@@ -813,7 +813,7 @@ public class ComFirstFragment extends BaseFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Intent intent = new Intent(getActivity(),LoginActivity.class);
+                        Intent intent = new Intent(getActivity(),LoginByCodeActivity.class);
                         startActivity(intent);
                         getActivity().finish();
                     }
