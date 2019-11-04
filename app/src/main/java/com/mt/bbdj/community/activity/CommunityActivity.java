@@ -162,7 +162,7 @@ public class CommunityActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
-      //  SophixManager.getInstance().queryAndLoadNewPatch();
+        SophixManager.getInstance().queryAndLoadNewPatch();
         Constant.context = this;
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
