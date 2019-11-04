@@ -23,17 +23,18 @@ import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.taobao.sophix.SophixManager;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 import com.yanzhenjie.nohttp.InitializationConfig;
 import com.yanzhenjie.nohttp.Logger;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.URLConnectionNetworkExecutor;
 import com.yanzhenjie.nohttp.cache.DBCacheStore;
 import com.yanzhenjie.nohttp.cookie.DBCookieStore;
+import com.zto.recognition.phonenumber.OCRManager;
 
-import java.util.UUID;
-
-import cn.jpush.android.api.BasicPushNotificationBuilder;
-import cn.jpush.android.api.JPushInterface;
+import org.android.agoo.huawei.HuaWeiRegister;
 
 
 /**
@@ -43,6 +44,8 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class MyApplication extends Application {
     private static MyApplication mInstance;
+
+    private String TAG = "MyApplication===";
 
     @Override
     public void onCreate() {
@@ -57,8 +60,6 @@ public class MyApplication extends Application {
 
         initOcr();
 
-        initPushSetting();    //初始化推送
-
         RxTool.init(this);
         ToastUtil.init(this);
 
@@ -66,6 +67,31 @@ public class MyApplication extends Application {
         //bug收集
         // CrashHandler.getInstance().init(this);
 
+        SoundHelper.init();
+
+        initSettingPush();   //初始化推送
+
+        OCRManager.getInstance().init(this, "user111", "be0dbfb7f29742e99870ea449a79a55b","0dea3801685b");
+    }
+
+    private void initSettingPush() {
+
+        UMConfigure.init(this,"5dba79dd4ca3571590000a81","Umeng",UMConfigure.DEVICE_TYPE_PHONE,"eda94e78a7288bb51eff5c79ff8b0809");
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        //注册推送服务，每次调用register方法都会回调该接口
+        mPushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
+                Log.i(TAG,"注册成功：deviceToken：-------->  " + deviceToken);
+            }
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.e(TAG,"注册失败：-------->  " + "s:" + s + ",s1:" + s1);
+            }
+        });
+
+        HuaWeiRegister.register(this);
     }
 
     @Override
@@ -75,25 +101,6 @@ public class MyApplication extends Application {
 
     }
 
-    private void initPushSetting() {
-
-        JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);            // 初始化 JPush
-
-        //设置推送样式
-        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(this);
-        builder.statusBarDrawable = R.drawable.ic_logo_;
-        builder.notificationFlags = Notification.FLAG_AUTO_CANCEL//
-                | Notification.FLAG_SHOW_LIGHTS; // 设置为自动消失和呼吸灯闪烁
-        builder.notificationDefaults = //
-                //	Notification.DEFAULT_SOUND | // 设置为铃声
-                Notification.DEFAULT_VIBRATE | // 设置为、震动
-                        Notification.DEFAULT_LIGHTS; // 设置为呼吸灯闪烁
-        JPushInterface.setPushNotificationBuilder(1, builder);
-
-        //初始化语音提示播放
-        SoundHelper.init();
-    }
 
     private void initOcr() {
         OCR.getInstance(this).initAccessToken(new OnResultListener<AccessToken>() {

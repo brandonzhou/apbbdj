@@ -73,7 +73,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="60dp"
             android:layout_marginRight="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/main_bg_first_search"
             android:orientation="vertical"
             android:paddingLeft="20dp"
@@ -200,16 +200,12 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
 
         <LinearLayout
             android:gravity="center"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="40dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -217,14 +213,14 @@
                 android:gravity="center"
                 android:text="还没有账号?"
                 android:textColor="@color/grey_7"
-                android:textSize="13sp" />
+                android:textSize="13dp" />
 
 
             <TextView
                 android:id="@+id/tv_login_nocount"
                 android:gravity="center"
                 android:text=" 立即注册"
-                android:textSize="13sp"
+                android:textSize="13dp"
                 android:textColor="@color/red_1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />

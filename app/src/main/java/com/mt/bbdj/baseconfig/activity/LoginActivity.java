@@ -58,7 +58,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.jpush.android.api.JPushInterface;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -119,8 +118,6 @@ public class LoginActivity extends AppCompatActivity {
     private void setPushSetting() {
         String aliasApply = StringUtil.getMixString(15);    //设置别名
         int i = IntegerUtil.getRandomInteger(1, 100);
-        //设置别名
-        JPushInterface.setAlias(this, i, aliasApply);
         Constant.alias = aliasApply;
     }
 
@@ -270,7 +267,7 @@ public class LoginActivity extends AppCompatActivity {
         String mingcheng = dataObject.getString("mingcheng");
         String contacts = dataObject.getString("contacts");
         String contact_number = dataObject.getString("contact_number");
-       // String contact_email = dataObject.getString("contact_email");
+        // String contact_email = dataObject.getString("contact_email");
         String contact_account = dataObject.getString("contact_account");
         String province = dataObject.getString("province");
         String city = dataObject.getString("city");

@@ -85,6 +85,7 @@ public class ManualMailingActivity extends BaseActivity implements View.OnClickL
     private final int REQUEST_COMMIT_ORDER = 2003;    //下单
     private final int REQUEST_IS_IDENTIFY_REQUEST = 2004;    //验证是否实名
     private final int REQUEST_ESTIMATE = 2005;    //预估价格
+    private final int REQUEST_GET_DATA = 2006;    //获取运单号
 
     private String start_province = "", start_city = "", start_country = "", start_detial_address = "";   //寄件人的省市县
     private String end_province = "", end_city = "", end_country = "", end_detail_address = "";    //收件人省市县
@@ -201,22 +202,30 @@ public class ManualMailingActivity extends BaseActivity implements View.OnClickL
             case REQUEST_ESTIMATE:   //预估价格
                 handleEstimate(data);
                 break;
+            case REQUEST_GET_DATA:   //获取运单号
+                getWayNumber(data);
+                break;
         }
+    }
+
+    private void getWayNumber(JSONObject data) throws JSONException {
+        PrintPannelActivity.actionTo(this, user_id, mail_id, selectGoodsName, mWeight, et_money.getText().toString());
+        finish();
     }
 
     private void actionToGetOrderMessage(JSONObject jsonObject) throws JSONException {
         JSONObject dataObj = jsonObject.getJSONObject("data");
         String mail_id = dataObj.getString("mail_id");
-        PrintPannelActivity.actionTo(this, user_id, mail_id, selectGoodsName, mWeight, et_money.getText().toString());
-        finish();
-
+        Request<String> request = NoHttpRequest.waitMimeographRequest(user_id, mail_id, selectGoodsName
+                , mWeight, et_money.getText().toString(), "");
+        mRequestQueue.add(REQUEST_GET_DATA, request, mOnPlaceOrderResponseListener);
     }
 
     private void setIdentifyData(JSONObject data) {
         //下单
         Request<String> request = NoHttpRequest.commitOrderRequest(user_id, express_id,
                 send_id, receive_id, type_id, mWeight, "");
-        mRequestQueue.add(REQUEST_COMMIT_ORDER, request, mOnResponseListener);
+        mRequestQueue.add(REQUEST_COMMIT_ORDER, request, mOnPlaceOrderResponseListener);
     }
 
     private void handleEstimate(JSONObject jsonObject) throws JSONException {
@@ -424,7 +433,7 @@ public class ManualMailingActivity extends BaseActivity implements View.OnClickL
             return;
         }
         Request<String> request = NoHttpRequest.isIdentifyRequest(user_id, send_id);
-        mRequestQueue.add(REQUEST_IS_IDENTIFY_REQUEST, request, mOnResponseListener);
+        mRequestQueue.add(REQUEST_IS_IDENTIFY_REQUEST, request, mOnPlaceOrderResponseListener);
     }
 
     private boolean isRightAboutOrderMessage() {
@@ -501,6 +510,50 @@ public class ManualMailingActivity extends BaseActivity implements View.OnClickL
     private void actionToFinish() {
         finish();
     }
+
+
+    private OnResponseListener<String> mOnPlaceOrderResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+            LoadDialogUtils.getInstance().showLoadingDialog(ManualMailingActivity.this);
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            LogUtil.i("photoFile", "ManualMailingActivity::" + response.get());
+            try {
+                JSONObject jsonObject = new JSONObject(response.get());
+                String code = jsonObject.get("code").toString();
+                String msg = jsonObject.get("msg").toString();
+                if ("5001".equals(code)) {
+                    handleRequestData(what, jsonObject);    //处理各种请求结果
+                } else {
+                    //提示未认证
+                    if (what == REQUEST_IS_IDENTIFY_REQUEST) {
+                        //认证
+                        showIndentifyDialog();
+                    } else {
+                        ToastUtil.showShort(msg);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                LoadDialogUtils.cannelLoadingDialog();
+            }
+            LoadDialogUtils.cannelLoadingDialog();
+        }
+
+        @Override
+        public void onFailed(int what, Response<String> response) {
+            ToastUtil.showShort("当前网络不佳");
+            LoadDialogUtils.cannelLoadingDialog();
+        }
+
+        @Override
+        public void onFinish(int what) {
+
+        }
+    };
 
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
         @Override

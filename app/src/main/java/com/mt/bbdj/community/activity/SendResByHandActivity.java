@@ -452,9 +452,9 @@ public class SendResByHandActivity extends BaseActivity {
             return;
         }
         start_province = data.getStringExtra("book_province");
-       // end_province = data.getStringExtra("book_province");
+        // end_province = data.getStringExtra("book_province");
         start_city = data.getStringExtra("book_city");
-       // end_city = data.getStringExtra("book_city");
+        // end_city = data.getStringExtra("book_city");
         mCountry = data.getStringExtra("book_area");
         book_id = data.getStringExtra("book_id");
         send_id = data.getStringExtra("book_id");

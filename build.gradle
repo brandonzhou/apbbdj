@@ -5,6 +5,7 @@ buildscript {
     repositories {
         mavenCentral()
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven { url 'https://dl.bintray.com/umsdk/release' }
         google()
         jcenter()
     }
@@ -32,6 +33,7 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 
     configurations.all {

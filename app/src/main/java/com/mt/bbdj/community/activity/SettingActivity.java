@@ -107,7 +107,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         editor.putBoolean("update", false);
         editor.commit();
         EventBus.getDefault().post(new TargetEvent(111));
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, LoginByCodeActivity.class);
         startActivity(intent);
         finish();
     }

@@ -79,7 +79,9 @@ import com.mt.bbdj.community.activity.RecommendUserActivity;
 import com.mt.bbdj.community.activity.RepertoryActivity;
 import com.mt.bbdj.community.activity.RepertoryStoreActivity;
 import com.mt.bbdj.community.activity.SaveManagerMoneyActivity;
+import com.mt.bbdj.community.activity.ScannerActivity;
 import com.mt.bbdj.community.activity.SearchPackageActivity;
+import com.mt.bbdj.community.activity.SelectExpressActivity;
 import com.mt.bbdj.community.activity.SendManagerActivity;
 import com.mt.bbdj.community.activity.SendResByHandActivity;
 import com.mt.bbdj.community.activity.SetWayMoneyActivity;
@@ -647,9 +649,11 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void handleEnterManagerEvent() {
-        Intent intent = new Intent(getActivity(), EnterManagerActivity.class);
-        // Intent intent = new Intent(getActivity(), EnterManager_new_Activity.class);
-        startActivity(intent);
+        SelectExpressActivity.actionTo(getActivity());
+
+//        Intent intent = new Intent(getActivity(), EnterManagerActivity.class);
+//        // Intent intent = new Intent(getActivity(), EnterManager_new_Activity.class);
+//        startActivity(intent);
     }
 
     private void handleMoneyManagerEvent() {
@@ -966,7 +970,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         @Override
         public void onFailed(int what, Response<String> response) {
             //  dialogLoading.cancel();
-            loginOut();
+           // loginOut();
         }
 
         @Override
@@ -981,9 +985,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
         editor.putString("password", "");
         editor.putBoolean("update", false);
         editor.commit();
-        EventBus.getDefault().post(new TargetEvent(111));
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        Intent intent = new Intent(getActivity(), LoginByCodeActivity.class);
         startActivity(intent);
+        EventBus.getDefault().post(new TargetEvent(111));
     }
 
     private void handleEvent(int what, JSONObject jsonObject) throws JSONException {
@@ -1193,11 +1197,10 @@ public class ComFirst_3_Fragment extends BaseFragment {
             @Override
             public void onDownloadFailed(Exception e) {
                 //下载异常进行相关提示操作
-                ToastUtil.showShort(e.getMessage());
+                //ToastUtil.showShort(e.getMessage());
             }
         });
     }
-
 
     private void installApk(File file) {
 

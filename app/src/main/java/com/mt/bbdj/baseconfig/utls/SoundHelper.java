@@ -37,7 +37,7 @@ public class SoundHelper {
             // spb.setAudioAttributes(null); // 转换音频格式
             soundPool = spb.build(); // 创建SoundPool对象
         } else {
-            soundPool = new SoundPool(2, AudioManager.STREAM_ALARM, 0);
+            soundPool = new SoundPool(1, AudioManager.STREAM_ALARM, 0);
         }
         //idReceive = soundPool.load(context, R.raw.mp_promit, 1);
         idReceive = soundPool.load(context, R.raw.new_promet, 1);

@@ -8,6 +8,7 @@ import android.util.Log;
  * Description :  定制的Log工具,正式上线的时候level等级提升为NOTHING，即可屏蔽Log,不再打印
  */
 public class LogUtil {
+
     public static final int VERBOSE = 1;
 
     public static final int DEBUG = 2;

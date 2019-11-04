@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@drawable/shape_round_white"
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingTop="8dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="8dp">
+
+    <LinearLayout
+        android:id="@+id/ll_promit_layout"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+
+        <View
+            android:background="@drawable/shap_solid_yellow_circle"
+            android:layout_width="8dp"
+            android:layout_height="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_promit_title"
+            android:layout_marginLeft="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="17dp"
+            android:text="请扫描手机号"
+            android:textColor="@color/yellow"
+            android:textSize="13dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_code"
+            android:text="016006"
+            android:layout_weight="1.4"
+            android:textSize="15dp"
+            android:textColor="@color/black_2"
+            android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/tv_wait_scanner_way_number"
+            android:paddingLeft="5dp"
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_weight="2.7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:hint="等待扫描"
+            android:textColor="@color/black_2"
+            android:textSize="14dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_way_number_layout"
+            android:paddingLeft="5dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="2.7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/tv_way_number"
+                android:text="1234567894546"
+                android:textSize="14dp"
+                android:textColor="@color/black_2"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dp">
+
+                <ImageView
+                    android:id="@+id/iv_express_logo"
+                    android:background="@color/yellow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
+
+                <TextView
+                    android:id="@+id/tv_express_name"
+                    android:layout_marginLeft="5dp"
+                    android:text="韵达快递"
+                    android:textSize="14dp"
+                    android:textColor="@color/black_2"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.8"
+            android:gravity="center_vertical"
+            android:textColor="@color/black_2"
+            android:textSize="14dp" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_wait_scan_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.8"
+            android:gravity="center_vertical"
+            android:hint="   等待扫描"
+            android:textColor="@color/black_2"
+            android:textSize="14dp" />
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_edit_message"
+            android:layout_gravity="center"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+    </LinearLayout>
+
+</LinearLayout>

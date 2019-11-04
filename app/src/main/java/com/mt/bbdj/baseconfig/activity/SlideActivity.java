@@ -25,7 +25,6 @@ import com.mt.bbdj.baseconfig.utls.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.jpush.android.api.JPushInterface;
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
 import cn.ycbjie.ycstatusbarlib.bar.YCAppBar;
 
@@ -69,7 +68,7 @@ public class SlideActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SlideActivity.this,LoginActivity.class);
+                Intent intent = new Intent(SlideActivity.this,LoginByCodeActivity.class);
                 startActivity(intent);
                 finish();
             }

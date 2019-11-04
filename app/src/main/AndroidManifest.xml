@@ -13,6 +13,17 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
         <activity
+            android:name=".community.activity.ScannerActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".community.activity.SelectExpressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.MipushTestActivity"
+            android:exported="true"
+            android:launchMode="singleTask" />
+        <activity
             android:name=".community.activity.PrintPannelActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -114,6 +125,7 @@
             android:name="TINKER_ID"
             android:value="tinker_id_1.0.20" />
         -->
+        <!-- 华为推送 -->
         <activity
             android:name=".baseconfig.activity.RegisterFinishActivity"
             android:screenOrientation="portrait"
@@ -422,6 +434,9 @@
             android:screenOrientation="portrait" />
 
         <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="appid=101289369" />
+        <meta-data
             android:name="android.max_aspect"
             android:value="2.4" />
         <meta-data
@@ -456,36 +471,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <receiver
-            android:name=".baseconfig.receiver.JPushReceiver"
-            android:enabled="true">
-            <intent-filter>
-
-                <!-- Required 用户注册SDK的intent -->
-                <action android:name="cn.jpush.android.intent.REGISTRATION" />
-                <!-- Required 用户接收SDK消息的intent -->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
-                <!-- Required 用户接收SDK通知栏信息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-                <!-- Required 用户打开自定义通知栏的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <action android:name="cn.jpush.android.intent.CONNECTION" />
-
-                <category android:name="com.mt.bbdj" />
-            </intent-filter>
-        </receiver>
-
         <service android:name="com.amap.api.location.APSService" />
-        <service
-            android:name="cn.jpush.android.service.PushService"
-            android:process=":multiprocess"
-            tools:node="replace" />
     </application>
-
-    <permission
-        android:name="com.mt.bbdj.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -505,7 +492,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- 解锁屏幕需要的权限 -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" /> <!-- 申请电源锁需要的权限 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required -->
-    <uses-permission android:name="com.mt.bbdj.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" /> <!-- Optional. Required for location feature -->
