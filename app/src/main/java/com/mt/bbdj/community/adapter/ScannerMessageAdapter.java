@@ -2,7 +2,6 @@ package com.mt.bbdj.community.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mt.bbdj.R;
-import com.mt.bbdj.baseconfig.model.ScannerMessageModel;
+import com.mt.bbdj.baseconfig.db.ScannerMessageModel;
 
 import java.util.List;
 
@@ -45,18 +43,18 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
         ScannerMessageModel model = mData.get(position);
         resetView(viewHolder);    //重置面板
 
-        if (!model.isHavaPhone() && !model.isHaveWayNumber()) {   //表示无运单号、手机号
+        if (0==model.getIsHavaPhone() && 0==model.getIsHaveWayNumber()) {   //表示无运单号、手机号
             viewHolder.tv_promit_title.setText("请扫描手机号");
             viewHolder.tv_phone.setVisibility(View.GONE);
             viewHolder.tv_wait_scan_phone.setVisibility(View.VISIBLE);
-        } else if (!model.isHaveWayNumber() && model.isHavaPhone()) { //表示只有手机号
+        } else if (1 == model.getIsHavaPhone() && 0 ==model.getIsHaveWayNumber()) { //表示只有手机号
             viewHolder.tv_promit_title.setText("请扫描条形码");
             viewHolder.ll_way_number_layout.setVisibility(View.GONE);
             viewHolder.tv_wait_scanner_way_number.setVisibility(View.VISIBLE);
             viewHolder.tv_phone.setVisibility(View.VISIBLE);
             viewHolder.tv_wait_scan_phone.setVisibility(View.GONE);
             viewHolder.tv_phone.setText(model.getPhone()); //手机号码
-        } else if (model.isHaveWayNumber() && !model.isHavaPhone()) {  //表示只有运单号
+        } else if (0 == model.getIsHavaPhone() && 1 == model.getIsHaveWayNumber()) {  //表示只有运单号
             viewHolder.tv_promit_title.setText("请扫描手机号");
             viewHolder.ll_way_number_layout.setVisibility(View.VISIBLE);
             viewHolder.tv_wait_scanner_way_number.setVisibility(View.GONE);
@@ -124,7 +122,7 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
     //添加
     public void addData(int position, ScannerMessageModel scannerMessageModel) {
         notifyItemChanged(position, scannerMessageModel);
-        if (scannerMessageModel.isHavaPhone() && scannerMessageModel.isHaveWayNumber()) {
+        if (1 == scannerMessageModel.getIsHavaPhone() && 1 == scannerMessageModel.getIsHaveWayNumber()) {
             insertEmptyData();
         }
 //        if (scannerMessageModel.isHavaPhone() && scannerMessageModel.isHaveWayNumber()) {
@@ -154,7 +152,7 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
     }
 
     public void insertEmptyData() {
-        ScannerMessageModel sc = new ScannerMessageModel("00000");
+        ScannerMessageModel sc = new ScannerMessageModel();
         mData.add(0, sc);
         notifyItemInserted(0);
     }

@@ -6,20 +6,18 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.huawei.hms.support.api.push.HandleTagsResult;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
-import com.mt.bbdj.baseconfig.model.ScannerMessageModel;
+import com.mt.bbdj.baseconfig.db.ScannerMessageModel;
+import com.mt.bbdj.baseconfig.db.gen.DaoSession;
+import com.mt.bbdj.baseconfig.db.gen.ScannerMessageModelDao;
+import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.SoundHelper;
 import com.mt.bbdj.baseconfig.view.MarginDecoration;
 import com.mt.bbdj.community.adapter.ScannerMessageAdapter;
@@ -38,11 +36,6 @@ public class ScannerActivity extends BaseActivity implements OCRListener, Barcod
 
     ZTOScannerFragment scannerFragment;
 
-
-    private TextView mPhone;
-
-    private TextView mBarcode;
-
     private RecyclerView recyclerView;
 
     private ScannerMessageAdapter mAdapter;
@@ -50,6 +43,24 @@ public class ScannerActivity extends BaseActivity implements OCRListener, Barcod
     private List<ScannerMessageModel> mList = new ArrayList<>();
     private String express_name="";
     private String express_tag="";
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            ScannerMessageModel model = mList.get(0);
+            model.setPhone((String) msg.obj);
+            model.setIsHavaPhone(1);
+            model.setCode("020014");
+            model.setIsHaveWayNumber(model.getIsHaveWayNumber());
+            model.setExpressName(express_name);
+            model.setExpressLogo(model.getExpressLogo());
+            model.setWaybill(model.getWaybill());
+            mAdapter.addData(0, model);
+            recyclerView.scrollToPosition(0);
+        }
+    };
+    private ScannerMessageModelDao scannerMessageModel;
 
     public static void actionTo(Context context,String express_tag,String express_name) {
         Intent intent = new Intent(context, ScannerActivity.class);
@@ -73,6 +84,8 @@ public class ScannerActivity extends BaseActivity implements OCRListener, Barcod
         Intent intent = getIntent();
         express_name = intent.getStringExtra("express_name");
         express_tag = intent.getStringExtra("express_tag");
+        DaoSession daoSession = GreenDaoManager.getInstance().getSession();
+        scannerMessageModel = daoSession.getScannerMessageModelDao();
     }
 
 
@@ -87,22 +100,7 @@ public class ScannerActivity extends BaseActivity implements OCRListener, Barcod
         handler.sendMessage(message);
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            ScannerMessageModel model = mList.get(0);
-            model.setPhone((String) msg.obj);
-            model.setHavaPhone(true);
-            model.setCode("020014");
-            model.setHaveWayNumber(model.isHaveWayNumber());
-            model.setExpressName(express_name);
-            model.setExpressLogo(model.getExpressLogo());
-            model.setWaybill(model.getWaybill());
-            mAdapter.addData(0, model);
-            recyclerView.scrollToPosition(0);
-        }
-    };
+
 
     @Override
     public void onGetBarcode(List<String> rawResult, Bitmap imageData) {
@@ -115,9 +113,9 @@ public class ScannerActivity extends BaseActivity implements OCRListener, Barcod
         } else {
             ScannerMessageModel model = mList.get(0);
             model.setWaybill(barCode);
-            model.setHaveWayNumber(true);
+            model.setIsHaveWayNumber(1);
             model.setPhone(model.getPhone());
-            model.setHavaPhone(model.isHavaPhone());
+            model.setIsHavaPhone(model.getIsHavaPhone());
             model.setCode("020014");
             model.setExpressName(express_name);
             model.setExpressLogo(model.getExpressLogo());
@@ -149,7 +147,7 @@ public class ScannerActivity extends BaseActivity implements OCRListener, Barcod
     }
 
     private void initRecyclerView() {
-        mList.add(new ScannerMessageModel("020014"));   //初始化第一条数据
+        //mList.add(new ScannerMessageModel());   //初始化第一条数据
         mAdapter = new ScannerMessageAdapter(this, mList);
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new MarginDecoration(this, 15));
@@ -159,8 +157,7 @@ public class ScannerActivity extends BaseActivity implements OCRListener, Barcod
 
     private void initView() {
         recyclerView = findViewById(R.id.recycler);
-        mPhone = findViewById(R.id.phone);
-        mBarcode = findViewById(R.id.barcode);
+        resetData();    //复现数据
         initRecyclerView();
     }
 
@@ -182,5 +179,22 @@ public class ScannerActivity extends BaseActivity implements OCRListener, Barcod
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        saveMessage();   //保存信息
+    }
+
+    private void resetData() {
+
+        List<ScannerMessageModel> resetList = scannerMessageModel.queryBuilder().list();
+        if (resetList != null && resetList.size() != 0) {
+            mList = resetList;
+        } else {
+            mList.add(new ScannerMessageModel());   //初始化第一条数据
+        }
+    }
+
+    private void saveMessage() {
+        scannerMessageModel.deleteAll();
+        scannerMessageModel.saveInTx(mList);
     }
 }

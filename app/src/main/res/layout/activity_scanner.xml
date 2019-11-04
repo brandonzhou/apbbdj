@@ -55,33 +55,6 @@
 
         </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/barcode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="#ff0000"
-            android:gravity="center"
-            android:text="123456789"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="40dp"
-            android:background="#ff0000"
-            android:gravity="center"
-            android:text="123456789"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:visibility="gone" />
-
         <View
             android:background="@color/grey_6"
             android:layout_width="match_parent"

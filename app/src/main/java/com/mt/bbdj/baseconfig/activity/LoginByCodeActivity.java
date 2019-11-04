@@ -448,7 +448,9 @@ public class LoginByCodeActivity extends AppCompatActivity {
         public void onTick(long millisUntilFinished) {
             if (mViewRefrence != null && mViewRefrence.get() != null) {
                 TextView identifyTv = mViewRefrence.get();
-                identifyTv.setClickable(false);
+                if (identifyTv != null) {
+                    identifyTv.setClickable(false);
+                }
                 int currentTime = (int) (millisUntilFinished / 1000);
                 if (currentTime == 0) {
                     identifyTv.setClickable(true);

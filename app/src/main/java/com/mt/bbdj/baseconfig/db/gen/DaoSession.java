@@ -14,6 +14,7 @@ import com.mt.bbdj.baseconfig.db.County;
 import com.mt.bbdj.baseconfig.db.ExpressLogo;
 import com.mt.bbdj.baseconfig.db.MingleArea;
 import com.mt.bbdj.baseconfig.db.Province;
+import com.mt.bbdj.baseconfig.db.ScannerMessageModel;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.WaillMessage;
 
@@ -23,6 +24,7 @@ import com.mt.bbdj.baseconfig.db.gen.CountyDao;
 import com.mt.bbdj.baseconfig.db.gen.ExpressLogoDao;
 import com.mt.bbdj.baseconfig.db.gen.MingleAreaDao;
 import com.mt.bbdj.baseconfig.db.gen.ProvinceDao;
+import com.mt.bbdj.baseconfig.db.gen.ScannerMessageModelDao;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.db.gen.WaillMessageDao;
 
@@ -41,6 +43,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig expressLogoDaoConfig;
     private final DaoConfig mingleAreaDaoConfig;
     private final DaoConfig provinceDaoConfig;
+    private final DaoConfig scannerMessageModelDaoConfig;
     private final DaoConfig userBaseMessageDaoConfig;
     private final DaoConfig waillMessageDaoConfig;
 
@@ -50,6 +53,7 @@ public class DaoSession extends AbstractDaoSession {
     private final ExpressLogoDao expressLogoDao;
     private final MingleAreaDao mingleAreaDao;
     private final ProvinceDao provinceDao;
+    private final ScannerMessageModelDao scannerMessageModelDao;
     private final UserBaseMessageDao userBaseMessageDao;
     private final WaillMessageDao waillMessageDao;
 
@@ -75,6 +79,9 @@ public class DaoSession extends AbstractDaoSession {
         provinceDaoConfig = daoConfigMap.get(ProvinceDao.class).clone();
         provinceDaoConfig.initIdentityScope(type);
 
+        scannerMessageModelDaoConfig = daoConfigMap.get(ScannerMessageModelDao.class).clone();
+        scannerMessageModelDaoConfig.initIdentityScope(type);
+
         userBaseMessageDaoConfig = daoConfigMap.get(UserBaseMessageDao.class).clone();
         userBaseMessageDaoConfig.initIdentityScope(type);
 
@@ -87,6 +94,7 @@ public class DaoSession extends AbstractDaoSession {
         expressLogoDao = new ExpressLogoDao(expressLogoDaoConfig, this);
         mingleAreaDao = new MingleAreaDao(mingleAreaDaoConfig, this);
         provinceDao = new ProvinceDao(provinceDaoConfig, this);
+        scannerMessageModelDao = new ScannerMessageModelDao(scannerMessageModelDaoConfig, this);
         userBaseMessageDao = new UserBaseMessageDao(userBaseMessageDaoConfig, this);
         waillMessageDao = new WaillMessageDao(waillMessageDaoConfig, this);
 
@@ -96,6 +104,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(ExpressLogo.class, expressLogoDao);
         registerDao(MingleArea.class, mingleAreaDao);
         registerDao(Province.class, provinceDao);
+        registerDao(ScannerMessageModel.class, scannerMessageModelDao);
         registerDao(UserBaseMessage.class, userBaseMessageDao);
         registerDao(WaillMessage.class, waillMessageDao);
     }
@@ -107,6 +116,7 @@ public class DaoSession extends AbstractDaoSession {
         expressLogoDaoConfig.clearIdentityScope();
         mingleAreaDaoConfig.clearIdentityScope();
         provinceDaoConfig.clearIdentityScope();
+        scannerMessageModelDaoConfig.clearIdentityScope();
         userBaseMessageDaoConfig.clearIdentityScope();
         waillMessageDaoConfig.clearIdentityScope();
     }
@@ -133,6 +143,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public ProvinceDao getProvinceDao() {
         return provinceDao;
+    }
+
+    public ScannerMessageModelDao getScannerMessageModelDao() {
+        return scannerMessageModelDao;
     }
 
     public UserBaseMessageDao getUserBaseMessageDao() {
