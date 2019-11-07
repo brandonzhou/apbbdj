@@ -63,7 +63,7 @@ public class MyApplication extends Application {
         RxTool.init(this);
         ToastUtil.init(this);
 
-        CrashReport.initCrashReport(getApplicationContext(), "28ee43e70a", false);
+       // CrashReport.initCrashReport(getApplicationContext(), "28ee43e70a", false);
         //bug收集
         // CrashHandler.getInstance().init(this);
 
@@ -75,7 +75,6 @@ public class MyApplication extends Application {
     }
 
     private void initSettingPush() {
-
         UMConfigure.init(this,"5dba79dd4ca3571590000a81","Umeng",UMConfigure.DEVICE_TYPE_PHONE,"eda94e78a7288bb51eff5c79ff8b0809");
         PushAgent mPushAgent = PushAgent.getInstance(this);
         //注册推送服务，每次调用register方法都会回调该接口

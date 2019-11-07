@@ -25,10 +25,12 @@ public class ScannerMessageModel {
 
     private int isHaveWayNumber = 0;   //没有运单号
 
-    @Generated(hash = 566307176)
+    private int MAXTAG = 0;   //最大标记位
+
+    @Generated(hash = 469646478)
     public ScannerMessageModel(String code, String waybill, String phone,
             String expressName, String expressLogo, int isHavaPhone,
-            int isHaveWayNumber) {
+            int isHaveWayNumber, int MAXTAG) {
         this.code = code;
         this.waybill = waybill;
         this.phone = phone;
@@ -36,6 +38,7 @@ public class ScannerMessageModel {
         this.expressLogo = expressLogo;
         this.isHavaPhone = isHavaPhone;
         this.isHaveWayNumber = isHaveWayNumber;
+        this.MAXTAG = MAXTAG;
     }
 
     @Generated(hash = 190405819)
@@ -96,6 +99,14 @@ public class ScannerMessageModel {
 
     public void setIsHaveWayNumber(int isHaveWayNumber) {
         this.isHaveWayNumber = isHaveWayNumber;
+    }
+
+    public int getMAXTAG() {
+        return this.MAXTAG;
+    }
+
+    public void setMAXTAG(int MAXTAG) {
+        this.MAXTAG = MAXTAG;
     }
 
 }

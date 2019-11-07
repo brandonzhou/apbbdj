@@ -337,24 +337,6 @@ public class OutManagerActivity extends ActivityBase implements ViewTreeObserver
         tv_out_number.setText("(" + mList.size() + ")");
     }
 
-    private void showConfirmDialog() {
-        new CircleDialog.Builder()
-                .setTitle("提示")
-                .setText("\n非正式环境不可入库\n")
-                .setWidth(0.8f)
-                .setCanceledOnTouchOutside(true)
-                .setCancelable(true)
-                .setPositive("确认", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                    }
-                })
-                .setNegative("取消", null)
-                .show(getSupportFragmentManager());
-    }
-
-
-
 
     private void initParams() {
         DaoSession daoSession = GreenDaoManager.getInstance().getSession();
@@ -559,8 +541,8 @@ public class OutManagerActivity extends ActivityBase implements ViewTreeObserver
 
 
     private void checkWaybillState(String number) {
-        Request<String> request = NoHttpRequest.checkOutWailnumberStateRequest(user_id, number);
-        mRequestQueue.add(CHECK_WAY_BILL_STATE, request, mOnresponseListener);
+//        Request<String> request = NoHttpRequest.checkOutWailnumberStateRequest(user_id, number);
+//        mRequestQueue.add(CHECK_WAY_BILL_STATE, request, mOnresponseListener);
     }
 
     private OnResponseListener<String> mOnresponseListener = new OnResponseListener<String>() {

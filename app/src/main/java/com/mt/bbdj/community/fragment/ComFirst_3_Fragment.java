@@ -80,6 +80,7 @@ import com.mt.bbdj.community.activity.RepertoryActivity;
 import com.mt.bbdj.community.activity.RepertoryStoreActivity;
 import com.mt.bbdj.community.activity.SaveManagerMoneyActivity;
 import com.mt.bbdj.community.activity.ScannerActivity;
+import com.mt.bbdj.community.activity.ScannerOutActivity;
 import com.mt.bbdj.community.activity.SearchPackageActivity;
 import com.mt.bbdj.community.activity.SelectExpressActivity;
 import com.mt.bbdj.community.activity.SendManagerActivity;
@@ -643,9 +644,10 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void handleOutManagerEvent() {
-        Intent intent = new Intent(getActivity(), OutManagerActivity.class);
-        // Intent intent = new Intent(getActivity(), OutManager_new_Activity.class);
-        startActivity(intent);
+        ScannerOutActivity.actionTo(getActivity());
+//        Intent intent = new Intent(getActivity(), OutManagerActivity.class);
+//        // Intent intent = new Intent(getActivity(), OutManager_new_Activity.class);
+//        startActivity(intent);
     }
 
     private void handleEnterManagerEvent() {

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mt.bbdj.R;
@@ -25,6 +26,12 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
     private List<ScannerMessageModel> mData;
 
     private Context mContext;
+
+    private OnClickManager onClickManager;
+
+    public void setOnClickManager(OnClickManager onClickManager) {
+         this.onClickManager = onClickManager;
+    }
 
     public ScannerMessageAdapter(Context context, List<ScannerMessageModel> data) {
         mData = data;
@@ -60,7 +67,7 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
             viewHolder.tv_wait_scanner_way_number.setVisibility(View.GONE);
             viewHolder.tv_phone.setVisibility(View.GONE);
             viewHolder.tv_wait_scan_phone.setVisibility(View.VISIBLE);
-        } else {                                                     //表示信息齐全
+        } else if (1 == model.getIsHavaPhone() && 1 == model.getIsHaveWayNumber()){                                                     //表示信息齐全
             viewHolder.itemView.setBackgroundResource(R.drawable.shape_round_white);
             viewHolder.ll_promit_layout.setVisibility(View.GONE);
             viewHolder.tv_wait_scanner_way_number.setVisibility(View.GONE);
@@ -68,12 +75,33 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
             viewHolder.tv_phone.setVisibility(View.VISIBLE);
             viewHolder.tv_wait_scan_phone.setVisibility(View.GONE);
             viewHolder.tv_phone.setText(model.getPhone()); //手机号码
+
         }
 
         viewHolder.tv_code.setText(model.getCode());   //取货码
         viewHolder.tv_way_number.setText(model.getWaybill());  //运单号
         viewHolder.tv_express_name.setText(model.getExpressName());   //快递公司名称
-        //Glide.with(mContext).load(model.getExpressLogo()).into(viewHolder.iv_express_logo);
+
+        //删除信息
+        viewHolder.iv_delete_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onClickManager != null) {
+                    onClickManager.onRemoveMessage(position);
+                }
+            }
+        });
+
+        //编辑信息
+        viewHolder.ll_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onClickManager != null) {
+                    onClickManager.onEditMessage(position);
+                }
+            }
+        });
+
     }
 
     private void resetView(ScannerMessageViewHolder viewHolder) {
@@ -94,26 +122,28 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
 
         LinearLayout ll_promit_layout;    //补充信息提示
         LinearLayout ll_way_number_layout;    //运单信息
+        LinearLayout ll_edit;    //编辑信息
         TextView tv_promit_title;   //补充消息标题
         TextView tv_wait_scanner_way_number;   //等待扫描运单号
         TextView tv_wait_scan_phone;   //等待扫描手机号
         TextView tv_code;   //取货码
         TextView tv_way_number;   //运单号
         TextView tv_express_name;   //快递公司
-        ImageView iv_express_logo;   //快递公司logo
+        RelativeLayout iv_delete_message;   //删除
         TextView tv_phone;   //手机号码
 
         public ScannerMessageViewHolder(View itemView) {
             super(itemView);
             ll_promit_layout = itemView.findViewById(R.id.ll_promit_layout);
             tv_promit_title = itemView.findViewById(R.id.tv_promit_title);
+            ll_edit = itemView.findViewById(R.id.ll_edit);
             tv_wait_scanner_way_number = itemView.findViewById(R.id.tv_wait_scanner_way_number);
             ll_way_number_layout = itemView.findViewById(R.id.ll_way_number_layout);
             tv_code = itemView.findViewById(R.id.tv_code);
             tv_way_number = itemView.findViewById(R.id.tv_way_number);
             tv_express_name = itemView.findViewById(R.id.tv_express_name);
-            iv_express_logo = itemView.findViewById(R.id.iv_express_logo);
             tv_wait_scan_phone = itemView.findViewById(R.id.tv_wait_scan_phone);
+            iv_delete_message = itemView.findViewById(R.id.iv_delete_message);
             tv_phone = itemView.findViewById(R.id.tv_phone);
         }
     }
@@ -123,37 +153,53 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
     public void addData(int position, ScannerMessageModel scannerMessageModel) {
         notifyItemChanged(position, scannerMessageModel);
         if (1 == scannerMessageModel.getIsHavaPhone() && 1 == scannerMessageModel.getIsHaveWayNumber()) {
-            insertEmptyData();
+            //insertEmptyData();   //插入空的一条数据
+            if (onClickManager != null) {
+                onClickManager.onCompliteMessage();
+            }
         }
-//        if (scannerMessageModel.isHavaPhone() && scannerMessageModel.isHaveWayNumber()) {
-//            mData.remove(0);
-//            mData.add(0, scannerMessageModel);
-//            notifyItemChanged(position);
-//            //notifyItemInserted(0);
-//            insertEmptyData();
-//        } else {
-//            mData.remove(position);
-//            mData.add(position, scannerMessageModel);
-//            notifyItemChanged(position);
-//        }
     }
 
     //删除
     public void removeData(int position) {
-        mData.remove(position);
-        notifyItemRemoved(position);
+        if (onClickManager != null) {
+            onClickManager.onRemoveMessage(position);
+        }
+//        mData.remove(position);
+//        if (position == 0) {
+//            insertEmptyData();   //插入空的一条数据
+//        }
+//        notifyDataSetChanged();
     }
 
     //更新
     public void changeData(int position, ScannerMessageModel scannerMessageModel) {
-        mData.remove(position);
-        mData.add(position, scannerMessageModel);
-        notifyItemChanged(position);
+        notifyItemChanged(position, scannerMessageModel);
+        if (1 == scannerMessageModel.getIsHavaPhone() && 1 == scannerMessageModel.getIsHaveWayNumber()) {
+            //insertEmptyData();   //插入空的一条数据
+            if (onClickManager != null) {
+                onClickManager.onUpdateMessage(position);
+            }
+        }
     }
 
     public void insertEmptyData() {
         ScannerMessageModel sc = new ScannerMessageModel();
         mData.add(0, sc);
         notifyItemInserted(0);
+        notifyDataSetChanged();
     }
+
+
+    //##############################    点击事件 ########################################
+    public interface OnClickManager{
+
+        void onEditMessage(int position);    //编辑信息
+        void onCompliteMessage();  //完成
+        void onRemoveMessage(int position);   //删除
+        void onUpdateMessage(int position);
+
+    }
+
+
 }

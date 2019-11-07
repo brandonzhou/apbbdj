@@ -737,8 +737,8 @@ public class OutManager_new_Activity extends ActivityBase {
     }
 
     private void checkWaybillState(String number) {
-        Request<String> request = NoHttpRequest.checkOutWailnumberStateRequest(user_id, number);
-        mRequestQueue.add(CHECK_WAY_BILL_STATE, request, mOnresponseListener);
+//        Request<String> request = NoHttpRequest.checkOutWailnumberStateRequest(user_id, number);
+//        mRequestQueue.add(CHECK_WAY_BILL_STATE, request, mOnresponseListener);
     }
 
     private OnResponseListener<String> mOnresponseListener = new OnResponseListener<String>() {

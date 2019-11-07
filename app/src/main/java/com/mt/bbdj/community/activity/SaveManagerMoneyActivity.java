@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,14 +51,14 @@ public class SaveManagerMoneyActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private ExpressMoneyAdapter mAdapter;
     private List<ExpressMoney> mList = new ArrayList<>();
-    private String user_id="";
+    private String user_id = "";
     private RequestQueue mRequestQueue;
     private final int REQUEST_EXPRESS_MONEY = 100;   //获取快递公司信息
     private final int REQUEST_SET = 200;   //设置价格
 
-    public static void actionTo(Context context,String user_id) {
-        Intent intent = new Intent(context,SaveManagerMoneyActivity.class);
-        intent.putExtra("user_id",user_id);
+    public static void actionTo(Context context, String user_id) {
+        Intent intent = new Intent(context, SaveManagerMoneyActivity.class);
+        intent.putExtra("user_id", user_id);
         context.startActivity(intent);
     }
 
@@ -79,10 +81,10 @@ public class SaveManagerMoneyActivity extends BaseActivity {
 
     private void requestData() {
         Request<String> request = NoHttpRequest.getExpressMoney(user_id);
-        mRequestQueue.add(REQUEST_EXPRESS_MONEY,request,onResponseListener);
+        mRequestQueue.add(REQUEST_EXPRESS_MONEY, request, onResponseListener);
     }
 
-    private OnResponseListener<String> onResponseListener= new OnResponseListener<String>() {
+    private OnResponseListener<String> onResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
             LoadDialogUtils.getInstance().showLoadingDialog(SaveManagerMoneyActivity.this);
@@ -96,12 +98,11 @@ public class SaveManagerMoneyActivity extends BaseActivity {
                 String code = jsonObject.get("code").toString();
                 String msg = jsonObject.get("msg").toString();
                 if ("5001".equals(code)) {
-                    handleResult(what,jsonObject);
+                    handleResult(what, jsonObject);
                     if (what == REQUEST_SET) {
                         ToastUtil.showShort(msg);
                     }
-                }
-                else{
+                } else {
                     ToastUtil.showShort(msg);
                 }
                 LoadDialogUtils.cannelLoadingDialog();
@@ -123,7 +124,7 @@ public class SaveManagerMoneyActivity extends BaseActivity {
         }
     };
 
-    private void handleResult(int what,JSONObject jsonObject) throws JSONException {
+    private void handleResult(int what, JSONObject jsonObject) throws JSONException {
         if (what == REQUEST_EXPRESS_MONEY) {
             setExpressMoney(jsonObject);
         }
@@ -136,7 +137,7 @@ public class SaveManagerMoneyActivity extends BaseActivity {
         mList.clear();
         mAdapter.notifyDataSetChanged();
         JSONArray data = jsonObject.getJSONArray("data");
-        for (int i = 0;i < data.length();i++) {
+        for (int i = 0; i < data.length(); i++) {
             ExpressMoney expressMoney = new ExpressMoney();
             JSONObject obj = data.getJSONObject(i);
             expressMoney.setExpress_id(obj.getString("express_id"));
@@ -162,14 +163,14 @@ public class SaveManagerMoneyActivity extends BaseActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new MyDecoration(this, LinearLayoutManager.VERTICAL, Color.parseColor("#f8f8f8"), 1));
-        mAdapter = new ExpressMoneyAdapter(this,mList);
+        mAdapter = new ExpressMoneyAdapter(this, mList);
         recyclerView.setAdapter(mAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     Glide.with(SaveManagerMoneyActivity.this).resumeRequests();//恢复Glide加载图片
-                }else {
+                } else {
                     Glide.with(SaveManagerMoneyActivity.this).pauseRequests();//禁止Glide加载图片
                 }
             }
@@ -212,10 +213,10 @@ public class SaveManagerMoneyActivity extends BaseActivity {
                     if (TextUtils.isEmpty(text)) {
                         ToastUtil.showShort("内容不可为空");
                         return false;
-                    } else if (!StringUtil.isDigit(getEffectiveNumber(text))){
+                    } else if (!StringUtil.isDigit(getEffectiveNumber(text))) {
                         ToastUtil.showShort("价格必须为数字");
                         return false;
-                    }else {
+                    } else {
                         expressMoney.setPrice(getEffectiveNumber(text));
                         mAdapter.notifyItemChanged(position);
                         commitMoney(expressMoney);
@@ -227,13 +228,15 @@ public class SaveManagerMoneyActivity extends BaseActivity {
     }
 
     private void commitMoney(ExpressMoney expressMoney) {
-        Request<String> request = NoHttpRequest.changeExpressMoney(expressMoney,user_id);
-        mRequestQueue.add(REQUEST_SET,request,onResponseListener);
+        Request<String> request = NoHttpRequest.changeExpressMoney(expressMoney, user_id);
+        mRequestQueue.add(REQUEST_SET, request, onResponseListener);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        recyclerView.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+                MotionEvent.ACTION_CANCEL, 0F, 0F, 0));
         mRequestQueue.cancelAll();
         mRequestQueue.stop();
         mRequestQueue = null;
@@ -245,14 +248,13 @@ public class SaveManagerMoneyActivity extends BaseActivity {
         Glide.with(this).pauseRequests();
     }
 
-    private String getEffectiveNumber(String data){
+    private String getEffectiveNumber(String data) {
         if (data != null) {
-            if (data.contains("元")){
+            if (data.contains("元")) {
                 int end = data.lastIndexOf("元");
-                String result = data.substring(0,end);
+                String result = data.substring(0, end);
                 return result;
-            }
-            else {
+            } else {
                 return data;
             }
         }

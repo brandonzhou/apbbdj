@@ -11,6 +11,7 @@ public class InterApi {
      */
     // public static final String SERVER_ADDRESS = "http://www.81dja.com/BbdjApi/";
     public static final String BASE_URL = "http://www.81dja.com/";
+    public static final String BASE_URL_EXPRESS = "http://ning.shijianping.com/";
     // public static final String BASE_URL = "http://cs.81bb.cn";
     public static final String SERVER_ADDRESS = BASE_URL + "/BbdjApi/";
     //public static final String SERVER_ADDRESS_ENTER = "http://www.81dja.com/Pie/";
@@ -25,6 +26,7 @@ public class InterApi {
     public static final String SERVICE_NEW= BASE_URL + "/Merchant/PublicApi/";
     public static final String SERVICE_NEW_1= BASE_URL + "/Merchant/IndexApi/";
     public static final String SERVICE_NEW_3= BASE_URL + "/Merchant/UserApi/";
+    public static final String SERVICE_NEW_4= BASE_URL_EXPRESS + "Express/Express/";
 
 
     // public static final String SERVER_ADDRESS = "http://yanshi.81dja.com/BbdjApi/";
@@ -788,4 +790,19 @@ public class InterApi {
      * 派件 对快递公司 收费管理
      */
     public static final String ACTION_REQUEST_SET_EXPRESS_MONEY = "saveExpressMoney";
+
+    /**
+     * 获取最新的取件码
+     */
+    public static final String ACTION_REQUEST_GET_EXPRESS_CODE = "expressCode";
+
+    /**
+     * 入库
+     */
+    public static final String ACTION_REQUEST_ENTER = "warehousing";
+
+    /**
+     * 检测运单号
+     */
+    public static final String ACTION_CHECK_PHONE = "TestingWaybillNumber2010";
 }

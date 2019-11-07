@@ -162,7 +162,7 @@ public class CommunityActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
-        SophixManager.getInstance().queryAndLoadNewPatch();
+       // SophixManager.getInstance().queryAndLoadNewPatch();
         Constant.context = this;
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
@@ -208,7 +208,6 @@ public class CommunityActivity extends BaseActivity {
         if (list != null && list.size() != 0) {
             user_id = list.get(0).getUser_id();
         }
-
         executorService = Executors.newCachedThreadPool();
     }
 

@@ -1,5 +1,6 @@
 package com.mt.bbdj.community.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
+import com.mt.bbdj.baseconfig.db.ExpressLogo;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.gen.DaoSession;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
@@ -56,10 +58,17 @@ public class SelectExpressActivity extends BaseActivity {
     private final int REQUEST_REQUEST_COMMIT_SETTING = 101;
     private LayoutInflater mInflater;
     private RelativeLayout tv_back;
+    private int requestCode = -1;
 
     public static void actionTo(Context context) {
         Intent intent = new Intent(context, SelectExpressActivity.class);
         context.startActivity(intent);
+    }
+
+    public static void actionTo(Activity context, int requestCode) {
+        Intent intent = new Intent(context, SelectExpressActivity.class);
+        intent.putExtra("requestCode",requestCode);
+        context.startActivityForResult(intent,requestCode);
     }
 
     @Override
@@ -75,33 +84,33 @@ public class SelectExpressActivity extends BaseActivity {
     }
 
 
-
     private void initListener() {
         //返回
-        tv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
+        tv_back.setOnClickListener(view -> finish());
 
         //免运费限度
-        expressLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-            @Override
-            public boolean onTagClick(View view, int position, FlowLayout parent) {
-                String express_tag = listOne.get(position).get("express_id");
-                String express_name = listOne.get(position).get("express_name");
-                ScannerActivity.actionTo(SelectExpressActivity.this,express_tag,express_name);
-                return true;
+        expressLayout.setOnTagClickListener((view, position, parent) -> {
+            String express_tag = listOne.get(position).get("express_id");
+            String express_name = listOne.get(position).get("express_name");
+            if (requestCode == -1) {
+                ScannerActivity.actionTo(SelectExpressActivity.this, express_tag, express_name);
+            } else {
+                //修改进入
+                Intent intent = new Intent();
+                intent.putExtra("express_tag",express_tag);
+                intent.putExtra("express_name",express_name);
+                setResult(RESULT_OK,intent);
             }
+            finish();
+            return true;
         });
-        
+
     }
 
 
     private void initParams() {
-
+        Intent intent = getIntent();
+        requestCode = intent.getIntExtra("requestCode",-1);
         //初始化请求队列
         mRequestQueue = NoHttp.newRequestQueue();
         mDaoSession = GreenDaoManager.getInstance().getSession();
@@ -119,7 +128,10 @@ public class SelectExpressActivity extends BaseActivity {
     }
 
     private void requestData() {
-        Request<String> request = NoHttpRequest.getExpressageRequest(user_id, "1");
+//        Request<String> request = NoHttpRequest.getExpressageRequest(user_id, "1");
+//        mRequestQueue.add(REQUEST_EXPRESS, request, mResponseListener);
+
+        Request<String> request = NoHttpRequest.getExpressLogoRequest(user_id);
         mRequestQueue.add(REQUEST_EXPRESS, request, mResponseListener);
     }
 
@@ -173,8 +185,8 @@ public class SelectExpressActivity extends BaseActivity {
     }
 
     private void setExpressData(JSONObject jsonObject) throws JSONException {
-       JSONArray data = jsonObject.getJSONArray("data");
-        setListOne(data);
+        JSONArray dataArray = jsonObject.getJSONArray("data");
+        setListOne(dataArray);
     }
 
     List<HashMap<String, String>> listOne = new ArrayList<>();
@@ -203,7 +215,7 @@ public class SelectExpressActivity extends BaseActivity {
             }
         };
 
-       // oneTagAdapter.setSelectedList(position);
+        // oneTagAdapter.setSelectedList(position);
         expressLayout.setAdapter(oneTagAdapter);
     }
 }

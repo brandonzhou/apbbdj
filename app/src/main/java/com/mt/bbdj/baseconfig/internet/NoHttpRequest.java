@@ -29,6 +29,7 @@ public class NoHttpRequest {
 
     /**
      * 获取验证码的请求
+     *
      * @param phoneNumber : 手机号码
      * @param type        : 1 注册  2 忘记密码  3 提现
      */
@@ -80,7 +81,7 @@ public class NoHttpRequest {
                                                         String just_card, String back_card, String license, String number,
                                                         String contacts, String contact_number, String province, String city,
                                                         String area, String address, String door_photo, String internal_photo,
-                                                        String latitude, String longitude,HashMap<String,String> params) {
+                                                        String latitude, String longitude, HashMap<String, String> params) {
 
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW
@@ -114,7 +115,7 @@ public class NoHttpRequest {
      *
      * @return
      */
-    public static Request<String> changePasswordRequst(HashMap<String,String> params) {
+    public static Request<String> changePasswordRequst(HashMap<String, String> params) {
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW
                 + InterApi.ACTION_CHANGE_PASSWORD, RequestMethod.POST);
         String signature = StringUtil.getsignature(params);
@@ -129,7 +130,7 @@ public class NoHttpRequest {
      *
      * @return
      */
-    public static Request<String> changeNewPasswordRequst(String user_id, String oldPassword,String newPassword) {
+    public static Request<String> changeNewPasswordRequst(String user_id, String oldPassword, String newPassword) {
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_ADDRESS
                 + InterApi.ACTION_CHANGE_NEW_PASSWORD, RequestMethod.GET);
         String timeStamp = DateUtil.getCurrentTimeStamp();
@@ -149,13 +150,14 @@ public class NoHttpRequest {
 
     /**
      * 登录请求
-     * @param username     用户名
-     * @param password     密码
-     * @param receive_id    极光别名
-     * @param device      //设备类型  1： android  2:ios
+     *
+     * @param username   用户名
+     * @param password   密码
+     * @param receive_id 极光别名
+     * @param device     //设备类型  1： android  2:ios
      * @return
      */
-    public static Request<String> loginRequest(String username, String password, String receive_id, String device,HashMap<String,String> params) {
+    public static Request<String> loginRequest(String username, String password, String receive_id, String device, HashMap<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW
                 + InterApi.ACTION_LOGIN, RequestMethod.POST);
@@ -169,13 +171,14 @@ public class NoHttpRequest {
 
     /**
      * 登录请求 验证码
-     * @param username     用户名
-     * @param password     密码
-     * @param receive_id    极光别名
-     * @param device      //设备类型  1： android  2:ios
+     *
+     * @param username   用户名
+     * @param password   密码
+     * @param receive_id 极光别名
+     * @param device     //设备类型  1： android  2:ios
      * @return
      */
-    public static Request<String> loginByCodeRequest(String username, String password, String receive_id, String device,HashMap<String,String> params) {
+    public static Request<String> loginByCodeRequest(String username, String password, String receive_id, String device, HashMap<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW
                 + InterApi.ACTION_LOGIN_BY_CODE, RequestMethod.POST);
@@ -333,6 +336,7 @@ public class NoHttpRequest {
 
     /**
      * 获取我的地址
+     *
      * @param user_id
      * @return
      */
@@ -358,7 +362,7 @@ public class NoHttpRequest {
      * @param user_id
      * @return
      */
-    public static Request<String> getAreaRequest(String user_id,String express_id) {
+    public static Request<String> getAreaRequest(String user_id, String express_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -377,12 +381,13 @@ public class NoHttpRequest {
 
     /**
      * 更新快递公司状态
+     *
      * @param user_id    用户id
-     * @param express_id   快递公司id
-     * @param type 1：寄件  2：派件
+     * @param express_id 快递公司id
+     * @param type       1：寄件  2：派件
      * @return
      */
-    public static Request<String> updateExpressState(String user_id,String express_id,String type) {
+    public static Request<String> updateExpressState(String user_id, String express_id, String type) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -445,7 +450,7 @@ public class NoHttpRequest {
      * @return
      */
     public static Request<String> changeMyAddressBook(String user_id, String realName, String telephone,
-                                                    String province, String city, String area, String address, String book_id) {
+                                                      String province, String city, String area, String address, String book_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -511,7 +516,7 @@ public class NoHttpRequest {
      * @return
      */
     public static Request<String> addMyAddressBook(String user_id, String realName, String telephone,
-                                                 String province, String city, String county, String address, String type) {
+                                                   String province, String city, String county, String address, String type) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -849,10 +854,10 @@ public class NoHttpRequest {
     /**
      * 催单
      *
-     * @param user_id    用户id
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> getHandleEventRequest(String user_id, String  mail_id) {
+    public static Request<String> getHandleEventRequest(String user_id, String mail_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1123,7 +1128,7 @@ public class NoHttpRequest {
         return request;
     }
 
-  /*  *//**
+    /*  *//**
      * 获取社区版首页的信息
      *
      * @param user_id 用户id
@@ -1147,9 +1152,10 @@ public class NoHttpRequest {
 
     /**
      * 获取社区版首页的信息
+     *
      * @return
      */
-    public static Request<String> getPannelmessageRequest(HashMap<String,String> params) {
+    public static Request<String> getPannelmessageRequest(HashMap<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_1
                 + InterApi.ACTION_GET_PANNEL_MESSAGE_rEQUEST, RequestMethod.POST);
@@ -1195,6 +1201,7 @@ public class NoHttpRequest {
 
     /**
      * 获取快递公司图标信息
+     *
      * @param user_id
      * @return
      */
@@ -1216,11 +1223,12 @@ public class NoHttpRequest {
 
     /**
      * 下载快递公司logo
-     * @param user_id   用户id
-     * @param express_id   快递公司id
+     *
+     * @param user_id    用户id
+     * @param express_id 快递公司id
      * @return
      */
-    public static Request<Bitmap> uploadLogoRequest(String user_id,String express_id) {
+    public static Request<Bitmap> uploadLogoRequest(String user_id, String express_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1239,12 +1247,13 @@ public class NoHttpRequest {
 
     /**
      * 短信管理
-     * @param user_id   用户id
-     * @param type  类型 0：失败 1：成功
-     * @param page  页数
+     *
+     * @param user_id 用户id
+     * @param type    类型 0：失败 1：成功
+     * @param page    页数
      * @return
      */
-    public static Request<String> getMessageManagerRequest(String user_id,int type,int page) {
+    public static Request<String> getMessageManagerRequest(String user_id, int type, int page) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1264,12 +1273,13 @@ public class NoHttpRequest {
 
     /**
      * 重新发送短信
-     * @param user_id   用户id
-     * @param type   1：单个  2：全部
-     * @param message_id  短信id
+     *
+     * @param user_id    用户id
+     * @param type       1：单个  2：全部
+     * @param message_id 短信id
      * @return
      */
-    public static Request<String> sendMessageRequest(String user_id,int type,String message_id) {
+    public static Request<String> sendMessageRequest(String user_id, int type, String message_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1289,11 +1299,12 @@ public class NoHttpRequest {
 
     /**
      * 获取投诉管理
-     * @param user_id  用户id
-     * @param type 类型
+     *
+     * @param user_id 用户id
+     * @param type    类型
      * @return
      */
-    public static Request<String> getComplainManagerRequest(String user_id,int type) {
+    public static Request<String> getComplainManagerRequest(String user_id, int type) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1312,12 +1323,13 @@ public class NoHttpRequest {
 
     /**
      * 搜索物流信息
+     *
      * @param user_id  用户id
-     * @param numberse   运单号
+     * @param numberse 运单号
      * @param express  快递公司id
      * @return
      */
-    public static Request<String> getSearchPackRequest(String user_id,String numberse,String express) {
+    public static Request<String> getSearchPackRequest(String user_id, String numberse, String express) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1337,6 +1349,7 @@ public class NoHttpRequest {
 
     /**
      * 获取用户的基本信息
+     *
      * @param user_id
      * @return
      */
@@ -1358,11 +1371,12 @@ public class NoHttpRequest {
 
     /**
      * 获取通知公告消息
+     *
      * @param user_id
      * @param page
      * @return
      */
-    public static Request<String> getNotificationRequest(String user_id,int page) {
+    public static Request<String> getNotificationRequest(String user_id, int page) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1381,11 +1395,12 @@ public class NoHttpRequest {
 
     /**
      * 获取系统消息
+     *
      * @param user_id
      * @param page
      * @return
      */
-    public static Request<String> getSystmeMessageRequest(String user_id,int page) {
+    public static Request<String> getSystmeMessageRequest(String user_id, int page) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1404,6 +1419,7 @@ public class NoHttpRequest {
 
     /**
      * 检测是否绑定账户
+     *
      * @param user_id
      * @return
      */
@@ -1425,16 +1441,17 @@ public class NoHttpRequest {
 
     /**
      * 绑定账号
-     * @param user_id   用户id
-     * @param type       1 银行卡 2 支付宝
-     * @param realname  姓名
-     * @param number  卡号
-     * @param bank  开户行
+     *
+     * @param user_id  用户id
+     * @param type     1 银行卡 2 支付宝
+     * @param realname 姓名
+     * @param number   卡号
+     * @param bank     开户行
      * @param account  支付宝账户
      * @return
      */
-    public static Request<String> getBindAccountRequest(String user_id,String type
-            ,String realname,String account,String bank,String number) {
+    public static Request<String> getBindAccountRequest(String user_id, String type
+            , String realname, String account, String bank, String number) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1457,12 +1474,13 @@ public class NoHttpRequest {
 
     /**
      * 获取申请提现
+     *
      * @param user_id
      * @param type
      * @param money
      * @return
      */
-    public static Request<String> getApplyGetMoneyRequest(String user_id,String type,String money) {
+    public static Request<String> getApplyGetMoneyRequest(String user_id, String type, String money) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1482,13 +1500,14 @@ public class NoHttpRequest {
 
     /**
      * 获取消费记录
-     * @param user_id   用户id
-     * @param page   页码
-     * @param start  开始时间
+     *
+     * @param user_id 用户id
+     * @param page    页码
+     * @param start   开始时间
      * @param endtime 结束时间
      * @return
      */
-    public static Request<String> getMoneyRecordRequest(String user_id,int page,String start,String endtime){
+    public static Request<String> getMoneyRecordRequest(String user_id, int page, String start, String endtime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1509,13 +1528,14 @@ public class NoHttpRequest {
 
     /**
      * 获取消费记录
-     * @param user_id   用户id
-     * @param page   页码
-     * @param start  开始时间
+     *
+     * @param user_id 用户id
+     * @param page    页码
+     * @param start   开始时间
      * @param endtime 结束时间
      * @return
      */
-    public static Request<String> getConsumeRecordRequest(String user_id,int page,String start,String endtime){
+    public static Request<String> getConsumeRecordRequest(String user_id, int page, String start, String endtime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1536,11 +1556,12 @@ public class NoHttpRequest {
 
     /**
      * 获取消费记录
-     * @param user_id   用户id
-     * @param con_id   记录id
+     *
+     * @param user_id 用户id
+     * @param con_id  记录id
      * @return
      */
-    public static Request<String> getConsumeDetailRequest(String user_id,String con_id){
+    public static Request<String> getConsumeDetailRequest(String user_id, String con_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1559,13 +1580,14 @@ public class NoHttpRequest {
 
     /**
      * 获取充值记录
-     * @param user_id   用户id
-     * @param page   页码
-     * @param start  开始时间
+     *
+     * @param user_id 用户id
+     * @param page    页码
+     * @param start   开始时间
      * @param endtime 结束时间
      * @return
      */
-    public static Request<String> getRechargeRecordRequest(String user_id,int page,String start,String endtime){
+    public static Request<String> getRechargeRecordRequest(String user_id, int page, String start, String endtime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1587,6 +1609,7 @@ public class NoHttpRequest {
 
     /**
      * 获取客户列表请求
+     *
      * @param user_id
      * @return
      */
@@ -1608,6 +1631,7 @@ public class NoHttpRequest {
 
     /**
      * 获取客户管理列表
+     *
      * @param user_id
      * @return
      */
@@ -1629,18 +1653,19 @@ public class NoHttpRequest {
 
     /**
      * 添加客户信息
-     * @param user_id   用户id
-     * @param realname   姓名
-     * @param telephone   联系电话
-     * @param region   地区
-     * @param address 详细地址
-     * @param company_name   公司名称
-     * @param content  备注
+     *
+     * @param user_id      用户id
+     * @param realname     姓名
+     * @param telephone    联系电话
+     * @param region       地区
+     * @param address      详细地址
+     * @param company_name 公司名称
+     * @param content      备注
      * @return
      */
-    public static Request<String> addClientRequest(String user_id,String realname,
-                                                   String telephone,String region,
-                                                   String address,String company_name,String content) {
+    public static Request<String> addClientRequest(String user_id, String realname,
+                                                   String telephone, String region,
+                                                   String address, String company_name, String content) {
 
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
@@ -1665,19 +1690,20 @@ public class NoHttpRequest {
 
     /**
      * 编辑客户信息
-     * @param user_id   用户id
-     * @param realname  姓名
-     * @param telephone  电话号码
-     * @param region  地区
-     * @param address  地址
-     * @param company_name   公司名称
-     * @param content  备注
+     *
+     * @param user_id      用户id
+     * @param realname     姓名
+     * @param telephone    电话号码
+     * @param region       地区
+     * @param address      地址
+     * @param company_name 公司名称
+     * @param content      备注
      * @param customer_id  地址的id
      * @return
      */
-    public static Request<String> editClientMessage(String user_id,String realname,
-                                                    String telephone,String region,
-                                                    String address,String company_name,String content,String customer_id) {
+    public static Request<String> editClientMessage(String user_id, String realname,
+                                                    String telephone, String region,
+                                                    String address, String company_name, String content, String customer_id) {
 
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
@@ -1703,11 +1729,12 @@ public class NoHttpRequest {
 
     /**
      * 删除客户信息
-     * @param user_id   用户id
-     * @param customer_id  地址id
+     *
+     * @param user_id     用户id
+     * @param customer_id 地址id
      * @return
      */
-    public static Request<String> deleteClientRequest(String user_id,String customer_id) {
+    public static Request<String> deleteClientRequest(String user_id, String customer_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1726,12 +1753,13 @@ public class NoHttpRequest {
 
     /**
      * 获取客户订单
+     *
      * @param user_id
-     * @param customer_id  客户id
-     * @param page 页码
+     * @param customer_id 客户id
+     * @param page        页码
      * @return
      */
-    public static Request<String> getClientOrderDetailRequest(String user_id,String customer_id,int page) {
+    public static Request<String> getClientOrderDetailRequest(String user_id, String customer_id, int page) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1751,11 +1779,12 @@ public class NoHttpRequest {
 
     /**
      * 个人中心订单
+     *
      * @param user_id
      * @param type
      * @return
      */
-    public static Request<String> getMyOrderList(String user_id,int type) {
+    public static Request<String> getMyOrderList(String user_id, int type) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1774,11 +1803,12 @@ public class NoHttpRequest {
 
     /**
      * 获取订单详情
-     * @param user_id   用户id
-     * @param order_id  订单详情
+     *
+     * @param user_id  用户id
+     * @param order_id 订单详情
      * @return
      */
-    public static Request<String> getMyOrderDetailRequest(String user_id,String order_id) {
+    public static Request<String> getMyOrderDetailRequest(String user_id, String order_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1797,7 +1827,8 @@ public class NoHttpRequest {
 
     /**
      * 获取物料商城
-     * @param user_id  用户id
+     *
+     * @param user_id 用户id
      * @return
      */
     public static Request<String> getGoodsListRequest(String user_id) {
@@ -1818,11 +1849,12 @@ public class NoHttpRequest {
 
     /**
      * 获取商品详情接口
+     *
      * @param user_id
      * @param product_id
      * @return
      */
-    public static Request<String> getGoodsListDetailRequest(String user_id,String product_id){
+    public static Request<String> getGoodsListDetailRequest(String user_id, String product_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1841,12 +1873,13 @@ public class NoHttpRequest {
 
     /**
      * 加入购物车
-     * @param user_id   用户id
-     * @param product_id   商品id
-     * @param genre_id  型号id
+     *
+     * @param user_id    用户id
+     * @param product_id 商品id
+     * @param genre_id   型号id
      * @return
      */
-    public static Request<String> joinGoodsRequest(String user_id,String product_id,String genre_id) {
+    public static Request<String> joinGoodsRequest(String user_id, String product_id, String genre_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1866,15 +1899,16 @@ public class NoHttpRequest {
 
     /**
      * 立即购买
-     * @param user_id   用户id
-     * @param product_id   产品id
+     *
+     * @param user_id    用户id
+     * @param product_id 产品id
      * @param genre_id   型号id
-     * @param address_id  地址id
-     * @param number  数量
+     * @param address_id 地址id
+     * @param number     数量
      * @return
      */
-    public static Request<String> payForMoneyRightNowRequest(String user_id,String product_id,
-                                                             String genre_id,String address_id,int number) {
+    public static Request<String> payForMoneyRightNowRequest(String user_id, String product_id,
+                                                             String genre_id, String address_id, int number) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1896,14 +1930,15 @@ public class NoHttpRequest {
 
     /**
      * 批量购买
-     * @param user_id   用户id
-     * @param cart_id   购物车记录id
-     * @param address_id  地址id
-     * @param content  备注
+     *
+     * @param user_id    用户id
+     * @param cart_id    购物车记录id
+     * @param address_id 地址id
+     * @param content    备注
      * @return
      */
-    public static  Request<String> payForMoreGoodsRequest(String user_id,String cart_id,
-                                                         String address_id,String content) {
+    public static Request<String> payForMoreGoodsRequest(String user_id, String cart_id,
+                                                         String address_id, String content) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1924,10 +1959,11 @@ public class NoHttpRequest {
 
     /**
      * 获取购物车列表
+     *
      * @param user_id
      * @return
      */
-    public static Request<String> getShopCarGoodsRequest(String user_id){
+    public static Request<String> getShopCarGoodsRequest(String user_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1945,11 +1981,12 @@ public class NoHttpRequest {
 
     /**
      * 删除购物车数据
-     * @param user_id  用户id
-     * @param cart_id  购物车记录id
+     *
+     * @param user_id 用户id
+     * @param cart_id 购物车记录id
      * @return
      */
-    public static Request<String> deleteGoodsRequest(String user_id,String cart_id) {
+    public static Request<String> deleteGoodsRequest(String user_id, String cart_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1968,12 +2005,13 @@ public class NoHttpRequest {
 
     /**
      * 修改商品的数量
-     * @param user_id   用户id
-     * @param cart_id  购物车id
+     *
+     * @param user_id 用户id
+     * @param cart_id 购物车id
      * @param number  数量
      * @return
      */
-    public static Request<String> changeGoodsNumberRequest(String user_id,String cart_id,int number) {
+    public static Request<String> changeGoodsNumberRequest(String user_id, String cart_id, int number) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1993,14 +2031,15 @@ public class NoHttpRequest {
 
     /**
      * 获取交接管理
-     * @param user_id   用户id
-     * @param express_id  快递公司id
-     * @param type   1: 表示待交接  2：已交接
-     * @param starttime   开始时间
-     * @param endtime   结束时间
+     *
+     * @param user_id    用户id
+     * @param express_id 快递公司id
+     * @param type       1: 表示待交接  2：已交接
+     * @param starttime  开始时间
+     * @param endtime    结束时间
      * @return
      */
-    public static Request<String> getChangeManagerRequest(String user_id,String express_id,int type,String starttime,String endtime) {
+    public static Request<String> getChangeManagerRequest(String user_id, String express_id, int type, String starttime, String endtime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2023,11 +2062,12 @@ public class NoHttpRequest {
 
     /**
      * 获取待入库数据
-     * @param user_id   用户id
-     * @param express_id  快递公司id
+     *
+     * @param user_id    用户id
+     * @param express_id 快递公司id
      * @return
      */
-    public static Request<String> getEnterStoreRequest(String user_id,String express_id) {
+    public static Request<String> getEnterStoreRequest(String user_id, String express_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2046,11 +2086,12 @@ public class NoHttpRequest {
 
     /**
      * 确认入库
-     * @param user_id   用户id
-     * @param package_id  入库的数据
+     *
+     * @param user_id    用户id
+     * @param package_id 入库的数据
      * @return
      */
-    public static Request<String> confirmEnterStoreRequest(String user_id,String package_id) {
+    public static Request<String> confirmEnterStoreRequest(String user_id, String package_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2070,11 +2111,12 @@ public class NoHttpRequest {
 
     /**
      * 去除业务员入错的包裹
-     * @param user_id   用户id
-     * @param package_id  入库的数据
+     *
+     * @param user_id    用户id
+     * @param package_id 入库的数据
      * @return
      */
-    public static Request<String> deleteEnterRecorde(String user_id,String package_id) {
+    public static Request<String> deleteEnterRecorde(String user_id, String package_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2092,16 +2134,15 @@ public class NoHttpRequest {
     }
 
 
-
-
     /**
      * 确认交接
-     * @param user_id   用户id
-     * @param handto  签名文件
-     * @param mailing_id   寄件id
+     *
+     * @param user_id    用户id
+     * @param handto     签名文件
+     * @param mailing_id 寄件id
      * @return
      */
-    public static Request<String> sendChangeRequest(String user_id,String handto,String mailing_id) {
+    public static Request<String> sendChangeRequest(String user_id, String handto, String mailing_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2121,12 +2162,13 @@ public class NoHttpRequest {
 
     /**
      * 数据中心
+     *
      * @param user_id   用户id
-     * @param starttime   开始时间时间戳
-     * @param endtime  结束时间时间戳
+     * @param starttime 开始时间时间戳
+     * @param endtime   结束时间时间戳
      * @return
      */
-    public static Request<String> getDataCenterRequest(String user_id,String starttime,String endtime) {
+    public static Request<String> getDataCenterRequest(String user_id, String starttime, String endtime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2146,12 +2188,13 @@ public class NoHttpRequest {
 
     /**
      * 财务管理
+     *
      * @param user_id   用户id
-     * @param starttime  开始时间
-     * @param endtime 结束时间
+     * @param starttime 开始时间
+     * @param endtime   结束时间
      * @return
      */
-    public static Request<String> getMoneyManagerRequest(String user_id,String starttime,String endtime) {
+    public static Request<String> getMoneyManagerRequest(String user_id, String starttime, String endtime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2171,11 +2214,12 @@ public class NoHttpRequest {
 
     /**
      * 取消订单
+     *
      * @param user_id
      * @param mail_id
      * @return
      */
-    public static Request<String> cannelOrderRequest(String user_id,String mail_id,String reason_id,String content) {
+    public static Request<String> cannelOrderRequest(String user_id, String mail_id, String reason_id, String content) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2195,7 +2239,7 @@ public class NoHttpRequest {
     }
 
     //微信支付请求接口
-    public static Request<String> getWeiChartPayforRequest(String user_id,String money){
+    public static Request<String> getWeiChartPayforRequest(String user_id, String money) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2212,7 +2256,7 @@ public class NoHttpRequest {
     }
 
     //支付宝支付请求接口
-    public static Request<String> getAliPayforRequest(String user_id,String money){
+    public static Request<String> getAliPayforRequest(String user_id, String money) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2229,7 +2273,7 @@ public class NoHttpRequest {
     }
 
     //微信支付请求接口
-    public static Request<String> getAliaPayforRequest(String user_id,String money){
+    public static Request<String> getAliaPayforRequest(String user_id, String money) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2247,11 +2291,12 @@ public class NoHttpRequest {
 
     /**
      * 首页全局搜索
-     * @param user_id    用户id
-     * @param keywords  关键字
+     *
+     * @param user_id  用户id
+     * @param keywords 关键字
      * @return
      */
-    public static Request<String> getGlobalSendRequest(String user_id,String keywords) {
+    public static Request<String> getGlobalSendRequest(String user_id, String keywords) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2270,11 +2315,12 @@ public class NoHttpRequest {
 
     /**
      * 确认完成订单
+     *
      * @param signature
      * @param params
      * @return
      */
-    public static Request<String> completeTakeOrders(String signature, Map<String,String> params) {
+    public static Request<String> completeTakeOrders(String signature, Map<String, String> params) {
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_URL_3
                 + InterApi.ACTION_REQUEST_COMPLETE_ORDERS, RequestMethod.POST);
         request.add("signature", signature);
@@ -2285,11 +2331,12 @@ public class NoHttpRequest {
 
     /**
      * 首页全局搜索
-     * @param user_id    用户id
-     * @param keywords  关键字
+     *
+     * @param user_id  用户id
+     * @param keywords 关键字
      * @return
      */
-    public static Request<String> getGloableReceiveRequest(String user_id,String keywords){
+    public static Request<String> getGloableReceiveRequest(String user_id, String keywords) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2308,7 +2355,8 @@ public class NoHttpRequest {
 
     /**
      * 财务首页
-     * @param user_id   用户id
+     *
+     * @param user_id 用户id
      * @return
      */
     public static Request<String> getMoneyManagerRequest(String user_id) {
@@ -2329,12 +2377,13 @@ public class NoHttpRequest {
 
     /**
      * 获取昨天支出
+     *
      * @param user_id   用户id
      * @param starttime 开始时间戳
-     * @param endtime 结束时间戳
+     * @param endtime   结束时间戳
      * @return
      */
-    public static Request<String> getYesterDayPayforRequest(String user_id,String starttime,String endtime) {
+    public static Request<String> getYesterDayPayforRequest(String user_id, String starttime, String endtime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2354,12 +2403,13 @@ public class NoHttpRequest {
 
     /**
      * 获取昨天寄件的数据
+     *
      * @param user_id   用户id
      * @param starttime 开始时间戳
-     * @param endtime 结束时间戳
+     * @param endtime   结束时间戳
      * @return
      */
-    public static Request<String> getYesterDaySendforRequest(String user_id,String starttime,String endtime) {
+    public static Request<String> getYesterDaySendforRequest(String user_id, String starttime, String endtime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2380,12 +2430,13 @@ public class NoHttpRequest {
 
     /**
      * 获取昨天派件的数据
+     *
      * @param user_id   用户id
      * @param starttime 开始时间戳
-     * @param endtime 结束时间戳
+     * @param endtime   结束时间戳
      * @return
      */
-    public static Request<String> getYesterDayPaiforRequest(String user_id,String starttime,String endtime) {
+    public static Request<String> getYesterDayPaiforRequest(String user_id, String starttime, String endtime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2405,13 +2456,14 @@ public class NoHttpRequest {
 
     /**
      * 数据排行榜
+     *
      * @param user_id   用户id
-     * @param starttime   开始时间
+     * @param starttime 开始时间
      * @param endtime   结束时间
-     * @param types  类型  1：全部  2：寄件  3：派件  4：服务
+     * @param types     类型  1：全部  2：寄件  3：派件  4：服务
      * @return
      */
-    public static Request<String> getSortRequest(String user_id,String starttime,String endtime,String types){
+    public static Request<String> getSortRequest(String user_id, String starttime, String endtime, String types) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2432,11 +2484,12 @@ public class NoHttpRequest {
 
     /**
      * 获取日报数据
-     * @param user_id    用户id
-     * @param starttime   选择的时间
+     *
+     * @param user_id   用户id
+     * @param starttime 选择的时间
      * @return
      */
-    public static Request<String> getReportBydateRequest(String user_id,String starttime) {
+    public static Request<String> getReportBydateRequest(String user_id, String starttime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2455,11 +2508,12 @@ public class NoHttpRequest {
 
     /**
      * 获取月报数据
-     * @param user_id    用户id
-     * @param starttime   选择的时间
+     *
+     * @param user_id   用户id
+     * @param starttime 选择的时间
      * @return
      */
-    public static Request<String> getReportByMonthRequest(String user_id,String starttime,String endtime) {
+    public static Request<String> getReportByMonthRequest(String user_id, String starttime, String endtime) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2479,12 +2533,13 @@ public class NoHttpRequest {
 
     /**
      * 添加备注
-     * @param user_id   用户id
-     * @param mailing_id   订单id
-     * @param content  备注
+     *
+     * @param user_id    用户id
+     * @param mailing_id 订单id
+     * @param content    备注
      * @return
      */
-    public static Request<String> addMarkRequest(String user_id,String mailing_id,String content) {
+    public static Request<String> addMarkRequest(String user_id, String mailing_id, String content) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2504,12 +2559,13 @@ public class NoHttpRequest {
 
     /**
      * 检测快递的运单号
+     *
      * @param user_id    用户id
-     * @param express_id  快递公司id
-     * @param number  运单号
+     * @param express_id 快递公司id
+     * @param number     运单号
      * @return
      */
-    public static Request<String> checkWaybillRequest(String user_id,String express_id,String number,String picturl) {
+    public static Request<String> checkWaybillRequest(String user_id, String express_id, String number, String picturl) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2530,12 +2586,13 @@ public class NoHttpRequest {
 
     /**
      * 全部入库
-     * @param user_id   用户id
-     * @param express_id  快递公司
-     * @param str_data  数据
+     *
+     * @param user_id    用户id
+     * @param express_id 快递公司
+     * @param str_data   数据
      * @return
      */
-    public static Request<String> enterRecordeRequest(String user_id,String express_id,String str_data) {
+    public static Request<String> enterRecordeRequest(String user_id, String express_id, String str_data) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2555,7 +2612,8 @@ public class NoHttpRequest {
 
     /**
      * 提货码
-     * @param user_id   用户id
+     *
+     * @param user_id 用户id
      * @return
      */
     public static Request<String> getNewPackagerCodeFromHourse(String user_id) {
@@ -2574,36 +2632,15 @@ public class NoHttpRequest {
         return request;
     }
 
-    /**
-     * 检测出库订单的状态
-     * @param user_id   用户id
-     * @param number  运单号
-     * @return
-     */
-    public static Request<String> checkOutWailnumberStateRequest(String user_id,String number) {
-        String timeStamp = DateUtil.getCurrentTimeStamp();
-        String randomStr = StringUtil.getRandomNumberString(7);
-        String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
-        String signature = StringUtil.getSignatureString(timeStamp, randomStr, encryption);
-        Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_ADDRESS_ENTER
-                + InterApi.ACTION_CHECK_OUT_BILL_REQUEST, RequestMethod.GET);
-        request.add("method", InterApi.ACTION_CHECK_OUT_BILL_REQUEST);
-        request.add("signature", signature);
-        request.add("timeStamp", timeStamp);     //时间戳
-        request.add("randomStr", randomStr);     //随机值
-        request.add("Encryption", encryption);    //加密值
-        request.add("user_id", user_id);
-        request.add("number", number);
-        return request;
-    }
 
     /**
      * 全部出库
+     *
      * @param user_id 用户id
-     * @param out_id   出库id
+     * @param out_id  出库id
      * @return
      */
-    public static Request<String> outOfRepertoryRequest(String user_id,String out_id) {
+    public static Request<String> outOfRepertoryRequest(String user_id, String out_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2622,14 +2659,15 @@ public class NoHttpRequest {
 
     /**
      * 获取入库的列表
-     * @param user_id   用户id
-     * @param starttime   开始时间
-     * @param endtime  结束时间
-     * @param express_id  快递公司id
-     * @param page 页数
+     *
+     * @param user_id    用户id
+     * @param starttime  开始时间
+     * @param endtime    结束时间
+     * @param express_id 快递公司id
+     * @param page       页数
      * @return
      */
-    public static Request<String> getEnterRepertoryRequest(String user_id,String starttime,String endtime,String express_id,String page) {
+    public static Request<String> getEnterRepertoryRequest(String user_id, String starttime, String endtime, String express_id, String page) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2651,14 +2689,15 @@ public class NoHttpRequest {
 
     /**
      * 获取出库的列表
-     * @param user_id   用户id
-     * @param starttime   开始时间
-     * @param endtime  结束时间
-     * @param express_id  快递公司id
-     * @param page 页数
+     *
+     * @param user_id    用户id
+     * @param starttime  开始时间
+     * @param endtime    结束时间
+     * @param express_id 快递公司id
+     * @param page       页数
      * @return
      */
-    public static Request<String> getOutRepertoryRequest(String user_id,String starttime,String endtime,String express_id,String page) {
+    public static Request<String> getOutRepertoryRequest(String user_id, String starttime, String endtime, String express_id, String page) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2680,11 +2719,12 @@ public class NoHttpRequest {
 
     /**
      * 获取寄件详情
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @param pie_id
      * @return
      */
-    public static Request<String> getExpressDetailRequest(String user_id,String pie_id) {
+    public static Request<String> getExpressDetailRequest(String user_id, String pie_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2703,11 +2743,12 @@ public class NoHttpRequest {
 
     /**
      * 干洗确认送达
-     * @param user_id    用户id
+     *
+     * @param user_id   用户id
      * @param orders_id
      * @return
      */
-    public static Request<String> confirmClearSend(String user_id,String orders_id) {
+    public static Request<String> confirmClearSend(String user_id, String orders_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2758,7 +2799,8 @@ public class NoHttpRequest {
 
     /**
      * 获取订单
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
     public static Request<String> getExpressDetailRequest(String user_id) {
@@ -2780,10 +2822,11 @@ public class NoHttpRequest {
 
     /**
      * 桶装水送达
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> confirmWaterSend(String user_id,String order_id) {
+    public static Request<String> confirmWaterSend(String user_id, String order_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2802,10 +2845,11 @@ public class NoHttpRequest {
 
     /**
      * 桶装水接单
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> confirmWaterReive(String user_id,String order_id) {
+    public static Request<String> confirmWaterReive(String user_id, String order_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2824,7 +2868,8 @@ public class NoHttpRequest {
 
     /**
      * 获取取消订单原因
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
     public static Request<String> getCannelResult(String user_id) {
@@ -2845,10 +2890,11 @@ public class NoHttpRequest {
 
     /**
      * 干洗接单
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> receiveClearOrder(String user_id,String order_id) {
+    public static Request<String> receiveClearOrder(String user_id, String order_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2868,10 +2914,11 @@ public class NoHttpRequest {
 
     /**
      * 干洗类目
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> requestClearType(String user_id,String order_id) {
+    public static Request<String> requestClearType(String user_id, String order_id) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2890,10 +2937,11 @@ public class NoHttpRequest {
 
     /**
      * 干洗报价
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> commitPrice(String user_id,String order_id,String commodity_id,String number) {
+    public static Request<String> commitPrice(String user_id, String order_id, String commodity_id, String number) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -2914,11 +2962,12 @@ public class NoHttpRequest {
 
     /**
      * 请求首页的banner
+     *
      * @param signature
      * @param distributor_id
      * @return
      */
-    public static Request<String> getBanner(String signature,String distributor_id) {
+    public static Request<String> getBanner(String signature, String distributor_id) {
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_URL_3
                 + InterApi.ACTION_REQUEST_BANNER, RequestMethod.POST);
         request.add("signature", signature);
@@ -2929,11 +2978,12 @@ public class NoHttpRequest {
 
     /**
      * 选择配送方式
+     *
      * @param signature
      * @param params
      * @return
      */
-    public static Request<String> selectDistributionMode(String signature, Map<String,String> params) {
+    public static Request<String> selectDistributionMode(String signature, Map<String, String> params) {
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_URL_3
                 + InterApi.ACTION_REQUEST_SELECT_DIS, RequestMethod.POST);
         request.add("signature", signature);
@@ -2946,11 +2996,12 @@ public class NoHttpRequest {
 
     /**
      * 更改配送方式
+     *
      * @param signature
      * @param params
      * @return
      */
-    public static Request<String> changeDistributionMode(String signature, Map<String,String> params) {
+    public static Request<String> changeDistributionMode(String signature, Map<String, String> params) {
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_URL_3
                 + InterApi.ACTION_REQUEST_CHANGEDIS, RequestMethod.POST);
         request.add("signature", signature);
@@ -2962,12 +3013,13 @@ public class NoHttpRequest {
     }
 
     /**
-     *  取消订单
+     * 取消订单
+     *
      * @param signature
      * @param params
      * @return
      */
-    public static Request<String> cannelTakeOrders(String signature, Map<String,String> params) {
+    public static Request<String> cannelTakeOrders(String signature, Map<String, String> params) {
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_URL_3
                 + InterApi.ACTION_REQUEST_CANNEL_ORDERS, RequestMethod.POST);
         request.add("signature", signature);
@@ -2979,11 +3031,12 @@ public class NoHttpRequest {
 
     /**
      * 确认接单
+     *
      * @param signature
      * @param params
      * @return
      */
-    public static Request<String> receiveTakeOrders(String signature, Map<String,String> params) {
+    public static Request<String> receiveTakeOrders(String signature, Map<String, String> params) {
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_URL_3
                 + InterApi.ACTION_REQUEST_RECEIVE_ORDERS, RequestMethod.POST);
         request.add("signature", signature);
@@ -2997,7 +3050,7 @@ public class NoHttpRequest {
      * @param distributor_id
      * @return
      */
-    public static Request<String> getTakeOrders(String signature,String distributor_id,String mType) {
+    public static Request<String> getTakeOrders(String signature, String distributor_id, String mType) {
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_URL_3
                 + InterApi.ACTION_REQUEST_TAKE_ORDER, RequestMethod.POST);
         request.add("signature", signature);
@@ -3008,10 +3061,11 @@ public class NoHttpRequest {
 
     /**
      * 请求门店的货架
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> requstStoreShelves(String user_id,Map<String,String> params) {
+    public static Request<String> requstStoreShelves(String user_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_REQUEST_STORE_SHELVES, RequestMethod.POST);
@@ -3022,10 +3076,11 @@ public class NoHttpRequest {
 
     /**
      * 请求商户运费
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> requestWayMoney(String user_id,Map<String,String> params) {
+    public static Request<String> requestWayMoney(String user_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_URL_3
                 + InterApi.ACTION_REQUEST_WAY_MONEY, RequestMethod.POST);
@@ -3036,10 +3091,11 @@ public class NoHttpRequest {
 
     /**
      * 请求商户运费
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> commitWayMoneySetting(String user_id,Map<String,String> params) {
+    public static Request<String> commitWayMoneySetting(String user_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_URL_3
                 + InterApi.ACTION_REQUEST_COMMIT_SETTING, RequestMethod.POST);
@@ -3055,10 +3111,11 @@ public class NoHttpRequest {
 
     /**
      * 请求门店的商品
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> requstStoreShelvesByType(String user_id,Map<String,String> params) {
+    public static Request<String> requstStoreShelvesByType(String user_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_REQUEST_GOODS, RequestMethod.POST);
@@ -3070,10 +3127,11 @@ public class NoHttpRequest {
 
     /**
      * 请求门店的商品
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> deleteShalves(String user_id,Map<String,String> params) {
+    public static Request<String> deleteShalves(String user_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_REQUEST_DELETE_GOODS, RequestMethod.POST);
@@ -3086,10 +3144,11 @@ public class NoHttpRequest {
 
     /**
      * 修改商品名称和价格
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> changeGoodsNameAndPrice(String user_id,Map<String,String> params) {
+    public static Request<String> changeGoodsNameAndPrice(String user_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_CHAGNE_GOODS_PRICE_NAME, RequestMethod.POST);
@@ -3103,9 +3162,10 @@ public class NoHttpRequest {
 
     /**
      * 修改货架名称
+     *
      * @return
      */
-    public static Request<String> changeShelvesName(Map<String,String> params) {
+    public static Request<String> changeShelvesName(Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_CHAGNE_SHELVES_NAME, RequestMethod.POST);
@@ -3119,10 +3179,11 @@ public class NoHttpRequest {
 
     /**
      * 删除商品
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> deleteGoods(String user_id,Map<String,String> params) {
+    public static Request<String> deleteGoods(String user_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_DELETE_GOODS, RequestMethod.POST);
@@ -3134,10 +3195,11 @@ public class NoHttpRequest {
 
     /**
      * 下架
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> toggleGoods(String user_id,Map<String,String> params) {
+    public static Request<String> toggleGoods(String user_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_TOGGLE_GOODS, RequestMethod.POST);
@@ -3149,11 +3211,12 @@ public class NoHttpRequest {
 
     /**
      * 请求实例图片
-     * @param user_id    用户id
-     * @param warehouse_shelves_id   仓库货架id
+     *
+     * @param user_id              用户id
+     * @param warehouse_shelves_id 仓库货架id
      * @return
      */
-    public static Request<String> requestDemoImage(String user_id,String warehouse_shelves_id,Map<String,String> params) {
+    public static Request<String> requestDemoImage(String user_id, String warehouse_shelves_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_REQUEST_IMAGE, RequestMethod.POST);
@@ -3165,10 +3228,11 @@ public class NoHttpRequest {
 
     /**
      * 上传商品条形码
-     * @param user_id    用户id
+     *
+     * @param user_id 用户id
      * @return
      */
-    public static Request<String> commitGoodsCode(String user_id,Map<String,String> params) {
+    public static Request<String> commitGoodsCode(String user_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_REQUEST_COMMIT_GOODS_CODE, RequestMethod.POST);
@@ -3181,11 +3245,12 @@ public class NoHttpRequest {
 
     /**
      * 请求实例名称
-     * @param user_id    用户id
-     * @param goods_id	   仓库货架id
+     *
+     * @param user_id  用户id
+     * @param goods_id 仓库货架id
      * @return
      */
-    public static Request<String> requestGoodsName(String user_id,String goods_id,Map<String,String> params) {
+    public static Request<String> requestGoodsName(String user_id, String goods_id, Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_REQUEST_NAME, RequestMethod.POST);
@@ -3197,31 +3262,33 @@ public class NoHttpRequest {
 
     /**
      * 添加商品
+     *
      * @return
      */
-    public static Request<String> commitGoodsRequest(Map<String,String> params) {
+    public static Request<String> commitGoodsRequest(Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_REQUEST_ADD_GOODS, RequestMethod.POST);
         request.add("signature", signature);
         request.add("user_id", params.get("user_id"));
         request.add("shelves_id", params.get("shelves_id"));
-        request.add("name",params.get("name"));
+        request.add("name", params.get("name"));
         request.add("img", params.get("img"));
         request.add("shelves_name", params.get("shelves_name"));
         request.add("price", params.get("price"));
-        request.add("code_id",params.get("code_id"));
-        request.add("class_name",params.get("class_name"));
-        request.add("class_id",params.get("class_id"));
-        request.add("lib_goods_id",params.get("lib_goods_id"));
+        request.add("code_id", params.get("code_id"));
+        request.add("class_name", params.get("class_name"));
+        request.add("class_id", params.get("class_id"));
+        request.add("lib_goods_id", params.get("lib_goods_id"));
         return request;
     }
 
     /**
      * 生成优惠券
+     *
      * @return
      */
-    public static Request<String> createCouponRequest(Map<String,String> params) {
+    public static Request<String> createCouponRequest(Map<String, String> params) {
         String signature = StringUtil.getsignature(params);
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_URL_3
                 + InterApi.ACTION_REQUEST_CREATE_COUPON, RequestMethod.POST);
@@ -3270,6 +3337,7 @@ public class NoHttpRequest {
 
     /**
      * 查询优惠券
+     *
      * @param params
      * @return
      */
@@ -3284,6 +3352,7 @@ public class NoHttpRequest {
 
     /**
      * 搜索货架
+     *
      * @param params
      * @return
      */
@@ -3300,6 +3369,7 @@ public class NoHttpRequest {
 
     /**
      * 搜索货架和商品
+     *
      * @param params
      * @return
      */
@@ -3316,6 +3386,7 @@ public class NoHttpRequest {
 
     /**
      * 添加货架
+     *
      * @param params
      * @return
      */
@@ -3332,6 +3403,7 @@ public class NoHttpRequest {
 
     /**
      * 添加货架和商品
+     *
      * @param params
      * @return
      */
@@ -3348,6 +3420,7 @@ public class NoHttpRequest {
 
     /**
      * 获取关注人数
+     *
      * @param params
      * @return
      */
@@ -3364,6 +3437,7 @@ public class NoHttpRequest {
 
     /**
      * 获取我的客户
+     *
      * @param params
      * @return
      */
@@ -3379,6 +3453,7 @@ public class NoHttpRequest {
 
     /**
      * 获取商品库数据
+     *
      * @param params
      * @return
      */
@@ -3396,6 +3471,7 @@ public class NoHttpRequest {
 
     /**
      * 添加商品
+     *
      * @param params
      * @return
      */
@@ -3415,6 +3491,7 @@ public class NoHttpRequest {
 
     /**
      * 搜索商品
+     *
      * @param params
      * @return
      */
@@ -3432,6 +3509,7 @@ public class NoHttpRequest {
 
     /**
      * 添加商品
+     *
      * @param params
      * @return
      */
@@ -3447,6 +3525,7 @@ public class NoHttpRequest {
 
     /**
      * 发放优惠券
+     *
      * @param params
      * @return
      */
@@ -3463,6 +3542,7 @@ public class NoHttpRequest {
 
     /**
      * 发放优惠券
+     *
      * @param params
      * @return
      */
@@ -3479,6 +3559,7 @@ public class NoHttpRequest {
 
     /**
      * 获取快递员配送的金额
+     *
      * @return
      */
     public static Request<String> getSendByExpressMoney(Map<String, String> params) {
@@ -3493,6 +3574,7 @@ public class NoHttpRequest {
 
     /**
      * 发放优惠券
+     *
      * @param params
      * @return
      */
@@ -3509,6 +3591,7 @@ public class NoHttpRequest {
 
     /**
      * 设置特价商品
+     *
      * @param params
      * @return
      */
@@ -3530,6 +3613,7 @@ public class NoHttpRequest {
 
     /**
      * 扫描添加
+     *
      * @param params
      * @return
      */
@@ -3545,6 +3629,7 @@ public class NoHttpRequest {
 
     /**
      * 我的信息
+     *
      * @param params
      * @return
      */
@@ -3559,6 +3644,7 @@ public class NoHttpRequest {
 
     /**
      * 派件 对快递公司 收费管理
+     *
      * @param user_id
      * @return
      */
@@ -3578,11 +3664,12 @@ public class NoHttpRequest {
     }
 
     /**
-     *更改 驿站对快递员的收费
+     * 更改 驿站对快递员的收费
+     *
      * @param user_id
      * @return
      */
-    public static Request<String> changeExpressMoney(ExpressMoney expressMoney,String user_id) {
+    public static Request<String> changeExpressMoney(ExpressMoney expressMoney, String user_id) {
         String str1 = DateUtil.getCurrentTimeStamp();
         String str2 = StringUtil.getRandomNumberString(7);
         String str3 = StringUtil.splitStringFromLast(str1, 4);
@@ -3598,5 +3685,46 @@ public class NoHttpRequest {
         localRequest.add("express_id", expressMoney.getExpress_id());
         localRequest.add("money", expressMoney.getPrice());
         return localRequest;
+    }
+
+    /**
+     *入库 / 出库  1：入库  2：出库
+     * @return
+     */
+    public static Request<String> managerRestory(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_4+InterApi.ACTION_REQUEST_ENTER, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        request.add("str_data", params.get("str_data"));
+        request.add("type", params.get("type"));
+        return request;
+    }
+
+    /**
+     * 取件码
+     * @return
+     */
+    public static Request<String> getExpressCode(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_4+InterApi.ACTION_REQUEST_GET_EXPRESS_CODE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        return request;
+    }
+
+
+    /**
+     * 检测出库订单的状态
+     *
+     * @return
+     */
+    public static Request<String> checkOutWailnumberStateRequest(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_4+InterApi.ACTION_CHECK_PHONE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        request.add("number", params.get("number"));
+        return request;
     }
 }
