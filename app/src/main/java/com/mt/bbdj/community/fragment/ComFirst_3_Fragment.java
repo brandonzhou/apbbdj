@@ -64,6 +64,7 @@ import com.mt.bbdj.community.activity.ClearOrderActivity;
 import com.mt.bbdj.community.activity.ClientManagerActivity;
 import com.mt.bbdj.community.activity.ComplainManagerdActivity;
 import com.mt.bbdj.community.activity.CouponActivity;
+import com.mt.bbdj.community.activity.EnterDetailActivity;
 import com.mt.bbdj.community.activity.EnterManagerActivity;
 import com.mt.bbdj.community.activity.EnterManager_new_Activity;
 import com.mt.bbdj.community.activity.EnterSelectLocationActivity;
@@ -383,6 +384,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
         mComGridView.setOnItemClickListener(mGrideClickListener);
         mComGridViewTwo.setOnItemClickListener(mGrideClickListener);
         mComGridViewThree.setOnItemClickListener(mGrideClickListener);
+        tv_handle_failure.setOnClickListener(v -> {
+            EnterDetailActivity.actionTo(getActivity());
+        });
     }
 
 
