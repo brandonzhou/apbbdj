@@ -159,14 +159,12 @@ public class CommunityActivity extends BaseActivity {
         Constant.context = this;
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        registerPhonseListener();
+        //registerPhonseListener();
         initView();
         initParams();
         handleLocalHistoreyData();    //清除前一天扫描的数据
         //下载快递logo
         upLoadexpressLogo();
-
-        int a = 1/0;
     }
 
     private void registerPhonseListener() {
