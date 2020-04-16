@@ -1,0 +1,14 @@
+ ! 0 200 200 300 1
+PAGE-WIDTH 580
+
+SETBOLD 15
+SETMAG 10 10
+TEXT 5 0 100 20 [tag]
+;Restore default font sizes
+SETMAG 1 1
+
+
+
+
+
+

@@ -2,10 +2,11 @@ package com.mt.bbdj.community.fragment;
 
 import android.app.DownloadManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +111,6 @@ public class GlobalSearchSendFragment extends BaseFragment implements XRecyclerV
         noAddress = view.findViewById(R.id.tv_no_address);
 
         recyclerView.setFocusable(false);
-        //initTemparayData();   //模拟数据
         mAdapter = new GlobalSendAdapter(getActivity(), mList);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLoadingListener(this);

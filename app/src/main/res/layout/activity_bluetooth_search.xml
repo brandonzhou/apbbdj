@@ -80,7 +80,7 @@
             android:text="已配对设备"
             android:textColor="@color/grey_7" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rl_have_mate"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -120,7 +120,7 @@
         </LinearLayout>
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rl_add_machine"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

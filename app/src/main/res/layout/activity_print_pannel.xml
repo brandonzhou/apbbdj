@@ -31,6 +31,7 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="150dp"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
@@ -64,7 +65,7 @@
             android:paddingBottom="5dp">
 
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_notifition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,7 +137,7 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:background="@color/whilte"

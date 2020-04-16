@@ -1,7 +1,9 @@
 package com.mt.bbdj.corporation.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.mt.bbdj.R;
 

@@ -2,15 +2,11 @@ package com.mt.bbdj.baseconfig.base;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.utls.LogUtil;

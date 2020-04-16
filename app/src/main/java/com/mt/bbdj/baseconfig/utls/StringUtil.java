@@ -298,11 +298,17 @@ public class StringUtil {
     }
 
     //交换两个字符串
-    public static String[] changeStr1ToStr2(String str1,String str2){
+    public static String[] changeStr1ToStr2(String str1, String str2) {
 
-        return new String[]{str2,str1};
+        return new String[]{str2, str1};
     }
 
+    public static double handeNullResultForDouble(Double data){
+        if (data == null){
+            return 0;
+        }
+        return data;
+    }
 
     //生成混合字符串
     public static String getMixString(int length) {
@@ -390,10 +396,51 @@ public class StringUtil {
 
 
     public static float formatStringToFloat(String str) {
-        if (str == null || "".equals(str)){
+        if (str == null || "".equals(str)) {
             return 0;
         }
         return Float.parseFloat(str);
+    }
+
+    //加密方式 sha1、md5
+    public static String getsignature2(Map<String, String> map) {
+        String result = "";
+        String sign = "";
+        try {
+            List<Map.Entry<String, String>> infoIds = new ArrayList<Map.Entry<String, String>>(map.entrySet());
+            // 对所有传入参数按照字段名的 ASCII 码从小到大排序（字典序）
+            Collections.sort(infoIds, new Comparator<Map.Entry<String, String>>() {
+
+                public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
+                    return (o1.getKey()).toString().compareTo(o2.getKey());
+                }
+            });
+
+            // 构造签名键值对的格式
+            StringBuilder sb = new StringBuilder();
+            for (Map.Entry<String, String> item : infoIds) {
+
+                String key = item.getKey();
+                String val = item.getValue();
+                sb.append(key + val);
+                /*if (item.getKey() != null || item.getKey() != "") {
+                    String key = item.getKey();
+                    String val = item.getValue();
+                    if (!(val == "" || val == null)) {
+                        sb.append(key + "=" + val + "&");
+                    }
+                }*/
+            }
+            sb.append(Constant.key);
+            result = sb.toString();
+            result = EncryptUtil.getSha1(result);
+            //进行MD5加密
+            result = MD5Util.toMD5(result);
+            sign = result.toUpperCase();
+        } catch (Exception e) {
+            return null;
+        }
+        return sign;
     }
 
     //加密方式 sha1、md5
@@ -439,4 +486,66 @@ public class StringUtil {
         return sign;
     }
 
+    public static String[] handleCode(String code) {
+        if (code == null || "".equals(code)) {
+            String firstData = DateUtil.getCurrentDay();
+            return new String[]{firstData, ""};
+        } else if (code.length() < 4) {
+            return new String[]{code, ""};
+        } else {
+            String result1 = code.substring(0, 4);
+            String result2 = code.substring(4, code.length());
+            return new String[]{result1, result2};
+        }
+    }
+
+    public static String[] spliteStrFormat(String tagStr, String format) {
+        String[] tagCode = new String[]{"-", "-"};
+        if (tagStr == null || "".equals(tagStr)) {
+            return tagCode;
+        } else {
+            String[] tag = tagStr.split(format);
+            if (tag.length == 0) {
+                tagCode[0] = tag[0];
+            } else if (tag.length > 1) {
+                tagCode[0] = tag[0];
+                tagCode[1] = tag[1];
+            }
+            return tagCode;
+        }
+    }
+
+    public static String[] spliteStrFormat(String tagStr) {
+        String[] tagCode = new String[]{"-", "-"};
+        if (tagStr == null || "".equals(tagStr)) {
+            return tagCode;
+        } else if (tagStr.length() < 2) {
+            tagCode[0] = tagStr;
+        } else {
+            tagCode[0] = tagStr.substring(0,2);
+            tagCode[1] = tagStr.substring(2,tagStr.length());
+            return tagCode;
+        }
+        return tagCode;
+    }
+
+    public static String formatCode(int tagNumber){
+        if (tagNumber < 10) {
+            return "000"+tagNumber;
+        }else if (tagNumber < 100){
+            return "00"+tagNumber;
+        } else if (tagNumber < 1000){
+            return "0"+tagNumber;
+        } else {
+            return tagNumber+"";
+        }
+    }
+
+    //手机号码格式
+    public static boolean isMachinePhone(String data){
+        String regex = "^[1]([3-9])[0-9]{9}$";
+        Pattern p=Pattern.compile(regex);
+        Matcher m=p.matcher(data);
+        return m.matches();
+    }
 }

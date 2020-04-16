@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
+
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 import com.wildma.idcardcamera.R;
 import com.wildma.idcardcamera.cropper.CropImageView;
@@ -164,6 +166,7 @@ public class CameraActivity extends Activity implements View.OnClickListener {
         mIvCameraCrop.setLayoutParams(cropParams);
         //获取"相机裁剪区域"的宽度来动态设置底部"操作区域"的宽度，使"相机裁剪区域"居中
         mFlCameraOption.setLayoutParams(cameraOptionParams);
+
 
         switch (mType) {
             case TYPE_IDCARD_FRONT:

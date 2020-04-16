@@ -40,7 +40,7 @@
             android:textSize="15sp" />
     </RelativeLayout>
 
-   <android.support.v7.widget.AppCompatTextView
+   <androidx.appcompat.widget.AppCompatTextView
        android:id="@+id/tv_about_app"
        android:paddingLeft="15dp"
        android:paddingRight="15dp"

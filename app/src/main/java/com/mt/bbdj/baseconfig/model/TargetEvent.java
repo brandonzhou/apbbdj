@@ -28,7 +28,11 @@ public class TargetEvent {
     public static int CLEAR_SEARCH_DATA = 419;    //清空首页搜索信息
     public static int SEND_SIGN_PICTURE = 420;    //发送签名文件
     public static int SEARCH_GLOBAL = 421;     //首页搜索所有的
-    public static int KILL_PROCESS = 422;    //重启
+    public static int SEARCH_GLOBAL_SEN = 422;     //首页搜索寄件
+    public static int SEARCH_GLOBAL_WAIT_OUT = 423;     //首页搜索出库
+    public static int SEARCH_GLOBAL_OUT_FINISH = 424;     //首页搜索已经出库
+    public static int KILL_PROCESS = 425;    //重启
+    public static int MONITOR_PHONE = 426;    //监听手机号
 
     private int target;
 

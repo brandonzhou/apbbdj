@@ -15,7 +15,7 @@
  */
 package com.yanzhenjie.durban.callback;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Update by Yan Zhenjie on 2017/5/23.

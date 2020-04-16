@@ -15,10 +15,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -124,20 +126,23 @@ public class BluetoothNumberActivity extends BaseActivity {
         @Override
         public void run() {
             for (HashMap<String,String> data : dataList) {
-                String code = data.get("code");
-                String qrcode = data.get("qrcode");
-                String pie_number = data.get("pie_number");
-                code = StringUtil.handleNullResultForString(code);
-                qrcode = StringUtil.handleNullResultForString(qrcode);
-                pie_number = StringUtil.handleNullResultForString(pie_number);
-                printPanel(code,qrcode,pie_number);    //打印面单
+                String tag = data.get("tag");
+//                String code = data.get("code");
+//                String qrcode = data.get("qrcode");
+//                String code_head = data.get("code_head");
+//                String pie_number = data.get("pie_number");
+//                code = StringUtil.handleNullResultForString(code);
+//                qrcode = StringUtil.handleNullResultForString(qrcode);
+//                code_head = StringUtil.handleNullResultForString(code_head);
+//                pie_number = StringUtil.handleNullResultForString(pie_number);
+//                printPanel(code,code_head,qrcode,pie_number);    //打印面单
+                printPanel(tag);
             }
         }
     }
 
     private Timer mPrintTimer;
     private List<HashMap<String, String>> dataList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +156,6 @@ public class BluetoothNumberActivity extends BaseActivity {
         initPannelData();   //面板信息
         startSearch();
     }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void receiveMessage(TargetEvent targetEvent) {
@@ -517,14 +521,26 @@ public class BluetoothNumberActivity extends BaseActivity {
     private void initPannelData() {
         Intent intent = getIntent();
         PrintTagModel printData = (PrintTagModel) intent.getSerializableExtra("printData");
-        dataList = printData.getData();
+       // dataList = printData.getData();
+        dataList = new ArrayList<>();
+        String[] chart = new String[]{"E","F"};
+        String[] number = new String[]{"1","2","3","4","5","6","7"};
+        for (String num:number){
+            for (String str :chart){
+                HashMap map = new HashMap();
+                map.put("tag",str+num);
+                dataList.add(map);
+                map = null;
+            }
+        }
     }
 
-    private void printPanel(String code,String qrcode,String pie_number) {
+    private void printPanel(String code,String code_head,String qrcode,String pie_number) {
         try {
             HashMap<String, String> pum = new HashMap<String, String>();
             // pum.put("[packageCode]", packageCode);
             pum.put("[tag]", code);
+            pum.put("[code_head]", code_head);
             pum.put("[pie_number]", pie_number);
             Set<String> keySet = pum.keySet();
             Iterator<String> iterator = keySet.iterator();
@@ -540,15 +556,15 @@ public class BluetoothNumberActivity extends BaseActivity {
             HPRTPrinterHelper.openEndStatic(true);//开启
             HPRTPrinterHelper.PrintData(path);//打印机打印
 
-            InputStream inbmp = this.getResources().getAssets().open("ic_logo_mini.png");
-            Bitmap bitmap = BitmapFactory.decodeStream(inbmp);
-            HPRTPrinterHelper.Expanded("35", "10", bitmap, (byte) 0);//第一联 顶部兵兵logo
+//            InputStream inbmp = this.getResources().getAssets().open("ic_logo_mini.png");
+//            Bitmap bitmap = BitmapFactory.decodeStream(inbmp);
+//            HPRTPrinterHelper.Expanded("35", "10", bitmap, (byte) 0);//第一联 顶部兵兵logo
 
             if ("1".equals(BluetoothNumberActivity.paper)) {
                 HPRTPrinterHelper.Form();
             }
 
-            HPRTPrinterHelper.PrintQR(HPRTPrinterHelper.BARCODE, "340", "45", "2", "6", qrcode);
+            HPRTPrinterHelper.PrintQR(HPRTPrinterHelper.BARCODE, "340", "40", "2", "6", qrcode);
 
             HPRTPrinterHelper.Form();
             HPRTPrinterHelper.Print();
@@ -559,6 +575,51 @@ public class BluetoothNumberActivity extends BaseActivity {
             if (endStatus == 0) {
                 //打印成功，跳转到打印详情列表
                // finish();
+            } else {
+                ToastUtil.showShort("打印失败！");
+            }
+
+        } catch (Exception e) {
+            Log.e("HPRTSDKSample", (new StringBuilder("Activity_Main --> PrintSampleReceipt ")).append(e.getMessage()).toString());
+        }
+    }
+
+    private void printPanel(String tag) {
+        try {
+            HashMap<String, String> pum = new HashMap<String, String>();
+            // pum.put("[packageCode]", packageCode);
+            pum.put("[tag]", tag);
+            Set<String> keySet = pum.keySet();
+            Iterator<String> iterator = keySet.iterator();
+            InputStream afis = this.getResources().getAssets().open("location.txt");//打印模版放在assets文件夹里
+            String path = new String(InputStreamToByte(afis), "utf-8");//打印模版以utf-8无bom格式保存
+            while (iterator.hasNext()) {
+                String string = (String) iterator.next();
+                path = path.replace(string, pum.get(string));
+            }
+            // HPRTPrinterHelper.printText(path);
+
+
+            HPRTPrinterHelper.openEndStatic(true);//开启
+            HPRTPrinterHelper.PrintData(path);//打印机打印
+
+            InputStream inbmp = this.getResources().getAssets().open("ic_location.png");
+            Bitmap bitmap = BitmapFactory.decodeStream(inbmp);
+            HPRTPrinterHelper.Expanded("350", "30", bitmap, (byte) 0);
+
+            if ("1".equals(BluetoothNumberActivity.paper)) {
+                HPRTPrinterHelper.Form();
+            }
+
+            HPRTPrinterHelper.Form();
+            HPRTPrinterHelper.Print();
+
+            int endStatus = HPRTPrinterHelper.getEndStatus(16);//获取打印状态
+            HPRTPrinterHelper.openEndStatic(false);//关闭
+
+            if (endStatus == 0) {
+                //打印成功，跳转到打印详情列表
+                // finish();
             } else {
                 ToastUtil.showShort("打印失败！");
             }

@@ -12,7 +12,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/shap_ll_bg_1">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tl_fast_list"
             android:layout_width="match_parent"
             android:layout_height="300dp"
@@ -20,7 +20,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
 
 

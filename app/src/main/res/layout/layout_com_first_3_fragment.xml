@@ -7,49 +7,48 @@
     android:orientation="vertical">
 
     <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="65dp">
-
-    <LinearLayout
-        android:layout_centerInParent="true"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/main_bg_first_search_3"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="65dp">
 
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="7dp"
-            android:padding="5dp"
-            android:src="@drawable/ic_main_search" />
-
-        <TextView
-            android:id="@+id/textview_serach"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginRight="5dp"
-            android:background="@null"
-            android:gravity="center_vertical"
-            android:hint="手机号/运单号"
-            android:paddingLeft="5dp"
-            android:text=""
-            android:textColorHint="@color/grey_1"
-            android:textSize="@dimen/standardTextSize" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/main_bg_first_search_3"
+            android:gravity="center"
+            android:orientation="horizontal">
 
 
-    <android.support.v4.widget.NestedScrollView
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="7dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_main_search" />
+
+            <TextView
+                android:id="@+id/textview_serach"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="手机号/运单号"
+                android:paddingLeft="5dp"
+                android:text=""
+                android:textColorHint="@color/grey_1"
+                android:textSize="@dimen/standardTextSize" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -73,6 +72,72 @@
                     android:layout_marginRight="10dp" />
 
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_title_handing"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shap_solid_corner_grey"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_handle_ing"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/ll_title"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shap_solid_corner_red"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_notify_" />
+
+                <TextView
+                    android:id="@+id/tv_handle_failure"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="入库失败，请立刻处理"
+                    android:textColor="#FF2021"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_arrow_right" />
+
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -99,7 +164,6 @@
                 android:verticalSpacing="8dip">
 
             </com.mt.bbdj.baseconfig.view.MyGridView>
-
 
 
             <TextView
@@ -180,7 +244,7 @@
 
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

@@ -2,9 +2,10 @@ package com.mt.bbdj.community.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +96,9 @@ public class RepertoryFragment extends BaseFragment implements XRecyclerView.Loa
                 intent.putExtra("order", map.get("order"));
                 intent.putExtra("express", map.get("express"));
                 intent.putExtra("pie_id", map.get("pie_id"));
+                intent.putExtra("express_id", map.get("express_id"));
                 intent.putExtra("time", map.get("time"));
+                intent.putExtra("mobile", map.get("mobile"));
                 intent.putExtra("tag_number", map.get("tag_number"));
                 startActivity(intent);
             }
@@ -226,7 +229,6 @@ public class RepertoryFragment extends BaseFragment implements XRecyclerView.Loa
                             String pie_id = jsonObject1.getString("pie_id");
                             String time = jsonObject1.getString("time");
                             String effectiveTime = DateUtil.changeStampToStandrdTime("yyyy-MM-dd HH:mm:ss", time);
-                            String is_signatory = jsonObject1.getString("is_signatory");
 
                             HashMap<String, String> map = new HashMap<>();
                             map.put("order", number);

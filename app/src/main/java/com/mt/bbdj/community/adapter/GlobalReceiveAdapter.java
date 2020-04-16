@@ -1,7 +1,7 @@
 package com.mt.bbdj.community.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,13 +66,16 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
         String warehousing_time = map.get("warehousing_time");
         String out_time = map.get("out_time");
         String types = map.get("types");
+        String phone = map.get("phone");
+        String out_script = map.get("out_script");
 
         holder.billNumber.setText(waybill_number);
         holder.expressName.setText(express_name);
         holder.tagNumber.setText(tagNumber);
         holder.tagNumber.setText(tagNumber);
+        holder.tv_tag_phone.setText(phone);
         holder.enterTime.setText(DateUtil.changeStampToStandrdTime("yyyy-MM-dd HH:mm:ss",warehousing_time));
-        if ("1".equals(types)) {
+        if ("1".equals(types) && !"2".equals(out_script)) {
             holder.state.setText("已入库");
             holder.llOutLayout.setVisibility(View.GONE);
             holder.rlout.setVisibility(View.VISIBLE);
@@ -115,6 +118,7 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
         private TextView expressName;    //快递公司名称
         private TextView outTime;    //出库时间
         private TextView tagNumber;    //提货码
+        private TextView tv_tag_phone;    //手机号码
         private TextView state;    //状态
         private Button btout;   //出库
         private LinearLayout llOutLayout;    //出库布局
@@ -132,6 +136,7 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
             rlout = itemView.findViewById(R.id.rl_function);
             btout = itemView.findViewById(R.id.bt_out);
             expressName = itemView.findViewById(R.id.tv_express_name);
+            tv_tag_phone = itemView.findViewById(R.id.tv_tag_phone);
         }
     }
 

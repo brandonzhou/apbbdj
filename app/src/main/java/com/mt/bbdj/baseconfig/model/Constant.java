@@ -1,6 +1,7 @@
 package com.mt.bbdj.baseconfig.model;
 
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Author : ZSK
@@ -18,4 +19,8 @@ public class Constant {
     public static String appid = "wx8272f870c214888e";
 
     public static AppCompatActivity context;
+
+    public static boolean isBegin = false;    //是否开始上传图片
+
+    public static boolean syncImageAccomplish = true;    //标记是否有图片正在上传中
 }

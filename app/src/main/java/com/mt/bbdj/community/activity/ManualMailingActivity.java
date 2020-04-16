@@ -3,12 +3,12 @@ package com.mt.bbdj.community.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +29,6 @@ import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
-import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.baseconfig.view.MarginDecoration;
@@ -209,6 +208,8 @@ public class ManualMailingActivity extends BaseActivity implements View.OnClickL
     }
 
     private void getWayNumber(JSONObject data) throws JSONException {
+        JSONObject dataObj = data.getJSONObject("data");
+        String mail_id = dataObj.getString("mail_id");
         PrintPannelActivity.actionTo(this, user_id, mail_id, selectGoodsName, mWeight, et_money.getText().toString());
         finish();
     }
@@ -689,7 +690,6 @@ public class ManualMailingActivity extends BaseActivity implements View.OnClickL
         tv_place_order = findViewById(R.id.tv_place_order);
         tv_forecast_price = findViewById(R.id.tv_forecast_price);
 
-
         ll_go_add_send_message.setOnClickListener(this);
         ll_go_add_receive_message.setOnClickListener(this);
         tv_send_book.setOnClickListener(this);
@@ -724,7 +724,6 @@ public class ManualMailingActivity extends BaseActivity implements View.OnClickL
                 requestPredictMoney();
             }
         });
-
     }
 
     private void initParams() {

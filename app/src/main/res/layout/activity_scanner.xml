@@ -20,8 +20,16 @@
             android:background="@color/whilte"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp">
+            android:orientation="horizontal">
+            
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/id_edit_code"
+                android:scaleType="centerInside"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_edit__"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
 
             <TextView
                 android:paddingLeft="15dp"
@@ -60,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -93,7 +101,7 @@
 
         </RelativeLayout>
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_express_change"
             android:layout_width="80dp"
             android:layout_height="30dp"
@@ -106,6 +114,7 @@
             android:textSize="13dp" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="150dp"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"

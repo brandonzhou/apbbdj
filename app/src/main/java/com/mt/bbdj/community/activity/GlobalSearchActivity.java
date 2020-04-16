@@ -2,9 +2,9 @@ package com.mt.bbdj.community.activity;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,11 +16,9 @@ import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.community.adapter.SimpleFragmentPagerAdapter;
-import com.mt.bbdj.community.fragment.FinishHandleFragment;
-import com.mt.bbdj.community.fragment.GlobalSearchReceiveFragment;
+import com.mt.bbdj.community.fragment.GlobalSearchOutFinishFragment;
 import com.mt.bbdj.community.fragment.GlobalSearchSendFragment;
-import com.mt.bbdj.community.fragment.WaitCollectFragment;
-import com.mt.bbdj.community.fragment.WaitMimeographFragment;
+import com.mt.bbdj.community.fragment.GlobalSearchWaitOutFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -74,6 +72,7 @@ public class GlobalSearchActivity extends BaseActivity {
                         EventBus.getDefault().post(new TargetEvent(TargetEvent.SEARCH_GLOBAL, keywords));
                         return true;
                     }
+
                 }
                 return false;
             }
@@ -91,11 +90,15 @@ public class GlobalSearchActivity extends BaseActivity {
 
     private void initView() {
         list_fragment.clear();
+        list_fragment.add(GlobalSearchWaitOutFragment.getInstance());    //待出库
+        list_fragment.add(GlobalSearchOutFinishFragment.getInstance());    //已出库
         list_fragment.add(GlobalSearchSendFragment.getInstance());    //寄件
-        list_fragment.add(GlobalSearchReceiveFragment.getInstance());    //派件
+
         list_title.clear();
+        list_title.add("待出库");
+        list_title.add("已出库");
         list_title.add("寄件");
-        list_title.add("派件");
+
         pagerAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(),
                 GlobalSearchActivity.this, list_fragment, list_title);
         viewPager.setAdapter(pagerAdapter);
@@ -103,6 +106,8 @@ public class GlobalSearchActivity extends BaseActivity {
         sltTitle.setViewPager(viewPager);
 
         viewPager.setCurrentItem(currentItem);
+
+        viewPager.setOffscreenPageLimit(3);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -113,6 +118,7 @@ public class GlobalSearchActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 currentItem = position;
+
             }
 
             @Override

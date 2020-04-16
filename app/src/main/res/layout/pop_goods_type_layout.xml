@@ -54,7 +54,7 @@
         android:textColor="@color/grey_7"
         android:textSize="14dp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gv_goods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,9 +62,9 @@
         android:paddingLeft="20dp"
         android:paddingBottom="15dp">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

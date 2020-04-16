@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 

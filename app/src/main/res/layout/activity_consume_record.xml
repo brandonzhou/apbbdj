@@ -53,7 +53,7 @@
 
     </LinearLayout>
     
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:background="#f4f4f4"
         android:layout_width="match_parent"
         android:paddingLeft="10dp"

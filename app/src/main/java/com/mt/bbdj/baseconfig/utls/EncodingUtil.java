@@ -102,7 +102,7 @@ public class EncodingUtil {
             canvas.drawBitmap(src, 0, 0, null);
             canvas.scale(scaleFactor, scaleFactor, srcWidth / 2, srcHeight / 2);
             canvas.drawBitmap(logo, (srcWidth - logoWidth) / 2, (srcHeight - logoHeight) / 2, null);
-            canvas.save(Canvas.ALL_SAVE_FLAG);
+            canvas.save();
             canvas.restore();
         } catch (Exception e) {
             bitmap = null;
@@ -194,7 +194,7 @@ public class EncodingUtil {
         canvas.setBitmap(bitmap);
         canvas.drawBitmap(bCBitmap, 0, 0, null);
         canvas.drawText(content, bCBitmap.getWidth() / 10, baseLine, paint);
-        canvas.save(Canvas.ALL_SAVE_FLAG);
+        canvas.save();
         canvas.restore();
         return bitmap;
     }

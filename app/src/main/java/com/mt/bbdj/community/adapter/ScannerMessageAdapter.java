@@ -1,8 +1,8 @@
 package com.mt.bbdj.community.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @Author : ZSK
  * @Date : 2019/11/2
- * @Description :
+ * @Description :s
  */
 public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAdapter.ScannerMessageViewHolder> {
 
@@ -30,7 +30,7 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
     private OnClickManager onClickManager;
 
     public void setOnClickManager(OnClickManager onClickManager) {
-         this.onClickManager = onClickManager;
+        this.onClickManager = onClickManager;
     }
 
     public ScannerMessageAdapter(Context context, List<ScannerMessageModel> data) {
@@ -50,11 +50,11 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
         ScannerMessageModel model = mData.get(position);
         resetView(viewHolder);    //重置面板
 
-        if (0==model.getIsHavaPhone() && 0==model.getIsHaveWayNumber()) {   //表示无运单号、手机号
+        if (0 == model.getIsHavaPhone() && 0 == model.getIsHaveWayNumber()) {   //表示无运单号、手机号
             viewHolder.tv_promit_title.setText("请扫描手机号");
             viewHolder.tv_phone.setVisibility(View.GONE);
             viewHolder.tv_wait_scan_phone.setVisibility(View.VISIBLE);
-        } else if (1 == model.getIsHavaPhone() && 0 ==model.getIsHaveWayNumber()) { //表示只有手机号
+        } else if (1 == model.getIsHavaPhone() && 0 == model.getIsHaveWayNumber()) { //表示只有手机号
             viewHolder.tv_promit_title.setText("请扫描条形码");
             viewHolder.ll_way_number_layout.setVisibility(View.GONE);
             viewHolder.tv_wait_scanner_way_number.setVisibility(View.VISIBLE);
@@ -67,7 +67,7 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
             viewHolder.tv_wait_scanner_way_number.setVisibility(View.GONE);
             viewHolder.tv_phone.setVisibility(View.GONE);
             viewHolder.tv_wait_scan_phone.setVisibility(View.VISIBLE);
-        } else if (1 == model.getIsHavaPhone() && 1 == model.getIsHaveWayNumber()){                                                     //表示信息齐全
+        } else if (1 == model.getIsHavaPhone() && 1 == model.getIsHaveWayNumber()) {                                                     //表示信息齐全
             viewHolder.itemView.setBackgroundResource(R.drawable.shape_round_white);
             viewHolder.ll_promit_layout.setVisibility(View.GONE);
             viewHolder.tv_wait_scanner_way_number.setVisibility(View.GONE);
@@ -87,7 +87,7 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
             @Override
             public void onClick(View view) {
                 if (onClickManager != null) {
-                    onClickManager.onRemoveMessage(position);
+                    onClickManager.onRemoveMessage(position, model);
                 }
             }
         });
@@ -97,7 +97,17 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
             @Override
             public void onClick(View view) {
                 if (onClickManager != null) {
-                    onClickManager.onEditMessage(position);
+                    onClickManager.onEditMessage(position,model);
+                }
+            }
+        });
+
+        //修改取件码
+        viewHolder.tv_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onClickManager != null) {
+                    onClickManager.onChangeCode(position,model);
                 }
             }
         });
@@ -152,24 +162,13 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
     //添加
     public void addData(int position, ScannerMessageModel scannerMessageModel) {
         notifyItemChanged(position, scannerMessageModel);
-        if (1 == scannerMessageModel.getIsHavaPhone() && 1 == scannerMessageModel.getIsHaveWayNumber()) {
+        String code = scannerMessageModel.getCode();
+        if (1 == scannerMessageModel.getIsHavaPhone() && 1 == scannerMessageModel.getIsHaveWayNumber() && null != code && !"".equals(code)) {
             //insertEmptyData();   //插入空的一条数据
             if (onClickManager != null) {
-                onClickManager.onCompliteMessage();
+                onClickManager.onCompliteMessage(position, scannerMessageModel);
             }
         }
-    }
-
-    //删除
-    public void removeData(int position) {
-        if (onClickManager != null) {
-            onClickManager.onRemoveMessage(position);
-        }
-//        mData.remove(position);
-//        if (position == 0) {
-//            insertEmptyData();   //插入空的一条数据
-//        }
-//        notifyDataSetChanged();
     }
 
     //更新
@@ -178,7 +177,7 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
         if (1 == scannerMessageModel.getIsHavaPhone() && 1 == scannerMessageModel.getIsHaveWayNumber()) {
             //insertEmptyData();   //插入空的一条数据
             if (onClickManager != null) {
-                onClickManager.onUpdateMessage(position);
+                onClickManager.onUpdateMessage(position, scannerMessageModel);
             }
         }
     }
@@ -192,12 +191,17 @@ public class ScannerMessageAdapter extends RecyclerView.Adapter<ScannerMessageAd
 
 
     //##############################    点击事件 ########################################
-    public interface OnClickManager{
+    public interface OnClickManager {
 
-        void onEditMessage(int position);    //编辑信息
-        void onCompliteMessage();  //完成
-        void onRemoveMessage(int position);   //删除
-        void onUpdateMessage(int position);
+        void onEditMessage(int position,ScannerMessageModel data);    //编辑信息
+
+        void onCompliteMessage(int position, ScannerMessageModel data);  //完成
+
+        void onRemoveMessage(int position, ScannerMessageModel data);   //删除
+
+        void onUpdateMessage(int position, ScannerMessageModel data);  //更新
+
+        void onChangeCode(int position,ScannerMessageModel model);   //修改取件码
 
     }
 

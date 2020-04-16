@@ -1,12 +1,10 @@
 package com.mt.bbdj.baseconfig.application;
 
 import android.content.Context;
-import android.support.annotation.Keep;
-import android.support.multidex.MultiDex;
-import android.util.Log;
 
+import androidx.annotation.Keep;
+import androidx.multidex.MultiDex;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
-import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.taobao.sophix.PatchStatus;
 import com.taobao.sophix.SophixApplication;
 import com.taobao.sophix.SophixEntry;

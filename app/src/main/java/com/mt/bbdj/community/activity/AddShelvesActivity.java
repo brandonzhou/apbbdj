@@ -3,9 +3,9 @@ package com.mt.bbdj.community.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -137,8 +137,6 @@ public class AddShelvesActivity extends BaseActivity implements XRecyclerView.Lo
     }
 
     private void requestData() {
-        mPage = 1;
-        isFresh =true;
         Map<String, String> params = new HashMap<>();
         params.put("user_id", user_id);
         params.put("shelves_name", search);

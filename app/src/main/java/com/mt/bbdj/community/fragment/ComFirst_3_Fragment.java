@@ -9,17 +9,21 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.activity.LoginActivity;
 import com.mt.bbdj.baseconfig.activity.LoginByCodeActivity;
@@ -54,6 +58,7 @@ import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.baseconfig.view.HorizontalProgressBar;
 import com.mt.bbdj.baseconfig.view.MyGridView;
 import com.mt.bbdj.community.activity.BindUserActivity;
+import com.mt.bbdj.community.activity.CameraForRightNowActivity;
 import com.mt.bbdj.community.activity.ChangeManagerdActivity;
 import com.mt.bbdj.community.activity.ClearOrderActivity;
 import com.mt.bbdj.community.activity.ClientManagerActivity;
@@ -61,6 +66,8 @@ import com.mt.bbdj.community.activity.ComplainManagerdActivity;
 import com.mt.bbdj.community.activity.CouponActivity;
 import com.mt.bbdj.community.activity.EnterManagerActivity;
 import com.mt.bbdj.community.activity.EnterManager_new_Activity;
+import com.mt.bbdj.community.activity.EnterSelectLocationActivity;
+import com.mt.bbdj.community.activity.FailureEnterActivity;
 import com.mt.bbdj.community.activity.GlobalSearchActivity;
 import com.mt.bbdj.community.activity.GoodsManagerActivity;
 import com.mt.bbdj.community.activity.ManualMailingActivity;
@@ -74,6 +81,7 @@ import com.mt.bbdj.community.activity.OpearteActivity;
 import com.mt.bbdj.community.activity.OutManagerActivity;
 import com.mt.bbdj.community.activity.OutManager_new_Activity;
 import com.mt.bbdj.community.activity.PannelRechargeActivity;
+import com.mt.bbdj.community.activity.QCodeScanActivity;
 import com.mt.bbdj.community.activity.RechargeActivity;
 import com.mt.bbdj.community.activity.RecommendUserActivity;
 import com.mt.bbdj.community.activity.RepertoryActivity;
@@ -82,6 +90,7 @@ import com.mt.bbdj.community.activity.SaveManagerMoneyActivity;
 import com.mt.bbdj.community.activity.ScannerActivity;
 import com.mt.bbdj.community.activity.ScannerOutActivity;
 import com.mt.bbdj.community.activity.SearchPackageActivity;
+import com.mt.bbdj.community.activity.SelectEnterExpressActivity;
 import com.mt.bbdj.community.activity.SelectExpressActivity;
 import com.mt.bbdj.community.activity.SendManagerActivity;
 import com.mt.bbdj.community.activity.SendResByHandActivity;
@@ -141,12 +150,19 @@ public class ComFirst_3_Fragment extends BaseFragment {
     MyGridView mComGridViewThree;
     @BindView(R.id.banner)
     Banner banner;
-
+    @BindView(R.id.ll_title)
+    LinearLayout ll_title;
+    @BindView(R.id.textview_serach)
+    TextView tvSearch;     //搜索
+    @BindView(R.id.tv_handle_failure)
+    TextView tv_handle_failure;     //搜索
+    @BindView(R.id.ll_title_handing)
+    LinearLayout ll_title_handing;
+    @BindView(R.id.tv_handle_ing)
+    TextView tv_handle_ing;
     Unbinder unbinder;
 
     View mView;
-    @BindView(R.id.textview_serach)
-    TextView tvSearch;     //搜索
 
 
     private String APP_PATH_ROOT = FileUtil.getRootPath(MyApplication.getInstance()).getAbsolutePath() + File.separator + "bbdj";
@@ -174,6 +190,8 @@ public class ComFirst_3_Fragment extends BaseFragment {
     private final int REQUEST_PANNEL_MESSAGE = 101;    //获取面板信息
 
     private final int REQUEST_BANNER_MESSAGE = 102;    //请求轮播图
+
+    private final int REQUEST_ENTER_MESSAGE = 103;    //请求入库数据
 
 
     private String user_id;
@@ -290,8 +308,11 @@ public class ComFirst_3_Fragment extends BaseFragment {
         super.onResume();
         requestPannelMessage();
         requestBannerMessage();   //请求界面轮播图
+        requestEnterData();   //入库数据
         notifyCheck();    //通知权限
     }
+
+
 
     private void notifyCheck() {
         if (!NotificationUtils.isNotificationEnabled(getActivity())) {   //没有开启权限
@@ -316,14 +337,10 @@ public class ComFirst_3_Fragment extends BaseFragment {
         if (!hidden) {
             requestPannelMessage();
             requestBannerMessage();   //请求界面轮播图
+            requestEnterData();   //入库数据
         }
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-    }
 
     private void requestPannelMessage() {
         HashMap<String, String> params = new HashMap<>();
@@ -340,13 +357,19 @@ public class ComFirst_3_Fragment extends BaseFragment {
         mRequestQueue.add(REQUEST_BANNER_MESSAGE, request, mResponseListener);
     }
 
+    private void requestEnterData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("station_id", user_id);
+        Request<String> request = NoHttpRequest.getEnterStateData(map);
+        mRequestQueue.add(REQUEST_ENTER_MESSAGE, request, mResponseListener);
+    }
+
     private void initData() {
 
     }
 
     private void requestAreaData() {
         //  uploadGenealData();    //下载省市区数据
-
     }
 
 
@@ -496,48 +519,37 @@ public class ComFirst_3_Fragment extends BaseFragment {
         String id = item.get("id").toString();
         switch (id) {
             case "0":     //寄存管理
-               /* if (isHidden) {
-                    ToastUtil.showShort("暂不开放！");
-                } else {
-                    handleStoreManageEvent();
-                }*/
                 handleStoreManageEvent();
                 break;
             case "1":       //入库管理
-              /*  if (isHidden) {
-                    ToastUtil.showShort("暂不开放！");
-                } else {
-                    handleEnterManagerEvent();
-                }*/
                 handleEnterManagerEvent();
                 break;
-            case "2":       //出库管理
-              /*  if (isHidden) {
-                    ToastUtil.showShort("暂不开放！");
-                } else {
-                    handleOutManagerEvent();
-                }*/
+            case "2":       //用户取件
                 handleOutManagerEvent();
                 break;
-
-            case "3":       //我的存放
-              /*  if (isHidden) {
-                    ToastUtil.showShort("暂不开放！");
-                } else {
-                    handleSaveManagerEvent();
-                }
-                break;*/
+            case "3":       //二维码取件
+                handleQCodeEvent();
+                break;
+            case "4":       //我的存放
                 handleSaveManagerEvent();
                 break;
-            case "4":       //寄存费用
-               /* if (isHidden) {
-                    ToastUtil.showShort("暂不开放！");
-                } else {
-                    handleSaveManagerMoneyEvent();
-                }*/
+            case "5":       //寄存费用
                 handleSaveManagerMoneyEvent();
                 break;
+            case "6":       //拍照入库
+                handleEnterHourseByCameraEvent();
+                break;
         }
+    }
+
+    private void handleEnterHourseByCameraEvent() {
+        CameraForRightNowActivity.actionTo(getActivity(),user_id);
+        //SelectEnterExpressActivity.actionTo(getActivity(),user_id);
+        //EnterSelectLocationActivity.actionTo(getActivity(),user_id);
+    }
+
+    private void handleQCodeEvent() {
+        QCodeScanActivity.actionTo(getActivity(),user_id);
     }
 
     private void handleSaveManagerMoneyEvent() {
@@ -645,16 +657,12 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
     private void handleOutManagerEvent() {
         ScannerOutActivity.actionTo(getActivity());
-//        Intent intent = new Intent(getActivity(), OutManagerActivity.class);
-//        // Intent intent = new Intent(getActivity(), OutManager_new_Activity.class);
-//        startActivity(intent);
     }
 
     private void handleEnterManagerEvent() {
         SelectExpressActivity.actionTo(getActivity());
-
 //        Intent intent = new Intent(getActivity(), EnterManagerActivity.class);
-//        // Intent intent = new Intent(getActivity(), EnterManager_new_Activity.class);
+//        //Intent intent = new Intent(getActivity(), EnterManager_new_Activity.class);
 //        startActivity(intent);
     }
 
@@ -872,7 +880,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
 
     private void setTwoItemData() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 7; i++) {
             HashMap<String, Object> item = new HashMap<>();
 
             if (i == 0) {
@@ -894,18 +902,30 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("name", "用户取件");
                 item.put("ic", R.drawable.ic_two_3);
             }
-
             if (i == 3) {
                 item.put("tag", "0");
                 item.put("id", "3");
+                item.put("name", "二维码取件");
+                item.put("ic", R.drawable.ic_two_3);
+            }
+            if (i == 4) {
+                item.put("tag", "0");
+                item.put("id", "4");
                 item.put("name", "我的存放");
                 item.put("ic", R.drawable.ic_three_2);
             }
 
-            if (i == 4) {
+            if (i == 5) {
                 item.put("tag", "0");
-                item.put("id", "4");
+                item.put("id", "5");
                 item.put("name", "寄存费用");
+                item.put("ic", R.drawable.ic_three_5);
+            }
+
+            if (i == 6) {
+                item.put("tag", "0");
+                item.put("id", "6");
+                item.put("name", "拍照入库");
                 item.put("ic", R.drawable.ic_three_5);
             }
 
@@ -951,7 +971,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
         @Override
         public void onSucceed(int what, Response<String> response) {
-            LogUtil.i("photoFile", "ComFirstFragment::" + what + response.get());
+            LogUtil.i("v", "ComFirstFragment::" + what + response.get());
             try {
                 JSONObject jsonObject = new JSONObject(response.get());
                 String code = jsonObject.get("code").toString();
@@ -972,7 +992,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         @Override
         public void onFailed(int what, Response<String> response) {
             //  dialogLoading.cancel();
-           // loginOut();
+          //  loginOut();
         }
 
         @Override
@@ -982,7 +1002,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
     };
 
     private void loginOut() {
-        ToastUtil.showShort("登录状态失效，请重新登录！");
+        ToastUtil.showShort("登录状态失效，请重新登录");
         editor.putString("userName", "");
         editor.putString("password", "");
         editor.putBoolean("update", false);
@@ -1006,6 +1026,27 @@ public class ComFirst_3_Fragment extends BaseFragment {
             case REQUEST_BANNER_MESSAGE:    //首页banner图
                 handleBannerMessage(jsonObject);
                 break;
+            case REQUEST_ENTER_MESSAGE:   //入库情况
+                handleEnterMessage(jsonObject);
+                break;
+        }
+    }
+
+    private void handleEnterMessage(JSONObject jsonObject) throws JSONException {
+        JSONObject data = jsonObject.getJSONObject("data");
+        String today_fail = StringUtil.handleNullResultForNumber(data.getString("today_fail"));
+        String today_handle = StringUtil.handleNullResultForNumber(data.getString("today_handle"));
+        if (Integer.parseInt(today_fail) != 0) {
+            ll_title.setVisibility(View.VISIBLE);
+            tv_handle_failure.setText("今日入库失败" + today_fail + "件，请立刻处理");
+        } else {
+            ll_title.setVisibility(View.GONE);
+        }
+        if (Integer.parseInt(today_handle) !=0){
+            ll_title_handing.setVisibility(View.VISIBLE);
+            tv_handle_ing.setText("入库处理中：" + today_handle + "件");
+        } else {
+            ll_title_handing.setVisibility(View.GONE);
         }
     }
 
@@ -1260,13 +1301,20 @@ public class ComFirst_3_Fragment extends BaseFragment {
         mRequestQueue = null;
     }
 
-    @OnClick({R.id.textview_serach})
+    @OnClick({R.id.textview_serach,R.id.ll_title})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.textview_serach:
                 actionToSearchPannel();    //搜索
                 break;
+            case R.id.ll_title:
+                actionToHandleFaile();    //处理失败
+                break;
         }
+    }
+
+    private void actionToHandleFaile() {
+        FailureEnterActivity.actionTo(getActivity(),user_id);
     }
 
 
@@ -1302,6 +1350,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
 
 
 }

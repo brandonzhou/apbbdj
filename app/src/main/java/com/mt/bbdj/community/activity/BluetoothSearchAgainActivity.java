@@ -15,10 +15,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -194,22 +196,18 @@ public class BluetoothSearchAgainActivity extends BaseActivity {
                         return;
                     }
 
-
-                    printThread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                new HPRTPrinterHelper(thisCon, HPRTPrinterHelper.PRINT_NAME_A300);
-                                int portOpen = HPRTPrinterHelper.PortOpen("Bluetooth," + toothAddress);
-                                HPRTPrinterHelper.logcat("portOpen:" + portOpen);
-                                message = new Message();
-                                message.what = portOpen;
-                                message.obj = bluetoothName;
-                                handler.sendMessage(message);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                LoadDialogUtils.cannelLoadingDialog();
-                            }
+                    printThread = new Thread(() -> {
+                        try {
+                            new HPRTPrinterHelper(thisCon, HPRTPrinterHelper.PRINT_NAME_A300);
+                            int portOpen = HPRTPrinterHelper.PortOpen("Bluetooth," + toothAddress);
+                            HPRTPrinterHelper.logcat("portOpen:" + portOpen);
+                            message = new Message();
+                            message.what = portOpen;
+                            message.obj = bluetoothName;
+                            handler.sendMessage(message);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            LoadDialogUtils.cannelLoadingDialog();
                         }
                     });
                     printThread.start();

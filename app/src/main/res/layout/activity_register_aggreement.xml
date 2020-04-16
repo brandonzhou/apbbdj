@@ -40,7 +40,7 @@
             android:textSize="15sp" />
     </RelativeLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:paddingLeft="15dp"
                 android:paddingRight="10dp"
                 android:lineSpacingExtra="3dp"
@@ -81,7 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:paddingLeft="15dp"
                 android:paddingRight="10dp"
                 android:lineSpacingExtra="3dp"
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:paddingLeft="15dp"
                 android:paddingRight="10dp"
                 android:lineSpacingExtra="3dp"
@@ -117,6 +117,6 @@
                 android:layout_height="50dp"/>
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

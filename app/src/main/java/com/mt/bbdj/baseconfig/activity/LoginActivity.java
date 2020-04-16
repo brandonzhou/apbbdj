@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.application.MyApplication;
@@ -272,6 +274,8 @@ public class LoginActivity extends AppCompatActivity {
         String province = dataObject.getString("province");
         String city = dataObject.getString("city");
         String area = dataObject.getString("area");
+        String zto_company_id = dataObject.getString("zto_company_id");
+        String zto_company_key = dataObject.getString("zto_company_key");
         String address = province + city + area;
         mUserMessageDao.deleteAll();
         UserBaseMessage userBaseMessage = new UserBaseMessage();
@@ -284,6 +288,8 @@ public class LoginActivity extends AppCompatActivity {
         userBaseMessage.setAddress(address);
         userBaseMessage.setContact_email("");
         userBaseMessage.setContact_account(contact_account);
+        userBaseMessage.setZto_company_id(zto_company_id);
+        userBaseMessage.setZto_company_key(zto_company_key);
         mUserMessageDao.save(userBaseMessage);
     }
 

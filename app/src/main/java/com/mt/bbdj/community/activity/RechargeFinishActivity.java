@@ -1,7 +1,7 @@
 package com.mt.bbdj.community.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.widget.RelativeLayout;
 
 import com.mt.bbdj.R;

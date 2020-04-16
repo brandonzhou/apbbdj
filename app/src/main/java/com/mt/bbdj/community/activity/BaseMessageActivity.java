@@ -2,11 +2,13 @@ package com.mt.bbdj.community.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatTextView;
+
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.amap.api.maps2d.model.LatLng;
 import com.mt.bbdj.R;

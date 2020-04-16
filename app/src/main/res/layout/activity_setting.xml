@@ -79,6 +79,75 @@
         android:background="@color/grey_6" />
 
     <LinearLayout
+        android:id="@+id/ll_setting_print_code"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="打印取件码"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="12dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_right" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/grey_6" />
+
+    <LinearLayout
+        android:id="@+id/ll_setting_print"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="打印标签"
+            android:textColor="@color/black"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="12dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_right" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/grey_6" />
+
+
+    <LinearLayout
         android:id="@+id/ll_address_manager"
         android:layout_width="match_parent"
         android:layout_height="50dp"

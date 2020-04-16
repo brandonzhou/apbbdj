@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -41,7 +42,7 @@ public class RepertoryDetailActivity extends BaseActivity {
     @BindView(R.id.iv_back)
     RelativeLayout ivBack;
     @BindView(R.id.tv_wail_number)
-    TextView tvWailNumber;
+    EditText tvWailNumber;
     @BindView(R.id.tv_logo)
     ImageView tvLogo;
     @BindView(R.id.tv_express_name)
@@ -56,6 +57,10 @@ public class RepertoryDetailActivity extends BaseActivity {
     Button btPrint;
     @BindView(R.id.bt_out)
     Button btOut;
+    @BindView(R.id.bt_print_change_comfirm)
+    Button bt_print_change_comfirm;
+    @BindView(R.id.bt_print_change)
+    Button bt_print_change;
     @BindView(R.id.ll_out_layout)
     LinearLayout llOutLayout;
 
@@ -193,17 +198,25 @@ public class RepertoryDetailActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.iv_back, R.id.bt_print, R.id.bt_out})
+    @OnClick({R.id.iv_back, R.id.bt_print, R.id.bt_out,R.id.bt_print_change,R.id.bt_print_change_comfirm})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
             case R.id.bt_print:
-                // TODO: 2019/4/12 原单重打
+                //TODO: 2019/4/12 原单重打
                 break;
             case R.id.bt_out:
                 outOfRepertory();
+                break;
+            case R.id.bt_print_change:    //修改
+                bt_print_change.setVisibility(View.GONE);
+                bt_print_change_comfirm.setVisibility(View.VISIBLE);
+                break;
+            case R.id.bt_print_change_comfirm:  //确认修改
+                bt_print_change.setVisibility(View.VISIBLE);
+                bt_print_change_comfirm.setVisibility(View.GONE);
                 break;
         }
     }

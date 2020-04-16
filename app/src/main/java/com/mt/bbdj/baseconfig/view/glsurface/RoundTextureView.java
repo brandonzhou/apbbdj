@@ -1,15 +1,9 @@
 package com.mt.bbdj.baseconfig.view.glsurface;
 
 import android.content.Context;
-import android.graphics.Outline;
-import android.graphics.Rect;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+
 import android.util.AttributeSet;
 import android.view.TextureView;
-import android.view.View;
-import android.view.ViewOutlineProvider;
-
 public class RoundTextureView extends TextureView {
     private static final String TAG = "CustomTextureView";
     private int radius = 0;

@@ -51,7 +51,7 @@
         android:layout_marginRight="10dp"
         android:background="#FDFCFC" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -361,7 +361,7 @@
                 android:background="#FDFCFC" />
 
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rl_product"
                 android:layout_width="match_parent"
                 android:paddingBottom="20dp"
@@ -369,12 +369,12 @@
                 android:layout_weight="1">
 
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

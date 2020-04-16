@@ -218,7 +218,7 @@
             android:text="提现说明:"
             android:textSize="14sp" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:minHeight="25dp"
@@ -231,7 +231,7 @@
 
 
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

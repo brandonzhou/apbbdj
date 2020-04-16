@@ -77,4 +77,17 @@ public class IntegerUtil {
             return currentData+number;
         }
     }
+
+    /**
+     * 字符串转换成数字
+     * @param str
+     * @return
+     */
+    public static int changeStrToInteger(String str) {
+        if (str == null|| "".equals(str)){
+            return 0;
+        }else {
+            return Integer.parseInt(str);
+        }
+    }
 }

@@ -1,8 +1,9 @@
 package com.mt.bbdj.community.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import android.widget.RelativeLayout;
 
 import com.flyco.tablayout.SlidingTabLayout;

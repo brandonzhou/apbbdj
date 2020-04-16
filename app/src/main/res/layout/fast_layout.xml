@@ -14,12 +14,12 @@
         android:background="@drawable/shap_ll_bg"
         android:gravity="center">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tl_fast_list"
             android:layout_width="80dp"
             android:layout_height="300dp">
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
     </RelativeLayout>
 
 

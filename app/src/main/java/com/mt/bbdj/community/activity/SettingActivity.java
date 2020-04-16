@@ -3,7 +3,7 @@ package com.mt.bbdj.community.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +28,7 @@ import cn.ycbjie.ycstatusbarlib.bar.YCAppBar;
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
 
     private RelativeLayout rl_back;
-    private LinearLayout ll_address_manager, ll_change_password, ll_about_app;
+    private LinearLayout ll_address_manager, ll_change_password, ll_about_app,ll_setting_print,ll_setting_print_code;
     private Button bt_cannel;
     private TextView tv_app_version;
     private SharedPreferences.Editor editor;
@@ -53,10 +53,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         ll_change_password = findViewById(R.id.ll_change_password);
         ll_about_app = findViewById(R.id.ll_about_app);
         tv_app_version = findViewById(R.id.tv_app_version);
+        ll_setting_print_code = findViewById(R.id.ll_setting_print_code);
+        ll_setting_print = findViewById(R.id.ll_setting_print);
         bt_cannel = findViewById(R.id.bt_cannel);
         rl_back.setOnClickListener(this);
         ll_address_manager.setOnClickListener(this);
         ll_change_password.setOnClickListener(this);
+        ll_setting_print_code.setOnClickListener(this);
+        ll_setting_print.setOnClickListener(this);
         ll_about_app.setOnClickListener(this);
         bt_cannel.setOnClickListener(this);
 
@@ -79,10 +83,24 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.ll_about_app:   //关于app
                 showAboutAppPannel();
                 break;
+            case R.id.ll_setting_print:  //打印标签
+                PrintLabel();
+                break;
+            case R.id.ll_setting_print_code:  //取件码
+                PrintCode();
+                break;
             case R.id.bt_cannel:
                 takeoutLogin();
                 break;
         }
+    }
+
+    private void PrintCode() {
+        PrintCodeSettingActivity.actionTo(this);
+    }
+
+    private void PrintLabel() {
+        PrintLabelSettingActivity.actionTo(this);
     }
 
     private void showChangePasswordPannel() {

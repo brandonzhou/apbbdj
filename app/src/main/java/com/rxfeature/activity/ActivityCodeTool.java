@@ -2,11 +2,13 @@ package com.rxfeature.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
+
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.core.widget.NestedScrollView;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.activity.ActivityBase;

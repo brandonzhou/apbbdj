@@ -39,6 +39,7 @@
         </RelativeLayout>
 
         <TextView
+            android:visibility="gone"
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -48,17 +49,47 @@
             android:text="取件码"
             android:textColor="@color/grey_7"
             android:textSize="14dp" />
-
-        <TextView
-            android:id="@+id/tv_pop_code"
+        
+        <LinearLayout
+            android:visibility="gone"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="35dp">
+
+            <TextView
+                android:id="@+id/tv_pop_code_title"
+                android:text=""
+                android:gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:textColor="@color/grey_7"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+
+            <EditText
+                android:visibility="gone"
+                android:id="@+id/tv_pop_code"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:clickable="false"
+                android:background="@null"
+                android:inputType="number"
+                android:gravity="center_vertical"
+                android:hint="请输入取件码"
+                android:textColor="@color/grey_7"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+
+        <View
+            android:visibility="gone"
             android:layout_marginLeft="15dp"
-            android:clickable="false"
-            android:gravity="center_vertical"
-            android:text="292381"
-            android:textColor="@color/grey_7"
-            android:textSize="16dp" />
+            android:layout_marginRight="15dp"
+            android:background="@color/splite_view_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
 
         <TextView
             android:layout_marginTop="10dp"
@@ -104,6 +135,7 @@
             android:id="@+id/tv_pop_phone"
             android:hint="输入手机号"
             android:background="@null"
+            android:inputType="number"
             android:textColor="@color/grey_7"
             android:textSize="16dp"
             android:layout_marginLeft="15dp"

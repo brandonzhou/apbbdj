@@ -87,8 +87,6 @@
             android:padding="10dp"
             zhy:max_select="1"/>
 
-
-
     </LinearLayout>
 
 </LinearLayout>

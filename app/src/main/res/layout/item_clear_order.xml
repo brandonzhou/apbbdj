@@ -116,7 +116,7 @@
                 android:textColor="@color/grey_13"
                 android:textSize="15sp" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/product_list"
                 android:layout_width="match_parent"
                 android:layout_marginTop="5dp"
@@ -124,7 +124,7 @@
                 android:minHeight="50dp"
                 android:paddingBottom="5dp">
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
 
         </LinearLayout>

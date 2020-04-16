@@ -93,6 +93,10 @@ public class DateUtil {
         return System.currentTimeMillis() / 1000 + "";
     }
 
+    public static Double getCurrentTimeStampNumber(){
+        return Double.parseDouble(getCurrentTimeStamp());
+    }
+
     //获得当前时间  "yyyy-MM-dd HH:mm:ss"
     public static String getCurrentTimeFormat(String format) {
         Date currentTime = new Date();
@@ -200,7 +204,7 @@ public class DateUtil {
         return zero + "";
     }
 
-    //转化时间戳位标准时间格式
+    //转化时间戳位标准时间格式 yyyy-MM-dd HH:mm:ss
     public static String changeStampToStandrdTime(String dataFormat, String timeStr) {
         if (timeStr == null || "".equals(timeStr) || "null".equals(timeStr)) {
             return "";

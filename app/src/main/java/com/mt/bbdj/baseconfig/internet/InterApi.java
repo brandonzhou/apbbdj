@@ -10,8 +10,10 @@ public class InterApi {
      * 服务器地址/
      */
     // public static final String SERVER_ADDRESS = "http://www.81dja.com/BbdjApi/";
-    public static final String BASE_URL = "http://www.81dja.com/";
-    public static final String BASE_URL_EXPRESS = "http://ning.shijianping.com/";
+    public static final String BASE_URL = "https://www.81dja.com/";
+    public static final String BASE_URL_EXPRESS = "https://meng.81dja.com/";
+    public static final String BASE_URL_ENTER = "https://qrcode.taowangzhan.com/";
+    public static final String BASE_URL_OBSERVICE = "https://express.81dja.com/";
     // public static final String BASE_URL = "http://cs.81bb.cn";
     public static final String SERVER_ADDRESS = BASE_URL + "/BbdjApi/";
     //public static final String SERVER_ADDRESS_ENTER = "http://www.81dja.com/Pie/";
@@ -27,7 +29,9 @@ public class InterApi {
     public static final String SERVICE_NEW_1= BASE_URL + "/Merchant/IndexApi/";
     public static final String SERVICE_NEW_3= BASE_URL + "/Merchant/UserApi/";
     public static final String SERVICE_NEW_4= BASE_URL_EXPRESS + "Express/Express/";
-
+    public static final String SERVICE_NEW_5= BASE_URL_EXPRESS + "Express/Warehousing/";
+    public static final String SERVICE_NEW_6= BASE_URL_EXPRESS + "Express/Station/";
+    public static final String SERVICE_NEW_7= BASE_URL_OBSERVICE + "express/Pieoutpack/";
 
     // public static final String SERVER_ADDRESS = "http://yanshi.81dja.com/BbdjApi/";
     // public static final String SERVER_ADDRESS = "http://www.81dja.com/BbdjApi/";
@@ -292,6 +296,16 @@ public class InterApi {
     public static final String ACTION_GET_EXPRESS_LOGO_REQUEST = "getExpress600";
 
     /**
+     * 获取快递公司
+     */
+    public static final String ACTION_GET_EXPRESS_REQUEST = "getExpressLists";
+    /**
+     * 获取快递公司
+     */
+    public static final String ACTION_GET_EXPRESS_REQUEST1 = "getExpressCompany";
+
+
+    /**
      * 短信管理
      */
     public static final String ACTION_GET_MESSAGE_MANAGER_REQUEST = "getSMSManagement700";
@@ -349,7 +363,7 @@ public class InterApi {
     /**
      * 消费记录
      */
-    public static final String ACTION_CONSUME_RECORD_REQUEST = "getConsumelist700";
+    public static final String ACTION_CONSUME_RECORD_REQUEST = "getConsumelist800";
 
     /**
      * 消费记录
@@ -796,13 +810,85 @@ public class InterApi {
      */
     public static final String ACTION_REQUEST_GET_EXPRESS_CODE = "expressCode";
 
+
+    /**
+     * 检查单号是否入库
+     */
+    public static final String ACTION_CHECK_ENTER_CODE = "checkNumberCodeRrepeat";
+
+    /**
+     * 检查历史数据
+     */
+    public static final String ACTION_GET_HISTORY_DATA = "getChecklist";
+
+    /**
+     * 检查历史最后一条数据
+     */
+    public static final String ACTION_GET_HISTORY_LAST_DATA = "getLastExpress";
+
     /**
      * 入库
      */
-    public static final String ACTION_REQUEST_ENTER = "warehousing";
+    public static final String ACTION_REQUEST_ENTER = "enterWarehouse2";
+
+    /**
+     * 入库
+     */
+    public static final String ACTION_REQUEST_ENTER2 = "enterWarehouse";
+
+
+    /**
+     * 删除单个
+     */
+    public static final String ACTION_REQUEST_DELETE_RESPORT = "deletCheckData";
+
+    /**
+     * 出库
+     */
+    public static final String ACTION_REQUEST_OUT_RESPORT = "outWarehouse2";
+
+    /**
+     * 出库
+     */
+    public static final String ACTION_REQUEST_OUT_RESPORT_BY_QCODE = "qrCodeOutWarehouse";
+
+    /**
+     * 是否关注
+     */
+    public static final String ACTION_REQUEST_IS_OBSERVICE = "pirStatNum";
+
+
+
+    /**
+     * 入库
+     */
+    public static final String ACTION_REQUEST_ENTER_SINGLE = "submitCheckData";
+
+    /**
+     * 切换货架
+     */
+    public static final String ACTION_REQUEST_CODE = "getSwitchShelvesCode";
+
+    /**
+     * 搜索派件
+     */
+    public static final String ACTION_SEARCH_GLOBAL_PI = "PieSearch1070";
+
+
+
 
     /**
      * 检测运单号
      */
-    public static final String ACTION_CHECK_PHONE = "TestingWaybillNumber2010";
+    public static final String ACTION_CHECK_PHONE = "getExpressInfo";
+
+    /**
+     * 订单记录
+     */
+    public static final String ACTION_GET_ORDER_RECORDER = "getMailRecord";
+
+    /**
+     * 上传手机号
+     */
+    public static final String ACTION_COMMIT_RECORDER = "callPhoneRecord";
 }

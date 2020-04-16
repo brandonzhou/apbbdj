@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -274,7 +274,6 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
         mRequestQueue.add(REQUEST_GET_ORDER, request, mResponseListener);
     }
 
-
     OnResponseListener<String> mResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
@@ -300,7 +299,6 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
                     }
                     ToastUtil.showShort(msg);
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
                 ToastUtil.showShort("网络不稳定！");
@@ -435,9 +433,9 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
             //  time_appointment = DateUtil.changeStampToStandrdTime("HH:mm", time_appointment) + "上门 ";
 
             if ("2".equals(states)) {    //已结单的 快递员配送 或者 自己配送
-                if ("2".equals(distribution_mode) && "0".equals(courier_id)) {
+                if (("2".equals(distribution_mode) ||"3".equals(distribution_mode)) && "0".equals(courier_id)) {
                     productModel.setOrderState("10");    //等待快递员接单
-                } else if ("2".equals(distribution_mode) && !"0".equals(courier_id)){
+                } else if (("2".equals(distribution_mode) ||"3".equals(distribution_mode)) && !"0".equals(courier_id)){
                     productModel.setOrderState("12");     //等待快递员取件
                 } else {
                     productModel.setOrderState(states);

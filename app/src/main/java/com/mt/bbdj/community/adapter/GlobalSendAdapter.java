@@ -1,7 +1,7 @@
 package com.mt.bbdj.community.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +75,7 @@ public class GlobalSendAdapter extends RecyclerView.Adapter<GlobalSendAdapter.Wa
         holder.sendPhone.setText(map.get("send_phone"));
         holder.sendAddress.setText(map.get("send_raddress"));
         String create_time = map.get("create_time");
-        create_time = DateUtil.changeStampToStandrdTime("HH:mm",create_time);
+        create_time = DateUtil.changeStampToStandrdTime("MM-dd HH:mm",create_time);
         holder.sendTime.setText(create_time);
         holder.receivePerson.setText(map.get("collect_name"));
         holder.receiveAddress.setText(map.get("collect_address"));

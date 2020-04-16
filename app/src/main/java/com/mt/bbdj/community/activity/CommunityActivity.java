@@ -1,19 +1,16 @@
 package com.mt.bbdj.community.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
+
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -21,13 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.fragment.app.FragmentTransaction;
+
 import com.gyf.immersionbar.ImmersionBar;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
-import com.mt.bbdj.baseconfig.db.City;
-import com.mt.bbdj.baseconfig.db.County;
-import com.mt.bbdj.baseconfig.db.MingleArea;
-import com.mt.bbdj.baseconfig.db.Province;
+import com.mt.bbdj.baseconfig.db.ScannerMessageModel;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.gen.CityDao;
 import com.mt.bbdj.baseconfig.db.gen.CountyDao;
@@ -35,23 +31,21 @@ import com.mt.bbdj.baseconfig.db.gen.DaoSession;
 import com.mt.bbdj.baseconfig.db.ExpressLogo;
 import com.mt.bbdj.baseconfig.db.gen.ExpressLogoDao;
 import com.mt.bbdj.baseconfig.db.gen.ProvinceDao;
+import com.mt.bbdj.baseconfig.db.gen.ScannerMessageModelDao;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.internet.down.DownLoadPictureService;
 import com.mt.bbdj.baseconfig.internet.down.ImageDownLoadCallBack;
-import com.mt.bbdj.baseconfig.model.AddressBean;
-import com.mt.bbdj.baseconfig.model.Area;
 import com.mt.bbdj.baseconfig.model.Constant;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
+import com.mt.bbdj.baseconfig.service.MonitorPhoneService;
+import com.mt.bbdj.baseconfig.utls.DateUtil;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
-import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.community.fragment.ComDataFragment;
-import com.mt.bbdj.community.fragment.ComFirstFragment;
 import com.mt.bbdj.community.fragment.ComFirst_3_Fragment;
-import com.mt.bbdj.community.fragment.ComMymessageFragment;
 import com.mt.bbdj.community.fragment.ComOrderFragment;
 import com.mt.bbdj.community.fragment.MyFragment;
 import com.mylhyl.circledialog.CircleDialog;
@@ -61,17 +55,17 @@ import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
+import com.zto.recognition.phonenumber.OCRManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.greendao.query.DeleteQuery;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -80,8 +74,6 @@ import java.util.concurrent.Executors;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
-import cn.ycbjie.ycstatusbarlib.bar.YCAppBar;
 
 public class CommunityActivity extends BaseActivity {
 
@@ -151,6 +143,7 @@ public class CommunityActivity extends BaseActivity {
             isExit = false;
         }
     };
+    private ScannerMessageModelDao mScannerMessageModelDao;
 
     //暂时解决重叠问题
     @Override
@@ -162,16 +155,35 @@ public class CommunityActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
-       // SophixManager.getInstance().queryAndLoadNewPatch();
+        //SophixManager.getInstance().queryAndLoadNewPatch();
         Constant.context = this;
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+        registerPhonseListener();
         initView();
         initParams();
+        handleLocalHistoreyData();    //清除前一天扫描的数据
         //下载快递logo
         upLoadexpressLogo();
+
+        int a = 1/0;
     }
 
+    private void registerPhonseListener() {
+        Intent intent = new Intent(this, MonitorPhoneService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
+    }
+
+    private void handleLocalHistoreyData() {
+        String currentStamp = DateUtil.getTadayStartTimeStamp();   //当天0点0分0秒的时间戳
+        DeleteQuery<ScannerMessageModel> historyScannerMessages = mScannerMessageModelDao.queryBuilder()
+                .where(ScannerMessageModelDao.Properties.Timestamp.lt(currentStamp)).buildDelete();
+        historyScannerMessages.executeDeleteWithoutDetachingEntities();
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -197,6 +209,7 @@ public class CommunityActivity extends BaseActivity {
 
     private void initParams() {
         DaoSession mDaoSession = GreenDaoManager.getInstance().getSession();
+        mScannerMessageModelDao = mDaoSession.getScannerMessageModelDao();
         mUserMessageDao = mDaoSession.getUserBaseMessageDao();
         mExpressLogoDao = mDaoSession.getExpressLogoDao();
         mProvinceDao = mDaoSession.getProvinceDao();
@@ -206,7 +219,9 @@ public class CommunityActivity extends BaseActivity {
         mRequestQueue = NoHttp.newRequestQueue();
         List<UserBaseMessage> list = mUserMessageDao.queryBuilder().list();
         if (list != null && list.size() != 0) {
-            user_id = list.get(0).getUser_id();
+            UserBaseMessage userBaseMessage = list.get(0);
+            user_id = userBaseMessage.getUser_id();
+            OCRManager.getInstance().init(this, userBaseMessage.getContact_account(), userBaseMessage.getZto_company_id(),userBaseMessage.getZto_company_key());
         }
         executorService = Executors.newCachedThreadPool();
     }
@@ -477,7 +492,7 @@ public class CommunityActivity extends BaseActivity {
         imgbtn_first.setSelected(true);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (comFirst_3_fragment == null) {
-            comFirst_3_fragment = ComFirst_3_Fragment.getInstance().getInstance();
+            comFirst_3_fragment = ComFirst_3_Fragment.getInstance();
             transaction.add(R.id.main_fl_parent, comFirst_3_fragment);
         }
         //隐藏所有的界面
@@ -487,7 +502,6 @@ public class CommunityActivity extends BaseActivity {
         transaction.commit();
         ImmersionBar.with(this).keyboardEnable(true).statusBarDarkFont(true, 0.2f).statusBarColor(R.color.whilte)
                 .navigationBarColor(R.color.whilte).init();
-
     }
 
     private void resetSelectState() {
@@ -499,7 +513,6 @@ public class CommunityActivity extends BaseActivity {
         imgbtn_first.setSelected(false);
         imgbtn_order.setSelected(false);
         imgbtn_my.setSelected(false);
-
         // StatusBarUtils.StatusBarLightMode(CommunityActivity.this);
     }
 

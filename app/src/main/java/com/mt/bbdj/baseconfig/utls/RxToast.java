@@ -9,10 +9,12 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
-import android.support.annotation.CheckResult;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
+
+
+import androidx.annotation.CheckResult;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -306,14 +308,14 @@ public class RxToast {
     /**
      * 封装了Toast的方法 :需要等待
      */
-    public static void showToastShort(String str) {
+    public static void showShort(String str) {
         Toast.makeText(RxTool.getContext(), str, Toast.LENGTH_SHORT).show();
     }
 
     /**
      * 封装了Toast的方法 :需要等待
      */
-    public static void showToastShort(int resId) {
+    public static void showShort(int resId) {
         Toast.makeText(RxTool.getContext(), RxTool.getContext().getString(resId), Toast.LENGTH_SHORT).show();
     }
 

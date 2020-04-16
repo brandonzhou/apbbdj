@@ -65,7 +65,9 @@
                 android:text="运 单  号:"
                 android:textSize="15sp" />
 
-            <TextView
+            <EditText
+                android:editable="false"
+                android:background="@null"
                 android:id="@+id/tv_wail_number"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -268,41 +270,61 @@
 
         <LinearLayout
             android:gravity="center_vertical"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:id="@+id/bt_print"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:layout_marginRight="20dp"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:background="@drawable/bt_bg"
-                android:visibility="gone"
-                android:text="打印"
-                android:textColor="#ffffff"
-                android:textSize="15sp" />
-
-
-            <Button
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
                 android:id="@+id/bt_out"
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/bt_bg"
                 android:text="出库"
                 android:textColor="#ffffff"
                 android:textSize="15sp" />
 
+            <Button
+                android:layout_marginTop="15dp"
+                android:id="@+id/bt_print"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bt_bg"
+                android:text="原单重打"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
 
+            <Button
+                android:layout_marginTop="15dp"
+                android:id="@+id/bt_print_change"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bt_bg"
+                android:text="编辑"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
+
+            <Button
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
+                android:id="@+id/bt_print_change_comfirm"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bt_bg"
+                android:text="确定修改"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
 
         </LinearLayout>
 

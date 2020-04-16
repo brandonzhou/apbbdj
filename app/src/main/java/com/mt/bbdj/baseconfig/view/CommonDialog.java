@@ -3,13 +3,15 @@ package com.mt.bbdj.baseconfig.view;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.mt.bbdj.R;
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="@color/whilte"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:id="@+id/id_name"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:singleLine="true"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text=""
+        android:textColor="@color/grey_7"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/id_water_number"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingRight="30dp"
+        android:text=""
+        android:textColor="@color/grey_2"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/id_price_all"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingRight="15dp"
+        android:text=""
+        android:textColor="@color/grey_7"
+        android:textSize="14dp" />
+</LinearLayout>

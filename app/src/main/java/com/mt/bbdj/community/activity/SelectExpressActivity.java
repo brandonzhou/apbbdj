@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.HttpAuthHandler;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -81,6 +82,13 @@ public class SelectExpressActivity extends BaseActivity {
         initParams();
         requestData();   //请求数据
         initListener();
+
+//        findViewById(R.id.textview_serach).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ScannerPrintActivity.actionTo(SelectExpressActivity.this, "", "","","");
+//            }
+//        });
     }
 
 
@@ -92,13 +100,17 @@ public class SelectExpressActivity extends BaseActivity {
         expressLayout.setOnTagClickListener((view, position, parent) -> {
             String express_tag = listOne.get(position).get("express_id");
             String express_name = listOne.get(position).get("express_name");
+            String code = listOne.get(position).get("code");
+            String check_id = listOne.get(position).get("check_id");
             if (requestCode == -1) {
-                ScannerActivity.actionTo(SelectExpressActivity.this, express_tag, express_name);
+                //  ScannerActivity.actionTo(SelectExpressActivity.this, express_tag, express_name);
+                 ScannerPrintActivity.actionTo(SelectExpressActivity.this, express_tag, express_name,code,check_id);
             } else {
                 //修改进入
                 Intent intent = new Intent();
                 intent.putExtra("express_tag",express_tag);
                 intent.putExtra("express_name",express_name);
+                intent.putExtra("code",code);
                 setResult(RESULT_OK,intent);
             }
             finish();
@@ -130,8 +142,9 @@ public class SelectExpressActivity extends BaseActivity {
     private void requestData() {
 //        Request<String> request = NoHttpRequest.getExpressageRequest(user_id, "1");
 //        mRequestQueue.add(REQUEST_EXPRESS, request, mResponseListener);
-
-        Request<String> request = NoHttpRequest.getExpressLogoRequest(user_id);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("user_id",user_id);
+        Request<String> request = NoHttpRequest.getExpressRequest(params);
         mRequestQueue.add(REQUEST_EXPRESS, request, mResponseListener);
     }
 
@@ -195,13 +208,15 @@ public class SelectExpressActivity extends BaseActivity {
         for (int i = 0; i < data.length(); i++) {
             JSONObject entity = data.getJSONObject(i);
             String express_id = entity.getString("express_id");
-            String express_logo = entity.getString("express_logo");
+            String code = entity.getString("code");
             String express_name = entity.getString("express_name");
+            String check_id = entity.getString("check_id");
 
             HashMap<String, String> map = new HashMap<>();
             map.put("express_id", express_id);
-            map.put("express_logo", express_logo);
+            map.put("code", code);
             map.put("express_name", express_name);
+            map.put("check_id", check_id);
             listOne.add(map);
             map = null;
         }

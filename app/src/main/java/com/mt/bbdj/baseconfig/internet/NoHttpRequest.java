@@ -1,7 +1,7 @@
 package com.mt.bbdj.baseconfig.internet;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.Toast;
 
 import com.mt.bbdj.baseconfig.model.ExpressMoney;
@@ -69,6 +69,26 @@ public class NoHttpRequest {
         request.add("timeStamp", timeStamp);     //时间戳
         request.add("randomStr", randomStr);     //随机值
         request.add("Encryption", encryption);    //加密值
+        return request;
+    }
+
+    /**
+     * 上传图片请求
+     *
+     */
+    public static Request<String> commitPannelPictureRequest(@NonNull String filePath,String station_id,String uuid,String express_id) {
+        HashMap<String,String> params = new HashMap<>();
+        params.put("station_id",station_id);
+        params.put("uuid",uuid);
+        params.put("express_id",express_id);
+        String signature = StringUtil.getsignature(params);
+        BasicBinary fileBinary = new FileBinary(new File(filePath));
+        Request<String> request = NoHttp.createStringRequest("https://qrcode.taowangzhan.com/bbapi/Submit/stationUploadExpressImg", RequestMethod.POST);
+        request.add("station_id", station_id);
+        request.add("file", fileBinary);
+        request.add("uuid", uuid);
+        request.add("express_id", express_id);
+        request.add("signature", signature);
         return request;
     }
 
@@ -1222,6 +1242,35 @@ public class NoHttpRequest {
     }
 
     /**
+     * 获取快递公司图标信息
+     *
+     * @return
+     */
+    public static Request<String> getExpressRequest(HashMap<String,String> parms) {
+        String signature = StringUtil.getsignature(parms);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5
+                + InterApi.ACTION_GET_EXPRESS_REQUEST, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", parms.get("user_id"));
+        return request;
+    }
+
+    /**
+     * 获取快递公司图标信息
+     *
+     * @return
+     */
+    public static Request<String> getExpressList(HashMap<String,String> parms) {
+        String signature = StringUtil.getsignature(parms);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5
+                + InterApi.ACTION_GET_EXPRESS_REQUEST1, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", parms.get("user_id"));
+        return request;
+    }
+
+
+    /**
      * 下载快递公司logo
      *
      * @param user_id    用户id
@@ -1531,11 +1580,9 @@ public class NoHttpRequest {
      *
      * @param user_id 用户id
      * @param page    页码
-     * @param start   开始时间
-     * @param endtime 结束时间
      * @return
      */
-    public static Request<String> getConsumeRecordRequest(String user_id, int page, String start, String endtime) {
+    public static Request<String> getConsumeRecordRequest(String user_id, int page) {
         String timeStamp = DateUtil.getCurrentTimeStamp();
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
@@ -1549,8 +1596,6 @@ public class NoHttpRequest {
         request.add("Encryption", encryption);    //加密值
         request.add("user_id", user_id);
         request.add("page", page);
-        request.add("starttime", start);
-        request.add("endtime", endtime);
         return request;
     }
 
@@ -2244,7 +2289,7 @@ public class NoHttpRequest {
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
         String signature = StringUtil.getSignatureString(timeStamp, randomStr, encryption);
-        Request<String> request = NoHttp.createStringRequest("http://www.81dja.com/Paynew/WeChatPay", RequestMethod.GET);
+        Request<String> request = NoHttp.createStringRequest("http://www.81dja.com/Payment/WeChatPay", RequestMethod.GET);
         request.add("method", InterApi.ACTION_CANNEL_ORDER_REQUEST);
         request.add("signature", signature);
         request.add("timeStamp", timeStamp);     //时间戳
@@ -2329,29 +2374,22 @@ public class NoHttpRequest {
         return request;
     }
 
+
     /**
      * 首页全局搜索
-     *
-     * @param user_id  用户id
-     * @param keywords 关键字
      * @return
      */
-    public static Request<String> getGloableReceiveRequest(String user_id, String keywords) {
-        String timeStamp = DateUtil.getCurrentTimeStamp();
-        String randomStr = StringUtil.getRandomNumberString(7);
-        String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
-        String signature = StringUtil.getSignatureString(timeStamp, randomStr, encryption);
-        Request<String> request = NoHttp.createStringRequest(InterApi.SERVER_ADDRESS
-                + InterApi.ACTION_GLOABLE_RECEIVE_REQUEST, RequestMethod.GET);
-        request.add("method", InterApi.ACTION_GLOABLE_RECEIVE_REQUEST);
+    public static Request<String> getGloableReceiveRequest(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5+InterApi.ACTION_SEARCH_GLOBAL_PI, RequestMethod.POST);
         request.add("signature", signature);
-        request.add("timeStamp", timeStamp);     //时间戳
-        request.add("randomStr", randomStr);     //随机值
-        request.add("Encryption", encryption);    //加密值
-        request.add("user_id", user_id);
-        request.add("keywords", keywords);
+        request.add("user_id", params.get("user_id"));
+        request.add("value", params.get("key"));
+        request.add("type", params.get("type"));
+        request.add("page", params.get("page"));
         return request;
     }
+
 
     /**
      * 财务首页
@@ -3688,16 +3726,146 @@ public class NoHttpRequest {
     }
 
     /**
-     *入库 / 出库  1：入库  2：出库
+     *入库
      * @return
      */
     public static Request<String> managerRestory(HashMap<String,String> params) {
         String signature = StringUtil.getsignature(params);
-        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_4+InterApi.ACTION_REQUEST_ENTER, RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5+InterApi.ACTION_REQUEST_ENTER, RequestMethod.POST);
         request.add("signature", signature);
         request.add("user_id", params.get("user_id"));
-        request.add("str_data", params.get("str_data"));
-        request.add("type", params.get("type"));
+        request.add("check_data", params.get("check_data"));
+        return request;
+    }
+
+    /**
+     *入库
+     * @return
+     */
+    public static Request<String> managerRestory2(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5+InterApi.ACTION_REQUEST_ENTER2, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        request.add("check_data", params.get("check_data"));
+        return request;
+    }
+
+    /**
+     *出库
+     * @return
+     */
+    public static Request<String> outRestory(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5+InterApi.ACTION_REQUEST_OUT_RESPORT, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        request.add("pie_data", params.get("pie_data"));
+        return request;
+    }
+
+    /**
+     *出库
+     * @return
+     */
+    public static Request<String> outRestoryByQCode(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5+InterApi.ACTION_REQUEST_OUT_RESPORT_BY_QCODE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("station_id", params.get("station_id"));
+        request.add("code", params.get("code"));
+        return request;
+    }
+
+    /**
+     *出库
+     * @return
+     */
+    public static Request<String> isObservice(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_7+InterApi.ACTION_REQUEST_IS_OBSERVICE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("station_id", params.get("station_id"));
+        request.add("pie_id", params.get("pie_id"));
+        return request;
+    }
+
+    /**
+     *添加修改临时数据
+     * @return
+     */
+    public static Request<String> commitSubgleRestory(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5+InterApi.ACTION_REQUEST_ENTER_SINGLE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("mobile", params.get("mobile"));
+        request.add("user_id", params.get("user_id"));
+        request.add("code", params.get("code"));
+        request.add("number", params.get("number"));
+        request.add("express_id", params.get("express_id"));
+        request.add("check_id", params.get("check_id"));
+        request.add("uuid", params.get("uuid"));
+        return request;
+    }
+
+
+    /**
+     *添加修改临时数据
+     * @return
+     */
+    public static Request<String> commitSubgleRestory2(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_4+InterApi.ACTION_REQUEST_ENTER_SINGLE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("mobile", params.get("mobile"));
+        request.add("user_id", params.get("user_id"));
+        request.add("code", params.get("code"));
+        request.add("number", params.get("number"));
+        request.add("express_id", params.get("express_id"));
+        request.add("check_id", params.get("check_id"));
+        request.add("uuid", params.get("uuid"));
+        return request;
+    }
+    /**
+     * 修改取件码
+     * @return
+     */
+    public static Request<String> changeTakeCode(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5+InterApi.ACTION_REQUEST_CODE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        request.add("check_id", params.get("check_id"));
+        request.add("uuid", params.get("uuid"));
+        request.add("shelves_code", params.get("shelves_code"));
+        return request;
+    }
+
+    /**
+     * 删除
+     * @return
+     */
+    public static Request<String> deleteRestory(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5+InterApi.ACTION_REQUEST_DELETE_RESPORT, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        request.add("check_id", params.get("check_id"));
+        request.add("uuid", params.get("uuid"));
+        return request;
+    }
+
+
+    /**
+     * 删除
+     * @return
+     */
+    public static Request<String> deleteRestory2(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_4+InterApi.ACTION_REQUEST_DELETE_RESPORT, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        request.add("check_id", params.get("check_id"));
         return request;
     }
 
@@ -3715,16 +3883,232 @@ public class NoHttpRequest {
 
 
     /**
+     * 取件码
+     * @return
+     */
+    public static Request<String> checkEnterNumber(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5+InterApi.ACTION_CHECK_ENTER_CODE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("number", params.get("number"));
+        request.add("user_id", params.get("user_id"));
+        request.add("check_id", params.get("check_id"));
+        return request;
+    }
+
+    /**
+     * 取件码
+     * @return
+     */
+    public static Request<String> checkEnterNumber2(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_4+InterApi.ACTION_CHECK_ENTER_CODE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("number", params.get("number"));
+        request.add("user_id", params.get("user_id"));
+        return request;
+    }
+
+    /**
+     * 历史数据
+     * @return
+     */
+    public static Request<String> getHistoryData(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_4+InterApi.ACTION_GET_HISTORY_DATA, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        return request;
+    }
+
+    /**
+     * 历史数据
+     * @return
+     */
+    public static Request<String> getHistoryLastData(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_6+InterApi.ACTION_GET_HISTORY_LAST_DATA, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("station_id", params.get("station_id"));
+        return request;
+    }
+
+    /**
      * 检测出库订单的状态
      *
      * @return
      */
     public static Request<String> checkOutWailnumberStateRequest(HashMap<String,String> params) {
         String signature = StringUtil.getsignature(params);
-        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_4+InterApi.ACTION_CHECK_PHONE, RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_5+InterApi.ACTION_CHECK_PHONE, RequestMethod.POST);
         request.add("signature", signature);
         request.add("user_id", params.get("user_id"));
         request.add("number", params.get("number"));
         return request;
     }
+
+    /**
+     * 检测出库订单的状态
+     *
+     * @return
+     */
+    public static Request<String> getOrderRecorde(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_3+InterApi.ACTION_GET_ORDER_RECORDER, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        request.add("page", params.get("page"));
+        return request;
+    }
+
+    /**
+     * 上传手机号码
+     *
+     * @return
+     */
+    public static Request<String> commitPhoneNumber(HashMap<String,String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_1+InterApi.ACTION_COMMIT_RECORDER, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("user_id", params.get("user_id"));
+        request.add("local_phone", params.get("local_phone"));
+        request.add("call_phone", params.get("call_phone"));
+        return request;
+    }
+
+    /**
+     * 修改信息
+     *
+     * @return
+     */
+    public static Request<String> commitDataRequest(HashMap<String,String> parms) {
+        String signature = StringUtil.getsignature(parms);
+        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER+"station/Stationexpress/savePieinfo", RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("pie_id", parms.get("pie_id"));
+        request.add("mobile", parms.get("mobile"));
+        request.add("waybill_number", parms.get("waybill_number"));
+        request.add("pickup_code", parms.get("pickup_code"));
+        request.add("station_id", parms.get("station_id"));
+        return request;
+    }
+
+    /**
+     * 删除数据
+     *
+     * @return
+     */
+    public static Request<String> delFailureEnterData(HashMap<String,String> parms) {
+        String signature = StringUtil.getsignature(parms);
+        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER+"station/Stationexpress/delPieinfo", RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("station_id", parms.get("station_id"));
+        request.add("pie_id", parms.get("pie_id"));
+        return request;
+    }
+
+    /**
+     * 获取失败入库记录
+     *
+     * @return
+     */
+    public static Request<String> getFailureEnterData(HashMap<String,String> parms) {
+        String signature = StringUtil.getsignature(parms);
+        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER+"station/Stationexpress/pieFailRecord", RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("station_id", parms.get("station_id"));
+        request.add("page", parms.get("page"));
+        return request;
+    }
+
+    /**
+     * 获取入库情况
+     *
+     * @return
+     */
+    public static Request<String> getEnterStateData(HashMap<String,String> parms) {
+        String signature = StringUtil.getsignature(parms);
+        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER+"station/Stationexpress/indexData", RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("station_id", parms.get("station_id"));
+        return request;
+    }
+
+    /**
+     * 确认入库
+     */
+    public static Request<String> comfirmEnterRequest(String signature, Map<String, String> params) {
+        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER + "/bbapi/Submit/stationUploadExpressImg2", RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("uuid", params.get("uuid"));
+        request.add("number", params.get("number"));
+        request.add("pie_id", params.get("pie_id"));
+        request.add("courier_id", params.get("courier_id"));
+        request.add("express_name", params.get("express_name"));
+        request.add("mobile", params.get("mobile"));
+        request.add("code", params.get("code"));
+        return request;
+    }
+
+
+    /**
+     * 上传修改图片请求
+     */
+    public static Request<String> commitExpressPictureRequest(Map<String,String> params,String file) {
+        String signature = StringUtil.getsignature2(params);
+        BasicBinary fileBinary = new FileBinary(new File(file));
+        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER + "bbapi/Submit/stationUploadExpressImg2", RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("file", fileBinary);
+        request.add("uuid", params.get("uuid"));
+        request.add("station_id", params.get("station_id"));
+        return request;
+    }
+
+    /**
+     * 获取历史记录
+     *
+     * @return
+     */
+    public static Request<String> getCurrentData(HashMap<String, String> parms) {
+        String signature = StringUtil.getsignature2(parms);
+        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER + "bbapi/Submit/getStationLastPie", RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("station_id", parms.get("station_id"));
+        request.add("uuid", parms.get("uuid"));
+        return request;
+    }
+
+    /**
+     * 入库记录
+     *
+     * @return
+     */
+    public static Request<String> getEnterDateDetail(HashMap<String, String> parms) {
+        String signature = StringUtil.getsignature2(parms);
+        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER  + "bbapi/Submit/getStationDataList", RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("station_id", parms.get("station_id"));
+        request.add("type", parms.get("type"));
+        request.add("uuid", parms.get("uuid"));
+        return request;
+    }
+
+    /**
+     * 修改失败
+     */
+    public static Request<String> commitChange(Map<String, String> params) {
+        String signature = StringUtil.getsignature2(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER + "/bbapi/Submit/stationUpdatePie", RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("uuid", params.get("uuid"));
+        request.add("station_id", params.get("station_id"));
+        request.add("pie_id", params.get("pie_id"));
+        request.add("express_id", params.get("express_id"));
+        request.add("code", params.get("code"));
+        request.add("mobile", params.get("mobile"));
+        request.add("number", params.get("number"));
+        return request;
+    }
+
 }

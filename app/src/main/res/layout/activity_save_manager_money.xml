@@ -43,7 +43,7 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center_vertical"
@@ -64,7 +64,7 @@
         android:background="@color/whilte"
         android:orientation="vertical">
         
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:paddingLeft="10dp"
             android:id="@+id/recycler"
             android:layout_width="match_parent"

@@ -97,7 +97,7 @@
 
 
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,14 +120,14 @@
         android:layout_height="8dp"
         android:background="@color/grey_6" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rl_goods_order"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 

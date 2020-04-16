@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".community.activity.SettingActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:paddingLeft="10dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_araw_left_grey" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="拍照入库"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/theme_splite_view"
+        android:layout_height="8dp"
+        android:background="@color/grey_6" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/whilte"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="12dp"
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:text="选择货架"
+                android:textColor="@color/grey_7"
+                android:textSize="15dp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rl_shelf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/whilte"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="15dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:text="选择格子号"
+                android:textColor="@color/grey_7"
+                android:textSize="15dp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rl_shelf_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/whilte"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="15dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:text="此次要放入几个件到这个格子？"
+                android:textColor="@color/grey_7"
+                android:textSize="15dp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rl_shelf_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/whilte"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="15dp">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:text="快递公司"
+                android:textColor="@color/grey_7"
+                android:textSize="15dp" />
+
+            <com.zhy.view.flowlayout.TagFlowLayout
+                android:id="@+id/rl_express"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                zhy:max_select="1"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/shap_solid_green_circle"
+        android:clickable="false"
+        android:gravity="center"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:textSize="14dp" />
+
+</LinearLayout>

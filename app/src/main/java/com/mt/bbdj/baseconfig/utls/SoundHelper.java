@@ -18,6 +18,7 @@ import com.mt.bbdj.baseconfig.application.MyApplication;
  */
 public class SoundHelper {
 
+    private final int take_photo;
     private SoundPool soundPool;
     private int idReceive;
     private int idRepeat;
@@ -25,6 +26,15 @@ public class SoundHelper {
     private int idNotify;
     private int idChange;
     private int idEnter;
+    private int out_promite;
+    private int take_again;
+    private int take_code_again;
+    private int take_linear_again;
+    private int take_zhongtong;
+    private int take_yunda;
+    private int take_yuantong;
+    private int take_baishi;
+    private int take_shentong;
     private static SoundHelper helper;
 
     @SuppressLint("NewApi")
@@ -46,6 +56,18 @@ public class SoundHelper {
         idNotify = soundPool.load(context, R.raw.beep, 1);
         idChange = soundPool.load(context, R.raw.ic_change, 1);
         idEnter = soundPool.load(context, R.raw.ic_enter, 1);
+        take_photo = soundPool.load(context, R.raw.take_picture, 1);
+        out_promite = soundPool.load(context, R.raw.out_promite, 1);
+
+        take_again = soundPool.load(context, R.raw.ic_take_again, 1);
+        take_code_again = soundPool.load(context, R.raw.ic_code, 1);
+        take_linear_again = soundPool.load(context, R.raw.ic_linnera, 1);
+
+        take_zhongtong = soundPool.load(context, R.raw.play_zhongtong, 1);
+        take_yunda = soundPool.load(context, R.raw.play_yunda,1);
+        take_yuantong = soundPool.load(context, R.raw.play_yuantong, 1);
+        take_baishi = soundPool.load(context, R.raw.play_baishi, 1);
+        take_shentong = soundPool.load(context, R.raw.ic_shentong, 1);
     }
 
     public static void  init() {
@@ -98,6 +120,41 @@ public class SoundHelper {
         soundPool.play(idEnter,1,1,10,0,1);
     }
 
+    //拍照成功
+    public void takePhoto(){
+        soundPool.play(take_photo,1,1,10,0,1);
+    }
+
+    public void outPromite(){soundPool.play(out_promite,1,1,10,0,1);}
+
+    //识别识别取件码拍照
+    public void playTakeCodeAgain(){
+        soundPool.play(take_code_again,1,1,10,0,1);
+    }
+
+    //条形码
+    public void playTakeLinearAgain(){
+        soundPool.play(take_linear_again,1,1,10,0,1);
+    }
+
+    public void playZhongtong(){
+        soundPool.play(take_zhongtong,1,1,10,0,1);
+    }
+
+    public void playYunda(){
+        soundPool.play(take_yunda,1,1,10,0,1);
+    }
+
+    public void playYuantong(){
+        soundPool.play(take_yuantong,1,1,10,0,1);
+    }
+    public void playShentong(){
+        soundPool.play(take_shentong,1,1,10,0,1);
+    }
+
+    public void playBaishi(){
+        soundPool.play(take_baishi,1,1,10,0,1);
+    }
 
 
     public void release() {

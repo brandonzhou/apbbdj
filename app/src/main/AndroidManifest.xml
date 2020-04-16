@@ -3,6 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mt.bbdj">
 
+    <uses-sdk tools:overrideLibrary="cn.jzvd,org.raphets.roundimageview" />
+    <!--android 9.0上使用前台服务，需要添加权限-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 往SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 访问internet权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.READ_APP_BADGE" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- 解锁屏幕需要的权限 -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" /> <!-- 申请电源锁需要的权限 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required -->
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" /> <!-- Optional. Required for location feature -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.GET_TASKS" /> <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+
     <application
         android:name=".baseconfig.application.SophixStubApplication"
         android:allowBackup="false"
@@ -11,11 +48,60 @@
         android:roundIcon="@drawable/ic_logo_"
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:label,theme,icon,allowBackup">
+        <activity
+            android:name=".community.activity.SelectEnterExpressActivity"
+            android:screenOrientation="portrait" />
+
+        <service android:name=".baseconfig.service.UploadService" />
+        <service android:name=".baseconfig.service.MonitorPhoneService" />
+
+        <receiver android:name=".baseconfig.receiver.MonitorPhoneBroastcastReceive">
+            <intent-filter>
+                <action android:name="com.mt.bbdj.start" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".community.activity.PaymentRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.OrderRecordDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.PaymentDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.OrderRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.CameraForRightNowActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.FailureEnterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.ChangeExpressMessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.EnterDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.CheckPictureDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.TakePictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.EditCodeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".community.activity.ScannerActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".community.activity.ScannerPrintActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".community.activity.SelectExpressActivity"
             android:screenOrientation="portrait" />
@@ -25,6 +111,27 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".community.activity.PrintPannelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.PrintCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.PrintLabelSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.PrintLabelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.PrintTakeNumberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".baseconfig.utls.camera.CameraActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.QCodeScanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.EnterSelectLocationActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".community.activity.ManualMailingActivity"
@@ -81,6 +188,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".community.activity.AddGoodsPriceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.PrintCodeSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".community.activity.PrintTakeNumber1Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".community.activity.BindUserActivity"
@@ -467,7 +580,7 @@
             android:value="MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCEHZykgi6HUNeixv+j7uNXcgkrnk4uxb9v3YCBhl1wwXT6islWEHpbGZJVoKIp4lSwtGEwtShAz0mCtP4PYiSHSPe1r5AsNokxNF7IK2xmSStYp7Y7kFbvBxFR4Jp7QsEdMUe9I3ioSfRv/bo/SPic2uluWmHs55TH4v7RrqhKhqdpksqJMY9/22FFoJ1lGVnu1cnUw+2pAhhQWwOiLyRvBdKB76AzMWFy3lolse2OJ/CAw4qQUX4i/hJSdJ4vFltOFW1Qh8FjjIEEf6ykWQdJrXrVBcNs6uEto0DF7/+X3CmGBfGXfCcR9yznc+3vlgSa2ft9znjqofukcIjct+ORAgMBAAECggEAQlU/1dVLGUO80QzLQ/roiHpIIm9cX92Hrdnv8JiPB9MKMdVHG4AwftcLAxUg9pid3w7iEXuTl168UPUg7oZfQtGfFcjtQVWsclkSEbzDs2OfcObb93IUQ/UvfAWiaqrsnQSmOU+6//wJz8T8I1Q3B0Jem7qjmjf4GphdStg/xRK2/l6EVcOEPamrIC2+WTdSfKTPT6BJY+tZnMXdPyyAan+eK6jy83nt7EdquVaWmnZbGOIu4SkJsjrk5a9/6hw5zHlchmkjCj3JPmSkhipN+WEayWTJ/McDBg72MmU5fbE6Q26S8rZ96C230SLFwR0hTAgFwQk3XlKT3wlwXigs8QKBgQDMVGuXxs3w3td3718OCD91zvzZXD8KhVmoLJE9hMKhFAEUvhe9vPRzxH0/RNqIkY+8CrBu/V44TIYuS1tGP8CPd6r01auNU0gKADKvtVEnR8ln/3lmg+78NrwBHtSUrOVW+BO5tdj7ubLAgKwzcp5D3M7CCfbjsmUuEMobCNgnPQKBgQClhk8Qrk1qYpLssPi6QwQzbweYn6vJeLfqgpFgcCxyvsvhSUTWoA5orFKgXnRTI5iK+v5IVlpL231V8gMehZC48ztO9cFX6SSwDuPhmKylX0f1l9k/2vLq+FW+4DlxApwTxNPNrLzojmk5BhARSExbXjkku+aEbSJLj5QqkKyS5QKBgDZWLNaL07A+UmZejZSZtOaLSMo0sb8GfzUtxOHrMCbNvwvZEU8vtIIkunncwZCXxPVokkqxriCimPwupfMkePyuAhRhzeEjSIEAVHpNaWtct76kPZB5fVAs7goOPNHcuJBMIFK+fRlT5Kk0jpaP4G6DhagsJi+e/TEm3dgangCxAoGAHwsAWw2FgVU5XuCV1UDqUccZ8prHegKE45tXLnH7NA3qaLb4DRR5f1IKMP9l6426dx45gFGJn75rVCoOQbQk/zrGvblDaHxWIBq6zD14647iDQJMgThL5JtsYV7mBvbJVL/ORT2HNEo5G7OyYbtgbqZOK0B+LAnXq7oivJTjeK0CgYEAh1Z0BFmiTvn80q2I1t/inpdk1X4T78g2X+/OT/dPgR8DTKqr8iEzwr0CklYZPthFvm1GU7bDjaBNAzQF+sdqvVcMqArApFIItf6ltmi9zLaKvJ9YNWva+tkfhWx1mA2Efd8fvB3UaDXzwTsPDflwf5VZKjrJYM848x3nhk0Yp5Q=" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -478,41 +591,5 @@
 
         <service android:name="com.amap.api.location.APSService" />
     </application>
-
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 往SDCard写入数据权限 -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 访问internet权限 -->
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="android.permission.READ_APP_BADGE" />
-    <uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- 解锁屏幕需要的权限 -->
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" /> <!-- 申请电源锁需要的权限 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required -->
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" /> <!-- Optional. Required for location feature -->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.GET_TASKS" /> <!-- 这个权限用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于读取手机当前的状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 访问网络，网络定位需要上网 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- SD卡读取权限，用户写入离线定位数据 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
-
-    <uses-sdk tools:overrideLibrary="cn.jzvd,org.raphets.roundimageview" />
 
 </manifest>

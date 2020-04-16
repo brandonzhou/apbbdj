@@ -65,7 +65,7 @@
         android:layout_height="1dp"/>
 
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rl_cause_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
         android:paddingBottom="10dp"
         android:paddingRight="15dp">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
     <View
@@ -101,7 +101,7 @@
             android:scaleType="fitCenter"
             android:layout_height="20dp" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:paddingRight="15dp"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"

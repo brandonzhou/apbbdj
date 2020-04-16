@@ -1,7 +1,9 @@
 package com.mt.bbdj.baseconfig.utls;
 
 import android.os.Build;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;

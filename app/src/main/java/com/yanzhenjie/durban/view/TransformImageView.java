@@ -21,9 +21,13 @@ import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -41,7 +45,7 @@ import com.yanzhenjie.durban.util.RectUtils;
  * </p>
  * Update by Yan Zhenjie on 2017/5/23.
  */
-public class TransformImageView extends android.support.v7.widget.AppCompatImageView {
+public class TransformImageView extends AppCompatImageView {
 
     private static final String TAG = "TransformImageView";
 

@@ -11,6 +11,7 @@ import org.greenrobot.greendao.internal.DaoConfig;
 import com.mt.bbdj.baseconfig.db.BluetoothMessage;
 import com.mt.bbdj.baseconfig.db.City;
 import com.mt.bbdj.baseconfig.db.County;
+import com.mt.bbdj.baseconfig.db.ExpressImage;
 import com.mt.bbdj.baseconfig.db.ExpressLogo;
 import com.mt.bbdj.baseconfig.db.MingleArea;
 import com.mt.bbdj.baseconfig.db.Province;
@@ -21,6 +22,7 @@ import com.mt.bbdj.baseconfig.db.WaillMessage;
 import com.mt.bbdj.baseconfig.db.gen.BluetoothMessageDao;
 import com.mt.bbdj.baseconfig.db.gen.CityDao;
 import com.mt.bbdj.baseconfig.db.gen.CountyDao;
+import com.mt.bbdj.baseconfig.db.gen.ExpressImageDao;
 import com.mt.bbdj.baseconfig.db.gen.ExpressLogoDao;
 import com.mt.bbdj.baseconfig.db.gen.MingleAreaDao;
 import com.mt.bbdj.baseconfig.db.gen.ProvinceDao;
@@ -40,6 +42,7 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig bluetoothMessageDaoConfig;
     private final DaoConfig cityDaoConfig;
     private final DaoConfig countyDaoConfig;
+    private final DaoConfig expressImageDaoConfig;
     private final DaoConfig expressLogoDaoConfig;
     private final DaoConfig mingleAreaDaoConfig;
     private final DaoConfig provinceDaoConfig;
@@ -50,6 +53,7 @@ public class DaoSession extends AbstractDaoSession {
     private final BluetoothMessageDao bluetoothMessageDao;
     private final CityDao cityDao;
     private final CountyDao countyDao;
+    private final ExpressImageDao expressImageDao;
     private final ExpressLogoDao expressLogoDao;
     private final MingleAreaDao mingleAreaDao;
     private final ProvinceDao provinceDao;
@@ -69,6 +73,9 @@ public class DaoSession extends AbstractDaoSession {
 
         countyDaoConfig = daoConfigMap.get(CountyDao.class).clone();
         countyDaoConfig.initIdentityScope(type);
+
+        expressImageDaoConfig = daoConfigMap.get(ExpressImageDao.class).clone();
+        expressImageDaoConfig.initIdentityScope(type);
 
         expressLogoDaoConfig = daoConfigMap.get(ExpressLogoDao.class).clone();
         expressLogoDaoConfig.initIdentityScope(type);
@@ -91,6 +98,7 @@ public class DaoSession extends AbstractDaoSession {
         bluetoothMessageDao = new BluetoothMessageDao(bluetoothMessageDaoConfig, this);
         cityDao = new CityDao(cityDaoConfig, this);
         countyDao = new CountyDao(countyDaoConfig, this);
+        expressImageDao = new ExpressImageDao(expressImageDaoConfig, this);
         expressLogoDao = new ExpressLogoDao(expressLogoDaoConfig, this);
         mingleAreaDao = new MingleAreaDao(mingleAreaDaoConfig, this);
         provinceDao = new ProvinceDao(provinceDaoConfig, this);
@@ -101,6 +109,7 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(BluetoothMessage.class, bluetoothMessageDao);
         registerDao(City.class, cityDao);
         registerDao(County.class, countyDao);
+        registerDao(ExpressImage.class, expressImageDao);
         registerDao(ExpressLogo.class, expressLogoDao);
         registerDao(MingleArea.class, mingleAreaDao);
         registerDao(Province.class, provinceDao);
@@ -113,6 +122,7 @@ public class DaoSession extends AbstractDaoSession {
         bluetoothMessageDaoConfig.clearIdentityScope();
         cityDaoConfig.clearIdentityScope();
         countyDaoConfig.clearIdentityScope();
+        expressImageDaoConfig.clearIdentityScope();
         expressLogoDaoConfig.clearIdentityScope();
         mingleAreaDaoConfig.clearIdentityScope();
         provinceDaoConfig.clearIdentityScope();
@@ -131,6 +141,10 @@ public class DaoSession extends AbstractDaoSession {
 
     public CountyDao getCountyDao() {
         return countyDao;
+    }
+
+    public ExpressImageDao getExpressImageDao() {
+        return expressImageDao;
     }
 
     public ExpressLogoDao getExpressLogoDao() {

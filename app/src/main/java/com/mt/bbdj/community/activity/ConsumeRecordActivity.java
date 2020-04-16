@@ -3,7 +3,7 @@ package com.mt.bbdj.community.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -205,7 +205,7 @@ public class ConsumeRecordActivity extends BaseActivity implements XRecyclerView
     }
 
     private void requestData() {
-        Request<String> request = NoHttpRequest.getConsumeRecordRequest(user_id, mPage, startTime, endTime);
+        Request<String> request = NoHttpRequest.getConsumeRecordRequest(user_id, mPage);
         mRequestQueue.add(REQUEST_CONSUME_REQUEST, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {

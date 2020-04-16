@@ -11,6 +11,7 @@
     <color name="red">#fe5e5e</color>
     <color name="red_2">#FFCCCC</color>
     <color name="red_1">#FF0000</color>
+    <color name="grey_tran">#80777777</color>
     <color name="red_3">#fffff7ef</color>
     <color name="red_4">#F9B069</color>
     <color name="whilte">#ffffff</color>
@@ -75,7 +76,8 @@
     <color name="color_afff">#afff</color>
 
     <color name="background">#F9F7F8</color>
-    <color name="bg_color">#f2f2f2</color>>
+    <color name="bg_color">#f2f2f2</color>
+    <color name="white_tran">#80ffffff</color>
 
 
 </resources>

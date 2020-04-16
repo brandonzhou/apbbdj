@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:paddingTop="150dp"
-        android:text="暂无数据哦~"
+        android:text="请搜索数据"
         android:textColor="@color/grey_2"
         android:textSize="14sp" />
 

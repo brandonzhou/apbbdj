@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:keepScreenOn="true"
+        app:cameraAudio="on"
+        app:cameraAutoFocusMarker="@string/cameraview_default_autofocus_marker"
+        app:cameraEngine="camera1"
+        app:cameraExperimental="true"
+        app:cameraFacing="back"
+        app:cameraFlash="auto"
+        app:cameraGestureLongTap="none"
+        app:cameraGesturePinch="zoom"
+        app:cameraGestureScrollHorizontal="none"
+        app:cameraGestureScrollVertical="none"
+        app:cameraGestureTap="autoFocus"
+        app:cameraGrid="off"
+        app:cameraMode="picture"
+        app:cameraPictureSizeAspectRatio="3:4"
+        app:cameraPlaySounds="false"
+        app:cameraPreview="glSurface"
+        app:cameraSnapshotMaxHeight="1600"
+        app:cameraSnapshotMaxWidth="900">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="115dp"
+            android:background="@drawable/shape_border_blue" />
+
+        <TextView
+            android:id="@+id/tv_express"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="60dp"
+            android:clickable="false"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/yellow"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+    </com.otaliastudios.cameraview.CameraView>
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/ic_back_3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
+
+    <TextView
+        android:layout_marginBottom="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:text="↑面单与二维码方向朝上↑"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingLeft="10dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="15dp">
+
+        <FrameLayout
+            android:id="@+id/fram_layout_picture"
+            android:background="@color/grey_tran"
+            android:layout_width="60dp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_old_picture"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_centerInParent="true"
+                android:id="@+id/tv_code"
+                android:textColor="@color/red"
+                android:autoSizeTextType="uniform"
+                android:autoSizeStepGranularity="2dp"
+                android:maxLines="1"
+                android:gravity="center"
+                android:layout_width="55dp"
+                android:layout_height="80dp"/>
+
+        </FrameLayout>
+
+
+
+        <ImageView
+            android:id="@+id/capturePictureSnapshot"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            app:srcCompat="@drawable/take_picture"
+            app:layout_drawOnPictureSnapshot="true"
+            app:layout_drawOnPreview="true"
+            app:layout_drawOnVideoSnapshot="true" />
+    </RelativeLayout>
+
+
+</FrameLayout>

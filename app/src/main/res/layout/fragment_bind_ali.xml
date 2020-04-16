@@ -100,7 +100,7 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:minHeight="25dp"
@@ -110,7 +110,7 @@
         android:text="2、只可绑定一个支付宝账号"
         android:textSize="13sp" />
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

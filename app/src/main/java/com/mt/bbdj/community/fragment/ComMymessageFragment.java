@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -191,7 +193,6 @@ public class ComMymessageFragment extends BaseFragment {
     }
 
     private void showConnectMaster() {
-
         new CircleDialog.Builder()
                 .setTitle("联系管家")
                 .setText("\n400-775-0008\n")
@@ -310,7 +311,6 @@ public class ComMymessageFragment extends BaseFragment {
                 String msg = jsonObject.get("msg").toString();
                 JSONObject dataObj = jsonObject.getJSONObject("data");
                 if ("5001".equals(code)) {
-                    userBaseMessageDao.deleteAll();
                     String user_id = dataObj.getString("user_id");
                     String headimg = dataObj.getString("headimg");
                     String mingcheng = dataObj.getString("mingcheng");
@@ -344,7 +344,7 @@ public class ComMymessageFragment extends BaseFragment {
                     double userMoney = balanceNumber - min_balanceNumber;
                     tvMoney.setText("可用余额  " + StringUtil.formatDouble(userMoney)+"元");
                     tvBirthday.setText("入驻天数  " + birthday + "天");
-                    userBaseMessageDao.save(userBaseMessage);
+                    userBaseMessageDao.update(userBaseMessage);
                     tvMingMoney.setText("保证金 : " + min_balance+"元");
                 } else {
                     ToastUtil.showShort(msg);
@@ -357,7 +357,7 @@ public class ComMymessageFragment extends BaseFragment {
 
         @Override
         public void onFailed(int what, Response<String> response) {
-            loginOut();
+           // loginOut();
         }
 
         @Override

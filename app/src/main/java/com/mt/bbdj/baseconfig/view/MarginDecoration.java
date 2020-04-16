@@ -2,7 +2,7 @@ package com.mt.bbdj.baseconfig.view;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.mt.bbdj.R;

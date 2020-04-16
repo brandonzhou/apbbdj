@@ -38,6 +38,8 @@ public class UserBaseMessageDao extends AbstractDao<UserBaseMessage, Long> {
         public final static Property Address = new Property(11, String.class, "address", false, "address");
         public final static Property Latitude = new Property(12, String.class, "latitude", false, "latitude");
         public final static Property Longitude = new Property(13, String.class, "longitude", false, "longitude");
+        public final static Property Zto_company_id = new Property(14, String.class, "zto_company_id", false, "zto_company_id");
+        public final static Property Zto_company_key = new Property(15, String.class, "zto_company_key", false, "zto_company_key");
     }
 
 
@@ -66,7 +68,9 @@ public class UserBaseMessageDao extends AbstractDao<UserBaseMessage, Long> {
                 "\"contact_account\" TEXT," + // 10: contact_account
                 "\"address\" TEXT," + // 11: address
                 "\"latitude\" TEXT," + // 12: latitude
-                "\"longitude\" TEXT);"); // 13: longitude
+                "\"longitude\" TEXT," + // 13: longitude
+                "\"zto_company_id\" TEXT," + // 14: zto_company_id
+                "\"zto_company_key\" TEXT);"); // 15: zto_company_key
     }
 
     /** Drops the underlying database table. */
@@ -148,6 +152,16 @@ public class UserBaseMessageDao extends AbstractDao<UserBaseMessage, Long> {
         if (longitude != null) {
             stmt.bindString(14, longitude);
         }
+ 
+        String zto_company_id = entity.getZto_company_id();
+        if (zto_company_id != null) {
+            stmt.bindString(15, zto_company_id);
+        }
+ 
+        String zto_company_key = entity.getZto_company_key();
+        if (zto_company_key != null) {
+            stmt.bindString(16, zto_company_key);
+        }
     }
 
     @Override
@@ -223,6 +237,16 @@ public class UserBaseMessageDao extends AbstractDao<UserBaseMessage, Long> {
         if (longitude != null) {
             stmt.bindString(14, longitude);
         }
+ 
+        String zto_company_id = entity.getZto_company_id();
+        if (zto_company_id != null) {
+            stmt.bindString(15, zto_company_id);
+        }
+ 
+        String zto_company_key = entity.getZto_company_key();
+        if (zto_company_key != null) {
+            stmt.bindString(16, zto_company_key);
+        }
     }
 
     @Override
@@ -246,7 +270,9 @@ public class UserBaseMessageDao extends AbstractDao<UserBaseMessage, Long> {
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // contact_account
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // address
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // latitude
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // longitude
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // longitude
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // zto_company_id
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // zto_company_key
         );
         return entity;
     }
@@ -267,6 +293,8 @@ public class UserBaseMessageDao extends AbstractDao<UserBaseMessage, Long> {
         entity.setAddress(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setLatitude(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setLongitude(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setZto_company_id(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setZto_company_key(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
      }
     
     @Override

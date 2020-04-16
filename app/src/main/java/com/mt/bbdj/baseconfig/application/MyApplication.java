@@ -1,27 +1,18 @@
 package com.mt.bbdj.baseconfig.application;
 
 import android.app.Application;
-import android.app.Notification;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
-import com.mt.bbdj.R;
-import com.mt.bbdj.baseconfig.model.Constant;
-import com.mt.bbdj.baseconfig.utls.CrashHandler;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
-import com.mt.bbdj.baseconfig.utls.IntegerUtil;
 import com.mt.bbdj.baseconfig.utls.RxTool;
 import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
 import com.mt.bbdj.baseconfig.utls.SoundHelper;
-import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
-import com.taobao.sophix.SophixManager;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
@@ -35,6 +26,7 @@ import com.yanzhenjie.nohttp.cookie.DBCookieStore;
 import com.zto.recognition.phonenumber.OCRManager;
 
 import org.android.agoo.huawei.HuaWeiRegister;
+import org.android.agoo.xiaomi.MiPushRegistar;
 
 
 /**
@@ -63,15 +55,13 @@ public class MyApplication extends Application {
         RxTool.init(this);
         ToastUtil.init(this);
 
-       // CrashReport.initCrashReport(getApplicationContext(), "28ee43e70a", false);
+        CrashReport.initCrashReport(getApplicationContext(), "28ee43e70a", false);
         //bug收集
         // CrashHandler.getInstance().init(this);
 
         SoundHelper.init();
 
         initSettingPush();   //初始化推送
-
-        OCRManager.getInstance().init(this, "user111", "be0dbfb7f29742e99870ea449a79a55b","0dea3801685b");
     }
 
     private void initSettingPush() {
@@ -91,6 +81,7 @@ public class MyApplication extends Application {
         });
 
         HuaWeiRegister.register(this);
+        MiPushRegistar.register(this,"2882303761518221507","5931822122507");
     }
 
     @Override

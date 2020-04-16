@@ -42,12 +42,16 @@ public class UserBaseMessage {
     private String latitude;    //纬度
     @Property(nameInDb = "longitude")
     private String longitude;    //经度
-    @Generated(hash = 489780557)
+    @Property(nameInDb = "zto_company_id")
+    private String zto_company_id;
+    @Property(nameInDb = "zto_company_key")
+    private String zto_company_key;
+    @Generated(hash = 165793381)
     public UserBaseMessage(Long mainId, String user_id, String user_type,
             String headimg, String mingcheng, String contacts,
             String contact_number, String contact_email, String birthday,
             String balance, String contact_account, String address, String latitude,
-            String longitude) {
+            String longitude, String zto_company_id, String zto_company_key) {
         this.mainId = mainId;
         this.user_id = user_id;
         this.user_type = user_type;
@@ -62,6 +66,8 @@ public class UserBaseMessage {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.zto_company_id = zto_company_id;
+        this.zto_company_key = zto_company_key;
     }
     @Generated(hash = 1135630984)
     public UserBaseMessage() {
@@ -150,5 +156,16 @@ public class UserBaseMessage {
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
-
+    public String getZto_company_id() {
+        return this.zto_company_id;
+    }
+    public void setZto_company_id(String zto_company_id) {
+        this.zto_company_id = zto_company_id;
+    }
+    public String getZto_company_key() {
+        return this.zto_company_key;
+    }
+    public void setZto_company_key(String zto_company_key) {
+        this.zto_company_key = zto_company_key;
+    }
 }

@@ -7,10 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,6 +16,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.alipay.sdk.app.PayTask;
 import com.mt.bbdj.R;
@@ -336,7 +337,8 @@ public class RechargeActivity extends BaseActivity {
                 sb.append(k + "=" + v + "&");
             }
         }
-        sb.append("key=" + "2cd620ce8605b9c0191dc5af32bd8455");
+        //sb.append("key=" + "2cd620ce8605b9c0191dc5af32bd8455");
+        sb.append("key=" + "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
         // String sign = MD5Utils.encode(sb.toString()).toUpperCase();
         String sign = MD5Util.toMD5(sb.toString()).toUpperCase();
         return sign;

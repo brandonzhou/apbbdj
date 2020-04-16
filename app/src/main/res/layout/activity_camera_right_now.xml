@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:orientation="vertical"
+    tools:context=".community.activity.CameraForRightNowActivity">
+
+
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:keepScreenOn="true"
+        app:cameraAudio="on"
+        app:cameraAutoFocusMarker="@string/cameraview_default_autofocus_marker"
+        app:cameraEngine="camera1"
+        app:cameraExperimental="true"
+        app:cameraFacing="back"
+        app:cameraFlash="auto"
+        app:cameraGestureLongTap="none"
+        app:cameraGesturePinch="zoom"
+        app:cameraGestureScrollHorizontal="none"
+        app:cameraGestureScrollVertical="none"
+        app:cameraGestureTap="autoFocus"
+        app:cameraGrid="off"
+        app:cameraMode="picture"
+        app:cameraPictureSizeAspectRatio="3:4"
+        app:cameraPlaySounds="false"
+        app:cameraPreview="glSurface"
+        app:cameraSnapshotMaxHeight="1600"
+        app:cameraSnapshotMaxWidth="900">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="135dp"
+            android:background="@drawable/shape_border_blue" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_express"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="60dp"
+            android:clickable="false"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/yellow"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+    </com.otaliastudios.cameraview.CameraView>
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/ic_back_3" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="130dp"
+        android:gravity="center"
+        android:text="↑面单与二维码方向朝上↑"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="130dp">
+
+        <LinearLayout
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="75dp">
+
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="100dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:text="上一条记录"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+
+                <TextView
+                    android:id="@+id/tv_last_one"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_express_name"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:gravity="center_vertical"
+                    android:text="快递公司"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"/>
+
+                <TextView
+                    android:id="@+id/tv_express_number"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:gravity="center_vertical"
+                    android:text="运单号"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"/>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:text="入库成功"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+
+                <TextView
+                    android:id="@+id/tv_success"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:text="待处理"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+
+                <TextView
+                    android:id="@+id/tv_handing"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:text="处理中"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+
+                <TextView
+                    android:id="@+id/tv_loading"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="80dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:text="入库失败"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+
+                <TextView
+                    android:id="@+id/tv_failure"
+                    android:textColor="@color/red"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"/>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/tv_express_detail"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:visibility="invisible"
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:text="入库失败"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:textColor="@color/blue"
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:text="去处理"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"/>
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_take_picture"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/shape_solid_select_bt"
+            android:gravity="center"
+            android:text="拍照"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="65dp"
+        android:background="@drawable/shape_solid_circle_grey"
+        android:gravity="center"
+        android:text="系统处理中，请稍候"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:visibility="gone" />
+
+
+    <include
+        android:id="@+id/layout_success"
+        layout="@layout/layout_enter_success"
+        android:visibility="gone" />
+
+
+    <include
+        android:id="@+id/layout_failure"
+        layout="@layout/layout_enter_failure"
+        android:visibility="gone" />
+
+</FrameLayout>

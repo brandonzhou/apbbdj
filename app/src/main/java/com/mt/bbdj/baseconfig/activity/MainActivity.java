@@ -1,6 +1,6 @@
 package com.mt.bbdj.baseconfig.activity;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 
 import com.mt.bbdj.R;

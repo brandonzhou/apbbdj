@@ -16,7 +16,7 @@
 package com.yanzhenjie.durban.util;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.yanzhenjie.durban.error.StorageError;
 

@@ -76,8 +76,6 @@ public class DispatchingTypeActivity extends BaseActivity {
         initParams();
         initView();
         initClickListener();
-
-
     }
 
 
@@ -221,7 +219,7 @@ public class DispatchingTypeActivity extends BaseActivity {
                         selectDistributionMode(1,"0");
                     }
                 })
-                .setNegative("换种方式", null)
+                .setNegative("自己配送", null)
                 .show(getSupportFragmentManager());
     }
 

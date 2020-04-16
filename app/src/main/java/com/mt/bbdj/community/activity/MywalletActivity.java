@@ -2,12 +2,14 @@ package com.mt.bbdj.community.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
@@ -87,7 +89,7 @@ public class MywalletActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.iv_back, R.id.bt_withdraw_cash, R.id.ll_withdraw_record,R.id.ll_my_order,
+    @OnClick({R.id.iv_back, R.id.bt_withdraw_cash, R.id.ll_withdraw_record, R.id.ll_my_order,
             R.id.ll_consume_record, R.id.ll_bind_account, R.id.bt_recharge, R.id.ll_recharge_record})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -101,7 +103,7 @@ public class MywalletActivity extends AppCompatActivity {
                 showWithdrawCashRecordPannel();   //提现记录
                 break;
             case R.id.ll_consume_record:
-                showConsumeRecordPannel();    //消费记录
+                showConsumeRecordPannel();    //收支明细
                 break;
             case R.id.ll_bind_account:
                 showBindAccountPannel();    //绑定提现账户
@@ -109,7 +111,7 @@ public class MywalletActivity extends AppCompatActivity {
             case R.id.bt_recharge:    //充值
                 handleRecharge();
                 break;
-            case R.id.ll_recharge_record:     //充值记录
+            case R.id.ll_recharge_record:     //订单记录
                 showRechargePannel();
                 break;
             case R.id.ll_my_order:   //我的订单
@@ -124,8 +126,9 @@ public class MywalletActivity extends AppCompatActivity {
     }
 
     private void showRechargePannel() {
-        Intent intent = new Intent(this, RechargeRecordActivity.class);
-        startActivity(intent);
+        OrderRecordActivity.actionTo(this,user_id);
+//        Intent intent = new Intent(this, RechargeRecordActivity.class);
+//        startActivity(intent);
     }
 
     private void handleRecharge() {
@@ -139,13 +142,13 @@ public class MywalletActivity extends AppCompatActivity {
     }
 
     private void showConsumeRecordPannel() {
-        Intent intent = new Intent(this, ConsumeRecordActivity.class);
-        startActivity(intent);
+        PaymentRecordActivity.actionTo(this,user_id);
+//        Intent intent = new Intent(this, ConsumeRecordActivity.class);
+//        startActivity(intent);
     }
 
     private void showWithdrawCashRecordPannel() {
         Intent intent = new Intent(this, WithdrawCashRecordActivity.class);
-
         startActivity(intent);
     }
 
@@ -181,7 +184,6 @@ public class MywalletActivity extends AppCompatActivity {
                 String msg = jsonObject.get("msg").toString();
                 JSONObject dataObj = jsonObject.getJSONObject("data");
                 if ("5001".equals(code)) {
-                    userBaseMessageDao.deleteAll();
                     String user_id = dataObj.getString("user_id");
                     String headimg = dataObj.getString("headimg");
                     String mingcheng = dataObj.getString("mingcheng");
@@ -204,12 +206,12 @@ public class MywalletActivity extends AppCompatActivity {
                     userBaseMessage.setBirthday(birthday);
                     userBaseMessage.setBalance(balance);
 
-                    double balanceNumber =  StringUtil.changeStringToDouble(balance);
-                    double min_balanceNumber  =  StringUtil.changeStringToDouble(min_balance);
+                    double balanceNumber = StringUtil.changeStringToDouble(balance);
+                    double min_balanceNumber = StringUtil.changeStringToDouble(min_balance);
                     double userMoney = balanceNumber - min_balanceNumber;
-                    tvCurrentMoney.setText("可用余额  " + StringUtil.formatDouble(userMoney)+"元");
-                    userBaseMessageDao.save(userBaseMessage);
-                    tvMingMoney.setText("保证金 : "+ min_balance);
+                    tvCurrentMoney.setText("可用余额  " + StringUtil.formatDouble(userMoney) + "元");
+                    // userBaseMessageDao.update(userBaseMessage);
+                    tvMingMoney.setText("保证金 : " + min_balance);
                 } else {
                     ToastUtil.showShort(msg);
                 }
@@ -229,6 +231,7 @@ public class MywalletActivity extends AppCompatActivity {
 
         }
     };
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

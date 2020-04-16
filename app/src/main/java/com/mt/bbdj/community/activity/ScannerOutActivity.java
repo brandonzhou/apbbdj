@@ -10,10 +10,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -187,10 +188,9 @@ public class ScannerOutActivity extends BaseActivity implements OCRListener, Bar
         }
         String str_data = getData();
         HashMap<String, String> params = new HashMap<>();
-        params.put("str_data", str_data);
+        params.put("pie_data", str_data);
         params.put("user_id", user_id);
-        params.put("type", "2");
-        Request<String> request = NoHttpRequest.managerRestory(params);
+        Request<String> request = NoHttpRequest.outRestory(params);
         mRequestQueue.add(REQUEST_OUT_REAPORTY, request, onResponseListener);
     }
 
@@ -234,17 +234,14 @@ public class ScannerOutActivity extends BaseActivity implements OCRListener, Bar
     }
 
     private String getData() {
-        List<EnterData> data = new ArrayList<>();
-        Gson gson = new Gson();
-        for (HashMap<String, String> map : mList) {
-            EnterData enterData = new EnterData();
-            enterData.setCode(map.get("package_code"));
-            enterData.setExpress_id(map.get("express_id"));
-            enterData.setMobile(map.get("phone_number"));
-            enterData.setNumber(map.get("wail_number"));
-            data.add(enterData);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < mList.size(); i++) {
+            HashMap<String,String> model = mList.get(i);
+            sb.append(model.get("wail_number"));
+            sb.append(",");
         }
-        return gson.toJson(data);
+        String result = sb.toString();
+        return result.substring(0, result.length() - 1);
     }
 
     private void initParams() {
@@ -326,15 +323,17 @@ public class ScannerOutActivity extends BaseActivity implements OCRListener, Bar
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                scannerFragment.reScan();
                 LoadDialogUtils.cannelLoadingDialog();
                 ToastUtil.showShort("网络异常请重试");
             }
             LoadDialogUtils.cannelLoadingDialog();
+            scannerFragment.reScan();
         }
 
         @Override
         public void onFailed(int what, Response<String> response) {
-
+            scannerFragment.reScan();
             ToastUtil.showShort("网络异常请重试！");
             LoadDialogUtils.cannelLoadingDialog();
         }
@@ -348,7 +347,9 @@ public class ScannerOutActivity extends BaseActivity implements OCRListener, Bar
 
     protected void onDestroy() {
         super.onDestroy();
-
+        mRequestQueue.cancelAll();
+        mRequestQueue.cancelAll();
+        mRequestQueue = null;
     }
 
 

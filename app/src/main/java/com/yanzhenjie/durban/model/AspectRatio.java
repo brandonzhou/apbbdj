@@ -17,7 +17,8 @@ package com.yanzhenjie.durban.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Update by Yan Zhenjie on 2017/5/23.

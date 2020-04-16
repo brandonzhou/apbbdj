@@ -38,18 +38,19 @@
             android:background="@null"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:hint="请输入手机号/运单号"
+            android:hint="收件人手机号/快递单号/取件码"
             android:layout_marginLeft="10dp"
             android:text=""
+            android:imeOptions="actionSearch"
             android:textColorHint="@color/grey_1"
-            android:textSize="15sp" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/tv_cannel"
             android:text="取消"
             android:gravity="center"
             android:textColorHint="@color/grey_1"
-            android:textSize="15sp"
+            android:textSize="15dp"
             android:layout_toRightOf="@+id/textview_serach"
             android:layout_width="50dp"
             android:layout_height="match_parent" />
@@ -65,7 +66,7 @@
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/slt_title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:background="@color/white"
         tl:tl_divider_color="#00000000"
         tl:tl_divider_padding="13dp"
@@ -74,17 +75,19 @@
         tl:tl_indicator_height="2dp"
         tl:tl_tab_padding="22dp"
         tl:tl_tab_space_equal="true"
+        tl:tl_indicator_width="14dp"
         tl:tl_textSelectColor="@color/mainColor"
         tl:tl_textUnselectColor="@color/grey_2"
-        tl:tl_textsize="14sp" />
+        tl:tl_textsize="14dp" />
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 
 
 </LinearLayout>

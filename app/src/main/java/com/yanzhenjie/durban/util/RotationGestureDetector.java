@@ -15,7 +15,7 @@
  */
 package com.yanzhenjie.durban.util;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.MotionEvent;
 
 /**
