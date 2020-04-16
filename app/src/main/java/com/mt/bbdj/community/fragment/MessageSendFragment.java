@@ -25,6 +25,7 @@ import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.HkDialogLoading;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
+import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.baseconfig.view.MyDecoration;
 import com.mt.bbdj.community.adapter.MessageSendAdapter;
@@ -238,12 +239,12 @@ public class MessageSendFragment extends BaseFragment implements XRecyclerView.L
             JSONObject jsonObject1 = list.getJSONObject(i);
             HashMap<String, String> map = new HashMap<>();
             map.put("id", jsonObject1.getString("id"));
-            map.put("dingdan", jsonObject1.getString("order_number"));
-            map.put("yundan", jsonObject1.getString("waybill_number"));
-            map.put("phone", jsonObject1.getString("send_phone"));
-            map.put("name", jsonObject1.getString("send_name"));
+            map.put("dingdan", StringUtil.handleNullResultForString(jsonObject1.getString("order_number")));
+            map.put("yundan", StringUtil.handleNullResultForString(jsonObject1.getString("waybill_number")));
+            map.put("phone", StringUtil.handleNullResultForString(jsonObject1.getString("send_phone")));
+            map.put("name", StringUtil.handleNullResultForString(jsonObject1.getString("send_name")));
             map.put("sendstate", sendState);
-            map.put("content", jsonObject1.getString("content"));
+            map.put("content", StringUtil.handleNullResultForString(jsonObject1.getString("content")));
             mData.add(map);
             map = null;
         }

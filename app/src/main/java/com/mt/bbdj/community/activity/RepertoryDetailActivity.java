@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentTransaction;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
@@ -22,11 +25,13 @@ import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.mt.bbdj.community.fragment.EnterFailureFragment;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
+import com.zto.scanner.ZTOScannerFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,8 +41,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.yokeyword.fragmentation.ISupportActivity;
+import me.yokeyword.fragmentation.SupportActivity;
 
-public class RepertoryDetailActivity extends BaseActivity {
+public class RepertoryDetailActivity extends SupportActivity {
 
     @BindView(R.id.iv_back)
     RelativeLayout ivBack;
@@ -84,6 +91,7 @@ public class RepertoryDetailActivity extends BaseActivity {
 
     private final int GET_DETAIL_REQUEST = 100;     //获取详情
     private final int OUT_WAY_BILL_REQUEST = 200;     //获取详情
+    private EnterFailureFragment scannerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +101,7 @@ public class RepertoryDetailActivity extends BaseActivity {
         initParams();
         initView();
         requestData();
+
     }
 
     private void requestData() {

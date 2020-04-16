@@ -8,7 +8,8 @@ android {
         release {
             keyAlias 'key0'
             keyPassword 'mtbbdj'
-            storeFile file('D:/document/Android/bbdj3.0_home/app/src/main/assets/bbdj.jks')  //填写你本地的路径
+            storeFile file('D:/document/Android/bbdj3.0_home/app/src/main/assets/bbdj.jks')
+            //填写你本地的路径
             storePassword 'mtbbdj'
         }
     }

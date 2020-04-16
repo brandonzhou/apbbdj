@@ -4,8 +4,9 @@
     package="com.mt.bbdj">
 
     <uses-sdk tools:overrideLibrary="cn.jzvd,org.raphets.roundimageview" />
-    <!--android 9.0上使用前台服务，需要添加权限-->
+    <!-- android 9.0上使用前台服务，需要添加权限 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -45,11 +46,12 @@
         android:allowBackup="false"
         android:icon="@drawable/ic_logo_"
         android:label="兵兵到家"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@drawable/ic_logo_"
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:label,theme,icon,allowBackup">
+        <activity android:name=".community.activity.ExpressDetailActivity"></activity>
         <activity
             android:name=".community.activity.SelectEnterExpressActivity"
             android:screenOrientation="portrait" />

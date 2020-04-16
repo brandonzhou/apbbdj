@@ -4111,4 +4111,19 @@ public class NoHttpRequest {
         return request;
     }
 
+    /**
+     * 快递详情
+     *
+     * @return
+     */
+    public static Request<String> expressDetail(HashMap<String, String> parms) {
+        String signature = StringUtil.getsignature2(parms);
+        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER  + "bbapi/Submit/showPie", RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("pie_id", parms.get("pie_id"));
+        request.add("uuid", parms.get("uuid"));
+        return request;
+    }
+
+
 }

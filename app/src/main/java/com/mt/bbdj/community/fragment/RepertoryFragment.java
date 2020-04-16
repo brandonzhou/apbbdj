@@ -25,6 +25,7 @@ import com.mt.bbdj.baseconfig.utls.HkDialogLoading;
 import com.mt.bbdj.baseconfig.utls.IntegerUtil;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.mt.bbdj.community.activity.ExpressDetailActivity;
 import com.mt.bbdj.community.activity.RepertoryDetailActivity;
 import com.mt.bbdj.community.adapter.RepertoryAdapter;
 import com.mt.bbdj.community.adapter.WaitCollectAdapter;
@@ -91,7 +92,8 @@ public class RepertoryFragment extends BaseFragment implements XRecyclerView.Loa
             @Override
             public void onItemClick(int position) {
                 HashMap<String,String> map = mList.get(position);
-                Intent intent = new Intent(getActivity(), RepertoryDetailActivity.class);
+                ExpressDetailActivity.actionTo(getActivity(),map.get("pie_id"));
+               /* Intent intent = new Intent(getActivity(), RepertoryDetailActivity.class);
                 intent.putExtra("type", mType);
                 intent.putExtra("order", map.get("order"));
                 intent.putExtra("express", map.get("express"));
@@ -100,7 +102,8 @@ public class RepertoryFragment extends BaseFragment implements XRecyclerView.Loa
                 intent.putExtra("time", map.get("time"));
                 intent.putExtra("mobile", map.get("mobile"));
                 intent.putExtra("tag_number", map.get("tag_number"));
-                startActivity(intent);
+                startActivity(intent);*/
+
             }
 
             @Override
