@@ -25,6 +25,7 @@ import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.mt.bbdj.community.activity.OutExceptionActivity;
 import com.mt.bbdj.community.adapter.GlobalReceiveAdapter;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -119,8 +120,16 @@ public class GlobalSearchWaitOutFragment extends BaseFragment implements XRecycl
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickOutListener(position -> {
-            enterResotry(mList.get(position));
+        mAdapter.setOnItemClickOutListener(new GlobalReceiveAdapter.OnItemClickOutListener() {
+            @Override
+            public void onItemOutClick(int position) {
+                enterResotry(mList.get(position));
+            }
+
+            @Override
+            public void onItemOutExceptionClick(int position) {
+                OutExceptionActivity.actionTo(getActivity(),mList.get(position).get("express_id"),mList.get(position).get("waybill_number"));
+            }
         });
 
     }

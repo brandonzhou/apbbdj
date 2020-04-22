@@ -105,6 +105,16 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
                 }
             }
         });
+
+        //异常出库
+        holder.bt_out_exception.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickOutListener != null){
+                    onItemClickOutListener.onItemOutExceptionClick(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -121,6 +131,7 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
         private TextView tv_tag_phone;    //手机号码
         private TextView state;    //状态
         private Button btout;   //出库
+        private Button bt_out_exception;   //异常出库出库
         private LinearLayout llOutLayout;    //出库布局
         private RelativeLayout rlout;
 
@@ -135,6 +146,7 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
             llOutLayout = itemView.findViewById(R.id.ll_out_layout);
             rlout = itemView.findViewById(R.id.rl_function);
             btout = itemView.findViewById(R.id.bt_out);
+            bt_out_exception = itemView.findViewById(R.id.bt_out_exception);
             expressName = itemView.findViewById(R.id.tv_express_name);
             tv_tag_phone = itemView.findViewById(R.id.tv_tag_phone);
         }
@@ -148,5 +160,6 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
     //出库
     public interface OnItemClickOutListener{
         void onItemOutClick(int position);
+        void onItemOutExceptionClick(int position);
     }
 }

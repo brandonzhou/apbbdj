@@ -25,13 +25,14 @@ public class InterApi {
     public static final String BASE_URL_SHOP = "https://shop.81dja.com";
     public static final String SERVICE_SHOP = BASE_URL_SHOP + "/Take/AppV1/";
     public static final String SERVICE_SHOP_1 = BASE_URL_SHOP + "/Take/AppV2/";
-    public static final String SERVICE_NEW= BASE_URL + "/Merchant/PublicApi/";
-    public static final String SERVICE_NEW_1= BASE_URL + "/Merchant/IndexApi/";
-    public static final String SERVICE_NEW_3= BASE_URL + "/Merchant/UserApi/";
-    public static final String SERVICE_NEW_4= BASE_URL_EXPRESS + "Express/Express/";
-    public static final String SERVICE_NEW_5= BASE_URL_EXPRESS + "Express/Warehousing/";
-    public static final String SERVICE_NEW_6= BASE_URL_EXPRESS + "Express/Station/";
-    public static final String SERVICE_NEW_7= BASE_URL_OBSERVICE + "express/Pieoutpack/";
+    public static final String SERVICE_NEW = BASE_URL + "/Merchant/PublicApi/";
+    public static final String SERVICE_NEW_1 = BASE_URL + "/Merchant/IndexApi/";
+    public static final String SERVICE_NEW_3 = BASE_URL + "/Merchant/UserApi/";
+    public static final String SERVICE_NEW_4 = BASE_URL_EXPRESS + "Express/Express/";
+    public static final String SERVICE_NEW_5 = BASE_URL_EXPRESS + "Express/Warehousing/";
+    public static final String SERVICE_NEW_6 = BASE_URL_EXPRESS + "Express/Station/";
+    public static final String SERVICE_NEW_7 = BASE_URL_OBSERVICE + "express/Pieoutpack/";
+    public static final String SERVICE_NEW_9 = BASE_URL_EXPRESS + "express/Warehousing/";
 
     // public static final String SERVER_ADDRESS = "http://yanshi.81dja.com/BbdjApi/";
     // public static final String SERVER_ADDRESS = "http://www.81dja.com/BbdjApi/";
@@ -269,7 +270,7 @@ public class InterApi {
      */
     public static final String ACTION_COMMIT_SAVE_MAIL_DETAIL = "fightWaybillNumber600";
 
-    
+
     /**
      * 寄件管理中身份认证
      */
@@ -674,7 +675,7 @@ public class InterApi {
     /**
      * 修改货架名称
      */
-    public static final String ACTION_CHAGNE_SHELVES_NAME= "editShelves";
+    public static final String ACTION_CHAGNE_SHELVES_NAME = "editShelves";
 
     /**
      * 删除商品
@@ -745,19 +746,19 @@ public class InterApi {
     /**
      * 添加商品
      */
-    public static final String ACTION_REQUEST_ADD_GOODS_BY_STORE= "addClassProduct";
+    public static final String ACTION_REQUEST_ADD_GOODS_BY_STORE = "addClassProduct";
 
 
     /**
      * 搜索商品
      */
-    public static final String ACTION_REQUEST_SEARCH_GOODS= "searchGoods";
+    public static final String ACTION_REQUEST_SEARCH_GOODS = "searchGoods";
 
 
     /**
      * 获取商品价格
      */
-    public static final String ACTION_REQUEST_GET_GOODS_PRICE= "getGoodsInfo";
+    public static final String ACTION_REQUEST_GET_GOODS_PRICE = "getGoodsInfo";
 
 
     /**
@@ -769,6 +770,16 @@ public class InterApi {
      * 订单详情
      */
     public static final String ACTION_REQUEST_ORDER_DETAIL = "getTakeOrdersInfo";
+
+
+    /**
+     * 异常出库
+     */
+    public static final String ACTION_REQUEST_OUT_EXCEPTION = "getUnusualType";
+  /**
+     * 异常出库
+     */
+    public static final String ACTION_REQUEST_OUT_HOURSE = "unusualOutOfStock";
 
     /**
      * 快递员配送金额
@@ -858,7 +869,6 @@ public class InterApi {
     public static final String ACTION_REQUEST_IS_OBSERVICE = "pirStatNum";
 
 
-
     /**
      * 入库
      */
@@ -873,8 +883,6 @@ public class InterApi {
      * 搜索派件
      */
     public static final String ACTION_SEARCH_GLOBAL_PI = "PieSearch1070";
-
-
 
 
     /**

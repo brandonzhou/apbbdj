@@ -117,10 +117,18 @@ public class GlobalSearchOutFinishFragment extends BaseFragment implements XRecy
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickOutListener(position -> {
-            HashMap<String,String> map = mList.get(position);
-            String pie_id = map.get("pie_id");
-            outOfrepertory(pie_id);
+        mAdapter.setOnItemClickOutListener(new GlobalReceiveAdapter.OnItemClickOutListener() {
+            @Override
+            public void onItemOutClick(int position) {
+                HashMap<String,String> map = mList.get(position);
+                String pie_id = map.get("pie_id");
+                outOfrepertory(pie_id);
+            }
+
+            @Override
+            public void onItemOutExceptionClick(int position) {
+
+            }
         });
 
     }

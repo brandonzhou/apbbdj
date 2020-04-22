@@ -3596,6 +3596,40 @@ public class NoHttpRequest {
 
 
     /**
+     * 发放优惠券
+     *
+     * @param params
+     * @return
+     */
+    public static Request<String> outException(Map<String, String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_9
+                + InterApi.ACTION_REQUEST_OUT_EXCEPTION, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("express_id", params.get("express_id"));
+        return request;
+    }
+
+    /**
+     * 发放优惠券
+     *
+     * @param params
+     * @return
+     */
+    public static Request<String> outHourse(Map<String, String> params) {
+        String signature = StringUtil.getsignature(params);
+        Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_NEW_9
+                + InterApi.ACTION_REQUEST_OUT_HOURSE, RequestMethod.POST);
+        request.add("signature", signature);
+        request.add("unusual_type", params.get("unusual_type"));
+        request.add("station_id", params.get("station_id"));
+        request.add("number", params.get("number"));
+        return request;
+    }
+
+
+
+    /**
      * 获取快递员配送的金额
      *
      * @return

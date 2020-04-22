@@ -51,7 +51,8 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
-        <activity android:name=".community.activity.ExpressDetailActivity"></activity>
+        <activity android:name=".community.activity.OutExceptionActivity"></activity>
+        <activity android:name=".community.activity.ExpressDetailActivity" />
         <activity
             android:name=".community.activity.SelectEnterExpressActivity"
             android:screenOrientation="portrait" />

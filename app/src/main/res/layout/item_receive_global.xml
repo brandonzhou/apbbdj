@@ -206,8 +206,19 @@
             android:layout_height="45dp"
             android:gravity="center_vertical">
 
+            <Button
+                android:id="@+id/bt_out_exception"
+                android:layout_width="65dp"
+                android:layout_height="30dp"
+                android:layout_toLeftOf="@+id/bt_out"
+                android:background="@drawable/bt_bg_1"
+                android:text="异常出库"
+                android:textColor="@color/whilte"
+                android:textSize="13dp" />
+
 
             <Button
+                android:layout_marginLeft="20dp"
                 android:id="@+id/bt_out"
                 android:layout_width="65dp"
                 android:layout_height="30dp"

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.TypedValue;
 import android.view.View;
 
@@ -47,9 +49,9 @@ public class MyDecoration extends RecyclerView.ItemDecoration {
 
     public MyDecoration(Context context, int orientation, int color, int mItemSize) {
         this.mOrientation = orientation;
-    /*
-     *item之间分割线的颜色
-    */
+        /*
+         *item之间分割线的颜色
+         */
         this.mSize = mItemSize;
         if (orientation != LinearLayoutManager.VERTICAL && orientation != LinearLayoutManager.HORIZONTAL) {
             throw new IllegalArgumentException("LinearLayoutManager error");
