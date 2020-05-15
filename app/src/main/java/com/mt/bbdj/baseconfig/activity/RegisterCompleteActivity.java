@@ -812,8 +812,8 @@ public class RegisterCompleteActivity extends BaseActivity {
         String password = mSharedPreferences.getString("password", "");
         String realname = mRegisterUsername.getText().toString();
         String idcard = mRegisterIdnumber.getText().toString();
-        String just_card = mSharedPreferences.getString("just_card", "");
-        String back_card = mSharedPreferences.getString("back_card", "");
+        String just_card = mSharedPreferences.getString("just_card", "1");
+        String back_card = mSharedPreferences.getString("back_card", "1");
         String license = mSharedPreferences.getString("license", "");
         String businessNumber = mSharedPreferences.getString("businessNumber", "");
         String door_photo = mSharedPreferences.getString("door_photo", "");
@@ -830,8 +830,8 @@ public class RegisterCompleteActivity extends BaseActivity {
         params.put("password",password);
         params.put("realname",realname);
         params.put("idcard",idcard);
-        params.put("just_card",just_card);
-        params.put("back_card",back_card);
+        params.put("just_card","1");
+        params.put("back_card","1");
         params.put("license",license);
         params.put("contacts",contactPerson);
         params.put("contact_number",contactPhone);
@@ -844,8 +844,8 @@ public class RegisterCompleteActivity extends BaseActivity {
         params.put("latitude",mLatitude+"");
         params.put("longitude",mlongitude+"");
 
-        Request<String> request = NoHttpRequest.commitRegisterRequest(phone, password, realname, idcard, just_card,
-                back_card, license, businessNumber, contactPerson, contactPhone, mProvince, mCity, mCountry, detail_Address, door_photo, internal_photo,mLatitude+"",mlongitude+"",params);
+        Request<String> request = NoHttpRequest.commitRegisterRequest(phone, password, realname, idcard, "1",
+                "1", license, businessNumber, contactPerson, contactPhone, mProvince, mCity, mCountry, detail_Address, door_photo, internal_photo,mLatitude+"",mlongitude+"",params);
         mRequestQueue.add(2, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -912,7 +912,7 @@ public class RegisterCompleteActivity extends BaseActivity {
             return false;
         }
 
-        if ("".equals(frontIDImg)) {
+      /*  if ("".equals(frontIDImg)) {
             ToastUtil.showShort("请重新拍摄身份证正面照！");
             return false;
         }
@@ -920,7 +920,7 @@ public class RegisterCompleteActivity extends BaseActivity {
         if ("".equals(backIDImg)) {
             ToastUtil.showShort("请重新拍摄身份证背面照！");
             return false;
-        }
+        }*/
 
         if ("".equals(contactPerson)) {
             ToastUtil.showShort("请重新输入联系人！");

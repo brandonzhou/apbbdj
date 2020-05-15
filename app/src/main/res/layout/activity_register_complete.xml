@@ -127,6 +127,7 @@
                 android:textSize="@dimen/standardTextSize" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginTop="15dp">
@@ -150,6 +151,7 @@
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:orientation="horizontal">
