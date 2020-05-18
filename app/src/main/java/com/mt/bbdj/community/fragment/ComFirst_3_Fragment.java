@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.king.zxing.CaptureActivity;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.activity.LoginActivity;
 import com.mt.bbdj.baseconfig.activity.LoginByCodeActivity;
@@ -546,11 +547,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         }
     }
 
-    private void handleEnterHourseByCameraEvent() {
-        CameraForRightNowActivity.actionTo(getActivity(),user_id);
-        //SelectEnterExpressActivity.actionTo(getActivity(),user_id);
-        //EnterSelectLocationActivity.actionTo(getActivity(),user_id);
-    }
+
 
     private void handleQCodeEvent() {
         QCodeScanActivity.actionTo(getActivity(),user_id);
@@ -1355,6 +1352,19 @@ public class ComFirst_3_Fragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
+    private void handleEnterHourseByCameraEvent() {
+//        CameraForRightNowActivity.actionTo(getActivity(),user_id);
+        //SelectEnterExpressActivity.actionTo(getActivity(),user_id);
+        //EnterSelectLocationActivity.actionTo(getActivity(),user_id);
 
+//        Intent intent = new Intent(getActivity(), OutManagerActivity.class);
+//        Intent intent = new Intent(getActivity(), OutManager_new_Activity.class);
+        Intent intent = new Intent(getActivity(), CaptureActivity.class);
+//          Intent intent = new Intent(getActivity(), EnterManagerActivity.class);
+
+        startActivity(intent);
+
+
+    }
 
 }

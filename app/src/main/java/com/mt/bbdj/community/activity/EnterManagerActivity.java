@@ -722,6 +722,7 @@ public class EnterManagerActivity extends ActivityBase implements ViewTreeObserv
                 .rotation(getWindowManager().getDefaultDisplay().getRotation())
                 .build();
         cameraHelper.start();
+
         if (handler == null) {
             handler = new CaptureActivityHandler();
         }

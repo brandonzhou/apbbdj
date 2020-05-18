@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/iv_back"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_araw_left_grey" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="拍照入库"
+            android:textColor="@color/grey_7"
+            android:textSize="18dp" />
+
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_title_code"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:paddingEnd="15dp"
+        android:layout_below="@id/rl_title"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/iv_back_"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/tv_pickup_code_modify"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical|end"
+                android:layout_toStartOf="@+id/tv_pickup_code"
+                android:text="当前取件码："
+                android:textColor="@color/grey_7"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tv_pickup_code"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical|right"
+                tools:text="A1-29-20000411"
+                android:maxLines="1"
+                android:textColor="@color/grey_7"
+                android:textSize="18dp" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_pickup_code_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|right"
+            android:text="修改 >"
+            android:textColor="@color/grey_7"
+            android:textSize="18dp" />
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
