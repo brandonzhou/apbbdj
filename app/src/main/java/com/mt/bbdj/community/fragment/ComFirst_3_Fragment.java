@@ -103,6 +103,7 @@ import com.mt.bbdj.community.activity.WaterOrderActivity;
 import com.mt.bbdj.community.adapter.GlideImageLoader;
 import com.mt.bbdj.community.adapter.MyGridViewAdapter;
 import com.mylhyl.circledialog.CircleDialog;
+import com.shshcom.station.storage.activity.ScanStorageActivity;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -1359,7 +1360,8 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
 //        Intent intent = new Intent(getActivity(), OutManagerActivity.class);
 //        Intent intent = new Intent(getActivity(), OutManager_new_Activity.class);
-        Intent intent = new Intent(getActivity(), CaptureActivity.class);
+        Intent intent = new Intent(getActivity(), ScanStorageActivity.class);
+//        Intent intent = new Intent(getActivity(), CaptureActivity.class);
 //          Intent intent = new Intent(getActivity(), EnterManagerActivity.class);
 
         startActivity(intent);

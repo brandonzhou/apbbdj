@@ -44,7 +44,7 @@ public class RxBeepTool {
                 }
             });
 
-            AssetFileDescriptor file = mContext.getResources().openRawResourceFd(R.raw.beep);
+            AssetFileDescriptor file = mContext.getResources().openRawResourceFd(R.raw.zxl_beep);
             try {
                 mediaPlayer.setDataSource(file.getFileDescriptor(), file.getStartOffset(), file.getLength());
                 file.close();

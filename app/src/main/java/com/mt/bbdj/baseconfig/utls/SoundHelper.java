@@ -53,7 +53,7 @@ public class SoundHelper {
         idReceive = soundPool.load(context, R.raw.new_promet, 1);
         idRepeat = soundPool.load(context, R.raw.reapeat, 1);
         idSuccess = soundPool.load(context, R.raw.success, 1);
-        idNotify = soundPool.load(context, R.raw.beep, 1);
+        idNotify = soundPool.load(context, R.raw.zxl_beep, 1);
         idChange = soundPool.load(context, R.raw.ic_change, 1);
         idEnter = soundPool.load(context, R.raw.ic_enter, 1);
         take_photo = soundPool.load(context, R.raw.take_picture, 1);

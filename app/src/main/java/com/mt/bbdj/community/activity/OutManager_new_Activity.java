@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,7 +38,6 @@ import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.king.zxing.CaptureActivity;
-import com.king.zxing.util.ResizeAbleSurfaceView;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.activity.ActivityBase;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
@@ -380,10 +380,10 @@ public class OutManager_new_Activity extends ActivityBase {
     @Override
     protected void onResume() {
         super.onResume();
-        ResizeAbleSurfaceView surfaceView = findViewById(R.id.capture_preview);
+        SurfaceView surfaceView = findViewById(R.id.capture_preview);
         int width = ScreenUtils.getScreenWidth(this);
         int height = ScreenUtils.dip2px(this,280);
-        surfaceView.resize(width,height);
+      //  surfaceView.resize(width,height);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
         if (hasSurface) {
             //Camera初始化

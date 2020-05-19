@@ -65,7 +65,8 @@
 
     </RelativeLayout>
 
-    <com.king.zxing.util.ResizeAbleSurfaceView
+<!--    <com.king.zxing.util.ResizeAbleSurfaceView-->
+    <SurfaceView
         android:layout_below="@+id/rl_title_layout"
         android:id="@+id/capture_preview"
         android:layout_width="match_parent"
