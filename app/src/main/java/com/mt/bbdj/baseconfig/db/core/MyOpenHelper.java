@@ -1,15 +1,19 @@
-package com.mt.bbdj.baseconfig.utls;
+package com.mt.bbdj.baseconfig.db.core;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.mt.bbdj.baseconfig.db.PickupCode;
+import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.db.gen.BluetoothMessageDao;
 import com.mt.bbdj.baseconfig.db.gen.CityDao;
 import com.mt.bbdj.baseconfig.db.gen.CountyDao;
 import com.mt.bbdj.baseconfig.db.gen.DaoMaster;
 import com.mt.bbdj.baseconfig.db.gen.ExpressLogoDao;
 import com.mt.bbdj.baseconfig.db.gen.MingleAreaDao;
+import com.mt.bbdj.baseconfig.db.gen.PickupCodeDao;
 import com.mt.bbdj.baseconfig.db.gen.ProvinceDao;
+import com.mt.bbdj.baseconfig.db.gen.ScanImageDao;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.db.gen.WaillMessageDao;
 
@@ -48,5 +52,8 @@ public class MyOpenHelper extends DaoMaster.OpenHelper {
         MigrationHelper.getInstance().migrate(db, ProvinceDao.class);
         MigrationHelper.getInstance().migrate(db, UserBaseMessageDao.class);
         MigrationHelper.getInstance().migrate(db, WaillMessageDao.class);
+
+        MigrationHelper.getInstance().migrate(db, PickupCodeDao.class);
+        MigrationHelper.getInstance().migrate(db, ScanImageDao.class);
     }
 }

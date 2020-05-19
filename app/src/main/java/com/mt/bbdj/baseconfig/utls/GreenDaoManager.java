@@ -2,6 +2,7 @@ package com.mt.bbdj.baseconfig.utls;
 
 import android.content.Context;
 
+import com.mt.bbdj.baseconfig.db.core.MyOpenHelper;
 import com.mt.bbdj.baseconfig.db.gen.DaoMaster;
 import com.mt.bbdj.baseconfig.db.gen.DaoSession;
 
@@ -53,5 +54,8 @@ public class GreenDaoManager {
     public DaoSession getNewSession() {
         return mDaoSession;
     }
+
+
+
 
 }

@@ -31,6 +31,8 @@ public class DaoMaster extends AbstractDaoMaster {
         ScannerMessageModelDao.createTable(db, ifNotExists);
         UserBaseMessageDao.createTable(db, ifNotExists);
         WaillMessageDao.createTable(db, ifNotExists);
+        PickupCodeDao.createTable(db, ifNotExists);
+        ScanImageDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -45,6 +47,8 @@ public class DaoMaster extends AbstractDaoMaster {
         ScannerMessageModelDao.dropTable(db, ifExists);
         UserBaseMessageDao.dropTable(db, ifExists);
         WaillMessageDao.dropTable(db, ifExists);
+        PickupCodeDao.dropTable(db, ifExists);
+        ScanImageDao.dropTable(db, ifExists);
     }
 
     /**
@@ -73,6 +77,8 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(ScannerMessageModelDao.class);
         registerDaoClass(UserBaseMessageDao.class);
         registerDaoClass(WaillMessageDao.class);
+        registerDaoClass(PickupCodeDao.class);
+        registerDaoClass(ScanImageDao.class);
     }
 
     public DaoSession newSession() {

@@ -64,7 +64,7 @@ android {
     buildToolsVersion = '28.0.3'
 
     greendao {
-        schemaVersion 35    //版本
+        schemaVersion 36    //版本
         daoPackage 'com.mt.bbdj.baseconfig.db.gen'
         targetGenDir 'src/main/java'
     }
@@ -166,6 +166,10 @@ android {
         //小米Push通道
         implementation 'com.umeng.umsdk:xiaomi-push:3.6.17'
         implementation 'com.umeng.umsdk:xiaomi-umengaccs:1.1.0'
+
+
+
+
     }
 }
 
@@ -179,4 +183,8 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation project(path: ':cameraview')
+
+
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
 }

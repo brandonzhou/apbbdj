@@ -1,4 +1,4 @@
-package com.mt.bbdj.baseconfig.utls;
+package com.mt.bbdj.baseconfig.db.core;
 
 import android.database.Cursor;
 import android.text.TextUtils;
