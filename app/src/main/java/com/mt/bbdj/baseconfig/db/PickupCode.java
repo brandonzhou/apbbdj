@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 public class PickupCode {
     @Id
-    private String user_id;
+    private String stationId;
 
     private String type;//Type.type_3
     private String shelfNumber;
@@ -23,51 +23,29 @@ public class PickupCode {
     // 当前号码
     private String currentNumber;//A12-19-2345
 
-    @Generated(hash = 1952477772)
-    public PickupCode(String user_id, String type, String shelfNumber,
+
+    @Generated(hash = 1826702311)
+    public PickupCode(String stationId, String type, String shelfNumber,
             int startNumber, String currentNumber) {
-        this.user_id = user_id;
+        this.stationId = stationId;
         this.type = type;
         this.shelfNumber = shelfNumber;
         this.startNumber = startNumber;
         this.currentNumber = currentNumber;
     }
+
+
     @Generated(hash = 1138314330)
     public PickupCode() {
     }
-    public String getUser_id() {
-        return this.user_id;
-    }
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
-    public String getType() {
-        return this.type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
-    public String getShelfNumber() {
-        return this.shelfNumber;
-    }
-    public void setShelfNumber(String shelfNumber) {
-        this.shelfNumber = shelfNumber;
-    }
-    public int getStartNumber() {
-        return this.startNumber;
-    }
-    public void setStartNumber(int startNumber) {
-        this.startNumber = startNumber;
-    }
-    public String getCurrentNumber() {
-        return this.currentNumber;
-    }
-    public void setCurrentNumber(String currentNumber) {
-        this.currentNumber = currentNumber;
-    }
 
 
-    enum Type{
+
+
+    
+
+
+    public enum Type{
         type_1("编号累加"),
         type_2("货架号+编号累加"),
         type_3("货架号+日期+编号累加"),
@@ -79,6 +57,10 @@ public class PickupCode {
 
         Type(String desc) {
             this.desc = desc;
+        }
+
+        public String getDesc(){
+            return desc;
         }
     }
 
@@ -92,4 +74,57 @@ public class PickupCode {
         types.add(Type.type_5);
         return types;
     }
+
+
+    public String getStationId() {
+        return this.stationId;
+    }
+
+
+    public void setStationId(String stationId) {
+        this.stationId = stationId;
+    }
+
+
+    public String getType() {
+        return this.type;
+    }
+
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+
+    public String getShelfNumber() {
+        return this.shelfNumber;
+    }
+
+
+    public void setShelfNumber(String shelfNumber) {
+        this.shelfNumber = shelfNumber;
+    }
+
+
+    public int getStartNumber() {
+        return this.startNumber;
+    }
+
+
+    public void setStartNumber(int startNumber) {
+        this.startNumber = startNumber;
+    }
+
+
+    public String getCurrentNumber() {
+        return this.currentNumber;
+    }
+
+
+    public void setCurrentNumber(String currentNumber) {
+        this.currentNumber = currentNumber;
+    }
+
+
+    
 }

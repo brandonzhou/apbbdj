@@ -24,7 +24,7 @@ public class PickupCodeDao extends AbstractDao<PickupCode, String> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property User_id = new Property(0, String.class, "user_id", true, "USER_ID");
+        public final static Property StationId = new Property(0, String.class, "stationId", true, "STATION_ID");
         public final static Property Type = new Property(1, String.class, "type", false, "TYPE");
         public final static Property ShelfNumber = new Property(2, String.class, "shelfNumber", false, "SHELF_NUMBER");
         public final static Property StartNumber = new Property(3, int.class, "startNumber", false, "START_NUMBER");
@@ -44,7 +44,7 @@ public class PickupCodeDao extends AbstractDao<PickupCode, String> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"PICKUP_CODE\" (" + //
-                "\"USER_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: user_id
+                "\"STATION_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: stationId
                 "\"TYPE\" TEXT," + // 1: type
                 "\"SHELF_NUMBER\" TEXT," + // 2: shelfNumber
                 "\"START_NUMBER\" INTEGER NOT NULL ," + // 3: startNumber
@@ -61,9 +61,9 @@ public class PickupCodeDao extends AbstractDao<PickupCode, String> {
     protected final void bindValues(DatabaseStatement stmt, PickupCode entity) {
         stmt.clearBindings();
  
-        String user_id = entity.getUser_id();
-        if (user_id != null) {
-            stmt.bindString(1, user_id);
+        String stationId = entity.getStationId();
+        if (stationId != null) {
+            stmt.bindString(1, stationId);
         }
  
         String type = entity.getType();
@@ -87,9 +87,9 @@ public class PickupCodeDao extends AbstractDao<PickupCode, String> {
     protected final void bindValues(SQLiteStatement stmt, PickupCode entity) {
         stmt.clearBindings();
  
-        String user_id = entity.getUser_id();
-        if (user_id != null) {
-            stmt.bindString(1, user_id);
+        String stationId = entity.getStationId();
+        if (stationId != null) {
+            stmt.bindString(1, stationId);
         }
  
         String type = entity.getType();
@@ -117,7 +117,7 @@ public class PickupCodeDao extends AbstractDao<PickupCode, String> {
     @Override
     public PickupCode readEntity(Cursor cursor, int offset) {
         PickupCode entity = new PickupCode( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // user_id
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // stationId
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // type
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // shelfNumber
             cursor.getInt(offset + 3), // startNumber
@@ -128,7 +128,7 @@ public class PickupCodeDao extends AbstractDao<PickupCode, String> {
      
     @Override
     public void readEntity(Cursor cursor, PickupCode entity, int offset) {
-        entity.setUser_id(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setStationId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setType(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setShelfNumber(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setStartNumber(cursor.getInt(offset + 3));
@@ -137,13 +137,13 @@ public class PickupCodeDao extends AbstractDao<PickupCode, String> {
     
     @Override
     protected final String updateKeyAfterInsert(PickupCode entity, long rowId) {
-        return entity.getUser_id();
+        return entity.getStationId();
     }
     
     @Override
     public String getKey(PickupCode entity) {
         if(entity != null) {
-            return entity.getUser_id();
+            return entity.getStationId();
         } else {
             return null;
         }
@@ -151,7 +151,7 @@ public class PickupCodeDao extends AbstractDao<PickupCode, String> {
 
     @Override
     public boolean hasKey(PickupCode entity) {
-        return entity.getUser_id() != null;
+        return entity.getStationId() != null;
     }
 
     @Override

@@ -39,14 +39,14 @@ public class GreenDaoUtil {
 
     public static void updatePickCode(PickupCode pickupCode){
         PickupCodeDao dao = getDaoSession().getPickupCodeDao();
-        pickupCode.setUser_id(getUserId());
+        pickupCode.setStationId("1");
         dao.insertOrReplace(pickupCode);
     }
 
     public static PickupCode getPickCode(){
         PickupCodeDao dao = getDaoSession().getPickupCodeDao();
         PickupCode pickupCode = dao.queryBuilder()
-                .where(PickupCodeDao.Properties.User_id.eq(getUserId()))
+                .where(PickupCodeDao.Properties.StationId.eq("1"))
                 .unique();
         return pickupCode;
     }
