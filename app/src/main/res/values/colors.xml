@@ -80,4 +80,14 @@
     <color name="white_tran">#80ffffff</color>
 
 
+
+<!--    <color name="black_tran">#FF000000</color>-->
+    <color name="black_tran">#50000000</color>
+    <color name="text_grey_9">#909090 </color>
+    <color name="text_orange">#FFF86417 </color>
+
+
+
+
+
 </resources>

@@ -14,10 +14,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.king.zxing.ViewfinderView
-            android:id="@+id/viewfinderView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+<!--        <com.king.zxing.ViewfinderView-->
+<!--            android:id="@+id/viewfinderView2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent" />-->
 
 
     </RelativeLayout>
@@ -64,65 +64,159 @@
     <RelativeLayout
         android:id="@+id/rl_title_code"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="45dp"
         android:paddingEnd="15dp"
         android:layout_below="@id/rl_title"
-        android:background="@color/white">
+        android:background="@color/black_tran">
 
         <RelativeLayout
             android:id="@+id/iv_back_"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/tv_pickup_code_modify"
-            android:gravity="center">
+            android:layout_toStartOf="@+id/iv_pickup_code_modify"
+           >
 
             <TextView
+                android:id="@+id/_tv_pick_title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical|end"
-                android:layout_toStartOf="@+id/tv_pickup_code"
+                android:gravity="center_vertical"
+                android:layout_marginStart="20dp"
                 android:text="当前取件码："
-                android:textColor="@color/grey_7"
-                android:textSize="18dp" />
+                android:textColor="@color/white"
+                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/tv_pickup_code"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/_tv_pick_title"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical|right"
                 tools:text="A1-29-20000411"
                 android:maxLines="1"
-                android:textColor="@color/grey_7"
+                android:textColor="@color/white"
                 android:textSize="18dp" />
 
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/tv_pickup_code_modify"
+        <ImageView
+            android:id="@+id/iv_pickup_code_modify"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:padding="10dp"
             android:gravity="center_vertical|right"
-            android:text="修改 >"
+            android:background="@drawable/ic_capture_edit"
             android:textColor="@color/grey_7"
             android:textSize="18dp" />
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_last"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="15dp"
+        android:padding="9dp"
+        android:layout_above="@+id/rl_bottom"
+        android:background="@color/black_tran">
 
+        <TextView
+            android:id="@+id/tv_last_code_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="最后入库：取件码 A1-29-20000411 | 快递单号7238283772747737"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/album_ColorPrimary"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已入库 "
+                android:textSize="14sp"
+                android:textColor="@color/text_grey_9"
+                />
+            <TextView
+                android:id="@+id/tv_total_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="205"
+                android:textSize="20sp"
+                android:textColor="@color/text_orange"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 件"
+                android:textSize="14sp"
+                android:textColor="@color/text_grey_9"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:text="提交入库"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@drawable/bt_bg_20"
+
+            />
+
+    </RelativeLayout>
+    
+    <ImageView
+        android:id="@+id/iv_capture"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_above="@id/rl_bottom"
+        android:layout_marginBottom="40dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_capture"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_tip_capture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:text="请对准快递条码，将自动拍照"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_mark_trans"
         />
 
 
