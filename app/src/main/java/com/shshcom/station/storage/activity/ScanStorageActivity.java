@@ -13,9 +13,10 @@ import com.king.zxing.CaptureActivity;
 import com.king.zxing.CaptureHelper;
 import com.king.zxing.camera.FrontLightMode;
 import com.mt.bbdj.R;
-import com.mt.bbdj.baseconfig.utls.LogUtil;
+import com.mt.bbdj.baseconfig.db.PickupCode;
+import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
-import com.shshcom.station.storage.domain.SHCameraHelp;
+import com.shshcom.station.storage.domain.ScanStorageCase;
 
 import java.util.EnumSet;
 
@@ -26,7 +27,10 @@ import java.util.EnumSet;
  */
 public class ScanStorageActivity extends CaptureActivity implements View.OnClickListener {
 
+    // 取件码
     private TextView tv_pickup_code;
+    // 扫出的条码信息
+    private TextView tv_bar_code;
     private TextView tv_last_code_info;
     private TextView tv_total_number;
 
@@ -34,6 +38,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     private Camera camera;
 
     private Activity activity;
+
+    private ScanStorageCase storageCase;
 
     @Override
     public int getLayoutId() {
@@ -56,22 +62,42 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         super.onCreate(savedInstanceState);
 
         activity = this;
+        storageCase = ScanStorageCase.getInstance();
+        storageCase.init(this);
 
         initCapture();
         initView();
-
+        initData();
     }
 
-    private void initView(){
+    private void initView() {
         tv_pickup_code = findViewById(R.id.tv_pickup_code);
+        tv_bar_code = findViewById(R.id.tv_bar_code);
         tv_last_code_info = findViewById(R.id.tv_last_code_info);
         tv_total_number = findViewById(R.id.tv_total_number);
 
 
         findViewById(R.id.iv_pickup_code_modify).setOnClickListener(this);
+        findViewById(R.id.tv_tip_edit_express).setOnClickListener(this);
     }
 
-    private void initCapture(){
+    private void initData() {
+        PickupCode pickupCode = storageCase.getCurrentPickCode();
+        tv_pickup_code.setText(pickupCode.getCurrentNumber());
+
+        ScanImage scanImage = storageCase.getLastScanImage();
+
+        if(scanImage!= null){
+            //最后入库：取件码 A1-29-20000411 | 快递单号7238283772747737
+            tv_last_code_info.setText(String.format("最后入库：取件码 %s | 快递单号 %s",
+                    scanImage.getPickCode(),scanImage.getEId()));
+        }else {
+            tv_last_code_info.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void initCapture() {
         helper = getCaptureHelper();
         helper.playBeep(true)//播放音效
                 .vibrate(true)//震动
@@ -81,37 +107,44 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 .frontLightMode(FrontLightMode.AUTO)//设置闪光灯模式
                 .tooDarkLux(45f)//设置光线太暗时，自动触发开启闪光灯的照度值
                 .brightEnoughLux(100f)//设置光线足够明亮时，自动触发关闭闪光灯的照度值
-                .continuousScan(false);//是否连扫
+                .continuousScan(true);//是否连扫
     }
 
 
     /**
      * 扫码结果回调
+     *
      * @param result 扫码结果
      * @return
      */
     @Override
     public boolean onResultCallback(String result) {
-
+        ScanImage scanImage = storageCase.searchScanImageFromDb(result);
+        if (scanImage != null) {
+            ToastUtil.showShort("重复扫描：" + result);
+//            return true;
+        }
         takePicture(result);
-
-
         return true;
     }
 
 
-    private void takePicture(String result){
-        if(camera== null){
+    private void takePicture(String result) {
+        if (camera == null) {
             camera = helper.getCameraManager().getOpenCamera().getCamera();
         }
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                camera.stopPreview();
-                ToastUtil.showShort(result);
-                SHCameraHelp shCameraHelp = new SHCameraHelp();
-                String file = shCameraHelp.saveImage(activity, result,data);
-                LogUtil.d("ScanStorageCase", file);
+//                camera.stopPreview();
+                PickupCode pickupCode = storageCase.getCurrentPickCode();
+
+                PickupCode nextCode = pickupCode.nextPickCode();
+
+                updateUI(result, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
+                storageCase.saveScanImage(result, pickupCode.getCurrentNumber(),data);
+                storageCase.updatePickCode(nextCode);
+
                 camera.startPreview();
 
                 helper.restartPreviewAndDecode();
@@ -119,14 +152,37 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         });
     }
 
+    private void updateUI(String barCode,String pickCode, String nextCode) {
+        tv_bar_code.setText(barCode);
+        if (tv_bar_code.getVisibility() != View.VISIBLE) {
+            tv_bar_code.setVisibility(View.VISIBLE);
+            tv_bar_code.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (tv_bar_code != null) {
+                        tv_bar_code.setVisibility(View.GONE);
+                    }
+                }
+            }, 1500);
+        }
 
+
+        //最后入库：取件码 A1-29-20000411 | 快递单号7238283772747737
+        tv_last_code_info.setText(String.format("最后入库：取件码 %s | 快递单号 %s",
+                pickCode,barCode));
+
+        tv_pickup_code.setText(nextCode);
+
+    }
 
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_pickup_code_modify:
 
+                break;
+            case R.id.tv_tip_edit_express:
                 break;
             case R.id.iv_capture:
                 takePicture("123");

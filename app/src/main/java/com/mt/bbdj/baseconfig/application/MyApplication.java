@@ -8,6 +8,8 @@ import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
+import com.facebook.stetho.Stetho;
+import com.mt.bbdj.BuildConfig;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.RxTool;
 import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
@@ -23,7 +25,6 @@ import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.URLConnectionNetworkExecutor;
 import com.yanzhenjie.nohttp.cache.DBCacheStore;
 import com.yanzhenjie.nohttp.cookie.DBCookieStore;
-import com.zto.recognition.phonenumber.OCRManager;
 
 import org.android.agoo.huawei.HuaWeiRegister;
 import org.android.agoo.xiaomi.MiPushRegistar;
@@ -62,6 +63,10 @@ public class MyApplication extends Application {
         SoundHelper.init();
 
         initSettingPush();   //初始化推送
+
+        if(BuildConfig.DEBUG){
+            initDebug();
+        }
     }
 
     private void initSettingPush() {
@@ -117,8 +122,8 @@ public class MyApplication extends Application {
     }
 
     private void initNoHttp() {
-        Logger.setDebug(true);
-        Logger.setTag("photoFile");
+        Logger.setDebug(BuildConfig.DEBUG);
+        Logger.setTag("nohttp");
         // 如果你需要自定义配置：
         InitializationConfig config = InitializationConfig.newBuilder(this)
                 // 全局连接服务器超时时间，单位毫秒，默认10s。
@@ -135,10 +140,14 @@ public class MyApplication extends Application {
                         // 如果不维护cookie，setEnable(false)禁用。
                         new DBCookieStore(this).setEnable(true)
                 )
+                .retry(3)
                 .networkExecutor(new URLConnectionNetworkExecutor())
                 .build();
         NoHttp.initialize(config);
     }
 
 
+    private void initDebug(){
+        Stetho.initializeWithDefaults(this);
+    }
 }

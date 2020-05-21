@@ -78,19 +78,19 @@ public class ApiStorageRequest {
      * <p>
      * http://qrcode.taowangzhan.com/bbapi/submit/stationUploadExpressImg3
      */
-    public static Request<String> stationUploadExpressImg3(String code, String number, String station_id, String filePath) {
-        String url = "http://qrcode.taowangzhan.com/bbapi/submit/stationUploadExpressImg3";
+    public static Request<String> stationUploadExpressImg3(String eId, String pickCode, String station_id, String filePath) {
+        String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationUploadExpressImg3";
         Map<String, Object> map = new HashMap<>();
-        map.put("code", code);
-        map.put("number", number);
+        map.put("code", pickCode);
+        map.put("number", eId);
         map.put("station_id", station_id);
         addSignature(map);
 
         BasicBinary fileBinary = new FileBinary(new File(filePath));
-        map.put("file", fileBinary);
 
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add(map);
+        request.add("file", fileBinary);
 
         return request;
     }
@@ -103,7 +103,7 @@ public class ApiStorageRequest {
      */
 
     public static Request<String> stationOcrResult(String station_id) {
-        String url = "http://qrcode.taowangzhan.com/bbapi/submit/stationOcrResult";
+        String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationOcrResult";
 
         Map<String, Object> map = new HashMap<>();
         map.put("station_id", station_id);
@@ -117,7 +117,7 @@ public class ApiStorageRequest {
     /**
      * 接口名称	编辑快递面单信息
      * 功能描述	修改识别失败的快递手机号、取件码、条形码、快递公司
-     * http://qrcode.taowangzhan.com/bbapi/submit/stationUpdatePie
+     * https://qrcode.taowangzhan.com/bbapi/submit/stationUpdatePie
      * <p>
      * signature	String	签名值
      * <p>
@@ -133,7 +133,7 @@ public class ApiStorageRequest {
      */
     public static Request<String> stationUpdatePie(String number, String code, String express_id,
                                                    String mobile, String pie_id, String station_id) {
-        String url = "http://qrcode.taowangzhan.com/bbapi/submit/stationUpdatePie";
+        String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationUpdatePie";
 
         Map<String, Object> map = new HashMap<>();
         map.put("code", code);
@@ -175,7 +175,7 @@ public class ApiStorageRequest {
      * @return
      */
     public static Request<String> stationSyncDelete(String station_id, String pie_id) {
-        String url = "http://qrcode.taowangzhan.com/bbapi/submit/stationSyncDelete";
+        String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationSyncDelete";
 
         Map<String, Object> map = new HashMap<>();
         map.put("station_id", station_id);

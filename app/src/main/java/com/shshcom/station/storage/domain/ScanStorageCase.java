@@ -1,12 +1,23 @@
 package com.shshcom.station.storage.domain;
 
 import android.content.Context;
-import android.hardware.Camera;
-import android.util.Log;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mt.bbdj.baseconfig.db.PickupCode;
+import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
+import com.shshcom.station.storage.http.ApiStorageRequest;
+import com.shshcom.station.storage.http.bean.BaseResult;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.Response;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * desc:
@@ -17,8 +28,6 @@ public class ScanStorageCase {
 
     private Context context;
 
-
-    private PickupCode pickupCode;
 
     private ScanStorageCase(){
 
@@ -33,25 +42,75 @@ public class ScanStorageCase {
         this.context = context.getApplicationContext();
     }
 
-    public ScanStorageCase getInstance(){
+    public static ScanStorageCase getInstance(){
         return Hold.instance;
     }
 
 
     public PickupCode getCurrentPickCode(){
-        PickupCode code = GreenDaoUtil.getPickCode();
-        if(code == null){
-            code = new PickupCode();
-            code.setCurrentNumber("1000");
-            code.setType(PickupCode.Type.type_1.getDesc());
-        }
-        return pickupCode;
+        return GreenDaoUtil.getPickCode();
+
     }
 
     public void updatePickCode(PickupCode pickupCode){
-        this.pickupCode = pickupCode;
-
         GreenDaoUtil.updatePickCode(pickupCode);
+    }
+
+
+    public ScanImage getLastScanImage(){
+        return GreenDaoUtil.getLastScanImage();
+    }
+
+    public ScanImage searchScanImageFromDb(String eId){
+        return GreenDaoUtil.findScanImage(eId);
+    }
+
+    public void saveScanImage(String eId, String pickCode, byte[] imageData){
+        ScanImage image = new ScanImage();
+        image.setEId(eId);
+        image.setPickCode(pickCode);
+
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+                SHCameraHelp shCameraHelp = new SHCameraHelp();
+                String file = shCameraHelp.saveImage(context, image.getEId(),imageData);
+
+                image.setLocalPath(file);
+                image.setState(ScanImage.State.uploading.name());
+                GreenDaoUtil.updateScanImage(image);
+
+                boolean success = uploadImage(image);
+                if(success){
+                    image.setState(ScanImage.State.upload_success.name());
+                }else {
+                    image.setState(ScanImage.State.upload_fail.name());
+                }
+                GreenDaoUtil.updateScanImage(image);
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
+    private boolean uploadImage(ScanImage image){
+        String stationId = GreenDaoUtil.getStationId();
+
+        Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image.getEId(),image.getPickCode(),stationId, image.getLocalPath());
+        //Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
+        Response<String> response = NoHttp.startRequestSync(request);
+
+        if(response.isSucceed()){
+            String data = response.get();
+            LogUtil.d("nohttp_", data);
+            BaseResult result = JSONObject.parseObject(data, BaseResult.class);
+            return result.isSuccess();
+        }
+
+
+        return false;
+
     }
 
 

@@ -1,8 +1,8 @@
 package com.mt.bbdj.baseconfig.db;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +40,30 @@ public class PickupCode {
     }
 
 
+    public PickupCode nextPickCode(){
+        PickupCode newCode = new PickupCode();
+        newCode.setStationId(stationId);
+        newCode.setType(type);
+        newCode.setShelfNumber(shelfNumber);
+
+
+
+
+        if(type.equals(Type.type_4.getDesc()) || type.equals(Type.type_5.getDesc())){
+            newCode.setStartNumber(startNumber);
+            String currentStr = "单号尾号";
+        }else {
+            int nextNumber = startNumber+1;
+            if(nextNumber>9999){
+                nextNumber = 1000;
+            }
+            newCode.setStartNumber(nextNumber);
+            newCode.setCurrentNumber(nextNumber+"");
+        }
+
+        return newCode;
+
+    }
 
 
     

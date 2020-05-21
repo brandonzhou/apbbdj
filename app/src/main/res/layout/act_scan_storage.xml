@@ -116,27 +116,24 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_last"
+    <TextView
+        android:id="@+id/tv_last_code_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingEnd="15dp"
         android:padding="9dp"
         android:layout_above="@+id/rl_bottom"
-        android:background="@color/black_tran">
+        android:background="@color/black_tran"
 
-        <TextView
-            android:id="@+id/tv_last_code_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="最后入库：取件码 A1-29-20000411 | 快递单号7238283772747737"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:textSize="11sp" />
+        android:gravity="center"
+        android:text="最后入库：取件码 A1-29-20000411 | 快递单号7238283772747737"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textSize="11sp">
 
-    </RelativeLayout>
+
+
+    </TextView>
 
     <RelativeLayout
         android:id="@+id/rl_bottom"
@@ -201,7 +198,24 @@
         android:layout_marginBottom="40dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_capture"
+        android:visibility="gone"
+        />
 
+    <TextView
+        android:id="@+id/tv_tip_edit_express"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        android:text="识别不出运单号，点此手工录入>"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_mark_trans"
+        android:layout_above="@id/rl_bottom"
+        android:layout_marginBottom="40dp"
         />
 
     <TextView
@@ -219,5 +233,23 @@
         android:background="@drawable/bg_mark_trans"
         />
 
+
+    <TextView
+        android:id="@+id/tv_bar_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/rl_title_code"
+        android:layout_marginTop="50dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
+        tools:text="7238283772747737"
+        android:textSize="22sp"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_mark_trans"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>

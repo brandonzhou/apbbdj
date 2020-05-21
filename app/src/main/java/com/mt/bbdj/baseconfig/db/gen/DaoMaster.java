@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
 import org.greenrobot.greendao.AbstractDaoMaster;
-import org.greenrobot.greendao.database.StandardDatabase;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseOpenHelper;
+import org.greenrobot.greendao.database.StandardDatabase;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 
 
@@ -27,12 +27,12 @@ public class DaoMaster extends AbstractDaoMaster {
         ExpressImageDao.createTable(db, ifNotExists);
         ExpressLogoDao.createTable(db, ifNotExists);
         MingleAreaDao.createTable(db, ifNotExists);
+        PickupCodeDao.createTable(db, ifNotExists);
         ProvinceDao.createTable(db, ifNotExists);
+        ScanImageDao.createTable(db, ifNotExists);
         ScannerMessageModelDao.createTable(db, ifNotExists);
         UserBaseMessageDao.createTable(db, ifNotExists);
         WaillMessageDao.createTable(db, ifNotExists);
-        PickupCodeDao.createTable(db, ifNotExists);
-        ScanImageDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -43,12 +43,12 @@ public class DaoMaster extends AbstractDaoMaster {
         ExpressImageDao.dropTable(db, ifExists);
         ExpressLogoDao.dropTable(db, ifExists);
         MingleAreaDao.dropTable(db, ifExists);
+        PickupCodeDao.dropTable(db, ifExists);
         ProvinceDao.dropTable(db, ifExists);
+        ScanImageDao.dropTable(db, ifExists);
         ScannerMessageModelDao.dropTable(db, ifExists);
         UserBaseMessageDao.dropTable(db, ifExists);
         WaillMessageDao.dropTable(db, ifExists);
-        PickupCodeDao.dropTable(db, ifExists);
-        ScanImageDao.dropTable(db, ifExists);
     }
 
     /**
@@ -73,12 +73,12 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(ExpressImageDao.class);
         registerDaoClass(ExpressLogoDao.class);
         registerDaoClass(MingleAreaDao.class);
+        registerDaoClass(PickupCodeDao.class);
         registerDaoClass(ProvinceDao.class);
+        registerDaoClass(ScanImageDao.class);
         registerDaoClass(ScannerMessageModelDao.class);
         registerDaoClass(UserBaseMessageDao.class);
         registerDaoClass(WaillMessageDao.class);
-        registerDaoClass(PickupCodeDao.class);
-        registerDaoClass(ScanImageDao.class);
     }
 
     public DaoSession newSession() {
