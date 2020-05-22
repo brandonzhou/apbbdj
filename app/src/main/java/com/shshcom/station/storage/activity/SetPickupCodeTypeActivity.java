@@ -14,17 +14,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lxj.xpopup.core.BottomPopupView;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.shshcom.station.storage.base.BaseActivity;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Group;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.curzbin.library.BottomDialog;
-import me.curzbin.library.Item;
-import me.curzbin.library.OnItemClickListener;
+//import me.curzbin.library.BottomDialog;
+//import me.curzbin.library.Item;
+//import me.curzbin.library.OnItemClickListener;
 
 /**
  * 设置取件码类型
@@ -222,18 +224,7 @@ public class SetPickupCodeTypeActivity extends BaseActivity {
             case R.id.tv_rule_value:
                 break;
             case R.id.btn_save:
-                PickupCode pickupCode = new PickupCode();
-                pickupCode.setType(codeType);
-                pickupCode.setShelfNumber(mTvShelfValue.getText().toString());
-                if (PickupCode.Type.type_shelf_tail.getDesc().equals(codeType) || PickupCode.Type.type_shelf_date_tail.getDesc().equals(codeType)) {
-                    pickupCode.setStartNumber(-1);
-                }else{
-                    pickupCode.setStartNumber(Integer.parseInt(mTvCodeValue.getText().toString()));
-                }
-                Intent intent = new Intent();
-                intent.putExtra("pickupCodeRule",pickupCode);
-                setResult(RESULT_OK,intent);
-                finish();
+                saveConfig();
                 break;
             case R.id.iv_set_type:
                 showBottomDialog();
@@ -242,46 +233,61 @@ public class SetPickupCodeTypeActivity extends BaseActivity {
         }
     }
 
+    private void saveConfig() {
+        PickupCode pickupCode = new PickupCode();
+        pickupCode.setType(codeType);
+        pickupCode.setShelfNumber(mTvShelfValue.getText().toString());
+        if (PickupCode.Type.type_shelf_tail.getDesc().equals(codeType) || PickupCode.Type.type_shelf_date_tail.getDesc().equals(codeType)) {
+            pickupCode.setStartNumber(-1);
+        }else{
+            pickupCode.setStartNumber(Integer.parseInt(mTvCodeValue.getText().toString()));
+        }
+        Intent intent = new Intent();
+        intent.putExtra("pickupCodeRule",pickupCode);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
     /**
      * 底部弹出菜单
      */
     private void showBottomDialog() {
-        BottomDialog dialog = new BottomDialog(this);
-        dialog.orientation(BottomDialog.VERTICAL)
-                .inflateMenu(R.menu.menu_set_code_type, new OnItemClickListener() {
-                    @Override
-                    public void click(Item item) {
-                        mTvRuleValue.setText(item.getTitle());
-                        switch (item.getId()) {
-                            case R.id.type_code:
-                                codeType = PickupCode.Type.type_code.getDesc();
-                                setEditFocus(mEtStartNumberValue,mTvCodeValue.getText().toString());
-                                break;
-                            case R.id.type_shelf_code:
-                                codeType = PickupCode.Type.type_shelf_code.getDesc();
-                                setEditFocus(mEtShelfNumberValue,mTvShelfValue.getText().toString());
-                                break;
-                            case R.id.type_shelf_tail:
-                                codeType = PickupCode.Type.type_shelf_tail.getDesc();
-                                setEditFocus(mEtShelfNumberValue,mTvShelfValue.getText().toString());
-                                break;
-                            case R.id.type_shelf_date_code:
-                                codeType = PickupCode.Type.type_shelf_date_code.getDesc();
-                                setEditFocus(mEtShelfNumberValue,mTvShelfValue.getText().toString());
-                                break;
-                            case R.id.type_shelf_date_tail:
-                                codeType = PickupCode.Type.type_shelf_date_tail.getDesc();
-                                setEditFocus(mEtShelfNumberValue,mTvShelfValue.getText().toString());
-                                break;
-                                default:
-                        }
-
-                        updateUI(codeType);
-                        dialog.dismiss();
-                        Toast.makeText(SetPickupCodeTypeActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .show();
+//        BottomDialog dialog = new BottomDialog(this);
+//        dialog.orientation(BottomDialog.VERTICAL)
+//                .inflateMenu(R.menu.menu_set_code_type, new OnItemClickListener() {
+//                    @Override
+//                    public void click(Item item) {
+//                        mTvRuleValue.setText(item.getTitle());
+//                        switch (item.getId()) {
+//                            case R.id.type_code:
+//                                codeType = PickupCode.Type.type_code.getDesc();
+//                                setEditFocus(mEtStartNumberValue,mTvCodeValue.getText().toString());
+//                                break;
+//                            case R.id.type_shelf_code:
+//                                codeType = PickupCode.Type.type_shelf_code.getDesc();
+//                                setEditFocus(mEtShelfNumberValue,mTvShelfValue.getText().toString());
+//                                break;
+//                            case R.id.type_shelf_tail:
+//                                codeType = PickupCode.Type.type_shelf_tail.getDesc();
+//                                setEditFocus(mEtShelfNumberValue,mTvShelfValue.getText().toString());
+//                                break;
+//                            case R.id.type_shelf_date_code:
+//                                codeType = PickupCode.Type.type_shelf_date_code.getDesc();
+//                                setEditFocus(mEtShelfNumberValue,mTvShelfValue.getText().toString());
+//                                break;
+//                            case R.id.type_shelf_date_tail:
+//                                codeType = PickupCode.Type.type_shelf_date_tail.getDesc();
+//                                setEditFocus(mEtShelfNumberValue,mTvShelfValue.getText().toString());
+//                                break;
+//                                default:
+//                        }
+//
+//                        updateUI(codeType);
+//                        dialog.dismiss();
+//                        Toast.makeText(SetPickupCodeTypeActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .show();
     }
 
     @Override
@@ -289,6 +295,34 @@ public class SetPickupCodeTypeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    /**
+     * 底部弹窗，实现批量移动，删除
+     */
+    public class CustomBottomPopupView extends BottomPopupView {
+        public CustomBottomPopupView(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected int getImplLayoutId() {
+            return R.layout.layout_set_pick_up_bottom_view;
+        }
+
+        @Override
+        protected void onCreate() {
+            super.onCreate();
+//            findViewById(R.id.tv_struct_move).setOnClickListener(v -> {
+//                moveMember();
+//                dismiss();
+//            });
+//            findViewById(R.id.tv_struct_delete).setOnClickListener(v -> {
+//                deleteMember();
+//                dismiss();
+//            });
+//            findViewById(R.id.tv_struct_cancel).setOnClickListener(v -> dismiss());
+        }
     }
 
 }

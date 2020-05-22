@@ -254,5 +254,11 @@
         <item name="android:textColor">@color/color_text_primary_dark_black</item>
     </style>
 
+    <style name="Style_tv_gravity_center">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/color_text_primary</item>
+        <item name="android:textSize">@dimen/text_size_main</item>
+    </style>
+
 
 </resources>

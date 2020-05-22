@@ -125,6 +125,9 @@ android {
         implementation 'com.mylhyl:circleDialog:3.0.10'  //对话框
 
 
+        implementation 'com.lxj:xpopup:1.9.0'//弹窗
+
+
         // 基础依赖包，必须要依赖
         implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
         // fragment快速实现（可选）
@@ -192,5 +195,5 @@ dependencies {
 
     implementation "joda-time:joda-time:2.9.9"
     implementation "top.zibin:Luban:1.1.8"
-    implementation project(path: ':bottomdialoglib')
+//    implementation project(path: ':bottomdialoglib')
 }
