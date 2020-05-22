@@ -5,27 +5,51 @@
     android:background="@color/white"
     android:orientation="vertical"
     >
-    (""),
-    type_shelf_date_code("货架号+日期+编号累加"),
-    type_shelf_date_tail("货架号+日期+单号尾号"),
-    type_shelf_tail("货架号+单号尾号")
+
     <TextView
         android:id="@+id/tv_type_code"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="编号累加"
         style="@style/Style_tv_gravity_center" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/color_main_line"
-        />
+
+    <include layout="@layout/layout_dividing_line" />
+
     <TextView
         android:id="@+id/tv_type_shelf_code"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="货架号+编号累加"
         style="@style/Style_tv_gravity_center" />
+
+    <include layout="@layout/layout_dividing_line" />
+
+    <TextView
+        android:id="@+id/tv_type_shelf_date_code"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="货架号+日期+编号累加"
+        style="@style/Style_tv_gravity_center" />
+
+    <include layout="@layout/layout_dividing_line" />
+
+    <TextView
+        android:id="@+id/tv_type_shelf_date_tail"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="货架号+日期+单号尾号"
+        style="@style/Style_tv_gravity_center" />
+
+    <include layout="@layout/layout_dividing_line" />
+
+    <TextView
+        android:id="@+id/tv_type_shelf_tail"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="货架号+单号尾号"
+        style="@style/Style_tv_gravity_center" />
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
@@ -33,12 +57,12 @@
         />
 
     <TextView
-        android:id="@+id/tv_struct_cancel"
+        android:id="@+id/tv_cancel"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="取消"
         android:gravity="center"
-        android:textColor="@color/color_text_primary"
+        android:textColor="@color/color_text_primary_dark_black"
         android:textSize="@dimen/text_size_main"
         />
 

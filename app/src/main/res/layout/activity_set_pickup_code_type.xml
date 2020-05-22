@@ -245,31 +245,23 @@
 
         <TextView
             android:id="@+id/tv_shelf_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="A6"
-            android:textSize="@dimen/text_size_bigger"
-            android:textColor="@color/color_text_primary"
             app:layout_constraintTop_toTopOf="@+id/tv_code_value"
             app:layout_constraintBottom_toBottomOf="@id/tv_code_value"
             app:layout_constraintLeft_toLeftOf="@id/tv_shelf_key"
             app:layout_constraintRight_toRightOf="@+id/tv_shelf_key"
-            />
+            style="@style/Style_tv_large" />
 
 
         <!--值-分隔符 "-" -->
         <TextView
             android:id="@+id/tv_delimiter_0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="-"
-            android:textSize="@dimen/text_size_bigger"
-            android:textColor="@color/color_text_primary"
             app:layout_constraintTop_toTopOf="@+id/tv_code_value"
             app:layout_constraintBottom_toBottomOf="@id/tv_code_value"
             app:layout_constraintLeft_toRightOf="@id/tv_shelf_value"
             app:layout_constraintRight_toLeftOf="@+id/tv_date_value"
-            />
+            style="@style/Style_tv_large" />
 
 
 
@@ -289,48 +281,36 @@
         <!--值-日期-->
         <TextView
             android:id="@+id/tv_date_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="19"
-            android:textSize="@dimen/text_size_bigger"
-            android:textColor="@color/color_text_primary"
             app:layout_constraintBottom_toBottomOf="@id/tv_code_value"
             app:layout_constraintTop_toTopOf="@id/tv_code_value"
             app:layout_constraintLeft_toLeftOf="@id/tv_date_key"
             app:layout_constraintRight_toRightOf="@+id/tv_date_key"
-            />
+            style="@style/Style_tv_large" />
 
 
 
         <!--值-分隔符 "-" -->
         <TextView
             android:id="@+id/tv_delimiter_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="-"
-            android:textSize="@dimen/text_size_bigger"
-            android:textColor="@color/color_text_primary"
             app:layout_constraintTop_toTopOf="@+id/tv_code_value"
             app:layout_constraintBottom_toBottomOf="@id/tv_code_value"
             app:layout_constraintLeft_toRightOf="@id/tv_date_value"
             app:layout_constraintRight_toLeftOf="@+id/tv_code_value"
-            />
+            style="@style/Style_tv_large" />
 
         <!--值-编号-->
         <TextView
             android:id="@+id/tv_code_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="1234"
-            android:textSize="@dimen/text_size_bigger"
-            android:textColor="@color/color_text_primary"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_code_key"
             app:layout_constraintLeft_toLeftOf="@id/tv_code_key"
             app:layout_constraintRight_toRightOf="@id/tv_code_key"
-            />
+            style="@style/Style_tv_large" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

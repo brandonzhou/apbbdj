@@ -207,8 +207,10 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case REQUEST_CODE_SET_PICK_UP_NUMBER:
-                PickupCode pickupCode = (PickupCode) data.getSerializableExtra("pickupCodeRule");
-                Log.d(TAG, pickupCode.toString());
+                if (data != null) {
+                    PickupCode pickupCode = (PickupCode) data.getSerializableExtra("pickupCodeRule");
+                    Log.d(TAG, pickupCode.toString());
+                }
                 break;
                 default:
 
