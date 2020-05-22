@@ -51,12 +51,13 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
-        <activity android:name="com.shshcom.station.storage.base.BaseActivity"></activity>
-        <activity android:name="com.shshcom.station.storage.activity.SetPickupCodeTypeActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"/>
-        <activity android:name="com.shshcom.station.storage.activity.ScanOcrResultActivity"></activity>
+        <activity android:name="com.shshcom.station.storage.activity.DealWithFailThingsActivity"></activity>
+        <activity android:name="com.shshcom.station.storage.base.BaseActivity" />
+        <activity
+            android:name="com.shshcom.station.storage.activity.SetPickupCodeTypeActivity"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+        <activity android:name="com.shshcom.station.storage.activity.ScanOcrResultActivity" />
         <activity android:name="com.shshcom.station.storage.activity.ScanImageUploadingActivity" />
-
         <activity android:name=".community.activity.OutExceptionActivity" />
         <activity android:name=".community.activity.ExpressDetailActivity" />
         <activity

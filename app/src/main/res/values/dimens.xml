@@ -45,8 +45,9 @@
     <!--cell(item) 高 规范-->
     <dimen name="item_height_blank">10dp</dimen>
     <dimen name="item_height_least">32dp</dimen>
-    <dimen name="item_height_littler">36dp</dimen>
-    <dimen name="item_height_little">46dp</dimen>
+    <dimen name="item_height_bitty">36dp</dimen>
+    <dimen name="item_height_littler">40dp</dimen>
+    <dimen name="item_height_little">44dp</dimen>
     <dimen name="item_height_smaller">48dp</dimen><!--toolbar 高度-->
     <dimen name="item_height_small">50dp</dimen>
     <dimen name="item_height_main">54dp</dimen>

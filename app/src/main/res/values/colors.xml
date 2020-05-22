@@ -92,6 +92,9 @@
     <color name="color_text_primary_dark_black">#666666</color><!--正文-小标题 TextView-->
     <color name="color_text_primary_light_black">#999999</color><!--TextView EditText hint 以及其他需要浅黑的场景-->
 
+    <color name="color_text_fail">#FF2020</color><!--错误,警告,警示-->
+    <color name="color_et_bg_gray">#F8F8F8</color><!--输入框-灰色背景-->
+
 
 
 <!--    <color name="black_tran">#FF000000</color>-->

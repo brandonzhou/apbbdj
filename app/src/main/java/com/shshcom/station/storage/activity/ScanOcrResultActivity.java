@@ -96,6 +96,11 @@ public class ScanOcrResultActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.tv_btn_fail:
+                DealWithFailThingsActivity.openActivity(this);
+                break;
+                default:
+        }
     }
 }

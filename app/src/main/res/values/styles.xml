@@ -243,10 +243,15 @@
         <item name="android:textColor">@color/color_text_primary</item>
     </style>
 
-    <style name="Style_btn_main">
+    <style name="Style_btn_main_solid">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_size_main</item>
-        <item name="android:background">@drawable/shap_btn_bg_main</item>
+        <item name="android:background">@drawable/shap_btn_bg_main_solid</item>
+    </style>
+    <style name="Style_btn_main_leary">
+        <item name="android:textColor">@color/color_main_theme</item>
+        <item name="android:textSize">@dimen/text_size_main</item>
+        <item name="android:background">@drawable/shap_btn_bg_main_leary</item>
     </style>
 
     <style name="Style_tv_little_gray">
@@ -266,6 +271,26 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_size_large_add</item>
         <item name="android:textColor">@color/color_text_primary</item>
+    </style>
+
+    <style name="Style_tv_dark_small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/item_height_little</item>
+        <item name="android:layout_marginLeft">@dimen/margin_left</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:textColor">@color/color_text_primary_dark_black</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="Style_et_gray_small">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/item_height_bitty</item>
+        <item name="android:layout_marginLeft">@dimen/margin_left</item>
+        <item name="android:layout_marginRight">@dimen/margin_right</item>
+        <item name="android:textColor">@color/color_text_primary</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:background">@drawable/shap_gray_bg_r4</item>
+        <item name="android:paddingLeft">10dp</item>
     </style>
 
 
