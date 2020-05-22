@@ -54,6 +54,9 @@
         <activity android:name="com.shshcom.station.storage.base.BaseActivity"></activity>
         <activity android:name="com.shshcom.station.storage.activity.SetPickupCodeTypeActivity"
             android:windowSoftInputMode="stateAlwaysVisible"/>
+        <activity android:name="com.shshcom.station.storage.activity.ScanOcrResultActivity"></activity>
+        <activity android:name="com.shshcom.station.storage.activity.ScanImageUploadingActivity" />
+
         <activity android:name=".community.activity.OutExceptionActivity" />
         <activity android:name=".community.activity.ExpressDetailActivity" />
         <activity

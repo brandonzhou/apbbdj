@@ -16,8 +16,6 @@ import com.king.zxing.CaptureHelper;
 import com.king.zxing.camera.FrontLightMode;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.PickupCode;
-import com.mt.bbdj.baseconfig.utls.LogUtil;
-import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.shshcom.station.storage.domain.ScanStorageCase;
@@ -86,6 +84,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
         findViewById(R.id.iv_pickup_code_modify).setOnClickListener(this);
         findViewById(R.id.tv_tip_edit_express).setOnClickListener(this);
+        findViewById(R.id.tv_btn_submit).setOnClickListener(this);
     }
 
     private void initData() {
@@ -140,6 +139,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         if (camera == null) {
             camera = helper.getCameraManager().getOpenCamera().getCamera();
         }
+        // RuntimeException: Camera is being used after Camera.release() was called
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
@@ -192,6 +192,9 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 break;
             case R.id.tv_tip_edit_express:
 
+                break;
+            case R.id.tv_btn_submit:
+                ScanOcrResultActivity.openActivity(this);
                 break;
             case R.id.iv_capture:
                 takePicture("123");

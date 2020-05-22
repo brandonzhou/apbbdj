@@ -2,13 +2,16 @@ package com.shshcom.station.storage.domain;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.shshcom.station.storage.http.ApiStorageRequest;
 import com.shshcom.station.storage.http.bean.BaseResult;
+import com.shshcom.station.storage.http.bean.StationOrcResult;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
@@ -28,6 +31,8 @@ public class ScanStorageCase {
 
     private Context context;
 
+    // Ocr 识别结果
+    private StationOrcResult orcResult;
 
     private ScanStorageCase(){
 
@@ -110,6 +115,43 @@ public class ScanStorageCase {
 
 
         return false;
+
+    }
+
+
+
+    public StationOrcResult getOrcResult() {
+        return orcResult;
+    }
+
+    public ScanStorageCase setOrcResult(StationOrcResult orcResult) {
+        this.orcResult = orcResult;
+        return this;
+    }
+
+    public Observable<BaseResult<StationOrcResult>> httpOcrResult(){
+        return Observable.create(new ObservableOnSubscribe<BaseResult<StationOrcResult>>() {
+            @Override
+            public void subscribe(ObservableEmitter<BaseResult<StationOrcResult>> emitter) throws Exception {
+                String stationId = GreenDaoUtil.getStationId();
+                Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
+
+                Response<String> response = NoHttp.startRequestSync(request);
+                if(response.isSucceed()){
+                    String data = response.get();
+                    LogUtil.d("nohttp_", data);
+                    BaseResult<StationOrcResult> result = JSON.parseObject(data, new TypeReference<BaseResult<StationOrcResult>>(){});
+                    if(result.isSuccess()){
+                        //orcResult = result.getData();
+                        emitter.onNext(result);
+                    }else {
+                        emitter.onError(new Throwable(result.getMsg()));
+                    }
+                }
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
 
     }
 
