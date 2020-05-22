@@ -44,5 +44,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="save">保存</string>
+    <string name="tail_number">单号尾号</string>
 
 </resources>

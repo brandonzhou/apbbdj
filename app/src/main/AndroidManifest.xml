@@ -51,7 +51,10 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
-        <activity android:name=".community.activity.OutExceptionActivity"></activity>
+        <activity android:name="com.shshcom.station.storage.base.BaseActivity"></activity>
+        <activity android:name="com.shshcom.station.storage.activity.SetPickupCodeTypeActivity"
+            android:windowSoftInputMode="stateAlwaysVisible"/>
+        <activity android:name=".community.activity.OutExceptionActivity" />
         <activity android:name=".community.activity.ExpressDetailActivity" />
         <activity
             android:name=".community.activity.SelectEnterExpressActivity"

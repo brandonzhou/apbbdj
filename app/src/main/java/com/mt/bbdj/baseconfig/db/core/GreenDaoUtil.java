@@ -54,7 +54,7 @@ public class GreenDaoUtil {
             pickupCode = new PickupCode();
             pickupCode.setStartNumber(1000);
             pickupCode.setCurrentNumber("1000");
-            pickupCode.setType(PickupCode.Type.type_1.getDesc());
+            pickupCode.setType(PickupCode.Type.type_code.getDesc());
         }
 
         return pickupCode;

@@ -4,6 +4,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,8 @@ import java.util.List;
  * 2020/5/19
  */
 @Entity
-public class PickupCode {
+public class PickupCode implements Serializable {
+    private static final long serialVersionUID = -5782895438563878774L;
     @Id
     private String stationId;
 
@@ -49,7 +51,7 @@ public class PickupCode {
 
 
 
-        if(type.equals(Type.type_4.getDesc()) || type.equals(Type.type_5.getDesc())){
+        if(type.equals(Type.type_shelf_date_tail.getDesc()) || type.equals(Type.type_shelf_tail.getDesc())){
             newCode.setStartNumber(startNumber);
             String currentStr = "单号尾号";
         }else {
@@ -70,11 +72,11 @@ public class PickupCode {
 
 
     public enum Type{
-        type_1("编号累加"),
-        type_2("货架号+编号累加"),
-        type_3("货架号+日期+编号累加"),
-        type_4("货架号+日期+单号尾号"),
-        type_5("货架号+单号尾号")
+        type_code("编号累加"),
+        type_shelf_code("货架号+编号累加"),
+        type_shelf_date_code("货架号+日期+编号累加"),
+        type_shelf_date_tail("货架号+日期+单号尾号"),
+        type_shelf_tail("货架号+单号尾号")
         ;
 
         private String desc;
@@ -91,11 +93,11 @@ public class PickupCode {
 
     public static List<Type> typeList(){
         List<Type> types = new ArrayList<>();
-        types.add(Type.type_1);
-        types.add(Type.type_2);
-        types.add(Type.type_3);
-        types.add(Type.type_4);
-        types.add(Type.type_5);
+        types.add(Type.type_code);
+        types.add(Type.type_shelf_code);
+        types.add(Type.type_shelf_date_code);
+        types.add(Type.type_shelf_date_tail);
+        types.add(Type.type_shelf_tail);
         return types;
     }
 
@@ -149,6 +151,14 @@ public class PickupCode {
         this.currentNumber = currentNumber;
     }
 
-
-    
+    @Override
+    public String toString() {
+        return "PickupCode{" +
+                "stationId='" + stationId + '\'' +
+                ", type='" + type + '\'' +
+                ", shelfNumber='" + shelfNumber + '\'' +
+                ", startNumber=" + startNumber +
+                ", currentNumber='" + currentNumber + '\'' +
+                '}';
+    }
 }

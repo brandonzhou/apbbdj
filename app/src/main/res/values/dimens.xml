@@ -16,6 +16,47 @@
     <dimen name="durban_dp_200">200dp</dimen>
 
 
+    <!--行间分割线高度-->
+    <dimen name="line_dividing_height">0.5dp</dimen>
+
+    <!--字号 规范-->
+    <dimen name="text_size_lesser">10sp</dimen>
+    <dimen name="text_size_mini">11sp</dimen>
+    <dimen name="text_size_little">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_select">15sp</dimen>
+    <dimen name="text_size_main">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_huge">30sp</dimen>
+    <dimen name="text_size_bigger">32sp</dimen>
+    <dimen name="text_size_max">36sp</dimen>
+    <dimen name="text_size_26">26sp</dimen>
+    <dimen name="text_size_24">24sp</dimen>
+    <dimen name="text_size_22">22sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+
+    <!--行间距-->
+    <dimen name="margin_top">10dp</dimen>
+    <dimen name="margin_bottom">10dp</dimen>
+    <dimen name="margin_left">20dp</dimen>
+    <dimen name="margin_right">20dp</dimen>
+
+    <!--cell(item) 高 规范-->
+    <dimen name="item_height_blank">10dp</dimen>
+    <dimen name="item_height_least">32dp</dimen>
+    <dimen name="item_height_littler">36dp</dimen>
+    <dimen name="item_height_little">46dp</dimen>
+    <dimen name="item_height_smaller">48dp</dimen><!--toolbar 高度-->
+    <dimen name="item_height_small">50dp</dimen>
+    <dimen name="item_height_main">54dp</dimen>
+    <dimen name="item_height_large">56dp</dimen>
+    <dimen name="item_height_huge">60dp</dimen>
+    <dimen name="item_height_76">76dp</dimen>
+    <dimen name="item_height_80">80dp</dimen>
+    <dimen name="item_height_92">92dp</dimen>
+    <dimen name="item_height_96">96dp</dimen>
+
+
     <dimen name="dp_5">5dp</dimen>
     <dimen name="dp_45">45dp</dimen>
     <dimen name="dp_50">50dp</dimen>

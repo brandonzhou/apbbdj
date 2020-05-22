@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.shshcom.station.storage.activity.SetPickupCodeTypeActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <!--规则-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_rule"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_main"
+        android:layout_marginTop="@dimen/margin_top"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/al_root"
+        app:layout_constraintLeft_toLeftOf="parent"
+        >
+        <TextView
+            android:id="@+id/tv_rule_key"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:text="选择编号规则"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/Style_tv_main" />
+
+        <TextView
+            android:id="@+id/tv_rule_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left"
+            style="@style/Style_tv_main"
+            android:text="货架号+日期+单号编号"
+            app:layout_constraintLeft_toRightOf="@+id/tv_rule_key"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/iv_set_type"
+            android:layout_width="56dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_arrow_more" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_set_shelf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="cl_shelf_number"/>
+
+    <!--货架号-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_shelf_number"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_main"
+        android:layout_marginTop="@dimen/margin_top"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/cl_rule"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:visibility="visible"
+        >
+        <TextView
+            android:id="@+id/tv_set_shelf_number_key"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:text="设置货架号"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/Style_tv_main" />
+
+        <EditText
+            android:id="@+id/et_shelf_number_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginRight="@dimen/margin_right"
+            android:inputType="textCapCharacters"
+            style="@style/Style_tv_main"
+            android:text=""
+            android:hint="请输入货架号"
+            app:layout_constraintLeft_toRightOf="@+id/tv_set_shelf_number_key"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <View
+            android:id="@+id/v_dividing_line"
+            android:layout_width="wrap_content"
+            android:background="@color/color_main_line_gray"
+            android:layout_height="@dimen/line_dividing_height"
+            app:layout_constraintLeft_toLeftOf="@id/tv_set_shelf_number_key"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--开始数字-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_start_number"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_main"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/cl_shelf_number"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_goneMarginTop="@dimen/margin_top"
+        >
+        <TextView
+            android:id="@+id/tv_set_start_number_key"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:text="编号开始数字"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/Style_tv_main" />
+
+        <EditText
+            android:id="@+id/et_start_number_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginRight="@dimen/margin_right"
+            android:inputType="number"
+            style="@style/Style_tv_main"
+            android:text="-1"
+            android:hint="请输入货架号"
+            app:layout_constraintLeft_toRightOf="@+id/tv_set_start_number_key"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_start_number_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="et_start_number_value"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_tail_number_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="tv_tail_number_value"/>
+
+
+        <!--单号尾号末四位-->
+        <TextView
+            android:id="@+id/tv_tail_number_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginRight="@dimen/margin_right"
+            style="@style/Style_tv_main"
+            android:text="单号尾号"
+            android:visibility="visible"
+            app:layout_constraintLeft_toRightOf="@+id/tv_set_start_number_key"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/tv_start_number_preview"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="起始编号预览"
+        android:textColor="@color/color_text_primary"
+        android:textSize="@dimen/text_size_small"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cl_start_number_preview" />
+
+    <!--起始编号预览-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_start_number_preview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shap_white_bg_r4"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_save"
+        app:layout_constraintLeft_toLeftOf="@+id/btn_save"
+        app:layout_constraintRight_toRightOf="@+id/btn_save"
+        >
+
+        <!--货架号-链头-->
+        <!--日期-->
+        <TextView
+            android:id="@+id/tv_shelf_key"
+            style="@style/Style_tv_little_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="货架号"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_code_key"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_date_key"
+            app:layout_constraintTop_toTopOf="@id/tv_code_key"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
+
+        <TextView
+            android:id="@+id/tv_date_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="日期"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_code_key"
+            app:layout_constraintTop_toTopOf="@id/tv_code_key"
+            app:layout_constraintLeft_toRightOf="@+id/tv_shelf_key"
+            app:layout_constraintRight_toLeftOf="@id/tv_code_key"
+            style="@style/Style_tv_little_gray" />
+
+        <!--编号-->
+        <TextView
+            android:id="@+id/tv_code_key"
+            style="@style/Style_tv_little_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:text="编号"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tv_code_value"
+            app:layout_constraintLeft_toRightOf="@+id/tv_date_key"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tv_shelf_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A6"
+            android:textSize="@dimen/text_size_bigger"
+            android:textColor="@color/color_text_primary"
+            app:layout_constraintTop_toTopOf="@+id/tv_code_value"
+            app:layout_constraintBottom_toBottomOf="@id/tv_code_value"
+            app:layout_constraintLeft_toLeftOf="@id/tv_shelf_key"
+            app:layout_constraintRight_toRightOf="@+id/tv_shelf_key"
+            />
+
+
+        <!--值-分隔符 "-" -->
+        <TextView
+            android:id="@+id/tv_delimiter_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="@dimen/text_size_bigger"
+            android:textColor="@color/color_text_primary"
+            app:layout_constraintTop_toTopOf="@+id/tv_code_value"
+            app:layout_constraintBottom_toBottomOf="@id/tv_code_value"
+            app:layout_constraintLeft_toRightOf="@id/tv_shelf_value"
+            app:layout_constraintRight_toLeftOf="@+id/tv_date_value"
+            />
+
+
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tv_date_key,tv_date_value,tv_delimiter_0,tv_delimiter_1"
+            android:visibility="visible"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_shelf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tv_shelf_key,tv_shelf_value"
+            android:visibility="visible"/>
+        <!--值-日期-->
+        <TextView
+            android:id="@+id/tv_date_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="19"
+            android:textSize="@dimen/text_size_bigger"
+            android:textColor="@color/color_text_primary"
+            app:layout_constraintBottom_toBottomOf="@id/tv_code_value"
+            app:layout_constraintTop_toTopOf="@id/tv_code_value"
+            app:layout_constraintLeft_toLeftOf="@id/tv_date_key"
+            app:layout_constraintRight_toRightOf="@+id/tv_date_key"
+            />
+
+
+
+        <!--值-分隔符 "-" -->
+        <TextView
+            android:id="@+id/tv_delimiter_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textSize="@dimen/text_size_bigger"
+            android:textColor="@color/color_text_primary"
+            app:layout_constraintTop_toTopOf="@+id/tv_code_value"
+            app:layout_constraintBottom_toBottomOf="@id/tv_code_value"
+            app:layout_constraintLeft_toRightOf="@id/tv_date_value"
+            app:layout_constraintRight_toLeftOf="@+id/tv_code_value"
+            />
+
+        <!--值-编号-->
+        <TextView
+            android:id="@+id/tv_code_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1234"
+            android:textSize="@dimen/text_size_bigger"
+            android:textColor="@color/color_text_primary"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_code_key"
+            app:layout_constraintLeft_toLeftOf="@id/tv_code_key"
+            app:layout_constraintRight_toRightOf="@id/tv_code_key"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <!--保存-->
+    <Button
+        android:id="@+id/btn_save"
+        android:text="@string/save"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Style_btn_main" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

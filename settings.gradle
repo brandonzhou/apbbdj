@@ -1,1 +1,2 @@
 include ':app', ':idcardcamera', ':zxlib', ':cameraview'
+include ':bottomdialoglib'

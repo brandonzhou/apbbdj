@@ -237,6 +237,22 @@
         <item name="colorControlActivated">@android:color/darker_gray</item>
     </style>
 
+    <style name="Style_tv_main">
+        <item name="android:background">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_main</item>
+        <item name="android:textColor">@color/color_text_primary</item>
+    </style>
+
+    <style name="Style_btn_main">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_main</item>
+        <item name="android:background">@drawable/shap_btn_bg_main</item>
+    </style>
+
+    <style name="Style_tv_little_gray">
+        <item name="android:textSize">@dimen/text_size_little</item>
+        <item name="android:textColor">@color/color_text_primary_dark_black</item>
+    </style>
 
 
 </resources>

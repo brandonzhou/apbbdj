@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/type_code"
+        android:icon="@null"
+        android:title="编号累加" />
+    <item
+        android:id="@+id/type_shelf_code"
+        android:icon="@null"
+        android:title="货架号+编号累加" />
+    <item
+        android:id="@+id/type_shelf_date_code"
+        android:icon="@null"
+        android:title="货架号+日期+编号累加" />
+    <item
+        android:id="@+id/type_shelf_date_tail"
+        android:icon="@null"
+        android:title="货架号+日期+单号尾号" />
+    <item
+        android:id="@+id/type_shelf_tail"
+        android:icon="@null"
+        android:title="货架号+单号尾号" />
+</menu>

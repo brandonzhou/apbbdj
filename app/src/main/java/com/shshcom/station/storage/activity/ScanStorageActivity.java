@@ -1,8 +1,10 @@
 package com.shshcom.station.storage.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +15,8 @@ import com.king.zxing.CaptureActivity;
 import com.king.zxing.CaptureHelper;
 import com.king.zxing.camera.FrontLightMode;
 import com.mt.bbdj.R;
+import com.mt.bbdj.baseconfig.db.PickupCode;
+import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
@@ -26,6 +30,9 @@ import java.util.EnumSet;
  * 2020/5/18
  */
 public class ScanStorageActivity extends CaptureActivity implements View.OnClickListener {
+    private static final String TAG = "ScanStorageActivity";
+    /*请求码-配置取件码*/
+    private static final int REQUEST_CODE_SET_PICK_UP_NUMBER = 1;
 
     // 取件码
     private TextView tv_pickup_code;
@@ -180,13 +187,30 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_pickup_code_modify:
-
+                PickupCode pickupCode = new PickupCode("12", PickupCode.Type.type_code.getDesc(),"A1",123,"A1-0001");
+                SetPickupCodeTypeActivity.openActivity(this,REQUEST_CODE_SET_PICK_UP_NUMBER,pickupCode);
                 break;
             case R.id.tv_tip_edit_express:
+
                 break;
             case R.id.iv_capture:
                 takePicture("123");
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_CODE_SET_PICK_UP_NUMBER:
+                PickupCode pickupCode = (PickupCode) data.getSerializableExtra("pickupCodeRule");
+                Log.d(TAG, pickupCode.toString());
+                break;
+                default:
+
+        }
+    }
+
+
 }
