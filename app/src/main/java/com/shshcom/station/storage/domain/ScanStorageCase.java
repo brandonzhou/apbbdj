@@ -11,10 +11,13 @@ import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.shshcom.station.storage.http.ApiStorageRequest;
 import com.shshcom.station.storage.http.bean.BaseResult;
+import com.shshcom.station.storage.http.bean.ExpressCompany;
 import com.shshcom.station.storage.http.bean.StationOrcResult;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
+
+import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -126,6 +129,8 @@ public class ScanStorageCase {
 
 
 
+
+
     public StationOrcResult getOrcResult() {
         return orcResult;
     }
@@ -164,5 +169,33 @@ public class ScanStorageCase {
     }
 
 
+    /**
+     * 获取快递公司列表
+     * @return
+     */
+    public Observable<BaseResult<ArrayList<ExpressCompany>>> httpGetExpressCompany(){
+        return Observable.create(new ObservableOnSubscribe<BaseResult<ArrayList<ExpressCompany>>>() {
+            @Override
+            public void subscribe(ObservableEmitter<BaseResult<ArrayList<ExpressCompany>>> emitter) throws Exception {
+                String stationId = GreenDaoUtil.getStationId();
+                Request<String> request = ApiStorageRequest.getExpressCompany(stationId);
+                Response<String> response = NoHttp.startRequestSync(request);
+
+                if(response.isSucceed()){
+                    String data = response.get();
+                    LogUtil.d("nohttp_", data);
+                    BaseResult<ArrayList<ExpressCompany>> result = JSON.parseObject(data, new TypeReference<BaseResult<ArrayList<ExpressCompany>>>(){});
+                    if(result.isSuccess()){
+                        emitter.onNext(result);
+                    }else {
+                        emitter.onError(new Throwable(result.getMsg()));
+                    }
+                }
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
 
 }

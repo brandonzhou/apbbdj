@@ -195,4 +195,8 @@ dependencies {
     implementation "top.zibin:Luban:1.1.8"
 
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+
+    implementation "me.drakeet.multitype:multitype:3.4.4"
+    implementation 'com.lxj:easyadapter:1.1.1'
 }

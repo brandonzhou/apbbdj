@@ -10,17 +10,19 @@
 
     <include layout="@layout/toolbar" />
 
+    <!--运单信息模块-->
     <ImageView
         android:id="@+id/iv_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="fitXY"
+        android:scaleType="center"
+        android:src="@drawable/ic_eight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/al_root" />
 
-    <!--运单信息模块-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_module"
         android:layout_width="0dp"

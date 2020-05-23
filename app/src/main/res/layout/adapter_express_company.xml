@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_height_little"
+
+    >
+
+
+    <TextView
+        android:id="@+id/tv_express_company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:gravity="center_vertical"
+        android:text="圆通快递"
+        style="@style/Style_tv_main"
+        />
+</RelativeLayout>

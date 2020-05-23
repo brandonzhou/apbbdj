@@ -157,7 +157,7 @@ public class ApiStorageRequest {
      * @return
      */
     public static Request<String> getExpressCompany(String station_id) {
-        String url = "http://meng.81dja.com/express/warehousing/getExpressCompany";
+        String url = "https://meng.81dja.com/express/warehousing/getExpressCompany";
 
         Map<String, Object> map = new HashMap<>();
         map.put("user_id", station_id);
