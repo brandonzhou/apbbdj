@@ -548,4 +548,15 @@ public class StringUtil {
         Matcher m=p.matcher(data);
         return m.matches();
     }
+
+    /**
+     * 是否快递单号
+     * 字母或数字
+     * @param input
+     * @return
+     */
+    public static boolean isMatchExpressCode( final CharSequence input) {
+        String regex = "^[A-Za-z0-9]+$";
+        return input != null && input.length() > 0 && Pattern.matches(regex, input);
+    }
 }

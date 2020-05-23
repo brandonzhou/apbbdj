@@ -2,9 +2,9 @@ package com.shshcom.station.storage.domain;
 
 import android.content.Context;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
@@ -66,14 +66,20 @@ public class ScanStorageCase {
         return GreenDaoUtil.getLastScanImage();
     }
 
+    public int getScanImageSize(){
+        return GreenDaoUtil.listScanImage().size();
+    }
+
     public ScanImage searchScanImageFromDb(String eId){
         return GreenDaoUtil.findScanImage(eId);
     }
 
-    public void saveScanImage(String eId, String pickCode, byte[] imageData){
+    public void saveScanImage(String eId, PickupCode pickCode, byte[] imageData){
         ScanImage image = new ScanImage();
         image.setEId(eId);
-        image.setPickCode(pickCode);
+
+        String strPickCode = pickCode.createRealPickCode(eId);
+        image.setPickCode(strPickCode);
 
         Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
@@ -140,7 +146,9 @@ public class ScanStorageCase {
                 if(response.isSucceed()){
                     String data = response.get();
                     LogUtil.d("nohttp_", data);
-                    BaseResult<StationOrcResult> result = JSON.parseObject(data, new TypeReference<BaseResult<StationOrcResult>>(){});
+                    //BaseResult<StationOrcResult> result = JSON.parseObject(data, new TypeReference<BaseResult<StationOrcResult>>(){});
+                    Gson gson = new Gson();
+                    BaseResult result = gson.fromJson(data , new TypeToken<BaseResult<StationOrcResult>>(){}.getType());
                     if(result.isSuccess()){
                         //orcResult = result.getData();
                         emitter.onNext(result);

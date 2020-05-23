@@ -18,6 +18,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.PickupCode;
+import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.shshcom.station.storage.base.BaseActivity;
 
 import androidx.annotation.NonNull;
@@ -260,12 +261,18 @@ public class SetPickupCodeTypeActivity extends BaseActivity {
     private void saveConfig() {
         PickupCode pickupCode = new PickupCode();
         pickupCode.setType(codeType);
-        pickupCode.setShelfNumber(mTvShelfValue.getText().toString());
+        pickupCode.setShelfNumber(mTvShelfValue.getText().toString().trim());
+        if(!PickupCode.Type.type_code.getDesc().equals(codeType) && TextUtils.isEmpty(pickupCode.getShelfNumber())){
+            ToastUtil.showShort("请填写货架号");
+            return;
+        }
+
         if (PickupCode.Type.type_shelf_tail.getDesc().equals(codeType) || PickupCode.Type.type_shelf_date_tail.getDesc().equals(codeType)) {
-            pickupCode.setStartNumber(-1);
+            pickupCode.setStartNumber(mPickupCode.getStartNumber());
         }else{
             pickupCode.setStartNumber(Integer.parseInt(mTvCodeValue.getText().toString()));
         }
+        pickupCode.createCurrentNumber();
         Intent intent = new Intent();
         intent.putExtra("pickupCodeRule",pickupCode);
         setResult(RESULT_OK,intent);

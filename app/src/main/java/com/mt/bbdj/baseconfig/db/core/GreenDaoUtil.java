@@ -1,5 +1,6 @@
 package com.mt.bbdj.baseconfig.db.core;
 
+import com.mt.bbdj.BuildConfig;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
@@ -25,7 +26,9 @@ public class GreenDaoUtil {
     }
 
     public static String getStationId(){
-        stationId = "12";
+        if(BuildConfig.DEBUG){
+            stationId = "12";
+        }
         if(stationId!= null){
             return stationId;
         }
@@ -73,6 +76,15 @@ public class GreenDaoUtil {
                 .orderDesc(ScanImageDao.Properties.Time)
                 .list();
     }
+
+    public static List<ScanImage> listScanImage(){
+        ScanImageDao dao = getDaoSession().getScanImageDao();
+
+        return dao.queryBuilder()
+                .orderDesc(ScanImageDao.Properties.Time)
+                .list();
+    }
+
 
     public static ScanImage findScanImage(String eId){
         ScanImageDao dao = getDaoSession().getScanImageDao();

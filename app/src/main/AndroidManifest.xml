@@ -559,7 +559,8 @@
         <activity
             android:name=".community.activity.WaterOrderDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.shshcom.station.storage.activity.ScanStorageActivity" />
+        <activity android:name="com.shshcom.station.storage.activity.ScanStorageActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.huawei.hms.client.appid"

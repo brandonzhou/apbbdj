@@ -35,7 +35,6 @@
             android:id="@+id/tv_cannel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/textview_serach"
             android:gravity="center"
             android:text="驿站地址"
             android:textColorHint="@color/grey_1"

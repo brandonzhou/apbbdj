@@ -1,8 +1,11 @@
 package com.mt.bbdj.baseconfig.db;
 
+import android.text.TextUtils;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,25 +52,92 @@ public class PickupCode implements Serializable {
         newCode.setShelfNumber(shelfNumber);
 
 
-
-
         if(type.equals(Type.type_shelf_date_tail.getDesc()) || type.equals(Type.type_shelf_tail.getDesc())){
             newCode.setStartNumber(startNumber);
-            String currentStr = "单号尾号";
         }else {
             int nextNumber = startNumber+1;
-            if(nextNumber>9999){
+            if(nextNumber>999999){
                 nextNumber = 1000;
             }
             newCode.setStartNumber(nextNumber);
             newCode.setCurrentNumber(nextNumber+"");
         }
 
+        newCode.createCurrentNumber();
+
         return newCode;
 
     }
 
+    public String createCurrentNumber(){
+        String currentStr = startNumber+"";
+        if(Type.type_code.getDesc().equals(type)){
+            currentStr = startNumber+"";
+        }
 
+        if(Type.type_shelf_code.getDesc().equals(type)){
+            currentStr = shelfNumber+"-"+startNumber;
+        }
+
+        if(Type.type_shelf_date_code.getDesc().equals(type)){
+            DateTime dateTime = DateTime.now();
+            currentStr = shelfNumber+"-"+dateTime.getDayOfMonth()+"-"+startNumber;
+        }
+
+        if(Type.type_shelf_date_tail.getDesc().equals(type)){//单号尾号
+            DateTime dateTime = DateTime.now();
+            currentStr = shelfNumber+"-"+dateTime.getDayOfMonth()+"-单号尾号";
+        }
+
+        if(Type.type_shelf_tail.getDesc().equals(type)){
+            currentStr = shelfNumber+"-"+"-单号尾号";
+        }
+
+        currentNumber = currentStr;
+
+
+
+        return currentStr;
+    }
+
+    public String createRealPickCode(String barCode){
+        String currentStr = startNumber+"";
+        if(Type.type_code.getDesc().equals(type)){
+            return startNumber+"";
+        }
+
+        if(Type.type_shelf_code.getDesc().equals(type)){
+            return shelfNumber+"-"+startNumber;
+        }
+
+        if(Type.type_shelf_date_code.getDesc().equals(type)){
+            DateTime dateTime = DateTime.now();
+            return shelfNumber+"-"+dateTime.getDayOfMonth()+"-"+startNumber;
+        }
+
+        String tailNumber = barCode;
+
+        if(tailNumber!= null && tailNumber.length()>4){
+            int length = tailNumber.length();
+            tailNumber = tailNumber.substring(length-4, length);
+        }
+
+        if(Type.type_shelf_date_tail.getDesc().equals(type)){//单号尾号
+            DateTime dateTime = DateTime.now();
+            currentStr = shelfNumber+"-"+dateTime.getDayOfMonth()+"-"+tailNumber;
+        }
+
+        if(Type.type_shelf_tail.getDesc().equals(type)){
+            currentStr = shelfNumber+"-"+tailNumber;
+        }
+
+        return currentStr;
+    }
+
+
+    public boolean isTail(){
+        return Type.type_shelf_tail.getDesc().equals(type) || Type.type_shelf_date_tail.getDesc().equals(type);
+    }
     
 
 
