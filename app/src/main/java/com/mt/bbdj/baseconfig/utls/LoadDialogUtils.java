@@ -37,7 +37,9 @@ public class LoadDialogUtils {
                 .setCancelOutside(false);
         loadingDialog =  loadBuilder.create();
         loadingDialog.show();
-
+        if (loadingDialogList == null) {
+            loadingDialogList = new ArrayList<>();
+        }
         loadingDialogList.add(loadingDialog);
     }
 

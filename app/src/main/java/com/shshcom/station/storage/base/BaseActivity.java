@@ -37,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         initData(savedInstanceState);
         /*监听返回事件*/
         doBack();

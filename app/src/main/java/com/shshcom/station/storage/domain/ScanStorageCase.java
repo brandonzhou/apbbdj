@@ -12,6 +12,7 @@ import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.shshcom.station.storage.http.ApiStorageRequest;
 import com.shshcom.station.storage.http.bean.BaseResult;
 import com.shshcom.station.storage.http.bean.ExpressCompany;
+import com.shshcom.station.storage.http.bean.OcrResult;
 import com.shshcom.station.storage.http.bean.StationOrcResult;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -185,6 +186,37 @@ public class ScanStorageCase {
                     String data = response.get();
                     LogUtil.d("nohttp_", data);
                     BaseResult<ArrayList<ExpressCompany>> result = JSON.parseObject(data, new TypeReference<BaseResult<ArrayList<ExpressCompany>>>(){});
+                    if(result.isSuccess()){
+                        emitter.onNext(result);
+                    }else {
+                        emitter.onError(new Throwable(result.getMsg()));
+                    }
+                }
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+    /**
+     * 编辑快递面单信息
+     * @param curOcrResult
+     * @return
+     */
+    public Observable<BaseResult<String>> httpStationUpdatePie(OcrResult curOcrResult){
+        return Observable.create(new ObservableOnSubscribe<BaseResult<String>>() {
+            @Override
+            public void subscribe(ObservableEmitter<BaseResult<String>> emitter) throws Exception {
+                String stationId = GreenDaoUtil.getStationId();
+                Request<String> request = ApiStorageRequest.stationUpdatePie(curOcrResult.getNumber(),curOcrResult.getCode(),""+curOcrResult.getExpress_id(),
+                        curOcrResult.getMobile(),""+curOcrResult.getPie_id(),stationId);
+                Response<String> response = NoHttp.startRequestSync(request);
+
+                if(response.isSucceed()){
+                    String data = response.get();
+                    LogUtil.d("nohttp_", data);
+                    BaseResult<String> result = JSON.parseObject(data, new TypeReference<BaseResult<String>>(){});
                     if(result.isSuccess()){
                         emitter.onNext(result);
                     }else {

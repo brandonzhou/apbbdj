@@ -3,6 +3,7 @@ package com.shshcom.station.storage.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,8 +13,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.lxj.xpopup.XPopup;
 import com.mt.bbdj.R;
+import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
+import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.mt.bbdj.community.activity.MyClientActivity;
 import com.shshcom.station.custom.CustomExpressCompanyPopup;
 import com.shshcom.station.storage.base.BaseActivity;
 import com.shshcom.station.storage.domain.ScanStorageCase;
@@ -127,14 +131,68 @@ public class DealWithFailThingsActivity extends BaseActivity {
             case R.id.btn_delete:
                 break;
             case R.id.btn_save:
-                curIndex++ ;
-                refreshUI(curIndex);
+                save();
                 break;
                 default:
         }
     }
 
 
+    /**
+     * 获取快递公司列表
+     */
+    private void save(){
+        if (curOcrResult.getExpress_id() < 1 || TextUtils.isEmpty(curOcrResult.getExpress_name())) {
+            ToastUtil.showShort("快递公司不能为空");
+            return;
+        }
+        String number = mEtTrackingNumberValue.getText().toString().trim();
+        if (TextUtils.isEmpty(number)) {
+            ToastUtil.showShort("快递单号不能为空");
+            return;
+        }
+        curOcrResult.setNumber(number);
+
+        String mobile = mEtPhoneValue.getText().toString().trim();
+        if (TextUtils.isEmpty(mobile)) {
+            ToastUtil.showShort("手机号不能为空");
+            return;
+        }
+
+        if (!StringUtil.isMobile(mobile)) {
+            ToastUtil.showShort("手机号格式不正确");
+            return;
+        }
+        curOcrResult.setMobile(mobile);
+
+
+        mCase.httpStationUpdatePie(curOcrResult).subscribe(new Observer<BaseResult<String>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                LoadDialogUtils.showLoadingDialog(DealWithFailThingsActivity.this);
+            }
+
+            @Override
+            public void onNext(BaseResult<String> baseResult) {
+                LogUtil.d("stringBaseResult", baseResult.getData());
+                curIndex++ ;
+                refreshUI(curIndex);
+                LoadDialogUtils.cannelLoadingDialog();
+                ToastUtil.showShort(baseResult.getMsg());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastUtil.showShort(e.getMessage());
+                LoadDialogUtils.cannelLoadingDialog();
+            }
+
+            @Override
+            public void onComplete() {
+                LoadDialogUtils.cannelLoadingDialog();
+            }
+        });
+    }
     /**
      * 获取快递公司列表
      */
@@ -172,8 +230,13 @@ public class DealWithFailThingsActivity extends BaseActivity {
         popup.setOnItemClickListener(new CustomExpressCompanyPopup.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String name = list.get(position).getExpress_name();
+                ExpressCompany expressCompany = list.get(position);
+                String name = expressCompany.getExpress_name();
                 mTvTrackingCompanyValue.setText(name);
+
+
+                curOcrResult.setExpress_id(expressCompany.getExpress_id());
+                curOcrResult.setExpress_name(name);
                 ToastUtil.showShort(name);
             }
         });
