@@ -142,7 +142,7 @@ public class DealWithFailThingsActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_tracking_company_value:
-                getExpressCompany();
+                configExpressCompany();
                 break;
             case R.id.btn_delete:
                 delete();
@@ -151,6 +151,22 @@ public class DealWithFailThingsActivity extends BaseActivity {
                 save();
                 break;
                 default:
+        }
+    }
+
+    /**
+     * 快递公司设置
+     */
+    private void configExpressCompany() {
+        /*快递公司id=0时,说明未识别到快递公司; 需要补录快递公司信息*/
+        if (curOcrResult.getExpress_id() < 1) {
+            if (mExpressCompanies == null) {
+                getExpressCompany();
+            }else{
+                showExpressCompanies();
+            }
+        }else{
+            ToastUtil.showShort("快递公司不可修改");
         }
     }
 
@@ -256,10 +272,7 @@ public class DealWithFailThingsActivity extends BaseActivity {
             public void onNext(BaseResult<ArrayList<ExpressCompany>> baseResult) {
                 LogUtil.d("stringBaseResult", baseResult.getData().toString());
                 mExpressCompanies = baseResult.getData();
-                new XPopup.Builder(DealWithFailThingsActivity.this)
-                        .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
-                        .asCustom(getCustomExpressCompanyPopup(mExpressCompanies)/*.enableDrag(false)*/)
-                        .show();
+                showExpressCompanies();
             }
 
             @Override
@@ -272,6 +285,16 @@ public class DealWithFailThingsActivity extends BaseActivity {
 
             }
         });
+    }
+
+    /**
+     * 显示快递公司列表
+     */
+    private void showExpressCompanies() {
+        new XPopup.Builder(DealWithFailThingsActivity.this)
+                .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
+                .asCustom(getCustomExpressCompanyPopup(mExpressCompanies)/*.enableDrag(false)*/)
+                .show();
     }
 
     private CustomExpressCompanyPopup getCustomExpressCompanyPopup(ArrayList<ExpressCompany> list) {

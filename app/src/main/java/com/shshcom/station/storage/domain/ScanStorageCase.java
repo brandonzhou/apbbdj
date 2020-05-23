@@ -2,7 +2,9 @@ package com.shshcom.station.storage.domain;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mt.bbdj.baseconfig.db.PickupCode;
