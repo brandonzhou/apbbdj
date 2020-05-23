@@ -229,5 +229,34 @@ public class ScanStorageCase {
                 .observeOn(AndroidSchedulers.mainThread());
 
     }
+    /**
+     * 删除快递信息
+     * @param pie_id
+     * @return
+     */
+    public Observable<BaseResult<String>> httpStationSyncDelete(String pie_id){
+        return Observable.create(new ObservableOnSubscribe<BaseResult<String>>() {
+            @Override
+            public void subscribe(ObservableEmitter<BaseResult<String>> emitter) throws Exception {
+                String stationId = GreenDaoUtil.getStationId();
+                Request<String> request = ApiStorageRequest.stationSyncDelete(stationId,pie_id);
+                Response<String> response = NoHttp.startRequestSync(request);
+
+                if(response.isSucceed()){
+                    String data = response.get();
+                    LogUtil.d("nohttp_", data);
+                    BaseResult<String> result = JSON.parseObject(data, new TypeReference<BaseResult<String>>(){});
+                    if(result.isSuccess()){
+                        emitter.onNext(result);
+                    }else {
+                        emitter.onError(new Throwable(result.getMsg()));
+                    }
+                }
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
 
 }

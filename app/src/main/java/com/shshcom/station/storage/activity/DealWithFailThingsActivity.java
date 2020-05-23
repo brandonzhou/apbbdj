@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -86,6 +88,20 @@ public class DealWithFailThingsActivity extends BaseActivity {
         mList = mCase.getOrcResult().getFail_lists();
         count = mList.size();
 
+        mEtPhoneValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_DONE:
+                        save();
+                        break;
+                    case EditorInfo.IME_ACTION_NEXT:
+                        break;
+                }
+                return false;
+            }
+        });
+
         refreshUI(curIndex);
     }
 
@@ -129,6 +145,7 @@ public class DealWithFailThingsActivity extends BaseActivity {
                 getExpressCompany();
                 break;
             case R.id.btn_delete:
+                delete();
                 break;
             case R.id.btn_save:
                 save();
@@ -137,6 +154,38 @@ public class DealWithFailThingsActivity extends BaseActivity {
         }
     }
 
+
+    /**
+     * 删除快递信息
+     */
+    private void delete(){
+        mCase.httpStationSyncDelete("" + curOcrResult.getPie_id()).subscribe(new Observer<BaseResult<String>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                LoadDialogUtils.showLoadingDialog(DealWithFailThingsActivity.this);
+            }
+
+            @Override
+            public void onNext(BaseResult<String> baseResult) {
+                LogUtil.d("stringBaseResult", baseResult.getData());
+                curIndex++ ;
+                refreshUI(curIndex);
+                LoadDialogUtils.cannelLoadingDialog();
+                ToastUtil.showShort(baseResult.getMsg());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastUtil.showShort(e.getMessage());
+                LoadDialogUtils.cannelLoadingDialog();
+            }
+
+            @Override
+            public void onComplete() {
+                LoadDialogUtils.cannelLoadingDialog();
+            }
+        });
+    }
 
     /**
      * 获取快递公司列表
