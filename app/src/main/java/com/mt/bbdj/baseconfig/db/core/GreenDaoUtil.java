@@ -19,19 +19,12 @@ import java.util.List;
  */
 public class GreenDaoUtil {
 
-    private static String stationId;
-
     private static DaoSession getDaoSession(){
         return GreenDaoManager.getInstance().getSession();
     }
 
     public static String getStationId(){
-        if(BuildConfig.DEBUG){
-            stationId = "12";
-        }
-        if(stationId!= null){
-            return stationId;
-        }
+        String stationId ="";
         UserBaseMessageDao mUserMessageDao = getDaoSession().getUserBaseMessageDao();
         List<UserBaseMessage> list = mUserMessageDao.queryBuilder().list();
         if (list != null && list.size() != 0) {
