@@ -15,7 +15,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.lxj.xpopup.XPopup;
 import com.mt.bbdj.R;
+import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
 import com.mt.bbdj.baseconfig.utls.DialogUtil;
+import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
@@ -182,19 +184,19 @@ public class DealWithFailThingsActivity extends BaseActivity {
      * 删除快递信息
      */
     private void delete(){
-        mCase.httpStationSyncDelete("" + curOcrResult.getPie_id()).subscribe(new Observer<BaseResult<String>>() {
+        mCase.httpStationSyncDelete("" + curOcrResult.getPie_id()).subscribe(new Observer<BaseResult<Object>>() {
             @Override
             public void onSubscribe(Disposable d) {
                 LoadDialogUtils.showLoadingDialog(DealWithFailThingsActivity.this);
             }
 
             @Override
-            public void onNext(BaseResult<String> baseResult) {
-                LogUtil.d("stringBaseResult", baseResult.getData());
+            public void onNext(BaseResult<Object> baseResult) {
                 curIndex++ ;
                 refreshUI(curIndex);
                 LoadDialogUtils.cannelLoadingDialog();
                 ToastUtil.showShort(baseResult.getMsg());
+                GreenDaoUtil.deleteScanImage(curOcrResult.getNumber());
             }
 
             @Override
@@ -238,15 +240,14 @@ public class DealWithFailThingsActivity extends BaseActivity {
         curOcrResult.setMobile(mobile);
 
 
-        mCase.httpStationUpdatePie(curOcrResult).subscribe(new Observer<BaseResult<String>>() {
+        mCase.httpStationUpdatePie(curOcrResult).subscribe(new Observer<BaseResult<Object>>() {
             @Override
             public void onSubscribe(Disposable d) {
                 LoadDialogUtils.showLoadingDialog(DealWithFailThingsActivity.this);
             }
 
             @Override
-            public void onNext(BaseResult<String> baseResult) {
-                LogUtil.d("stringBaseResult", baseResult.getData());
+            public void onNext(BaseResult<Object> baseResult) {
                 curIndex++ ;
                 refreshUI(curIndex);
                 LoadDialogUtils.cannelLoadingDialog();

@@ -287,10 +287,10 @@ public class ScanStorageCase {
      * @param curOcrResult
      * @return
      */
-    public Observable<BaseResult<String>> httpStationUpdatePie(OcrResult curOcrResult){
-        return Observable.create(new ObservableOnSubscribe<BaseResult<String>>() {
+    public Observable<BaseResult<Object>> httpStationUpdatePie(OcrResult curOcrResult){
+        return Observable.create(new ObservableOnSubscribe<BaseResult<Object>>() {
             @Override
-            public void subscribe(ObservableEmitter<BaseResult<String>> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<BaseResult<Object>> emitter) throws Exception {
                 String stationId = GreenDaoUtil.getStationId();
                 Request<String> request = ApiStorageRequest.stationUpdatePie(curOcrResult.getNumber(),curOcrResult.getCode(),""+curOcrResult.getExpress_id(),
                         curOcrResult.getMobile(),""+curOcrResult.getPie_id(),stationId);
@@ -299,7 +299,7 @@ public class ScanStorageCase {
                 if(response.isSucceed()){
                     String data = response.get();
                     LogUtil.d("nohttp_", data);
-                    BaseResult<String> result = JSON.parseObject(data, new TypeReference<BaseResult<String>>(){});
+                    BaseResult<Object> result = JSON.parseObject(data, new TypeReference<BaseResult<Object>>(){});
                     if(result.isSuccess()){
                         emitter.onNext(result);
                     }else {
@@ -317,10 +317,10 @@ public class ScanStorageCase {
      * @param pie_id
      * @return
      */
-    public Observable<BaseResult<String>> httpStationSyncDelete(String pie_id){
-        return Observable.create(new ObservableOnSubscribe<BaseResult<String>>() {
+    public Observable<BaseResult<Object>> httpStationSyncDelete(String pie_id){
+        return Observable.create(new ObservableOnSubscribe<BaseResult<Object>>() {
             @Override
-            public void subscribe(ObservableEmitter<BaseResult<String>> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<BaseResult<Object>> emitter) throws Exception {
                 String stationId = GreenDaoUtil.getStationId();
                 Request<String> request = ApiStorageRequest.stationSyncDelete(stationId,pie_id);
                 Response<String> response = NoHttp.startRequestSync(request);
@@ -328,7 +328,7 @@ public class ScanStorageCase {
                 if(response.isSucceed()){
                     String data = response.get();
                     LogUtil.d("nohttp_", data);
-                    BaseResult<String> result = JSON.parseObject(data, new TypeReference<BaseResult<String>>(){});
+                    BaseResult<Object> result = JSON.parseObject(data, new TypeReference<BaseResult<Object>>(){});
                     if(result.isSuccess()){
                         emitter.onNext(result);
                     }else {
