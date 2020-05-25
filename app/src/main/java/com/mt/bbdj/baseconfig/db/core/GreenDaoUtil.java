@@ -10,6 +10,8 @@ import com.mt.bbdj.baseconfig.db.gen.ScanImageDao;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 /**
@@ -61,11 +63,18 @@ public class GreenDaoUtil {
         dao.insertOrReplace(scanImage);
     }
 
+    public static void updateScanImageList(List<ScanImage> scanImageList){
+        ScanImageDao dao = getDaoSession().getScanImageDao();
+        dao.insertOrReplaceInTx(scanImageList);
+    }
+
     public static List<ScanImage> listScanImage(ScanImage.State state){
         ScanImageDao dao = getDaoSession().getScanImageDao();
 
         return dao.queryBuilder()
                 .where(ScanImageDao.Properties.State.eq(state.name()))
+                        //当天 DateTime.now().withMillisOfDay(0)
+                 //       ScanImageDao.Properties.Time.ge(DateTime.now().withMillisOfDay(0)))
                 .orderDesc(ScanImageDao.Properties.Time)
                 .list();
     }
@@ -73,7 +82,9 @@ public class GreenDaoUtil {
     public static List<ScanImage> listScanImage(){
         ScanImageDao dao = getDaoSession().getScanImageDao();
 
+        // 当天
         return dao.queryBuilder()
+                .where(ScanImageDao.Properties.Time.ge(DateTime.now().withMillisOfDay(0)))
                 .orderDesc(ScanImageDao.Properties.Time)
                 .list();
     }

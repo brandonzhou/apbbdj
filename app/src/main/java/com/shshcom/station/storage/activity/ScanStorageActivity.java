@@ -267,7 +267,11 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 openEditDialog();
                 break;
             case R.id.tv_btn_submit:
-                ScanOcrResultActivity.openActivity(this);
+                if(storageCase.isAllImageUploaded()){
+                    ScanOcrResultActivity.openActivity(this);
+                }else {
+                    ScanImageUploadingActivity.openActivity(this);
+                }
                 break;
             case R.id.iv_capture:
                 saveEditExpress(currentBarCode, currentPhone);

@@ -8,12 +8,24 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mt.bbdj.R;
+import com.mt.bbdj.baseconfig.db.ScanImage;
+import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.shshcom.station.storage.domain.ScanStorageCase;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 public class ScanImageUploadingActivity extends AppCompatActivity {
     private TextView tv_upload_state;
     private TextView tv_upload_detail;
     private TextView tv_btn_upload;
+
+    private ScanStorageCase storageCase;
+    private Disposable disposable;
 
     public static void openActivity(Activity activity){
         Intent intent = new Intent(activity, ScanImageUploadingActivity.class);
@@ -24,8 +36,19 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_scan_image_uploading);
+        storageCase = ScanStorageCase.getInstance();
 
         initView();
+        refresh();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(disposable!= null){
+            disposable.dispose();
+        }
     }
 
     private void initView(){
@@ -33,22 +56,52 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
         tv_upload_detail = findViewById(R.id.tv_upload_detail);
         tv_btn_upload = findViewById(R.id.tv_btn_upload);
 
-        tv_btn_upload.setOnClickListener(v -> {
 
-        });
+    }
+
+    private void refresh(){
+        disposable = Observable.interval(0,2, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    LogUtil.v("zhhli", "initData");
+                    initData();
+                });
     }
 
     private void initData(){
-        ScanStorageCase storageCase = ScanStorageCase.getInstance();
+        int successSize = storageCase.getScanImageList(ScanImage.State.upload_success).size();
+        int uploadingSize = storageCase.getScanImageList(ScanImage.State.uploading).size();
 
-        boolean uploading = true;
 
-        if(uploading){
-            tv_upload_state.setText("上传中…");
-            tv_upload_state.setText("已上传成功182张，剩余23张照片");
+        if(uploadingSize>0){
+            tv_upload_state.setText(String.format("已上传成功%d张，剩余%d张照片", successSize, uploadingSize));
+
+            tv_btn_upload.setText("上传中…");
+            tv_btn_upload.setOnClickListener(null);
+            return;
+        }
+
+
+        disposable.dispose();
+        List<ScanImage> failList = storageCase.getScanImageList(ScanImage.State.upload_fail);
+
+        if(failList.isEmpty()){
+            tv_upload_state.setText(String.format("已上传成功%d张，剩余0张照片", successSize));
+
+            tv_btn_upload.setText("下一步");
+            tv_btn_upload.setOnClickListener(v -> {
+                ScanOcrResultActivity.openActivity(this);
+            });
+
         }else {
-            tv_upload_state.setText("上传失败，请重试");
-            tv_upload_state.setText("已上传成功182张，剩余23张照片");
+            tv_upload_state.setText(String.format("已上传成功%d张，剩余%d张照片", successSize, failList.size()));
+
+
+            tv_btn_upload.setText("上传失败，请重试");
+            tv_btn_upload.setOnClickListener(v -> {
+                storageCase.retryUploadImage(failList);
+                refresh();
+            });
         }
 
 

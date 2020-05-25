@@ -4,6 +4,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.Keep;
 
 /**
  * desc:扫描图片数据
@@ -44,8 +45,9 @@ public ScanImage(String eId, String pickCode, String localPath, String state,
     this.time = time;
 }
 
-@Generated(hash = 233529434)
+@Keep
 public ScanImage() {
+    time = System.currentTimeMillis();
 }
 
 public String getEId() {

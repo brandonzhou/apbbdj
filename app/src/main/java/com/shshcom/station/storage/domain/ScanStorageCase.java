@@ -12,6 +12,7 @@ import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
+import com.mt.bbdj.baseconfig.utls.RxFileTool;
 import com.shshcom.station.storage.http.ApiStorageRequest;
 import com.shshcom.station.storage.http.bean.BaseResult;
 import com.shshcom.station.storage.http.bean.ExpressCompany;
@@ -22,11 +23,14 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -77,14 +81,29 @@ public class ScanStorageCase {
         return GreenDaoUtil.listScanImage().size();
     }
 
+    public List<ScanImage> getScanImageList(ScanImage.State state){
+        return GreenDaoUtil.listScanImage(state);
+    }
+
+    public boolean isAllImageUploaded(){
+        int size = getScanImageList(ScanImage.State.upload_fail).size()
+                + getScanImageList(ScanImage.State.uploading).size();
+
+        return size<0;
+    }
+
     public ScanImage searchScanImageFromDb(String eId){
         return GreenDaoUtil.findScanImage(eId);
     }
 
     public void saveScanImage(String eId, PickupCode pickCode, byte[] imageData, String mobile){
+        String stationId = GreenDaoUtil.getStationId();
+
         ScanImage image = new ScanImage();
+        image.setStationId(stationId);
         image.setEId(eId);
 
+        // 根据规则，生成真正的取件码
         String strPickCode = pickCode.createRealPickCode(eId);
         image.setPickCode(strPickCode);
         GreenDaoUtil.updateScanImage(image);
@@ -109,6 +128,7 @@ public class ScanStorageCase {
 
                 if(success){
                     image.setState(ScanImage.State.upload_success.name());
+                    RxFileTool.deleteFile(file);
                 }else {
                     image.setState(ScanImage.State.upload_fail.name());
                 }
@@ -120,10 +140,41 @@ public class ScanStorageCase {
                 .subscribe();
     }
 
-    private boolean uploadImage(ScanImage image){
-        String stationId = GreenDaoUtil.getStationId();
+    public void retryUploadImage(List<ScanImage> list){
+        for (ScanImage image : list) {
+            image.setState(ScanImage.State.uploading.name());
 
-        Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image.getEId(),image.getPickCode(),stationId, image.getLocalPath());
+        }
+        GreenDaoUtil.updateScanImageList(list);
+
+
+        for (ScanImage image : list) {
+            Observable.just(image)
+                    .flatMap(new Function<ScanImage, ObservableSource<Boolean>>() {
+                        @Override
+                        public ObservableSource<Boolean> apply(ScanImage image) throws Exception {
+                            boolean success;
+                            success = uploadImage(image);
+                            if(success){
+                                image.setState(ScanImage.State.upload_success.name());
+                                RxFileTool.deleteFile(image.getLocalPath());
+                            }else {
+                                image.setState(ScanImage.State.upload_fail.name());
+                            }
+                            GreenDaoUtil.updateScanImage(image);
+
+                            return Observable.just(success);
+                        }
+                    }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe();
+        }
+
+
+    }
+
+    private boolean uploadImage(ScanImage image){
+        Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image.getEId(),image.getPickCode(),image.getStationId(), image.getLocalPath());
         //Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
         Response<String> response = NoHttp.startRequestSync(request);
 
@@ -155,7 +206,6 @@ public class ScanStorageCase {
 
 
         return false;
-
     }
 
 
