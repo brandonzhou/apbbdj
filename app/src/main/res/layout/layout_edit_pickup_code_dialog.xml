@@ -1,35 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_main_bg"
-    tools:context="com.shshcom.station.storage.activity.DealWithFailThingsActivity">
-
-
-    <include layout="@layout/toolbar" />
-
-    <!--运单信息模块-->
-    <ImageView
-        android:id="@+id/iv_photo"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="center"
-        android:src="@drawable/ic_eight"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/al_root" />
-
+    android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_module"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_left"
-        android:layout_marginRight="@dimen/margin_right"
-        android:layout_marginBottom="20dp"
         android:background="@drawable/shap_white_bg_r10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,57 +21,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:text="报错提示"
-            android:textColor="@color/color_text_fail"
+            android:layout_marginBottom="24dp"
+            android:text="请录入快递信息"
+            android:textColor="@color/color_text_primary"
             android:textSize="@dimen/text_size_large"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_pickup_code_key"
+            app:layout_constraintBottom_toTopOf="@id/tv_tracking_number_key"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
-        <!--取件码-->
-        <TextView
-            android:id="@+id/tv_pickup_code_key"
-            style="@style/Style_tv_dark_small"
-            android:text="取件码"
-            app:layout_constraintBottom_toTopOf="@id/tv_tracking_company_key"
-            app:layout_constraintLeft_toLeftOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_pickup_code_value"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_30"
-            android:layout_marginRight="@dimen/margin_right"
-            android:text="A160001"
-            android:textColor="@color/color_text_primary"
-            android:textSize="@dimen/text_size_small"
-            app:layout_constraintTop_toTopOf="@id/tv_pickup_code_key"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_pickup_code_key"
-            app:layout_constraintLeft_toLeftOf="@id/barrier"
-            app:layout_constraintRight_toRightOf="parent"/>
-        <!--快递公司-->
-        <TextView
-            android:id="@+id/tv_tracking_company_key"
-            style="@style/Style_tv_dark_small"
-            android:text="快递公司"
-            app:layout_constraintBottom_toTopOf="@id/tv_tracking_number_key"
-            app:layout_constraintLeft_toLeftOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_tracking_company_value"
-            android:text=""
-            android:hint="请选择快递公司"
-            android:gravity="left|center_vertical"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_tracking_company_key"
-            app:layout_constraintLeft_toRightOf="@+id/barrier"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_tracking_company_key"
-            style="@style/Style_et_gray_small" />
 
 
         <!--快递单号-->
         <TextView
             android:id="@+id/tv_tracking_number_key"
+            android:layout_marginBottom="15dp"
             style="@style/Style_tv_dark_small"
             android:text="快递单号"
             app:layout_constraintBottom_toTopOf="@id/tv_phone_key"
@@ -104,21 +45,24 @@
             android:id="@+id/et_tracking_number_value"
             android:text=""
             android:hint="@string/input_express_code"
-            android:digits="@string/express_code_regular"
             android:singleLine="true"
             android:imeOptions="actionNext"
+            android:inputType="textVisiblePassword"
+            android:digits="@string/express_code_regular"
+            style="@style/Style_et_gray_small"
+            android:layout_height="@dimen/item_height_littler"
             app:layout_constraintBottom_toBottomOf="@+id/tv_tracking_number_key"
             app:layout_constraintLeft_toRightOf="@+id/barrier"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_tracking_number_key"
-            style="@style/Style_et_gray_small" />
+            />
         <!--手机号-->
         <TextView
             android:id="@+id/tv_phone_key"
             style="@style/Style_tv_dark_small"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="14dp"
             android:text="手机号"
-            app:layout_constraintBottom_toTopOf="@id/btn_save"
+            app:layout_constraintBottom_toTopOf="@id/tv_tips"
             app:layout_constraintLeft_toLeftOf="parent" />
 
 
@@ -126,15 +70,18 @@
             android:id="@+id/et_phone_value"
             android:text=""
             android:hint="@string/input_addressee_phone"
+            android:textColorHint="@color/color_text_hint"
             android:inputType="number"
             android:singleLine="true"
             android:imeOptions="actionDone"
             android:imeActionLabel="@string/save"
+            style="@style/Style_et_gray_small"
+            android:layout_height="@dimen/item_height_littler"
             app:layout_constraintBottom_toBottomOf="@+id/tv_phone_key"
             app:layout_constraintLeft_toRightOf="@+id/barrier"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_phone_key"
-            style="@style/Style_et_gray_small" />
+            />
 
 
         <androidx.constraintlayout.widget.Barrier
@@ -142,32 +89,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="right"
-            app:constraint_referenced_ids="tv_phone_key,tv_tracking_number_key
-            ,tv_tracking_company_key"
+            app:constraint_referenced_ids="tv_phone_key,tv_tracking_number_key"
 
             />
 
+        <!--录入后，依然需要拍照面单，留下凭证-->
+        <TextView
+            android:id="@+id/tv_tips"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="录入后，依然需要拍照面单，留下凭证"
+            android:textSize="@dimen/text_size_little"
+            android:textColor="@color/color_text_fail"
+            app:layout_constraintBottom_toTopOf="@id/btn_ok"
+            app:layout_constraintLeft_toLeftOf="@id/btn_cancel"
+            />
+
         <Button
-            android:id="@+id/btn_delete"
+            android:id="@+id/btn_cancel"
             style="@style/Style_btn_main_leary"
             android:layout_width="0dp"
             android:layout_height="@dimen/item_height_littler"
             android:layout_marginLeft="@dimen/margin_left"
             android:layout_marginRight="10dp"
-            android:text="@string/delete_photo"
-            app:layout_constraintBottom_toBottomOf="@id/btn_save"
+            android:text="@string/cancel"
+            app:layout_constraintBottom_toBottomOf="@id/btn_ok"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/guideline" />
 
         <Button
-            android:id="@+id/btn_save"
+            android:id="@+id/btn_ok"
             style="@style/Style_btn_main_solid"
             android:layout_width="0dp"
             android:layout_height="@dimen/item_height_littler"
             android:layout_marginStart="10dp"
             android:layout_marginRight="@dimen/margin_right"
             android:layout_marginBottom="18dp"
-            android:text="@string/save"
+            android:text="@string/ok"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/guideline"
             app:layout_constraintRight_toRightOf="parent" />
@@ -180,6 +139,5 @@
             app:layout_constraintGuide_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+

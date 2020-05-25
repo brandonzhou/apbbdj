@@ -174,7 +174,7 @@ public class ExampleUnitTest {
 
         String FILE_NAME_OLD_NEW[][] = new String[][]{
 
-                {"icon_更多", "ic_arrow_more"},
+                {"关闭", "ic_close_tran"},
 
         };
 

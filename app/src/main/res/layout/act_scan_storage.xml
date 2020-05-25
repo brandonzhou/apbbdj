@@ -12,9 +12,13 @@
         <SurfaceView
             android:id="@+id/surfaceView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp" />
 
-<!--        <com.king.zxing.ViewfinderView-->
+        <!--        <com.king.zxing.ViewfinderView-->
 <!--            android:id="@+id/viewfinderView2"-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="match_parent" />-->
@@ -67,7 +71,7 @@
         android:layout_height="45dp"
         android:paddingEnd="15dp"
         android:layout_below="@id/rl_title"
-        android:background="@color/black_tran">
+        android:background="@color/black_tran_alpha_30">
 
         <RelativeLayout
             android:id="@+id/iv_back_"
@@ -121,7 +125,7 @@
         android:paddingEnd="15dp"
         android:padding="9dp"
         android:layout_above="@+id/rl_bottom"
-        android:background="@color/black_tran"
+        android:background="@color/black_tran_alpha_50"
 
         android:gravity="center"
         android:text="最后入库：取件码 A1-29-20000411 | 快递单号7238283772747737"
@@ -194,22 +198,22 @@
         android:id="@+id/rl_capture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black_tran"
-        android:layout_below="@id/rl_title_code"
+        android:background="@color/black_tran_alpha_40"
+        android:layout_below="@id/rl_title"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="gone"
+        android:visibility="visible"
         >
 
         <RelativeLayout
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height_huge"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:layout_marginTop="60dp"
             android:paddingStart="30dp"
             android:paddingEnd="0dp"
+            android:layout_marginLeft="@dimen/dp_60"
+            android:layout_marginRight="@dimen/dp_60"
             android:background="@drawable/bg_mark_trans"
             >
 
@@ -220,22 +224,21 @@
                 android:layout_centerInParent="true"
                 android:paddingStart="3dp"
                 android:paddingEnd="3dp"
-                android:text="7238283772747737\n123456"
+                android:text="7238283772747737\n手机号:123456"
                 android:gravity="center"
-                android:textSize="22sp"
+                android:textSize="@dimen/text_size_little"
                 android:textColor="@color/white"
                 android:visibility="visible"
                 />
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_toEndOf="@id/tv_capture_bar_code"
-                android:layout_marginStart="10dp"
-                android:padding="10dp"
-                android:layout_marginEnd="10dp"
+                android:id="@+id/iv_close_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/ic_capture_edit"
+                android:background="@drawable/ic_close_tran"
+                android:onClick="onClick"
                 />
 
         </RelativeLayout>
@@ -251,6 +254,7 @@
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_capture"
             android:visibility="visible"
+            android:onClick="onClick"
             />
 
 

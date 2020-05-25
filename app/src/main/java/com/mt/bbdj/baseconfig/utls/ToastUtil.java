@@ -46,13 +46,13 @@ public class ToastUtil {
      */
     public static void showShort(CharSequence message) {
 
-        if (toast != null) {
+        /*if (toast != null) {
             toast.cancel();
             toast = null;
         }
         toast = Toast.makeText(mAppLication.get(),message,Toast.LENGTH_SHORT);
-        toast.show();
-       // initToast(message, Toast.LENGTH_SHORT).show();
+        toast.show();*/
+        initToast(message, Toast.LENGTH_SHORT).show();
     }
 
 

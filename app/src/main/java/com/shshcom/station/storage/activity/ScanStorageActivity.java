@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,8 @@ import com.shshcom.station.util.AntiShakeUtils;
 
 import java.util.EnumSet;
 
+import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
+
 /**
  * desc:拍照入库
  * author: zhhli
@@ -46,6 +50,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     private TextView tv_bar_code;
     private TextView tv_last_code_info;
     private TextView tv_total_number;
+    private TextView tv_capture_bar_code;
 
     private CaptureHelper helper;
     private Camera camera;
@@ -54,7 +59,10 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
     private ScanStorageCase storageCase;
 
+    /*当前解码的条码或手动输入的条码-code*/
     private String currentBarCode;
+    /*手动录入的手机号码*/
+    private String currentPhone;
 
     private State state;
 
@@ -100,6 +108,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         tv_bar_code = findViewById(R.id.tv_bar_code);
         tv_last_code_info = findViewById(R.id.tv_last_code_info);
         tv_total_number = findViewById(R.id.tv_total_number);
+        tv_capture_bar_code = findViewById(R.id.tv_capture_bar_code);
 
 
         findViewById(R.id.iv_pickup_code_modify).setOnClickListener(this);
@@ -261,8 +270,10 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 ScanOcrResultActivity.openActivity(this);
                 break;
             case R.id.iv_capture:
-
-
+                saveEditExpress(currentBarCode, currentPhone);
+                break;
+            case R.id.iv_close_edit:
+                closeEditDialog();
                 break;
             case R.id.rl_back:
                 finish();
@@ -292,22 +303,11 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         state = State.editing;
         EditDialogView dialog = new EditDialogView(this);
         BasePopupView popupView = new XPopup.Builder(this)
-                .setPopupCallback(new SimpleCallback(){
-                    @Override
-                    public void onDismiss() {
-                        super.onDismiss();
-                        closeEditDialog();
-
-                    }
-                })
+                .popupAnimation(ScaleAlphaFromCenter)
+                .autoOpenSoftInput(true)
                 .asCustom(dialog)
                 .show();
-
-
-
         setViewShow(true, R.id.rl_capture);
-
-
     }
 
     public void closeEditDialog(){
@@ -348,7 +348,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 helper.restartPreviewAndDecode();
             }
         });
-        setViewShow(false, R.id.rl_capture);
+
+        closeEditDialog();
     }
 
     class EditDialogView extends CenterPopupView{
@@ -359,18 +360,38 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
         @Override
         protected int getImplLayoutId() {
-            return R.layout.layout_set_pick_up_bottom_view;
+            return R.layout.layout_edit_pickup_code_dialog;
         }
 
         @Override
         protected void onCreate() {
             super.onCreate();
+            EditText etExpressCode = findViewById(R.id.et_tracking_number_value);
+            EditText etFone = findViewById(R.id.et_phone_value);
 
-            findViewById(R.id.tv_cancel).setOnClickListener(v -> {
-                dismiss();
-                saveEditExpress("SH123456", "188123456789");
+            findViewById(R.id.btn_cancel).setOnClickListener(v -> {
+                        dismiss();
+                        closeEditDialog();
             }
-
+            );
+            findViewById(R.id.btn_ok).setOnClickListener(v -> {
+                        dismissOrHideSoftInput();
+                        String expressCode = etExpressCode.getText().toString().trim();
+                        if (TextUtils.isEmpty(expressCode)) {
+                            ToastUtil.showShort(getResources().getString(R.string.input_express_code));
+                            return;
+                        }
+                        String phone = etFone.getText().toString().trim();
+                        if (!StringUtil.isMobile(phone)) {
+                            ToastUtil.showShort(getResources().getString(R.string.phone_format_error));
+                            return;
+                        }
+                        currentBarCode = expressCode;
+                        currentPhone = phone;
+                        String showTips = currentBarCode+"\n手机号:"+currentPhone;
+                        tv_capture_bar_code.setText(showTips);
+                        dismiss();
+            }
             );
 
         }

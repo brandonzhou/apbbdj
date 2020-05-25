@@ -288,6 +288,7 @@
         <item name="android:layout_marginLeft">@dimen/margin_left</item>
         <item name="android:layout_marginRight">@dimen/margin_right</item>
         <item name="android:textColor">@color/color_text_primary</item>
+        <item name="android:textColorHint">@color/color_text_hint</item>
         <item name="android:textSize">@dimen/text_size_small</item>
         <item name="android:background">@drawable/shap_gray_bg_r4</item>
         <item name="android:paddingLeft">10dp</item>

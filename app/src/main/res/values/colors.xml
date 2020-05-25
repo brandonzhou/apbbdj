@@ -90,15 +90,17 @@
     <color name="color_text_primary_heavy">#030303</color><!--导航栏-标题 其他需要加重颜色的场景-->
     <color name="color_text_primary">#17182B</color><!--正文主体 textView -->
     <color name="color_text_primary_dark_black">#666666</color><!--正文-小标题 TextView-->
-    <color name="color_text_primary_light_black">#999999</color><!--TextView EditText hint 以及其他需要浅黑的场景-->
+    <color name="color_text_hint">#B8BBC7</color><!--TextView EditText hint 以及其他需要浅黑的场景-->
 
     <color name="color_text_fail">#FF2020</color><!--错误,警告,警示-->
     <color name="color_et_bg_gray">#F8F8F8</color><!--输入框-灰色背景-->
 
 
 
-<!--    <color name="black_tran">#FF000000</color>-->
-    <color name="black_tran">#50000000</color>
+<!--    <color name="black_tran">#FF000000</color> 透明度%与十六进制对应关系 https://blog.csdn.net/cjm2484836553/article/details/78025443-->
+    <color name="black_tran_alpha_30">#4D000000</color>
+    <color name="black_tran_alpha_40">#66000000</color>
+    <color name="black_tran_alpha_50">#80000000</color>
     <color name="text_grey_9">#909090 </color>
     <color name="text_orange">#FFF86417 </color>
     <color name="text_main">#FF17182B</color>
