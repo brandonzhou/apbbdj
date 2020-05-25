@@ -139,7 +139,9 @@ public class ScanOcrResultActivity extends AppCompatActivity implements View.OnC
         switch (v.getId()){
             case R.id.tv_btn_fail:
             case R.id.rl_fail:
-                DealWithFailThingsActivity.openActivity(this);
+                if(storageCase.getOrcResult()!= null){
+                    DealWithFailThingsActivity.openActivity(this);
+                }
                 break;
             case R.id.btn_submit:
                 doSubmit();

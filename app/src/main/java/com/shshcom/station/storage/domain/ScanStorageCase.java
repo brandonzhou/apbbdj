@@ -89,7 +89,7 @@ public class ScanStorageCase {
         int size = getScanImageList(ScanImage.State.upload_fail).size()
                 + getScanImageList(ScanImage.State.uploading).size();
 
-        return size<0;
+        return size==0;
     }
 
     public ScanImage searchScanImageFromDb(String eId){
@@ -265,7 +265,10 @@ public class ScanStorageCase {
                 if(response.isSucceed()){
                     String data = response.get();
                     LogUtil.d("nohttp_", data);
-                    BaseResult<ArrayList<ExpressCompany>> result = JSON.parseObject(data, new TypeReference<BaseResult<ArrayList<ExpressCompany>>>(){});
+                    //BaseResult<ArrayList<ExpressCompany>> result = JSON.parseObject(data, new TypeReference<BaseResult<ArrayList<ExpressCompany>>>(){});
+                    Gson gson = new Gson();
+                    BaseResult result = gson.fromJson(data , new TypeToken<BaseResult<List<ExpressCompany>>>(){}.getType());
+
                     if(result.isSuccess()){
                         emitter.onNext(result);
                     }else {

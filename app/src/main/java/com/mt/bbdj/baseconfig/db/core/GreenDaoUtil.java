@@ -72,9 +72,9 @@ public class GreenDaoUtil {
         ScanImageDao dao = getDaoSession().getScanImageDao();
 
         return dao.queryBuilder()
-                .where(ScanImageDao.Properties.State.eq(state.name()))
+                .where(ScanImageDao.Properties.State.eq(state.name()),
                         //当天 DateTime.now().withMillisOfDay(0)
-                 //       ScanImageDao.Properties.Time.ge(DateTime.now().withMillisOfDay(0)))
+                        ScanImageDao.Properties.Time.ge(DateTime.now().withMillisOfDay(0).getMillis()))
                 .orderDesc(ScanImageDao.Properties.Time)
                 .list();
     }
@@ -84,7 +84,7 @@ public class GreenDaoUtil {
 
         // 当天
         return dao.queryBuilder()
-                .where(ScanImageDao.Properties.Time.ge(DateTime.now().withMillisOfDay(0)))
+                .where(ScanImageDao.Properties.Time.ge(DateTime.now().withMillisOfDay(0).getMillis()))
                 .orderDesc(ScanImageDao.Properties.Time)
                 .list();
     }

@@ -3,6 +3,8 @@ package com.shshcom.station.storage.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,7 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
     private TextView tv_upload_state;
     private TextView tv_upload_detail;
     private TextView tv_btn_upload;
+    private ImageView imageView;
 
     private ScanStorageCase storageCase;
     private Disposable disposable;
@@ -56,6 +59,9 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
         tv_upload_detail = findViewById(R.id.tv_upload_detail);
         tv_btn_upload = findViewById(R.id.tv_btn_upload);
 
+        imageView = findViewById(R.id.imageView);
+
+        findViewById(R.id.rl_back).setOnClickListener(v -> finish());
 
     }
 
@@ -74,9 +80,12 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
 
 
         if(uploadingSize>0){
-            tv_upload_state.setText(String.format("已上传成功%d张，剩余%d张照片", successSize, uploadingSize));
+            tv_upload_state.setText("上传中…");
+            tv_upload_detail.setText(String.format("已上传成功%d张，剩余%d张照片", successSize, uploadingSize));
 
-            tv_btn_upload.setText("上传中…");
+            imageView.setVisibility(View.INVISIBLE);
+
+            tv_btn_upload.setText("下一步…");
             tv_btn_upload.setOnClickListener(null);
             return;
         }
@@ -86,18 +95,23 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
         List<ScanImage> failList = storageCase.getScanImageList(ScanImage.State.upload_fail);
 
         if(failList.isEmpty()){
-            tv_upload_state.setText(String.format("已上传成功%d张，剩余0张照片", successSize));
+            imageView.setVisibility(View.INVISIBLE);
+            tv_upload_state.setText("上传完成");
+            tv_upload_detail.setText(String.format("已上传成功%d张，剩余0张照片", successSize));
 
             tv_btn_upload.setText("下一步");
             tv_btn_upload.setOnClickListener(v -> {
                 ScanOcrResultActivity.openActivity(this);
+                finish();
             });
 
         }else {
-            tv_upload_state.setText(String.format("已上传成功%d张，剩余%d张照片", successSize, failList.size()));
+            imageView.setVisibility(View.VISIBLE);
+            tv_upload_state.setText("上传失败，请重试…");
+            tv_upload_detail.setText(String.format("已上传成功%d张，剩余%d张照片", successSize, failList.size()));
 
 
-            tv_btn_upload.setText("上传失败，请重试");
+            tv_btn_upload.setText("重试");
             tv_btn_upload.setOnClickListener(v -> {
                 storageCase.retryUploadImage(failList);
                 refresh();
