@@ -313,6 +313,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 .show();
         setViewShow(true, R.id.rl_capture);
         setViewShow(false,R.id.tv_tip_edit_express);
+        setViewShow(false,R.id.tv_tip_capture);
     }
 
     public void closeEditDialog(){
@@ -321,6 +322,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         }
         setViewShow(false, R.id.rl_capture);
         setViewShow(true,R.id.tv_tip_edit_express);
+        setViewShow(true,R.id.tv_tip_capture);
         state = State.scanning;
 
     }

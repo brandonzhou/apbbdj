@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.lxj.xpopup.XPopup;
 import com.mt.bbdj.R;
+import com.mt.bbdj.baseconfig.utls.DialogUtil;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
@@ -54,6 +55,8 @@ public class DealWithFailThingsActivity extends BaseActivity {
     int count;
     /*当前处理索引*/
     int curIndex = 0;
+    /*快递公司是否需要修改*/
+    boolean isExpressCompanyNeedModify = false;
 
 
     @BindView(R.id.tv_title)
@@ -123,6 +126,10 @@ public class DealWithFailThingsActivity extends BaseActivity {
             mEtTrackingNumberValue.setText(""+curOcrResult.getNumber());
             /*手机号码*/
             mEtPhoneValue.setText(curOcrResult.getMobile());
+
+            if (curOcrResult.getExpress_id() < 1) {
+                isExpressCompanyNeedModify = true;
+            }
         } else {
             ToastUtil.showShort("已完成全部错误件处理");
             finish();
@@ -159,7 +166,7 @@ public class DealWithFailThingsActivity extends BaseActivity {
      */
     private void configExpressCompany() {
         /*快递公司id=0时,说明未识别到快递公司; 需要补录快递公司信息*/
-        if (curOcrResult.getExpress_id() < 1) {
+        if (isExpressCompanyNeedModify) {
             if (mExpressCompanies == null) {
                 getExpressCompany();
             }else{
@@ -265,7 +272,7 @@ public class DealWithFailThingsActivity extends BaseActivity {
         mCase.httpGetExpressCompany().subscribe(new Observer<BaseResult<ArrayList<ExpressCompany>>>() {
             @Override
             public void onSubscribe(Disposable d) {
-
+                LoadDialogUtils.showLoadingDialog(DealWithFailThingsActivity.this);
             }
 
             @Override
@@ -273,16 +280,18 @@ public class DealWithFailThingsActivity extends BaseActivity {
                 LogUtil.d("stringBaseResult", baseResult.getData().toString());
                 mExpressCompanies = baseResult.getData();
                 showExpressCompanies();
+                LoadDialogUtils.cannelLoadingDialog();
             }
 
             @Override
             public void onError(Throwable e) {
                 ToastUtil.showShort(e.getMessage());
+                LoadDialogUtils.cannelLoadingDialog();
             }
 
             @Override
             public void onComplete() {
-
+                LoadDialogUtils.cannelLoadingDialog();
             }
         });
     }
@@ -309,7 +318,7 @@ public class DealWithFailThingsActivity extends BaseActivity {
 
                 curOcrResult.setExpress_id(expressCompany.getExpress_id());
                 curOcrResult.setExpress_name(name);
-                ToastUtil.showShort(name);
+//                ToastUtil.showShort(name);
             }
         });
         return popup;
