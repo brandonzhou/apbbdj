@@ -15,6 +15,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            // 此处运行debug时，需修改为对应的证书
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

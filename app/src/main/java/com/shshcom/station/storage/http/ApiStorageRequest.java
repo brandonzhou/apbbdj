@@ -187,4 +187,35 @@ public class ApiStorageRequest {
     }
 
 
+    /**
+     * 手动输入快递信息
+     *
+     * @param station_id 驿站标识
+     * @param barCode 快递单号
+     * @param barCode 取件码
+     * @param mobile 手机号
+     * @param filePath 文件流
+     * @return
+     */
+    public static Request<String> stationInputUploadExpress(String station_id, String barCode, String pickCode,String mobile, String filePath) {
+        String url = "https://qrcode.taowangzhan.com/bbapi/submit2/stationInputUploadExpress";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("station_id", station_id);
+        map.put("number", barCode);
+        map.put("code", pickCode);
+        map.put("mobile", mobile);
+        addSignature(map);
+
+        BasicBinary fileBinary = new FileBinary(new File(filePath));
+
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
+        request.add(map);
+        request.add("file", fileBinary);
+
+        return request;
+    }
+
+
+
 }

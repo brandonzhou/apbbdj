@@ -1,6 +1,7 @@
 package com.shshcom.station.storage.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -8,18 +9,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.zxing.BarcodeFormat;
 import com.king.zxing.CaptureActivity;
 import com.king.zxing.CaptureHelper;
 import com.king.zxing.camera.FrontLightMode;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
+import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.shshcom.station.storage.domain.ScanStorageCase;
+import com.shshcom.station.util.AntiShakeUtils;
 
 import java.util.EnumSet;
 
@@ -47,6 +54,16 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
     private ScanStorageCase storageCase;
 
+    private String currentBarCode;
+
+    private State state;
+
+    private enum State{
+        scanning,
+        capturing,
+        editing
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.act_scan_storage;
@@ -70,6 +87,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         activity = this;
         storageCase = ScanStorageCase.getInstance();
         storageCase.init(this);
+
+        state = State.scanning;
 
         initCapture();
         initView();
@@ -118,7 +137,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 .frontLightMode(FrontLightMode.AUTO)//设置闪光灯模式
                 .tooDarkLux(45f)//设置光线太暗时，自动触发开启闪光灯的照度值
                 .brightEnoughLux(100f)//设置光线足够明亮时，自动触发关闭闪光灯的照度值
-                .continuousScan(true);//是否连扫
+                .continuousScan(false);//是否连扫
     }
 
 
@@ -130,7 +149,22 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
      */
     @Override
     public boolean onResultCallback(String result) {
+        if(State.editing.equals(state)){
+            helper.restartPreviewAndDecode();
+            return true;
+        }
+
+
+        if(result.equals(currentBarCode)){
+            helper.restartPreviewAndDecode();
+            return true;
+        }
+        currentBarCode = result;
+
+
+
         if(!StringUtil.isMatchExpressCode(result)){
+            helper.restartPreviewAndDecode();
             return true;
         }
 
@@ -139,7 +173,21 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             ToastUtil.showShort("重复扫描：" + result);
             return true;
         }
-        takePicture(result);
+
+
+        // 延迟拍照
+        tv_bar_code.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (tv_bar_code != null) {
+                    takePicture(result);
+                }
+            }
+        }, 200);
+
+
+
+
         return true;
     }
 
@@ -148,7 +196,9 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         if (camera == null) {
             camera = helper.getCameraManager().getOpenCamera().getCamera();
         }
+        // https://stackoverflow.com/questions/21723557/java-lang-runtimeexception-takepicture-failed
         // RuntimeException: Camera is being used after Camera.release() was called
+        camera.startPreview();
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
@@ -158,8 +208,21 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 PickupCode nextCode = pickupCode.nextPickCode();
 
                 updateUI(result, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
-                storageCase.saveScanImage(result, pickupCode, data);
+                storageCase.saveScanImage(result, pickupCode, data, null);
                 storageCase.updatePickCode(nextCode);
+
+                tv_bar_code.setText(result);
+                if (tv_bar_code.getVisibility() != View.VISIBLE) {
+                    tv_bar_code.setVisibility(View.VISIBLE);
+                    tv_bar_code.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (tv_bar_code != null) {
+                                tv_bar_code.setVisibility(View.GONE);
+                            }
+                        }
+                    }, 1500);
+                }
 
                 camera.startPreview();
 
@@ -169,19 +232,6 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     }
 
     private void updateUI(String barCode, String pickCode, String nextCode) {
-        tv_bar_code.setText(barCode);
-        if (tv_bar_code.getVisibility() != View.VISIBLE) {
-            tv_bar_code.setVisibility(View.VISIBLE);
-            tv_bar_code.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (tv_bar_code != null) {
-                        tv_bar_code.setVisibility(View.GONE);
-                    }
-                }
-            }, 1500);
-        }
-
 
         //最后入库：取件码 A1-29-20000411 | 快递单号7238283772747737
         tv_last_code_info.setText(String.format("最后入库：取件码 %s | 快递单号 %s", pickCode, barCode));
@@ -196,19 +246,23 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
+        if(AntiShakeUtils.isInvalidClick(view)){
+            return;
+        }
         switch (view.getId()) {
             case R.id.iv_pickup_code_modify:
                 PickupCode pickupCode = storageCase.getCurrentPickCode();
                 SetPickupCodeTypeActivity.openActivity(this, REQUEST_CODE_SET_PICK_UP_NUMBER, pickupCode);
                 break;
             case R.id.tv_tip_edit_express:
-
+                openEditDialog();
                 break;
             case R.id.tv_btn_submit:
                 ScanOcrResultActivity.openActivity(this);
                 break;
             case R.id.iv_capture:
-                takePicture("123");
+
+
                 break;
             case R.id.rl_back:
                 finish();
@@ -229,6 +283,95 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 }
                 break;
             default:
+
+        }
+    }
+
+
+    private void openEditDialog(){
+        state = State.editing;
+        EditDialogView dialog = new EditDialogView(this);
+        BasePopupView popupView = new XPopup.Builder(this)
+                .setPopupCallback(new SimpleCallback(){
+                    @Override
+                    public void onDismiss() {
+                        super.onDismiss();
+                        closeEditDialog();
+
+                    }
+                })
+                .asCustom(dialog)
+                .show();
+
+
+
+        setViewShow(true, R.id.rl_capture);
+
+
+    }
+
+    public void closeEditDialog(){
+        if(activity.isDestroyed()){
+            return;
+        }
+        setViewShow(false, R.id.rl_capture);
+        state = State.scanning;
+
+    }
+
+    private void setViewShow(boolean show, int... viewIds){
+        for(int id : viewIds){
+            findViewById(id).setVisibility(show? View.VISIBLE: View.GONE);
+        }
+    }
+
+    private void saveEditExpress(String barCode, String phone){
+        if (camera == null) {
+            camera = helper.getCameraManager().getOpenCamera().getCamera();
+        }
+        camera.startPreview();
+        camera.takePicture(null, null, new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] data, Camera camera) {
+                PickupCode pickupCode = storageCase.getCurrentPickCode();
+
+                PickupCode nextCode = pickupCode.nextPickCode();
+
+                updateUI(barCode, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
+                storageCase.saveScanImage(barCode, pickupCode, data,phone);
+
+                storageCase.updatePickCode(nextCode);
+
+                camera.startPreview();
+
+
+                helper.restartPreviewAndDecode();
+            }
+        });
+        setViewShow(false, R.id.rl_capture);
+    }
+
+    class EditDialogView extends CenterPopupView{
+
+        public EditDialogView(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected int getImplLayoutId() {
+            return R.layout.layout_set_pick_up_bottom_view;
+        }
+
+        @Override
+        protected void onCreate() {
+            super.onCreate();
+
+            findViewById(R.id.tv_cancel).setOnClickListener(v -> {
+                dismiss();
+                saveEditExpress("SH123456", "188123456789");
+            }
+
+            );
 
         }
     }

@@ -1,6 +1,7 @@
 package com.shshcom.station.storage.domain;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -80,12 +81,13 @@ public class ScanStorageCase {
         return GreenDaoUtil.findScanImage(eId);
     }
 
-    public void saveScanImage(String eId, PickupCode pickCode, byte[] imageData){
+    public void saveScanImage(String eId, PickupCode pickCode, byte[] imageData, String mobile){
         ScanImage image = new ScanImage();
         image.setEId(eId);
 
         String strPickCode = pickCode.createRealPickCode(eId);
         image.setPickCode(strPickCode);
+        GreenDaoUtil.updateScanImage(image);
 
         Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
@@ -97,7 +99,14 @@ public class ScanStorageCase {
                 image.setState(ScanImage.State.uploading.name());
                 GreenDaoUtil.updateScanImage(image);
 
-                boolean success = uploadImage(image);
+                boolean success;
+                if(TextUtils.isEmpty(mobile)){
+                     success = uploadImage(image);
+                }else {
+                    // 手动输入快递信息
+                    success = stationInputUploadExpress(image, mobile);
+                }
+
                 if(success){
                     image.setState(ScanImage.State.upload_success.name());
                 }else {
@@ -115,6 +124,25 @@ public class ScanStorageCase {
         String stationId = GreenDaoUtil.getStationId();
 
         Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image.getEId(),image.getPickCode(),stationId, image.getLocalPath());
+        //Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
+        Response<String> response = NoHttp.startRequestSync(request);
+
+        if(response.isSucceed()){
+            String data = response.get();
+            LogUtil.d("nohttp_", data);
+            BaseResult result = JSONObject.parseObject(data, BaseResult.class);
+            return result.isSuccess();
+        }
+
+
+        return false;
+
+    }
+
+    private boolean stationInputUploadExpress(ScanImage image, String mobile){
+        String stationId = GreenDaoUtil.getStationId();
+
+        Request<String> request = ApiStorageRequest.stationInputUploadExpress(stationId, image.getEId(),image.getPickCode(),mobile, image.getLocalPath());
         //Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
         Response<String> response = NoHttp.startRequestSync(request);
 

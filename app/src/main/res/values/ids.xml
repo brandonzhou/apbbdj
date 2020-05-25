@@ -42,4 +42,8 @@
     <item name="split" type="id"/>
     <item name="statusbar_view" type="id"/>
     <item name="translucent_view" type="id"/>
+
+
+    <!--防抖点击-->
+    <item name="last_click_time" type="id" />
 </resources>
