@@ -59,6 +59,8 @@ public class DealWithFailThingsActivity extends BaseActivity {
     int curIndex = 0;
     /*快递公司是否需要修改*/
     boolean isExpressCompanyNeedModify = false;
+    /*是否显示提示框module*/
+    boolean isShowModule = true;
 
 
     @BindView(R.id.tv_title)
@@ -140,6 +142,13 @@ public class DealWithFailThingsActivity extends BaseActivity {
     }
 
 
+    private void setViewShow(boolean show, int... viewIds){
+        for(int id : viewIds){
+            findViewById(id).setVisibility(show? View.VISIBLE: View.GONE);
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,9 +156,13 @@ public class DealWithFailThingsActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.tv_tracking_company_value, R.id.btn_delete, R.id.btn_save})
+    @OnClick({R.id.tv_tracking_company_value, R.id.btn_delete, R.id.btn_save,R.id.iv_photo})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_photo:
+                isShowModule = !isShowModule;
+                setViewShow(isShowModule,R.id.group_module);
+                break;
             case R.id.tv_tracking_company_value:
                 configExpressCompany();
                 break;
