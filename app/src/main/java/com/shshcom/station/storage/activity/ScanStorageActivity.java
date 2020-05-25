@@ -1,8 +1,10 @@
 package com.shshcom.station.storage.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,7 +15,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.BarcodeFormat;
 import com.king.zxing.CaptureActivity;
 import com.king.zxing.CaptureHelper;
@@ -21,12 +26,12 @@ import com.king.zxing.camera.FrontLightMode;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.CenterPopupView;
-import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.mt.bbdj.baseconfig.utls.UtilDialog;
 import com.shshcom.station.storage.domain.ScanStorageCase;
 import com.shshcom.station.util.AntiShakeUtils;
 
@@ -43,6 +48,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     private static final String TAG = "ScanStorageActivity";
     /*请求码-配置取件码*/
     private static final int REQUEST_CODE_SET_PICK_UP_NUMBER = 1;
+    /*请求系统权限-摄像头*/
+    private static final int PERMISSION_REQUEST_CODE_CAMERA = 1;
 
     // 取件码
     private TextView tv_pickup_code;
@@ -98,10 +105,47 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
         state = State.scanning;
 
+        initPermission();
         initCapture();
         initView();
         initData();
     }
+
+
+    private void initPermission() {
+        //请求Camera权限
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_CAMERA);
+            }else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_CAMERA);
+            }
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case PERMISSION_REQUEST_CODE_CAMERA:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG,"onRequestPermissionsResult granted");
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+                    Log.i(TAG,"onRequestPermissionsResult denied");
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    UtilDialog.showDialog(this,"请前往设置中开启摄像头权限");
+                }
+                break;
+        }
+    }
+
 
     private void initView() {
         tv_pickup_code = findViewById(R.id.tv_pickup_code);
