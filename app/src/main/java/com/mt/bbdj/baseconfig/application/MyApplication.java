@@ -56,7 +56,9 @@ public class MyApplication extends Application {
         RxTool.init(this);
         ToastUtil.init(this);
 
-        CrashReport.initCrashReport(getApplicationContext(), "28ee43e70a", false);
+        // https://bugly.qq.com/v2/crash-reporting/dashboard/8034b60964?pid=1
+        String buglyKey = BuildConfig.DEBUG ? "8034b60964":"a9fdbccccd";
+        CrashReport.initCrashReport(getApplicationContext(), buglyKey, false);
         //bug收集
         // CrashHandler.getInstance().init(this);
 
