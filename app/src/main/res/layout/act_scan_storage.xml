@@ -202,7 +202,7 @@
         android:layout_below="@id/rl_title"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="visible"
+        android:visibility="gone"
         >
 
         <RelativeLayout
