@@ -557,6 +557,6 @@ public class StringUtil {
      */
     public static boolean isMatchExpressCode( final CharSequence input) {
         String regex = "^[A-Za-z0-9]+$";
-        return input != null && input.length() > 0 && Pattern.matches(regex, input);
+        return input != null && input.length() > 9 && Pattern.matches(regex, input);
     }
 }

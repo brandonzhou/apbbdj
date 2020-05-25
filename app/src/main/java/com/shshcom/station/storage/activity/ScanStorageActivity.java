@@ -223,6 +223,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
         ScanImage scanImage = storageCase.searchScanImageFromDb(result);
         if (scanImage != null) {
+            helper.restartPreviewAndDecode();
             ToastUtil.showShort("重复扫描：" + result);
             return true;
         }
@@ -273,6 +274,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                             if (tv_bar_code != null) {
                                 tv_bar_code.setVisibility(View.GONE);
                             }
+                            currentBarCode ="";
                         }
                     }, 1500);
                 }
@@ -393,6 +395,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 storageCase.saveScanImage(barCode, pickupCode, data,phone);
 
                 storageCase.updatePickCode(nextCode);
+                currentBarCode ="";
 
                 camera.startPreview();
 
