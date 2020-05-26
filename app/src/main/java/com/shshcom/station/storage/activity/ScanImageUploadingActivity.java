@@ -90,7 +90,7 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
             imageView.setVisibility(View.INVISIBLE);
 
             tv_btn_upload.setText("下一步…");
-            tv_btn_upload.setOnClickListener(null);
+            tv_btn_upload.setOnClickListener(v -> ScanOcrResultActivity.openActivity(this));
             return;
         }
 

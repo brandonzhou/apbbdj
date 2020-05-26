@@ -268,8 +268,10 @@ public class SetPickupCodeTypeActivity extends BaseActivity {
         }
 
         if (PickupCode.Type.type_shelf_tail.getDesc().equals(codeType) || PickupCode.Type.type_shelf_date_tail.getDesc().equals(codeType)) {
+            // 单号尾号
             pickupCode.setStartNumber(mPickupCode.getStartNumber());
         }else{
+            // 数字编号
             pickupCode.setStartNumber(Integer.parseInt(mTvCodeValue.getText().toString()));
         }
         pickupCode.createCurrentNumber();

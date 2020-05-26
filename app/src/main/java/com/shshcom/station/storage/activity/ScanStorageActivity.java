@@ -130,17 +130,12 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){
             case PERMISSION_REQUEST_CODE_CAMERA:
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG,"onRequestPermissionsResult granted");
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
 
                 } else {
                     Log.i(TAG,"onRequestPermissionsResult denied");
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                     UtilDialog.showDialog(this,"请前往设置中开启摄像头权限");
                 }
                 break;
@@ -434,7 +429,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         protected void onCreate() {
             super.onCreate();
             EditText etExpressCode = findViewById(R.id.et_tracking_number_value);
-            EditText etFone = findViewById(R.id.et_phone_value);
+            EditText etPhone = findViewById(R.id.et_phone_value);
 
             findViewById(R.id.btn_cancel).setOnClickListener(v -> {
                         dismiss();
@@ -448,7 +443,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                             ToastUtil.showShort(getResources().getString(R.string.input_express_code));
                             return;
                         }
-                        String phone = etFone.getText().toString().trim();
+                        String phone = etPhone.getText().toString().trim();
                         if (!StringUtil.isMobile(phone)) {
                             ToastUtil.showShort(getResources().getString(R.string.phone_format_error));
                             return;
