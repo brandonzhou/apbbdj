@@ -61,7 +61,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     private TextView tv_capture_bar_code;
 
     private CaptureHelper helper;
-    private Camera camera;
+    //private Camera camera;
 
     private Activity activity;
 
@@ -243,11 +243,9 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
 
     private void takePicture(String result) {
-        if (camera == null) {
-            camera = helper.getCameraManager().getOpenCamera().getCamera();
-        }
         // https://stackoverflow.com/questions/21723557/java-lang-runtimeexception-takepicture-failed
         // RuntimeException: Camera is being used after Camera.release() was called
+        Camera  camera = helper.getCameraManager().getOpenCamera().getCamera();
         camera.startPreview();
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
@@ -387,9 +385,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     }
 
     private void saveEditExpress(String barCode, String phone){
-        if (camera == null) {
-            camera = helper.getCameraManager().getOpenCamera().getCamera();
-        }
+        Camera  camera = helper.getCameraManager().getOpenCamera().getCamera();
         camera.startPreview();
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
