@@ -205,11 +205,11 @@ public class DealWithFailThingsActivity extends BaseActivity {
 
             @Override
             public void onNext(BaseResult<Object> baseResult) {
+                GreenDaoUtil.deleteScanImage(curOcrResult.getNumber());
                 curIndex++ ;
                 refreshUI(curIndex);
                 LoadDialogUtils.cannelLoadingDialog();
                 ToastUtil.showShort(baseResult.getMsg());
-                GreenDaoUtil.deleteScanImage(curOcrResult.getNumber());
             }
 
             @Override
