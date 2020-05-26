@@ -26,6 +26,7 @@ import com.king.zxing.camera.FrontLightMode;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
@@ -353,10 +354,21 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
     private void openEditDialog(){
         state = State.editing;
+        tv_capture_bar_code.setText("");
         EditDialogView dialog = new EditDialogView(this);
         BasePopupView popupView = new XPopup.Builder(this)
+                .setPopupCallback(new SimpleCallback(){
+                    @Override
+                    public void onDismiss() {
+                        super.onDismiss();
+                        if (TextUtils.isEmpty(tv_capture_bar_code.getText().toString())) {
+                            closeEditDialog();
+                        }
+                    }
+                })
                 .popupAnimation(ScaleAlphaFromCenter)
                 .autoOpenSoftInput(true)
+                .dismissOnTouchOutside(false)
                 .asCustom(dialog)
                 .show();
         setViewShow(true, R.id.rl_capture);
