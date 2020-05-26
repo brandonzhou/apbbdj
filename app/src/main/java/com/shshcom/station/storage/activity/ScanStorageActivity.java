@@ -67,6 +67,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
     private ScanStorageCase storageCase;
 
+    private int count = 0;
+
     /*当前解码的条码或手动输入的条码-code*/
     private String currentBarCode;
     /*手动录入的手机号码*/
@@ -172,8 +174,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             tv_last_code_info.setVisibility(View.GONE);
         }
 
-        int size = storageCase.getScanImageSize();
-        tv_total_number.setText(size + "");
+       // int size = storageCase.getScanImageSize();
+        tv_total_number.setText(count + "");
 
     }
 
@@ -237,6 +239,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         }, 200);
 
 
+        count ++;
 
 
         return true;
@@ -290,8 +293,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
         tv_pickup_code.setText(nextCode);
 
-        int size = storageCase.getScanImageSize()+1;
-        tv_total_number.setText(size + "");
+        //int size = storageCase.getScanImageSize()+1;
+        tv_total_number.setText(count + "");
 
     }
 
