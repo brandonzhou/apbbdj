@@ -66,6 +66,8 @@ public class DealWithFailThingsActivity extends BaseActivity {
     ImageView mIvPhoto;
     @BindView(R.id.tv_pickup_code_value)
     TextView mTvPickupCodeValue;
+    @BindView(R.id.tv_fail_title)
+    TextView tv_fail_title;
     @BindView(R.id.tv_tracking_company_value)
     TextView mTvTrackingCompanyValue;
     @BindView(R.id.et_tracking_number_value)
@@ -119,6 +121,7 @@ public class DealWithFailThingsActivity extends BaseActivity {
                     .placeholder(R.drawable.ic_finish);
             Glide.with(this).load(curOcrResult.getPicture()).apply(options)
                     .into(mIvPhoto);
+            tv_fail_title.setText(curOcrResult.getMsg());
             /*取件码*/
             mTvPickupCodeValue.setText(curOcrResult.getCode());
             /*快递公司*/
