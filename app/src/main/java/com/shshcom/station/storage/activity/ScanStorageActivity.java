@@ -143,6 +143,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                     UtilDialog.showDialog(this,"请前往设置中开启摄像头权限");
                 }
                 break;
+                default:
         }
     }
 
@@ -328,6 +329,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             case R.id.rl_back:
                 finish();
                 break;
+                default:
         }
     }
 
@@ -358,17 +360,15 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 .asCustom(dialog)
                 .show();
         setViewShow(true, R.id.rl_capture);
-        setViewShow(false,R.id.tv_tip_edit_express);
-        setViewShow(false,R.id.tv_tip_capture);
+        setViewShow(false,R.id.tv_tip_edit_express,R.id.tv_tip_capture);
     }
 
     public void closeEditDialog(){
         if(activity.isDestroyed()){
             return;
         }
-        setViewShow(false, R.id.rl_capture);
-        setViewShow(true,R.id.tv_tip_edit_express);
-        setViewShow(true,R.id.tv_tip_capture);
+        setViewShow(false, R.id.rl_capture,R.id.rl_express_info_tips);
+        setViewShow(true,R.id.tv_tip_edit_express,R.id.tv_tip_capture);
         state = State.scanning;
 
     }
@@ -445,6 +445,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                         currentPhone = phone;
                         String showTips = currentBarCode+"\n手机号:"+currentPhone;
                         tv_capture_bar_code.setText(showTips);
+                        setViewShow(true, R.id.rl_express_info_tips);
                         dismiss();
             }
             );

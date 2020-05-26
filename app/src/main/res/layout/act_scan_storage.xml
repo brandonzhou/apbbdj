@@ -202,10 +202,11 @@
         android:layout_below="@id/rl_title"
         android:clickable="true"
         android:focusable="true"
-        android:visibility="gone"
+        android:visibility="visible"
         >
 
         <RelativeLayout
+            android:id="@+id/rl_express_info_tips"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height_huge"
             android:layout_centerHorizontal="true"
@@ -215,6 +216,7 @@
             android:layout_marginLeft="@dimen/dp_60"
             android:layout_marginRight="@dimen/dp_60"
             android:background="@drawable/bg_mark_trans"
+            android:visibility="gone"
             >
 
             <TextView
