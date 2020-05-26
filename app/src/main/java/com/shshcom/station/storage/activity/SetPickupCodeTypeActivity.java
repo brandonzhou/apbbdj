@@ -240,15 +240,15 @@ public class SetPickupCodeTypeActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_rule_value, R.id.btn_save, R.id.cl_rule})
+    @OnClick({R.id.btn_save, R.id.cl_rule,R.id.tv_rule_value,R.id.iv_set_type})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tv_rule_value:
-                break;
             case R.id.btn_save:
                 saveConfig();
                 break;
             case R.id.cl_rule:
+            case R.id.tv_rule_value:
+            case R.id.iv_set_type:
                 CustomBottomPopupView customBottomPopupView = new CustomBottomPopupView(this);
                 new XPopup.Builder(customBottomPopupView.getContext())
                         .asCustom(customBottomPopupView)
