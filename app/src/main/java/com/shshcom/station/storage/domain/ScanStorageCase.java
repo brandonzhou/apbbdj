@@ -182,7 +182,8 @@ public class ScanStorageCase {
             String data = response.get();
             LogUtil.d("nohttp_", data);
             BaseResult result = JSONObject.parseObject(data, BaseResult.class);
-            return result.isSuccess();
+            // 5002 运单已存在等
+            return result.isSuccess() || result.getCode()== 5002;
         }
 
 
