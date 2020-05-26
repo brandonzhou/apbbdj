@@ -238,10 +238,6 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             }
         }, 200);
 
-
-        count ++;
-
-
         return true;
     }
 
@@ -257,6 +253,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
 //                camera.stopPreview();
+                count ++;
                 PickupCode pickupCode = storageCase.getCurrentPickCode();
 
                 PickupCode nextCode = pickupCode.nextPickCode();
@@ -397,6 +394,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
+                count ++;
                 PickupCode pickupCode = storageCase.getCurrentPickCode();
 
                 PickupCode nextCode = pickupCode.nextPickCode();
