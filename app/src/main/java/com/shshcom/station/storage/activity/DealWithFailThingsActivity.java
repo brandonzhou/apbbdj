@@ -230,7 +230,7 @@ public class DealWithFailThingsActivity extends BaseActivity {
             ToastUtil.showShort("快递公司不能为空");
             return;
         }
-        String number = tv_bar_code.getText().toString().trim();
+        String number = curOcrResult.getNumber();
 //        if (TextUtils.isEmpty(number)) {
 //            ToastUtil.showShort("快递单号不能为空");
 //            return;
