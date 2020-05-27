@@ -55,7 +55,7 @@ public class DealWithFailThingsActivity extends BaseActivity {
     /*当前处理索引*/
     int curIndex = 0;
     /*快递公司是否需要修改*/
-    boolean isExpressCompanyNeedModify = false;
+    boolean isExpressCompanyNeedModify = true;
     /*是否显示提示框module*/
     boolean isShowModule = true;
 
@@ -64,16 +64,18 @@ public class DealWithFailThingsActivity extends BaseActivity {
     TextView mTvTitle;
     @BindView(R.id.iv_photo)
     ImageView mIvPhoto;
-    @BindView(R.id.tv_pickup_code_value)
-    TextView mTvPickupCodeValue;
     @BindView(R.id.tv_fail_title)
     TextView tv_fail_title;
     @BindView(R.id.tv_tracking_company_value)
     TextView mTvTrackingCompanyValue;
-    @BindView(R.id.et_tracking_number_value)
-    EditText mEtTrackingNumberValue;
     @BindView(R.id.et_phone_value)
     EditText mEtPhoneValue;
+
+    @BindView(R.id.tv_pick_code)
+    TextView tv_pick_code;
+    @BindView(R.id.tv_bar_code)
+    TextView tv_bar_code;
+
 
     public static void openActivity(Activity activity) {
         Intent intent = new Intent(activity, DealWithFailThingsActivity.class);
@@ -123,17 +125,17 @@ public class DealWithFailThingsActivity extends BaseActivity {
                     .into(mIvPhoto);
             tv_fail_title.setText(curOcrResult.getMsg());
             /*取件码*/
-            mTvPickupCodeValue.setText(curOcrResult.getCode());
+            tv_pick_code.setText("取件码："+curOcrResult.getCode());
             /*快递公司*/
             mTvTrackingCompanyValue.setText(curOcrResult.getExpress_name());
             /*快递单号*/
-            mEtTrackingNumberValue.setText(""+curOcrResult.getNumber());
+            tv_bar_code.setText("快递单号："+curOcrResult.getNumber());
             /*手机号码*/
             mEtPhoneValue.setText(curOcrResult.getMobile());
 
-            if (curOcrResult.getExpress_id() < 1) {
-                isExpressCompanyNeedModify = true;
-            }
+//            if (curOcrResult.getExpress_id() < 1) {
+//                isExpressCompanyNeedModify = true;
+//            }
         } else {
             ToastUtil.showShort("已完成全部错误件处理");
             finish();
@@ -149,12 +151,7 @@ public class DealWithFailThingsActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 
     @OnClick({R.id.tv_tracking_company_value, R.id.btn_delete, R.id.btn_save,R.id.iv_photo})
     public void onViewClicked(View view) {
@@ -233,11 +230,11 @@ public class DealWithFailThingsActivity extends BaseActivity {
             ToastUtil.showShort("快递公司不能为空");
             return;
         }
-        String number = mEtTrackingNumberValue.getText().toString().trim();
-        if (TextUtils.isEmpty(number)) {
-            ToastUtil.showShort("快递单号不能为空");
-            return;
-        }
+        String number = tv_bar_code.getText().toString().trim();
+//        if (TextUtils.isEmpty(number)) {
+//            ToastUtil.showShort("快递单号不能为空");
+//            return;
+//        }
         curOcrResult.setNumber(number);
 
         String mobile = mEtPhoneValue.getText().toString().trim();
