@@ -86,11 +86,16 @@ public class ApiStorageRequest {
         map.put("station_id", station_id);
         addSignature(map);
 
-        BasicBinary fileBinary = new FileBinary(new File(filePath));
-
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add(map);
-        request.add("file", fileBinary);
+
+        File file = new File(filePath);
+
+        if(file.exists()){
+            BasicBinary fileBinary = new FileBinary(file);
+            request.add("file", fileBinary);
+        }
+
 
         return request;
     }

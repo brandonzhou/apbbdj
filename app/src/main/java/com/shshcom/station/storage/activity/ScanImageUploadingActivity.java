@@ -41,10 +41,6 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
         setContentView(R.layout.act_scan_image_uploading);
         storageCase = ScanStorageCase.getInstance();
 
-        List<ScanImage> list = storageCase.getScanImageList(ScanImage.State.uploading);
-        storageCase.retryUploadImage(list);
-
-
         initView();
         refresh();
 

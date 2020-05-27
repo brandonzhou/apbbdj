@@ -40,6 +40,7 @@ import com.shshcom.station.storage.http.bean.ExpressCompany;
 import com.shshcom.station.util.AntiShakeUtils;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
@@ -117,6 +118,10 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         initCapture();
         initView();
         initData();
+
+        // 对未上传的图片进行上传
+        List<ScanImage> list = storageCase.getScanImageList(ScanImage.State.uploading);
+        storageCase.retryUploadImage(list);
     }
 
 
