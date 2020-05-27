@@ -74,6 +74,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     private TextView tv_last_code_info;
     private TextView tv_total_number;
     private TextView tv_capture_bar_code;
+    private EditText etExpressCode;
 
     private TextView tv_tracking_company_value;
 
@@ -391,8 +392,9 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                     }
                 })
                 .popupAnimation(ScaleAlphaFromCenter)
-                .autoOpenSoftInput(true)
+                .autoOpenSoftInput(false)
                 .dismissOnTouchOutside(false)
+                .autoFocusEditText(false)
                 .asCustom(dialog)
                 .show();
         setViewShow(true, R.id.rl_capture);
@@ -462,7 +464,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         @Override
         protected void onCreate() {
             super.onCreate();
-            EditText etExpressCode = findViewById(R.id.et_tracking_number_value);
+            etExpressCode = findViewById(R.id.et_tracking_number_value);
             EditText etPhone = findViewById(R.id.et_phone_value);
 
             tv_tracking_company_value = findViewById(R.id.tv_tracking_company_value);
@@ -509,17 +511,14 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
      */
     private void showExpressCompanies() {
         // 先隐藏键盘
-//        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-//                getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        /*InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         boolean isOpen=imm.isActive();//isOpen若返回true，则表示输入法打开
         if (isOpen) {
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-        }
+        }*/
+//        setShowKeyboard(etExpressCode,false);
 
-                new XPopup.Builder(this)
+        new XPopup.Builder(this)
                 .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
                 .asCustom(getCustomExpressCompanyPopup(mExpressCompanies)/*.enableDrag(false)*/)
                 .show();
@@ -532,9 +531,26 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             public void onItemClick(int position) {
                 currentExpress = list.get(position);
                 tv_tracking_company_value.setText(currentExpress.getExpress_name());
+
+//                setShowKeyboard(etExpressCode,true);
+
             }
         });
         return popup;
+    }
+
+    private void setShowKeyboard(View view,boolean isShow) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if (isShow) {
+            //显示软键盘
+            imm.showSoftInputFromInputMethod(view.getWindowToken(), 0);
+        }else {
+            //隐藏软键盘 //
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
+
     }
 
     /**
