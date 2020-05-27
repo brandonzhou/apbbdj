@@ -2306,7 +2306,7 @@ public class NoHttpRequest {
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
         String signature = StringUtil.getSignatureString(timeStamp, randomStr, encryption);
-        Request<String> request = NoHttp.createStringRequest("http://www.81dja.com/Payment/AliPay", RequestMethod.GET);
+        Request<String> request = NoHttp.createStringRequest("https://www.81dja.com/Payment/AliPay", RequestMethod.GET);
         request.add("method", InterApi.ACTION_CANNEL_ORDER_REQUEST);
         request.add("signature", signature);
         request.add("timeStamp", timeStamp);     //时间戳
