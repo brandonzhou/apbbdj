@@ -509,9 +509,17 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
      */
     private void showExpressCompanies() {
         // 先隐藏键盘
-        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
-                getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        new XPopup.Builder(this)
+//        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+//                getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen=imm.isActive();//isOpen若返回true，则表示输入法打开
+        if (isOpen) {
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
+                new XPopup.Builder(this)
                 .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
                 .asCustom(getCustomExpressCompanyPopup(mExpressCompanies)/*.enableDrag(false)*/)
                 .show();
@@ -543,7 +551,9 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             public void onNext(BaseResult<ArrayList<ExpressCompany>> baseResult) {
                 LogUtil.d("stringBaseResult", baseResult.getData().toString());
                 mExpressCompanies = baseResult.getData();
-                showExpressCompanies();
+                if (tv_tracking_company_value != null) {
+                    showExpressCompanies();
+                }
                 LoadDialogUtils.cannelLoadingDialog();
             }
 
