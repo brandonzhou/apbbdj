@@ -161,5 +161,27 @@ public class SoundHelper {
         soundPool.unload(idReceive);
         soundPool.release();
     }
+    
+    public void playExpress(int express_id){
+        switch (express_id){
+            case 100101:     //中通
+                playZhongtong();
+                break;
+            case 100102:     //圆通
+                playYuantong();
+                break;
+            case 100103:     //申通
+                playShentong();
+                break;
+            case 100104:     //韵达
+                playYunda();
+                break;
+            case 100107:     //百世
+                playBaishi();
+            default:
+                playNotifiSuccessSound();
+                break;
+        }
+    }
 
 }

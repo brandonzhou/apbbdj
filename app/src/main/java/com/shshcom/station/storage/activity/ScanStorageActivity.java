@@ -30,13 +30,18 @@ import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
+import com.mt.bbdj.baseconfig.utls.SoundHelper;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.baseconfig.utls.UtilDialog;
 import com.shshcom.station.storage.domain.ScanStorageCase;
+import com.shshcom.station.storage.http.bean.BaseResult;
+import com.shshcom.station.storage.http.bean.ExpressCompany;
 import com.shshcom.station.util.AntiShakeUtils;
 
 import java.util.EnumSet;
+
+import io.reactivex.functions.Consumer;
 
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
 
@@ -181,7 +186,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
     private void initCapture() {
         helper = getCaptureHelper();
-        helper.playBeep(true)//播放音效
+        helper
+                //.playBeep(true)//播放音效
                 .vibrate(true)//震动
                 .fullScreenScan(true)
                 .supportVerticalCode(true)//支持扫垂直条码，建议有此需求时才使用。
@@ -223,26 +229,30 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         ScanImage scanImage = storageCase.searchScanImageFromDb(result);
         if (scanImage != null) {
             helper.restartPreviewAndDecode();
-            ToastUtil.showShort("重复扫描：" + result);
+            SoundHelper.getInstance().playNotifiRepeatSound();
             return true;
         }
 
 
-        // 延迟拍照
-        tv_bar_code.postDelayed(new Runnable() {
+
+
+
+        storageCase.httpQueryExpress(result).subscribe(new Consumer<BaseResult<ExpressCompany>>() {
             @Override
-            public void run() {
-                if (tv_bar_code != null) {
-                    takePicture(result);
+            public void accept(BaseResult<ExpressCompany> baseResult) throws Exception {
+                ExpressCompany expressCompany = baseResult.getData();
+                if (tv_bar_code != null && expressCompany!=null) {
+                    takePicture(result, expressCompany.getExpress_id());
+
                 }
             }
-        }, 200);
+        });
 
         return true;
     }
 
 
-    private void takePicture(String result) {
+    private void takePicture(String result,  int express_id) {
         // https://stackoverflow.com/questions/21723557/java-lang-runtimeexception-takepicture-failed
         // RuntimeException: Camera is being used after Camera.release() was called
         Camera  camera = helper.getCameraManager().getOpenCamera().getCamera();
@@ -250,6 +260,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
+                SoundHelper.getInstance().playExpress(express_id);
 //                camera.stopPreview();
                 count ++;
                 PickupCode pickupCode = storageCase.getCurrentPickCode();

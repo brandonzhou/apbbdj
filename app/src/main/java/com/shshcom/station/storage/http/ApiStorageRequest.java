@@ -217,5 +217,26 @@ public class ApiStorageRequest {
     }
 
 
+    /**
+     * 查询快递公司
+     * @param station_id  驿站标识
+     * @param barCode  快递单号
+     * @return
+     */
+    public static Request<String> queryExpress(String station_id, String barCode) {
+        String url = "https://qrcode.taowangzhan.com/bbapi/submit2/queryExpress";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("station_id", station_id);
+        map.put("number", barCode);
+        addSignature(map);
+
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
+        request.add(map);
+
+        return request;
+    }
+
+
 
 }

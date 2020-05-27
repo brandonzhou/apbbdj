@@ -343,4 +343,32 @@ public class ScanStorageCase {
 
     }
 
+
+    public Observable<BaseResult<ExpressCompany>> httpQueryExpress(String barCode){
+
+        return Observable.create(new ObservableOnSubscribe<BaseResult<ExpressCompany>>() {
+            @Override
+            public void subscribe(ObservableEmitter<BaseResult<ExpressCompany>> emitter) throws Exception {
+                String stationId = GreenDaoUtil.getStationId();
+                Request<String> request = ApiStorageRequest.queryExpress(stationId,barCode);
+                Response<String> response = NoHttp.startRequestSync(request);
+
+                if(response.isSucceed()){
+                    String data = response.get();
+                    LogUtil.d("nohttp_", data);
+                    Gson gson = new Gson();
+                    //BaseResult<ExpressCompany> result = JSON.parseObject(data, new TypeReference<BaseResult<ExpressCompany>>(){});
+                    BaseResult<ExpressCompany> result = gson.fromJson(data , new TypeToken<BaseResult<ExpressCompany>>(){}.getType());
+                    if(result.isSuccess()){
+                        emitter.onNext(result);
+                    }else {
+                        emitter.onError(new Throwable(result.getMsg()));
+                    }
+                }
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
 }
