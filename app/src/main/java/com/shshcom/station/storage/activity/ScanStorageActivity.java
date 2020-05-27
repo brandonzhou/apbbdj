@@ -87,6 +87,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
     private int count = 0;
 
+    private int barCodeSanRepeatTime = 0 ;
+
     /*当前解码的条码或手动输入的条码-code*/
     private String currentBarCode;
     /*手动录入的手机号码*/
@@ -233,19 +235,24 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             return true;
         }
 
+        if(!StringUtil.isMatchExpressCode(result)){
+            helper.restartPreviewAndDecode();
+            return true;
+        }
+
+        if(barCodeSanRepeatTime < 3){
+            barCodeSanRepeatTime++;
+            helper.restartPreviewAndDecode();
+            return true;
+        }
 
         if(result.equals(currentBarCode)){
             helper.restartPreviewAndDecode();
             return true;
         }
+
+        barCodeSanRepeatTime = 0;
         currentBarCode = result;
-
-
-
-        if(!StringUtil.isMatchExpressCode(result)){
-            helper.restartPreviewAndDecode();
-            return true;
-        }
 
         ScanImage scanImage = storageCase.searchScanImageFromDb(result);
         if (scanImage != null) {
@@ -262,10 +269,15 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             @Override
             public void accept(BaseResult<ExpressCompany> baseResult) throws Exception {
                 ExpressCompany expressCompany = baseResult.getData();
-                if (tv_bar_code != null && expressCompany!=null) {
+                if (tv_bar_code != null && expressCompany != null) {
                     takePicture(result, expressCompany.getExpress_id());
 
                 }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                ToastUtil.showShort(throwable.getMessage());
             }
         });
 
@@ -284,6 +296,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 SoundHelper.getInstance().playExpress(express_id);
 //                camera.stopPreview();
                 count ++;
+                barCodeSanRepeatTime = 0;
                 PickupCode pickupCode = storageCase.getCurrentPickCode();
 
                 PickupCode nextCode = pickupCode.nextPickCode();
