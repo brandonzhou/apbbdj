@@ -5,6 +5,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Keep;
+import org.greenrobot.greendao.annotation.Transient;
 
 /**
  * desc:扫描图片数据
@@ -15,7 +16,7 @@ import org.greenrobot.greendao.annotation.Keep;
         @Index(value = "time DESC", unique = false)
 })
 public class ScanImage {
-    public enum State{
+    public enum State {
         none,
         uploading,
         upload_fail,
@@ -30,75 +31,85 @@ public class ScanImage {
 
     String state;
 
+    // 快递公司ID
+    String expressCompanyId;
+
     private String stationId;//对应的用户id
 
     private long time;
 
-@Generated(hash = 2013403535)
-public ScanImage(String eId, String pickCode, String localPath, String state,
-        String stationId, long time) {
-    this.eId = eId;
-    this.pickCode = pickCode;
-    this.localPath = localPath;
-    this.state = state;
-    this.stationId = stationId;
-    this.time = time;
-}
+    @Generated(hash = 339174678)
+    public ScanImage(String eId, String pickCode, String localPath, String state,
+                     String expressCompanyId, String stationId, long time) {
+        this.eId = eId;
+        this.pickCode = pickCode;
+        this.localPath = localPath;
+        this.state = state;
+        this.expressCompanyId = expressCompanyId;
+        this.stationId = stationId;
+        this.time = time;
+    }
 
-@Keep
-public ScanImage() {
-    time = System.currentTimeMillis();
-}
+    @Keep
+    public ScanImage() {
+        time = System.currentTimeMillis();
+    }
 
-public String getEId() {
-    return this.eId;
-}
+    public String getEId() {
+        return this.eId;
+    }
 
-public void setEId(String eId) {
-    this.eId = eId;
-}
+    public void setEId(String eId) {
+        this.eId = eId;
+    }
 
-public String getPickCode() {
-    return this.pickCode;
-}
+    public String getPickCode() {
+        return this.pickCode;
+    }
 
-public void setPickCode(String pickCode) {
-    this.pickCode = pickCode;
-}
+    public void setPickCode(String pickCode) {
+        this.pickCode = pickCode;
+    }
 
-public String getLocalPath() {
-    return this.localPath;
-}
+    public String getLocalPath() {
+        return this.localPath;
+    }
 
-public void setLocalPath(String localPath) {
-    this.localPath = localPath;
-}
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
+    }
 
-public String getState() {
-    return this.state;
-}
+    public String getState() {
+        return this.state;
+    }
 
-public void setState(String state) {
-    this.state = state;
-}
+    public void setState(String state) {
+        this.state = state;
+    }
 
-public String getStationId() {
-    return this.stationId;
-}
+    public String getStationId() {
+        return this.stationId;
+    }
 
-public void setStationId(String stationId) {
-    this.stationId = stationId;
-}
+    public void setStationId(String stationId) {
+        this.stationId = stationId;
+    }
 
-public long getTime() {
-    return this.time;
-}
+    public long getTime() {
+        return this.time;
+    }
 
-public void setTime(long time) {
-    this.time = time;
-}
+    public void setTime(long time) {
+        this.time = time;
+    }
 
-    
+    public String getExpressCompanyId() {
+        return this.expressCompanyId;
+    }
+
+    public void setExpressCompanyId(String expressCompanyId) {
+        this.expressCompanyId = expressCompanyId;
+    }
 
 
 }

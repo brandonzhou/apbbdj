@@ -28,8 +28,9 @@ public class ScanImageDao extends AbstractDao<ScanImage, String> {
         public final static Property PickCode = new Property(1, String.class, "pickCode", false, "PICK_CODE");
         public final static Property LocalPath = new Property(2, String.class, "localPath", false, "LOCAL_PATH");
         public final static Property State = new Property(3, String.class, "state", false, "STATE");
-        public final static Property StationId = new Property(4, String.class, "stationId", false, "STATION_ID");
-        public final static Property Time = new Property(5, long.class, "time", false, "TIME");
+        public final static Property ExpressCompanyId = new Property(4, String.class, "expressCompanyId", false, "EXPRESS_COMPANY_ID");
+        public final static Property StationId = new Property(5, String.class, "stationId", false, "STATION_ID");
+        public final static Property Time = new Property(6, long.class, "time", false, "TIME");
     }
 
 
@@ -49,8 +50,9 @@ public class ScanImageDao extends AbstractDao<ScanImage, String> {
                 "\"PICK_CODE\" TEXT," + // 1: pickCode
                 "\"LOCAL_PATH\" TEXT," + // 2: localPath
                 "\"STATE\" TEXT," + // 3: state
-                "\"STATION_ID\" TEXT," + // 4: stationId
-                "\"TIME\" INTEGER NOT NULL );"); // 5: time
+                "\"EXPRESS_COMPANY_ID\" TEXT," + // 4: expressCompanyId
+                "\"STATION_ID\" TEXT," + // 5: stationId
+                "\"TIME\" INTEGER NOT NULL );"); // 6: time
         // Add Indexes
         db.execSQL("CREATE INDEX " + constraint + "IDX_SCAN_IMAGE_TIME_DESC ON \"SCAN_IMAGE\"" +
                 " (\"TIME\" DESC);");
@@ -86,11 +88,16 @@ public class ScanImageDao extends AbstractDao<ScanImage, String> {
             stmt.bindString(4, state);
         }
  
+        String expressCompanyId = entity.getExpressCompanyId();
+        if (expressCompanyId != null) {
+            stmt.bindString(5, expressCompanyId);
+        }
+ 
         String stationId = entity.getStationId();
         if (stationId != null) {
-            stmt.bindString(5, stationId);
+            stmt.bindString(6, stationId);
         }
-        stmt.bindLong(6, entity.getTime());
+        stmt.bindLong(7, entity.getTime());
     }
 
     @Override
@@ -117,11 +124,16 @@ public class ScanImageDao extends AbstractDao<ScanImage, String> {
             stmt.bindString(4, state);
         }
  
+        String expressCompanyId = entity.getExpressCompanyId();
+        if (expressCompanyId != null) {
+            stmt.bindString(5, expressCompanyId);
+        }
+ 
         String stationId = entity.getStationId();
         if (stationId != null) {
-            stmt.bindString(5, stationId);
+            stmt.bindString(6, stationId);
         }
-        stmt.bindLong(6, entity.getTime());
+        stmt.bindLong(7, entity.getTime());
     }
 
     @Override
@@ -136,8 +148,9 @@ public class ScanImageDao extends AbstractDao<ScanImage, String> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // pickCode
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // localPath
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // state
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // stationId
-            cursor.getLong(offset + 5) // time
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // expressCompanyId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // stationId
+            cursor.getLong(offset + 6) // time
         );
         return entity;
     }
@@ -148,8 +161,9 @@ public class ScanImageDao extends AbstractDao<ScanImage, String> {
         entity.setPickCode(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setLocalPath(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setState(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setStationId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setTime(cursor.getLong(offset + 5));
+        entity.setExpressCompanyId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setStationId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setTime(cursor.getLong(offset + 6));
      }
     
     @Override

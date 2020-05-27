@@ -78,13 +78,14 @@ public class ApiStorageRequest {
      * <p>
      * http://qrcode.taowangzhan.com/bbapi/submit/stationUploadExpressImg3
      */
-    public static Request<String> stationUploadExpressImg3(String eId, String pickCode, String station_id, String filePath) {
+    public static Request<String> stationUploadExpressImg3(String eId, String pickCode, String station_id, String filePath, String expressCompanyId) {
         String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationUploadExpressImg3";
         Map<String, Object> map = new HashMap<>();
         map.put("code", pickCode);
         map.put("number", eId);
         map.put("station_id", station_id);
         addSignature(map);
+        map.put("express_id", expressCompanyId);
 
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add(map);

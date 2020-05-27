@@ -289,7 +289,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 PickupCode nextCode = pickupCode.nextPickCode();
 
                 updateUI(result, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
-                storageCase.saveScanImage(result, pickupCode, data, null,null);
+                storageCase.saveScanImage(result, pickupCode, data, null,express_id+"");
                 storageCase.updatePickCode(nextCode);
 
                 tv_bar_code.setText(result);

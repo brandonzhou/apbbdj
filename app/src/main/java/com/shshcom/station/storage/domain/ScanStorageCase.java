@@ -77,9 +77,7 @@ public class ScanStorageCase {
         return GreenDaoUtil.getLastScanImage();
     }
 
-    public int getScanImageSize(){
-        return GreenDaoUtil.listScanImage().size();
-    }
+
 
     public List<ScanImage> getScanImageList(ScanImage.State state){
         return GreenDaoUtil.listScanImage(state);
@@ -102,6 +100,7 @@ public class ScanStorageCase {
         ScanImage image = new ScanImage();
         image.setStationId(stationId);
         image.setEId(eId);
+        image.setExpressCompanyId(expressCompanyId);
 
         // 根据规则，生成真正的取件码
         String strPickCode = pickCode.createRealPickCode(eId);
@@ -174,7 +173,8 @@ public class ScanStorageCase {
     }
 
     private boolean uploadImage(ScanImage image){
-        Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image.getEId(),image.getPickCode(),image.getStationId(), image.getLocalPath());
+        Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image.getEId(),image.getPickCode(),image.getStationId(),
+                image.getLocalPath(), image.getExpressCompanyId());
         //Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
         Response<String> response = NoHttp.startRequestSync(request);
 
