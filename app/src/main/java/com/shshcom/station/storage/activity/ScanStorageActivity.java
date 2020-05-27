@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.BarcodeFormat;
@@ -30,6 +33,8 @@ import com.lxj.xpopup.interfaces.SimpleCallback;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
+import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
+import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.SoundHelper;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
@@ -37,8 +42,12 @@ import com.mt.bbdj.baseconfig.utls.UtilDialog;
 import com.shshcom.station.storage.domain.ScanStorageCase;
 import com.shshcom.station.storage.http.bean.BaseResult;
 import com.shshcom.station.storage.http.bean.ExpressCompany;
+import com.shshcom.station.storage.widget.CustomExpressCompanyPopup;
+import com.shshcom.station.storage.http.bean.BaseResult;
+import com.shshcom.station.storage.http.bean.ExpressCompany;
 import com.shshcom.station.util.AntiShakeUtils;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -66,6 +75,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     private TextView tv_total_number;
     private TextView tv_capture_bar_code;
 
+    private TextView tv_tracking_company_value;
+
     private CaptureHelper helper;
     //private Camera camera;
 
@@ -79,6 +90,10 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     private String currentBarCode;
     /*手动录入的手机号码*/
     private String currentPhone;
+    /*手动录入的快递公司*/
+    private ExpressCompany currentExpress;
+    /*快递公司列表*/
+    ArrayList<ExpressCompany> mExpressCompanies;
 
     private State state;
 
@@ -273,7 +288,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 PickupCode nextCode = pickupCode.nextPickCode();
 
                 updateUI(result, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
-                storageCase.saveScanImage(result, pickupCode, data, null);
+                storageCase.saveScanImage(result, pickupCode, data, null,null);
                 storageCase.updatePickCode(nextCode);
 
                 tv_bar_code.setText(result);
@@ -331,7 +346,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 }
                 break;
             case R.id.iv_capture:
-                saveEditExpress(currentBarCode, currentPhone);
+                saveEditExpress(currentBarCode, currentPhone,""+currentExpress.getExpress_id());
                 break;
             case R.id.iv_close_edit:
                 closeEditDialog();
@@ -400,7 +415,13 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         }
     }
 
-    private void saveEditExpress(String barCode, String phone){
+    /**
+     * 手动录入快递信息 保存
+     * @param barCode               运单号
+     * @param phone                 手机号
+     * @param expressCompanyId      快递公司Id
+     */
+    private void saveEditExpress(String barCode, String phone,String expressCompanyId){
         Camera  camera = helper.getCameraManager().getOpenCamera().getCamera();
         camera.startPreview();
         camera.takePicture(null, null, new Camera.PictureCallback() {
@@ -412,7 +433,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 PickupCode nextCode = pickupCode.nextPickCode();
 
                 updateUI(barCode, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
-                storageCase.saveScanImage(barCode, pickupCode, data,phone);
+                storageCase.saveScanImage(barCode, pickupCode, data,phone,expressCompanyId);
 
                 storageCase.updatePickCode(nextCode);
                 currentBarCode ="";
@@ -444,6 +465,15 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             EditText etExpressCode = findViewById(R.id.et_tracking_number_value);
             EditText etPhone = findViewById(R.id.et_phone_value);
 
+            tv_tracking_company_value = findViewById(R.id.tv_tracking_company_value);
+            tv_tracking_company_value.setOnClickListener(v ->{
+                if (mExpressCompanies == null) {
+                    getExpressCompany();
+                }else{
+                    showExpressCompanies();
+                }
+            });
+
             findViewById(R.id.btn_cancel).setOnClickListener(v -> {
                         dismiss();
                         closeEditDialog();
@@ -471,6 +501,63 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             );
 
         }
+    }
+
+
+    /**
+     * 显示快递公司列表
+     */
+    private void showExpressCompanies() {
+        // 先隐藏键盘
+        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(
+                getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        new XPopup.Builder(this)
+                .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
+                .asCustom(getCustomExpressCompanyPopup(mExpressCompanies)/*.enableDrag(false)*/)
+                .show();
+    }
+
+    private CustomExpressCompanyPopup getCustomExpressCompanyPopup(ArrayList<ExpressCompany> list) {
+        CustomExpressCompanyPopup popup = new CustomExpressCompanyPopup(this,list);
+        popup.setOnItemClickListener(new CustomExpressCompanyPopup.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                currentExpress = list.get(position);
+                tv_tracking_company_value.setText(currentExpress.getExpress_name());
+            }
+        });
+        return popup;
+    }
+
+    /**
+     * 获取快递公司列表
+     */
+    private void getExpressCompany(){
+        storageCase.httpGetExpressCompany().subscribe(new Observer<BaseResult<ArrayList<ExpressCompany>>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                LoadDialogUtils.showLoadingDialog(ScanStorageActivity.this);
+            }
+
+            @Override
+            public void onNext(BaseResult<ArrayList<ExpressCompany>> baseResult) {
+                LogUtil.d("stringBaseResult", baseResult.getData().toString());
+                mExpressCompanies = baseResult.getData();
+                showExpressCompanies();
+                LoadDialogUtils.cannelLoadingDialog();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ToastUtil.showShort(e.getMessage());
+                LoadDialogUtils.cannelLoadingDialog();
+            }
+
+            @Override
+            public void onComplete() {
+                LoadDialogUtils.cannelLoadingDialog();
+            }
+        });
     }
 
 

@@ -329,10 +329,8 @@ public class DealWithFailThingsActivity extends BaseActivity {
                 String name = expressCompany.getExpress_name();
                 mTvTrackingCompanyValue.setText(name);
 
-
                 curOcrResult.setExpress_id(expressCompany.getExpress_id());
                 curOcrResult.setExpress_name(name);
-//                ToastUtil.showShort(name);
             }
         });
         return popup;

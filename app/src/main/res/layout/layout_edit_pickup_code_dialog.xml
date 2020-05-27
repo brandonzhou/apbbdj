@@ -26,9 +26,29 @@
             android:textColor="@color/color_text_primary"
             android:textSize="@dimen/text_size_large"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_tracking_number_key"
+            app:layout_constraintBottom_toTopOf="@id/tv_tracking_company_key"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
+
+        <!--快递公司-->
+        <TextView
+            android:id="@+id/tv_tracking_company_key"
+            style="@style/Style_tv_dark_small"
+            android:layout_marginBottom="15dp"
+            android:text="快递公司"
+            app:layout_constraintBottom_toTopOf="@id/tv_tracking_number_key"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_tracking_company_value"
+            android:text=""
+            android:hint="请选择快递公司"
+            android:gravity="left|center_vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_tracking_company_key"
+            app:layout_constraintLeft_toRightOf="@+id/barrier"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_tracking_company_key"
+            style="@style/Style_et_gray_small" />
 
 
         <!--快递单号-->

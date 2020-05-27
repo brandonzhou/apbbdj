@@ -96,7 +96,7 @@ public class ScanStorageCase {
         return GreenDaoUtil.findScanImage(eId);
     }
 
-    public void saveScanImage(String eId, PickupCode pickCode, byte[] imageData, String mobile){
+    public void saveScanImage(String eId, PickupCode pickCode, byte[] imageData, String mobile,String expressCompanyId){
         String stationId = GreenDaoUtil.getStationId();
 
         ScanImage image = new ScanImage();
@@ -313,6 +313,7 @@ public class ScanStorageCase {
                 .observeOn(AndroidSchedulers.mainThread());
 
     }
+
     /**
      * 删除快递信息
      * @param pie_id
