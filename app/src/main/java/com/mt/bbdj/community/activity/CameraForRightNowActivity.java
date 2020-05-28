@@ -443,23 +443,7 @@ public class CameraForRightNowActivity extends AppCompatActivity {
     private void playSound(JSONObject jsonObject) throws JSONException {
         JSONObject dataObj = jsonObject.getJSONObject("data");
         String express_id = dataObj.getString("express_id");
-        switch (express_id){
-            case "100101":     //中通
-                SoundHelper.getInstance().playZhongtong();
-                break;
-            case "100102":     //圆通
-                SoundHelper.getInstance().playYuantong();
-                break;
-            case "100103":     //申通
-                SoundHelper.getInstance().playShentong();
-                break;
-            case "100104":     //韵达
-                SoundHelper.getInstance().playYunda();
-                break;
-            case "100107":     //百世
-                SoundHelper.getInstance().playBaishi();
-                break;
-        }
+        SoundHelper.getInstance().playExpress(Integer.parseInt(express_id));
     }
 
     private void showPromitDialog(JSONObject jsonObject) throws JSONException {

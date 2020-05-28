@@ -1,7 +1,6 @@
 package com.mt.bbdj.baseconfig.utls;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -30,11 +29,19 @@ public class SoundHelper {
     private int take_again;
     private int take_code_again;
     private int take_linear_again;
-    private int take_zhongtong;
-    private int take_yunda;
-    private int take_yuantong;
-    private int take_baishi;
-    private int take_shentong;
+    private int express_baishi   ;
+    private int express_debang   ;
+    private int express_ems      ;
+    private int express_jd       ;
+    private int express_jitu     ;
+    private int express_shentong ;
+    private int express_shunfeng ;
+    private int express_tiantian ;
+    private int express_yousu    ;
+    private int express_youzheng ;
+    private int express_yuantong ;
+    private int express_yunda    ;
+    private int express_zhongtong;
     private static SoundHelper helper;
 
     @SuppressLint("NewApi")
@@ -63,11 +70,22 @@ public class SoundHelper {
         take_code_again = soundPool.load(context, R.raw.ic_code, 1);
         take_linear_again = soundPool.load(context, R.raw.ic_linnera, 1);
 
-        take_zhongtong = soundPool.load(context, R.raw.play_zhongtong, 1);
-        take_yunda = soundPool.load(context, R.raw.play_yunda,1);
-        take_yuantong = soundPool.load(context, R.raw.play_yuantong, 1);
-        take_baishi = soundPool.load(context, R.raw.play_baishi, 1);
-        take_shentong = soundPool.load(context, R.raw.ic_shentong, 1);
+
+
+
+        express_baishi    = soundPool.load(context, R.raw.express_baishi    , 1);
+        express_debang    = soundPool.load(context, R.raw.express_debang    , 1);
+        express_ems       = soundPool.load(context, R.raw.express_ems       , 1);
+        express_jd        = soundPool.load(context, R.raw.express_jd        , 1);
+        express_jitu      = soundPool.load(context, R.raw.express_jitu      , 1);
+        express_shentong  = soundPool.load(context, R.raw.express_shentong  , 1);
+        express_shunfeng  = soundPool.load(context, R.raw.express_shunfeng  , 1);
+        express_tiantian  = soundPool.load(context, R.raw.express_tiantian  , 1);
+        express_yousu     = soundPool.load(context, R.raw.express_yousu     , 1);
+        express_youzheng  = soundPool.load(context, R.raw.express_youzheng  , 1);
+        express_yuantong  = soundPool.load(context, R.raw.express_yuantong  , 1);
+        express_yunda     = soundPool.load(context, R.raw.express_yunda     , 1);
+        express_zhongtong = soundPool.load(context, R.raw.express_zhongtong , 1);
     }
 
     public static void  init() {
@@ -137,50 +155,83 @@ public class SoundHelper {
         soundPool.play(take_linear_again,1,1,10,0,1);
     }
 
-    public void playZhongtong(){
-        soundPool.play(take_zhongtong,1,1,10,0,1);
-    }
 
-    public void playYunda(){
-        soundPool.play(take_yunda,1,1,10,0,1);
-    }
-
-    public void playYuantong(){
-        soundPool.play(take_yuantong,1,1,10,0,1);
-    }
-    public void playShentong(){
-        soundPool.play(take_shentong,1,1,10,0,1);
-    }
-
-    public void playBaishi(){
-        soundPool.play(take_baishi,1,1,10,0,1);
-    }
 
 
     public void release() {
         soundPool.unload(idReceive);
         soundPool.release();
     }
-    
+
+
+    /*
+    "express_id": 100101,"express_name": "中通快递"
+    "express_id": 100102,"express_name": "圆通快递"
+    "express_id": 100103,"express_name": "申通快递"
+    "express_id": 100104,"express_name": "韵达快递"
+    "express_id": 100105,"express_name": "顺丰快递"
+    "express_id": 100106,"express_name": "德邦快递"
+    "express_id": 100107,"express_name": "百世快递"
+    "express_id": 100108,"express_name": "EMS"
+    "express_id": 100109,"express_name": "宅急送"
+    "express_id": 100110,"express_name": "优速快递"
+    "express_id": 100111,"express_name": "快捷快递"
+    "express_id": 100112,"express_name": "安能快递"
+    "express_id": 100113,"express_name": "天天快递"
+    "express_id": 100114,"express_name": "京东快递"
+    "express_id": 100115,"express_name": "天猫超市"
+    "express_id": 100116,"express_name": "其他快递"
+    "express_id": 100117,"express_name": "中国邮政"
+    "express_id": 100118,"express_name": "苏宁物流"
+     */
     public void playExpress(int express_id){
         switch (express_id){
-            case 100101:     //中通
-                playZhongtong();
+            case 100101	: // "中通快递"
+                soundPool.play(express_zhongtong,1,1,10,0,1);
                 break;
-            case 100102:     //圆通
-                playYuantong();
+            case 100102	: // "圆通快递"
+                soundPool.play(express_yuantong,1,1,10,0,1);
                 break;
-            case 100103:     //申通
-                playShentong();
+            case 100103	: // "申通快递"
+                soundPool.play(express_shentong,1,1,10,0,1);
                 break;
-            case 100104:     //韵达
-                playYunda();
+            case 100104	: // "韵达快递"
+                soundPool.play(express_yunda,1,1,10,0,1);
                 break;
-            case 100107:     //百世
-                playBaishi();
+            case 100105	: // "顺丰快递"
+                soundPool.play(express_shunfeng,1,1,10,0,1);
+                break;
+            case 100106	: // "德邦快递"
+                soundPool.play(express_debang,1,1,10,0,1);
+                break;
+            case 100107	: // "百世快递"
+                soundPool.play(express_baishi,1,1,10,0,1);
+                break;
+            case 100108	: // "EMS"
+                soundPool.play(express_ems,1,1,10,0,1);
+                break;
+            case 100110	: // "优速快递"
+                soundPool.play(express_yousu,1,1,10,0,1);
+                break;
+            case 100113	: // "天天快递"
+                soundPool.play(express_tiantian,1,1,10,0,1);
+                break;
+            case 100114	: // "京东快递"
+                soundPool.play(express_jd,1,1,10,0,1);
+                break;
+            case 100117	: // "中国邮政"
+                soundPool.play(express_youzheng,1,1,10,0,1);
+                break;
+            case 100109	: // "宅急送"
+            case 100111	: // "快捷快递"
+            case 100112	: // "安能快递"
+            case 100115	: // "天猫超市"
+            case 100116	: // "其他快递"
+            case 100118	: // "苏宁物流"
             default:
                 playNotifiSuccessSound();
                 break;
+
         }
     }
 
