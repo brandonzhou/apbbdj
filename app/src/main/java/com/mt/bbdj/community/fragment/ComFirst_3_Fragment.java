@@ -9,24 +9,19 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.FileProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.king.zxing.CaptureActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
+
 import com.mt.bbdj.R;
-import com.mt.bbdj.baseconfig.activity.LoginActivity;
 import com.mt.bbdj.baseconfig.activity.LoginByCodeActivity;
 import com.mt.bbdj.baseconfig.application.MyApplication;
 import com.mt.bbdj.baseconfig.base.BaseFragment;
@@ -59,16 +54,12 @@ import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.baseconfig.view.HorizontalProgressBar;
 import com.mt.bbdj.baseconfig.view.MyGridView;
 import com.mt.bbdj.community.activity.BindUserActivity;
-import com.mt.bbdj.community.activity.CameraForRightNowActivity;
 import com.mt.bbdj.community.activity.ChangeManagerdActivity;
 import com.mt.bbdj.community.activity.ClearOrderActivity;
 import com.mt.bbdj.community.activity.ClientManagerActivity;
 import com.mt.bbdj.community.activity.ComplainManagerdActivity;
 import com.mt.bbdj.community.activity.CouponActivity;
 import com.mt.bbdj.community.activity.EnterDetailActivity;
-import com.mt.bbdj.community.activity.EnterManagerActivity;
-import com.mt.bbdj.community.activity.EnterManager_new_Activity;
-import com.mt.bbdj.community.activity.EnterSelectLocationActivity;
 import com.mt.bbdj.community.activity.FailureEnterActivity;
 import com.mt.bbdj.community.activity.GlobalSearchActivity;
 import com.mt.bbdj.community.activity.GoodsManagerActivity;
@@ -80,8 +71,6 @@ import com.mt.bbdj.community.activity.MessageRechargePannelActivity;
 import com.mt.bbdj.community.activity.MoneyFormatManagerActivity;
 import com.mt.bbdj.community.activity.MyClientActivity;
 import com.mt.bbdj.community.activity.OpearteActivity;
-import com.mt.bbdj.community.activity.OutManagerActivity;
-import com.mt.bbdj.community.activity.OutManager_new_Activity;
 import com.mt.bbdj.community.activity.PannelRechargeActivity;
 import com.mt.bbdj.community.activity.QCodeScanActivity;
 import com.mt.bbdj.community.activity.RechargeActivity;
@@ -89,13 +78,10 @@ import com.mt.bbdj.community.activity.RecommendUserActivity;
 import com.mt.bbdj.community.activity.RepertoryActivity;
 import com.mt.bbdj.community.activity.RepertoryStoreActivity;
 import com.mt.bbdj.community.activity.SaveManagerMoneyActivity;
-import com.mt.bbdj.community.activity.ScannerActivity;
 import com.mt.bbdj.community.activity.ScannerOutActivity;
 import com.mt.bbdj.community.activity.SearchPackageActivity;
-import com.mt.bbdj.community.activity.SelectEnterExpressActivity;
 import com.mt.bbdj.community.activity.SelectExpressActivity;
 import com.mt.bbdj.community.activity.SendManagerActivity;
-import com.mt.bbdj.community.activity.SendResByHandActivity;
 import com.mt.bbdj.community.activity.SetWayMoneyActivity;
 import com.mt.bbdj.community.activity.SystemMessageAboutActivity;
 import com.mt.bbdj.community.activity.WaitHandleOrderActivity;
@@ -1027,7 +1013,8 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 handleBannerMessage(jsonObject);
                 break;
             case REQUEST_ENTER_MESSAGE:   //入库情况
-                handleEnterMessage(jsonObject);
+                // zhhli 不再显示 20200528
+                // handleEnterMessage(jsonObject);
                 break;
         }
     }
