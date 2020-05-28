@@ -148,8 +148,10 @@ android {
         }
 
         // 优化的Fragment
-        implementation 'me.yokeyword:fragmentation:1.3.6'
-        implementation 'me.yokeyword:fragmentation-swipeback:1.3.6'
+        //implementation 'me.yokeyword:fragmentation:1.3.6'
+        //implementation 'me.yokeyword:fragmentation-swipeback:1.3.6'
+        implementation 'me.yokeyword:fragmentationx:1.0.2'
+        implementation 'me.yokeyword:fragmentationx-swipeback:1.0.2'
 
         implementation 'cn.jzvd:jiaozivideoplayer:7.0.4'
         //沉浸式

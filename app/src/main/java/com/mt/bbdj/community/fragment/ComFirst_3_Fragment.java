@@ -158,7 +158,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
     @BindView(R.id.textview_serach)
     TextView tvSearch;     //搜索
     @BindView(R.id.tv_handle_failure)
-    TextView tv_handle_failure;     //搜索
+    TextView tv_handle_failure;     //错误件
     @BindView(R.id.ll_title_handing)
     LinearLayout ll_title_handing;
     @BindView(R.id.tv_handle_ing)
@@ -386,9 +386,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         mComGridView.setOnItemClickListener(mGrideClickListener);
         mComGridViewTwo.setOnItemClickListener(mGrideClickListener);
         mComGridViewThree.setOnItemClickListener(mGrideClickListener);
-        tv_handle_failure.setOnClickListener(v -> {
-            EnterDetailActivity.actionTo(getActivity());
-        });
+
     }
 
 
@@ -1303,7 +1301,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         mRequestQueue = null;
     }
 
-    @OnClick({R.id.textview_serach,R.id.ll_title})
+    @OnClick({R.id.textview_serach,R.id.ll_title, R.id.tv_handle_failure})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.textview_serach:
@@ -1311,6 +1309,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 break;
             case R.id.ll_title:
                 actionToHandleFaile();    //处理失败
+                break;
+            case R.id.tv_handle_failure:
+                EnterDetailActivity.actionTo(getActivity());
                 break;
         }
     }
