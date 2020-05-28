@@ -5,7 +5,6 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
 import org.greenrobot.greendao.annotation.Keep;
-import org.greenrobot.greendao.annotation.Transient;
 
 /**
  * desc:扫描图片数据
@@ -24,28 +23,31 @@ public class ScanImage {
     }
 
     @Id
-    String eId;// 快递单号
+    private String eId;// 快递单号
 
-    String pickCode;// 取件码
-    String localPath;
+    private String pickCode;// 取件码
+    private String localPath;
 
-    String state;
+    private String state;
 
     // 快递公司ID
-    String expressCompanyId;
+    private String expressCompanyId;
+
+    private int batchNo;// 批次号
 
     private String stationId;//对应的用户id
 
     private long time;
 
-    @Generated(hash = 339174678)
+    @Generated(hash = 103779709)
     public ScanImage(String eId, String pickCode, String localPath, String state,
-                     String expressCompanyId, String stationId, long time) {
+                     String expressCompanyId, int batchNo, String stationId, long time) {
         this.eId = eId;
         this.pickCode = pickCode;
         this.localPath = localPath;
         this.state = state;
         this.expressCompanyId = expressCompanyId;
+        this.batchNo = batchNo;
         this.stationId = stationId;
         this.time = time;
     }
@@ -109,6 +111,14 @@ public class ScanImage {
 
     public void setExpressCompanyId(String expressCompanyId) {
         this.expressCompanyId = expressCompanyId;
+    }
+
+    public int getBatchNo() {
+        return this.batchNo;
+    }
+
+    public void setBatchNo(int batchNo) {
+        this.batchNo = batchNo;
     }
 
 

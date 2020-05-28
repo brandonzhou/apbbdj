@@ -1,5 +1,6 @@
 package com.shshcom.station.storage.http;
 
+import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.model.Constant;
 import com.mt.bbdj.baseconfig.utls.EncryptUtil;
 import com.mt.bbdj.baseconfig.utls.MD5Util;
@@ -75,22 +76,25 @@ public class ApiStorageRequest {
      * number	String	快递单号
      * code	String	取件码
      * file	File	文件流，数据加密时不需要参与加密
+     * express_id 快递公司id
+     * batch_no 批次号
      * <p>
      * http://qrcode.taowangzhan.com/bbapi/submit/stationUploadExpressImg3
      */
-    public static Request<String> stationUploadExpressImg3(String eId, String pickCode, String station_id, String filePath, String expressCompanyId) {
+    public static Request<String> stationUploadExpressImg3(ScanImage image) {
         String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationUploadExpressImg3";
         Map<String, Object> map = new HashMap<>();
-        map.put("code", pickCode);
-        map.put("number", eId);
-        map.put("station_id", station_id);
+        map.put("code", image.getPickCode());
+        map.put("number", image.getEId());
+        map.put("station_id", image.getStationId());
+        map.put("express_id", image.getExpressCompanyId());
+        map.put("batch_no", image.getBatchNo());
         addSignature(map);
-        map.put("express_id", expressCompanyId);
 
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add(map);
 
-        File file = new File(filePath);
+        File file = new File(image.getLocalPath());
 
         if(file.exists()){
             BasicBinary fileBinary = new FileBinary(file);
@@ -108,11 +112,12 @@ public class ApiStorageRequest {
      * http://qrcode.taowangzhan.com/bbapi/submit/stationOcrResult
      */
 
-    public static Request<String> stationOcrResult(String station_id) {
+    public static Request<String> stationOcrResult(String station_id, int batch_no) {
         String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationOcrResult";
 
         Map<String, Object> map = new HashMap<>();
         map.put("station_id", station_id);
+        map.put("batch_no", batch_no);
         addSignature(map);
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add(map);
@@ -134,7 +139,6 @@ public class ApiStorageRequest {
      * mobile	String	手机号
      * express_id	Number	快递公司id
      *
-     * @param station_id
      * @return
      */
     public static Request<String> stationUpdatePie(String number, String code, String express_id,

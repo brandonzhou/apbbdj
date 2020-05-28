@@ -155,6 +155,7 @@ public class ScanOcrResultActivity extends AppCompatActivity implements View.OnC
 
     private void doSubmit(){
         if(isComplete){
+            storageCase.updateBatchNo();
             finish();
         }else {
             DialogUtil.promptDialog(activity,"有错误件未处理");

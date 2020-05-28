@@ -62,6 +62,25 @@ public class ScanStorageCase {
         return Hold.instance;
     }
 
+    private int getBatchNo(){
+        ScanImage image = getLastScanImage();
+        if(image == null){
+            return 1;// 默认1开始
+        }else {
+            return image.getBatchNo();
+        }
+    }
+
+    /**
+     * 更新批次号
+     */
+    public void updateBatchNo(){
+        ScanImage image = getLastScanImage();
+        if(image!= null){
+            image.setBatchNo(getBatchNo()+1);
+            GreenDaoUtil.updateScanImage(image);
+        }
+    }
 
     public PickupCode getCurrentPickCode(){
         return GreenDaoUtil.getPickCode();
@@ -101,6 +120,7 @@ public class ScanStorageCase {
         image.setStationId(stationId);
         image.setEId(eId);
         image.setExpressCompanyId(expressCompanyId);
+        image.setBatchNo(getBatchNo());
 
         // 根据规则，生成真正的取件码
         String strPickCode = pickCode.createRealPickCode(eId);
@@ -173,8 +193,7 @@ public class ScanStorageCase {
     }
 
     private boolean uploadImage(ScanImage image){
-        Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image.getEId(),image.getPickCode(),image.getStationId(),
-                image.getLocalPath(), image.getExpressCompanyId());
+        Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image);
         //Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
         Response<String> response = NoHttp.startRequestSync(request);
 
@@ -217,9 +236,8 @@ public class ScanStorageCase {
         return orcResult;
     }
 
-    public ScanStorageCase setOrcResult(StationOrcResult orcResult) {
+    public void setOrcResult(StationOrcResult orcResult) {
         this.orcResult = orcResult;
-        return this;
     }
 
     public Observable<BaseResult<StationOrcResult>> httpOcrResult(){
@@ -227,7 +245,7 @@ public class ScanStorageCase {
             @Override
             public void subscribe(ObservableEmitter<BaseResult<StationOrcResult>> emitter) throws Exception {
                 String stationId = GreenDaoUtil.getStationId();
-                Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
+                Request<String> request = ApiStorageRequest.stationOcrResult(stationId, getBatchNo());
 
                 Response<String> response = NoHttp.startRequestSync(request);
                 if(response.isSucceed()){
