@@ -76,6 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:text="余额：￥1220.00"
             android:textColor="@color/grey_13"
             android:textSize="13dp" />

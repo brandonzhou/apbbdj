@@ -2,29 +2,24 @@ package com.mt.bbdj.community.activity;
 
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.Bundle;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
-import com.mt.bbdj.baseconfig.model.PaymentRecordModel;
 import com.mt.bbdj.baseconfig.utls.DateUtil;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
-import com.mt.bbdj.baseconfig.view.MarginDecoration;
-import com.mt.bbdj.community.adapter.CouponAdapter;
-import com.mt.bbdj.community.adapter.PaymentAdapter;
 import com.mt.bbdj.community.adapter.ProducelDetailAdapter;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -40,6 +35,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 收支明细详情
+ */
 public class PaymentDetailActivity extends BaseActivity{
 
     private RecyclerView recycler;
@@ -231,12 +229,12 @@ public class PaymentDetailActivity extends BaseActivity{
     private void showOtherPannelView() {
         ll_title_layout.setVisibility(View.VISIBLE);
         ll_time_layout.setVisibility(View.VISIBLE);
-        ll_balance_layout.setVisibility(View.VISIBLE);
+        //ll_balance_layout.setVisibility(View.VISIBLE);
     }
 
     private void showServicePannelView() {
         ll_takeout_layout.setVisibility(View.VISIBLE);
-        ll_balance_layout.setVisibility(View.VISIBLE);
+        //ll_balance_layout.setVisibility(View.VISIBLE);
         ll_order_layout.setVisibility(View.VISIBLE);
         ll_service_layout.setVisibility(View.VISIBLE);
     }
@@ -256,7 +254,7 @@ public class PaymentDetailActivity extends BaseActivity{
         ll_title_layout.setVisibility(View.VISIBLE);
         ll_way_number_layout.setVisibility(View.VISIBLE);
         ll_time_layout.setVisibility(View.VISIBLE);
-        ll_balance_layout.setVisibility(View.VISIBLE);
+        //ll_balance_layout.setVisibility(View.VISIBLE);
     }
 
     private void initView() {

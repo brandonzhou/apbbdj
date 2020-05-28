@@ -2,10 +2,10 @@ package com.mt.bbdj.community.activity;
 
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.mt.bbdj.R;
@@ -31,6 +31,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 收支明细列表
+ */
 public class PaymentRecordActivity extends BaseActivity implements XRecyclerView.LoadingListener {
     private XRecyclerView recycler;
     private RelativeLayout iv_back;
