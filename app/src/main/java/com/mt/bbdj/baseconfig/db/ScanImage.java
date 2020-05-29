@@ -25,31 +25,38 @@ public class ScanImage {
     @Id
     private String eId;// 快递单号
 
+    private String stationId;//对应的用户id
+
+
     private String pickCode;// 取件码
-    private String localPath;
+
+    private int batchNo;// 批次号
 
     private String state;
+
+    private String phone;
 
     // 快递公司ID
     private String expressCompanyId;
 
-    private int batchNo;// 批次号
 
-    private String stationId;//对应的用户id
 
     private long time;
 
-    @Generated(hash = 103779709)
-    public ScanImage(String eId, String pickCode, String localPath, String state,
-                     String expressCompanyId, int batchNo, String stationId, long time) {
+    private String localPath;
+
+    @Generated(hash = 779996485)
+    public ScanImage(String eId, String stationId, String pickCode, int batchNo, String state,
+            String phone, String expressCompanyId, long time, String localPath) {
         this.eId = eId;
-        this.pickCode = pickCode;
-        this.localPath = localPath;
-        this.state = state;
-        this.expressCompanyId = expressCompanyId;
-        this.batchNo = batchNo;
         this.stationId = stationId;
+        this.pickCode = pickCode;
+        this.batchNo = batchNo;
+        this.state = state;
+        this.phone = phone;
+        this.expressCompanyId = expressCompanyId;
         this.time = time;
+        this.localPath = localPath;
     }
 
     @Keep
@@ -119,6 +126,14 @@ public class ScanImage {
 
     public void setBatchNo(int batchNo) {
         this.batchNo = batchNo;
+    }
+
+    public String getPhone() {
+        return this.phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 

@@ -200,29 +200,37 @@ public class ApiStorageRequest {
     /**
      * 手动输入快递信息
      *
-     * @param station_id 驿站标识
-     * @param barCode 快递单号
-     * @param barCode 取件码
-     * @param mobile 手机号
-     * @param filePath 文件流
+     *  station_id 驿站标识
+     *  barCode 快递单号
+     *  code 取件码
+     *  mobile 手机号
+     *  express_id 快递公司ID
+     *  batch_no 批次号
+     *  filePath 文件流
      * @return
      */
-    public static Request<String> stationInputUploadExpress(String station_id, String barCode, String pickCode,String mobile, String filePath) {
+    public static Request<String> stationInputUploadExpress(ScanImage image) {
         String url = "https://qrcode.taowangzhan.com/bbapi/submit2/stationInputUploadExpress";
 
         Map<String, Object> map = new HashMap<>();
-        map.put("station_id", station_id);
-        map.put("number", barCode);
-        map.put("code", pickCode);
-        map.put("mobile", mobile);
+        map.put("batch_no", image.getBatchNo());
+        map.put("code", image.getPickCode());
+        map.put("express_id", image.getExpressCompanyId());
+        map.put("mobile", image.getPhone());
+        map.put("number", image.getEId());
+        map.put("station_id", image.getStationId());
         addSignature(map);
 
-        BasicBinary fileBinary = new FileBinary(new File(filePath));
+
 
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add(map);
-        request.add("file", fileBinary);
 
+        File file = new File(image.getLocalPath());
+        if(file.exists()){
+            BasicBinary fileBinary = new FileBinary(file);
+            request.add("file", fileBinary);
+        }
         return request;
     }
 

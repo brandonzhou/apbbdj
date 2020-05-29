@@ -120,6 +120,7 @@ public class ScanStorageCase {
         image.setStationId(stationId);
         image.setEId(eId);
         image.setExpressCompanyId(expressCompanyId);
+        image.setPhone(mobile);
         image.setBatchNo(getBatchNo());
 
         // 根据规则，生成真正的取件码
@@ -138,11 +139,11 @@ public class ScanStorageCase {
                 GreenDaoUtil.updateScanImage(image);
 
                 boolean success;
-                if(TextUtils.isEmpty(mobile)){
+                if(TextUtils.isEmpty(image.getPhone())){
                      success = uploadImage(image);
                 }else {
                     // 手动输入快递信息
-                    success = stationInputUploadExpress(image, mobile);
+                    success = stationInputUploadExpress(image);
                 }
 
                 if(success){
@@ -210,11 +211,10 @@ public class ScanStorageCase {
 
     }
 
-    private boolean stationInputUploadExpress(ScanImage image, String mobile){
-        String stationId = GreenDaoUtil.getStationId();
+    private boolean stationInputUploadExpress(ScanImage image){
 
-        Request<String> request = ApiStorageRequest.stationInputUploadExpress(stationId, image.getEId(),image.getPickCode(),mobile, image.getLocalPath());
-        //Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
+
+        Request<String> request = ApiStorageRequest.stationInputUploadExpress(image);
         Response<String> response = NoHttp.startRequestSync(request);
 
         if(response.isSucceed()){
