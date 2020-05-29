@@ -257,10 +257,6 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             return true;
         }
 
-
-
-
-
         storageCase.httpQueryExpress(result).subscribe(new Consumer<BaseResult<ExpressCompany>>() {
             @Override
             public void accept(BaseResult<ExpressCompany> baseResult) throws Exception {
@@ -274,6 +270,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             @Override
             public void accept(Throwable throwable) throws Exception {
                 ToastUtil.showShort(throwable.getMessage());
+                // 重置状态
+                currentBarCode = "";
             }
         });
 
@@ -432,6 +430,11 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
      * @param expressCompanyId      快递公司Id
      */
     private void saveEditExpress(String barCode, String phone,String expressCompanyId){
+        ScanImage scanImage = storageCase.searchScanImageFromDb(barCode);
+        if (scanImage != null) {
+            SoundHelper.getInstance().playNotifiRepeatSound();
+            return;
+        }
         Camera  camera = helper.getCameraManager().getOpenCamera().getCamera();
         camera.startPreview();
         camera.takePicture(null, null, new Camera.PictureCallback() {
