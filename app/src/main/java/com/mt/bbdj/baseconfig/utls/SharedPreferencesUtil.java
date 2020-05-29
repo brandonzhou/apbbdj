@@ -36,4 +36,14 @@ public class SharedPreferencesUtil {
         return mEditor;
     }
 
+
+    public static void putInt(String key, int value){
+        mEditor.putInt(key, value);
+        mEditor.commit();
+    }
+
+    public static int getInt(String key, int defaultValue){
+        return mSharedPreferences.getInt(key, defaultValue);
+    }
+
 }

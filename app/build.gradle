@@ -68,9 +68,9 @@ android {
     buildToolsVersion = '28.0.3'
 
     greendao {
-        schemaVersion 36    //版本
+        schemaVersion 37    //版本
         daoPackage 'com.mt.bbdj.baseconfig.db.gen'
-        targetGenDir 'src/main/java'
+        //targetGenDir 'src/main/java'
     }
 
     dependencies {

@@ -1,25 +1,28 @@
 package com.mt.bbdj.baseconfig.db;
 
-import android.text.TextUtils;
-
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.Keep;
 import org.joda.time.DateTime;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * desc:取件码规则
  * author: zhhli
  * 2020/5/19
  */
-@Entity
+@Entity(indexes = {
+        @Index(value = "time DESC")
+})
 public class PickupCode implements Serializable {
     private static final long serialVersionUID = -5782895438563878774L;
-    @Id
+
+    @Id(autoincrement = true)
+    private long uId;
+
     private String stationId;
 
     private String type;//Type.type_3
@@ -28,20 +31,25 @@ public class PickupCode implements Serializable {
     // 当前号码
     private String currentNumber;//A12-19-2345
 
+    private long time;
 
-    @Generated(hash = 1826702311)
-    public PickupCode(String stationId, String type, String shelfNumber,
-            int startNumber, String currentNumber) {
+
+    @Generated(hash = 879675881)
+    public PickupCode(long uId, String stationId, String type, String shelfNumber, int startNumber,
+            String currentNumber, long time) {
+        this.uId = uId;
         this.stationId = stationId;
         this.type = type;
         this.shelfNumber = shelfNumber;
         this.startNumber = startNumber;
         this.currentNumber = currentNumber;
+        this.time = time;
     }
 
 
-    @Generated(hash = 1138314330)
+    @Keep
     public PickupCode() {
+        time = System.currentTimeMillis();
     }
 
 
@@ -161,17 +169,6 @@ public class PickupCode implements Serializable {
     }
 
 
-    public static List<Type> typeList(){
-        List<Type> types = new ArrayList<>();
-        types.add(Type.type_code);
-        types.add(Type.type_shelf_code);
-        types.add(Type.type_shelf_date_code);
-        types.add(Type.type_shelf_date_tail);
-        types.add(Type.type_shelf_tail);
-        return types;
-    }
-
-
     public String getStationId() {
         return this.stationId;
     }
@@ -230,5 +227,25 @@ public class PickupCode implements Serializable {
                 ", startNumber=" + startNumber +
                 ", currentNumber='" + currentNumber + '\'' +
                 '}';
+    }
+
+
+    public long getUId() {
+        return this.uId;
+    }
+
+
+    public void setUId(long uId) {
+        this.uId = uId;
+    }
+
+
+    public long getTime() {
+        return this.time;
+    }
+
+
+    public void setTime(long time) {
+        this.time = time;
     }
 }

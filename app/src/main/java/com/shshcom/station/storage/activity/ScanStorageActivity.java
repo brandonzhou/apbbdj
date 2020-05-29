@@ -18,10 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.BarcodeFormat;
 import com.king.zxing.CaptureActivity;
 import com.king.zxing.CaptureHelper;
@@ -43,14 +40,14 @@ import com.shshcom.station.storage.domain.ScanStorageCase;
 import com.shshcom.station.storage.http.bean.BaseResult;
 import com.shshcom.station.storage.http.bean.ExpressCompany;
 import com.shshcom.station.storage.widget.CustomExpressCompanyPopup;
-import com.shshcom.station.storage.http.bean.BaseResult;
-import com.shshcom.station.storage.http.bean.ExpressCompany;
 import com.shshcom.station.util.AntiShakeUtils;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
@@ -84,8 +81,6 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     private Activity activity;
 
     private ScanStorageCase storageCase;
-
-    private int count = 0;
 
     private int barCodeSanRepeatTime = 0 ;
 
@@ -201,10 +196,6 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         } else {
             tv_last_code_info.setVisibility(View.GONE);
         }
-
-       // int size = storageCase.getScanImageSize();
-        tv_total_number.setText(count + "");
-
     }
 
     private void initCapture() {
@@ -221,6 +212,11 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 .continuousScan(false);//是否连扫
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateBottomCount();
+    }
 
     /**
      * 扫码结果回调
@@ -295,15 +291,14 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             public void onPictureTaken(byte[] data, Camera camera) {
                 SoundHelper.getInstance().playExpress(express_id);
 //                camera.stopPreview();
-                count ++;
                 barCodeSanRepeatTime = 0;
                 PickupCode pickupCode = storageCase.getCurrentPickCode();
 
                 PickupCode nextCode = pickupCode.nextPickCode();
-
                 updateUI(result, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
                 storageCase.saveScanImage(result, pickupCode, data, null,express_id+"");
                 storageCase.updatePickCode(nextCode);
+                updateBottomCount();
 
                 tv_bar_code.setText(result);
                 if (tv_bar_code.getVisibility() != View.VISIBLE) {
@@ -327,15 +322,15 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     }
 
     private void updateUI(String barCode, String pickCode, String nextCode) {
-
         //最后入库：取件码 A1-29-20000411 | 快递单号7238283772747737
         tv_last_code_info.setText(String.format("最后入库：取件码 %s | 快递单号 %s", pickCode, barCode));
 
         tv_pickup_code.setText(nextCode);
+    }
 
-        //int size = storageCase.getScanImageSize()+1;
-        tv_total_number.setText(count + "");
-
+    private void updateBottomCount(){
+        int size = storageCase.getCurrentImageSize();
+        tv_total_number.setText(size + "");
     }
 
 
@@ -442,15 +437,16 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                count ++;
                 PickupCode pickupCode = storageCase.getCurrentPickCode();
 
                 PickupCode nextCode = pickupCode.nextPickCode();
 
-                updateUI(barCode, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
                 storageCase.saveScanImage(barCode, pickupCode, data,phone,expressCompanyId);
 
                 storageCase.updatePickCode(nextCode);
+                updateUI(barCode, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
+                updateBottomCount();
+
                 currentBarCode ="";
 
                 camera.startPreview();

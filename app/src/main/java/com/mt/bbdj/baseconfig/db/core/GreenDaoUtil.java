@@ -1,13 +1,10 @@
 package com.mt.bbdj.baseconfig.db.core;
 
-import com.mt.bbdj.BuildConfig;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
-import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.gen.DaoSession;
 import com.mt.bbdj.baseconfig.db.gen.PickupCodeDao;
 import com.mt.bbdj.baseconfig.db.gen.ScanImageDao;
-import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 
 import org.joda.time.DateTime;
@@ -26,23 +23,24 @@ public class GreenDaoUtil {
     }
 
     public static String getStationId(){
-        String stationId ="";
-        UserBaseMessageDao mUserMessageDao = getDaoSession().getUserBaseMessageDao();
-        List<UserBaseMessage> list = mUserMessageDao.queryBuilder().list();
-        if (list != null && list.size() != 0) {
-            stationId = list.get(0).getUser_id();
-        }
-
-        return stationId;
+        return DbUserUtil.getUserBase().getUser_id();
     }
+
+
 
     public static void updatePickCode(PickupCode pickupCode){
         PickupCodeDao dao = getDaoSession().getPickupCodeDao();
         pickupCode.setStationId(getStationId());
+        long time = System.currentTimeMillis();
+        pickupCode.setTime(time);
+
+        PickupCode dbCode = getPickCodeLast();
+        // 设置UID，确保目前只有一条数据，方便以后需求扩展
+        pickupCode.setUId(dbCode.getUId());
         dao.insertOrReplace(pickupCode);
     }
 
-    public static PickupCode getPickCode(){
+    public static PickupCode getPickCodeLast(){
         PickupCodeDao dao = getDaoSession().getPickupCodeDao();
         PickupCode pickupCode = dao.queryBuilder()
                 .where(PickupCodeDao.Properties.StationId.eq(getStationId()))
@@ -57,6 +55,8 @@ public class GreenDaoUtil {
 
         return pickupCode;
     }
+
+
 
     public static void updateScanImage(ScanImage scanImage){
         ScanImageDao dao = getDaoSession().getScanImageDao();
@@ -79,12 +79,13 @@ public class GreenDaoUtil {
                 .list();
     }
 
-    public static List<ScanImage> listScanImage(){
+    public static List<ScanImage> listScanImage(int batchNo){
         ScanImageDao dao = getDaoSession().getScanImageDao();
 
         // 当天
         return dao.queryBuilder()
-                .where(ScanImageDao.Properties.Time.ge(DateTime.now().withMillisOfDay(0).getMillis()))
+                .where(ScanImageDao.Properties.StationId.eq(getStationId()),
+                        ScanImageDao.Properties.BatchNo.eq(batchNo))
                 .orderDesc(ScanImageDao.Properties.Time)
                 .list();
     }
@@ -102,6 +103,7 @@ public class GreenDaoUtil {
         ScanImageDao dao = getDaoSession().getScanImageDao();
 
         return dao.queryBuilder()
+                .where(ScanImageDao.Properties.StationId.eq(getStationId()))
                 .orderDesc(ScanImageDao.Properties.Time)
                 .limit(1).unique();
     }

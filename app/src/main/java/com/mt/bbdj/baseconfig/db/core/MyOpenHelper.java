@@ -3,19 +3,10 @@ package com.mt.bbdj.baseconfig.db.core;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.mt.bbdj.baseconfig.db.PickupCode;
-import com.mt.bbdj.baseconfig.db.ScanImage;
-import com.mt.bbdj.baseconfig.db.gen.BluetoothMessageDao;
-import com.mt.bbdj.baseconfig.db.gen.CityDao;
-import com.mt.bbdj.baseconfig.db.gen.CountyDao;
 import com.mt.bbdj.baseconfig.db.gen.DaoMaster;
-import com.mt.bbdj.baseconfig.db.gen.ExpressLogoDao;
-import com.mt.bbdj.baseconfig.db.gen.MingleAreaDao;
 import com.mt.bbdj.baseconfig.db.gen.PickupCodeDao;
-import com.mt.bbdj.baseconfig.db.gen.ProvinceDao;
 import com.mt.bbdj.baseconfig.db.gen.ScanImageDao;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
-import com.mt.bbdj.baseconfig.db.gen.WaillMessageDao;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -43,17 +34,19 @@ public class MyOpenHelper extends DaoMaster.OpenHelper {
      */
     @Override
     public void onUpgrade(Database db, int oldVersion, int newVersion) {
-        //操作数据库的更新 有几个表升级都可以传入到下面
-        MigrationHelper.getInstance().migrate(db, BluetoothMessageDao.class);
-        MigrationHelper.getInstance().migrate(db, CityDao.class);
-        MigrationHelper.getInstance().migrate(db, CountyDao.class);
-        MigrationHelper.getInstance().migrate(db, ExpressLogoDao.class);
-        MigrationHelper.getInstance().migrate(db, MingleAreaDao.class);
-        MigrationHelper.getInstance().migrate(db, ProvinceDao.class);
-        MigrationHelper.getInstance().migrate(db, UserBaseMessageDao.class);
-        MigrationHelper.getInstance().migrate(db, WaillMessageDao.class);
+        // 升级时，创建新表
+        DaoMaster.createAllTables(db, true);
 
-        MigrationHelper.getInstance().migrate(db, PickupCodeDao.class);
-        MigrationHelper.getInstance().migrate(db, ScanImageDao.class);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        super.onUpgrade(db, oldVersion, newVersion);
+
+        //操作数据库的更新 有几个表升级都可以传入到下面
+        MigrationHelper.migrate(db, UserBaseMessageDao.class);
+
+        MigrationHelper.migrate(db, PickupCodeDao.class);
+        MigrationHelper.migrate(db, ScanImageDao.class);
     }
 }

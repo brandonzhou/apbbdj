@@ -10,6 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
+import com.mt.bbdj.baseconfig.db.UserConfig;
+import com.mt.bbdj.baseconfig.db.core.DbUserUtil;
 import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.RxFileTool;
@@ -63,27 +65,21 @@ public class ScanStorageCase {
     }
 
     private int getBatchNo(){
-        ScanImage image = getLastScanImage();
-        if(image == null){
-            return 1;// 默认1开始
-        }else {
-            return image.getBatchNo();
-        }
+        UserConfig userConfig = DbUserUtil.getUserConfig();
+        return userConfig.getBatchNo();
     }
 
     /**
      * 更新批次号
      */
     public void updateBatchNo(){
-        ScanImage image = getLastScanImage();
-        if(image!= null){
-            image.setBatchNo(getBatchNo()+1);
-            GreenDaoUtil.updateScanImage(image);
-        }
+        UserConfig userConfig = DbUserUtil.getUserConfig();
+        userConfig.setBatchNo(userConfig.getBatchNo()+1);// 加 1
+        DbUserUtil.saveUserConfig(userConfig);
     }
 
     public PickupCode getCurrentPickCode(){
-        return GreenDaoUtil.getPickCode();
+        return GreenDaoUtil.getPickCodeLast();
 
     }
 
@@ -107,6 +103,10 @@ public class ScanStorageCase {
                 + getScanImageList(ScanImage.State.uploading).size();
 
         return size==0;
+    }
+
+    public int getCurrentImageSize(){
+        return GreenDaoUtil.listScanImage(getBatchNo()).size();
     }
 
     public ScanImage searchScanImageFromDb(String eId){

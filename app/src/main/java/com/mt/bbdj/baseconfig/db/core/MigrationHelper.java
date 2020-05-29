@@ -1,167 +1,206 @@
 package com.mt.bbdj.baseconfig.db.core;
 
+/**
+ * des:
+ * Created by zhh_li
+ * on 2017/7/31.
+ */
+
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
-import android.util.Log;
 
-
-import com.mt.bbdj.baseconfig.db.gen.DaoMaster;
+import androidx.annotation.NonNull;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.database.Database;
+import org.greenrobot.greendao.database.StandardDatabase;
 import org.greenrobot.greendao.internal.DaoConfig;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author ZSK
- * @date 2018/7/23
- * @function  数据迁移工具类
+ * Createdby PedroOkawa and modified by MBH on 16/08/16.
+ * https://stackoverflow.com/questions/13373170/greendao-schema-update-and-data-migration/30334668#30334668
  */
-public class MigrationHelper {
-    private static final String CONVERSION_CLASS_NOT_FOUND_EXCEPTION = "MIGRATION HELPER - CLASS DOESN'T MATCH WITH THE CURRENT PARAMETERS";
-    private static MigrationHelper instance;
+public final class MigrationHelper {
 
-    public static MigrationHelper getInstance() {
-        if (instance == null) {
-            instance = new MigrationHelper();
-        }
-        return instance;
-    }
-
-    public void migrate(Database db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    public static void migrate(SQLiteDatabase sqliteDatabase, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        StandardDatabase db = new StandardDatabase(sqliteDatabase);
+        generateNewTablesIfNotExists(db, daoClasses);
         generateTempTables(db, daoClasses);
-        DaoMaster.dropAllTables(db, true);
-        DaoMaster.createAllTables(db, false);
+        dropAllTables(db, true, daoClasses);
+        createAllTables(db, false, daoClasses);
         restoreData(db, daoClasses);
     }
 
-    /**
-     * 生成临时列表
-     * @param db
-     * @param daoClasses
-     */
-    private void generateTempTables(Database db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    public static void migrate(StandardDatabase db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        generateNewTablesIfNotExists(db, daoClasses);
+        generateTempTables(db, daoClasses);
+        dropAllTables(db, true, daoClasses);
+        createAllTables(db, false, daoClasses);
+        restoreData(db, daoClasses);
+    }
+
+    private static void generateNewTablesIfNotExists(StandardDatabase db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        reflectMethod(db, "createTable", true, daoClasses);
+    }
+
+    private static void generateTempTables(StandardDatabase db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         for (int i = 0; i < daoClasses.length; i++) {
             DaoConfig daoConfig = new DaoConfig(db, daoClasses[i]);
-
-            String divider = "";
             String tableName = daoConfig.tablename;
             String tempTableName = daoConfig.tablename.concat("_TEMP");
-            ArrayList<String> properties = new ArrayList<>();
-
-            StringBuilder createTableStringBuilder = new StringBuilder();
-
-            createTableStringBuilder.append("CREATE TABLE ").append(tempTableName).append(" (");
-
-            for (int j = 0; j < daoConfig.properties.length; j++) {
-                String columnName = daoConfig.properties[j].columnName;
-
-                if (getColumns(db, tableName).contains(columnName)) {
-                    properties.add(columnName);
-
-                    String type = null;
-
-                    try {
-                        type = getTypeByClass(daoConfig.properties[j].type);
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
-
-                    createTableStringBuilder.append(divider).append(columnName).append(" ").append(type);
-
-                    if (daoConfig.properties[j].primaryKey) {
-                        createTableStringBuilder.append(" PRIMARY KEY");
-                    }
-
-                    divider = ",";
-                }
-            }
-            createTableStringBuilder.append(");");
-
-            db.execSQL(createTableStringBuilder.toString());
-
             StringBuilder insertTableStringBuilder = new StringBuilder();
-
-            insertTableStringBuilder.append("INSERT INTO ").append(tempTableName).append(" (");
-            insertTableStringBuilder.append(TextUtils.join(",", properties));
-            insertTableStringBuilder.append(") SELECT ");
-            insertTableStringBuilder.append(TextUtils.join(",", properties));
-            insertTableStringBuilder.append(" FROM ").append(tableName).append(";");
-
+            insertTableStringBuilder.append("CREATE TEMP TABLE ").append(tempTableName);
+            insertTableStringBuilder.append(" AS SELECT * FROM ").append(tableName).append(";");
             db.execSQL(insertTableStringBuilder.toString());
-
         }
     }
 
+    private static void dropAllTables(StandardDatabase db, boolean ifExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        reflectMethod(db, "dropTable", ifExists, daoClasses);
+    }
+
+    private static void createAllTables(StandardDatabase db, boolean ifNotExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        reflectMethod(db, "createTable", ifNotExists, daoClasses);
+    }
+
     /**
-     * 存储新的数据库表 以及数据
-     * @param db
-     * @param daoClasses
+     * dao class already define the sql exec method, so just invoke it
      */
-    private void restoreData(Database db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
+    private static void reflectMethod(StandardDatabase db, String methodName, boolean isExists, @NonNull Class<? extends AbstractDao<?, ?>>... daoClasses) {
+        if (daoClasses.length < 1) {
+            return;
+        }
+        try {
+            for (Class cls : daoClasses) {
+                Method method = cls.getDeclaredMethod(methodName, Database.class, boolean.class);
+                method.invoke(null, db, isExists);
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void restoreData(StandardDatabase db, Class<? extends AbstractDao<?, ?>>... daoClasses) {
         for (int i = 0; i < daoClasses.length; i++) {
             DaoConfig daoConfig = new DaoConfig(db, daoClasses[i]);
             String tableName = daoConfig.tablename;
             String tempTableName = daoConfig.tablename.concat("_TEMP");
-            ArrayList<String> properties = new ArrayList();
-
+            // getIMEI all columns from tempTable, take careful to use the columns list
+            List<String> columns = getColumns(db, tempTableName);
+            ArrayList<String> properties = new ArrayList<>(columns.size());
             for (int j = 0; j < daoConfig.properties.length; j++) {
                 String columnName = daoConfig.properties[j].columnName;
+//                if (columns.contains(columnName)) {
+//                    properties.add(columnName);
+//                }
 
-                if (getColumns(db, tempTableName).contains(columnName)) {
-                    properties.add(columnName);
+                if (!columns.contains(columnName)) {
+                    StringBuilder insertTableStringBuilder = new StringBuilder();
+                    insertTableStringBuilder.append("ALTER TABLE "+tempTableName +" ADD COLUMN "+columnName+
+                            getTableType(daoConfig.properties[j].type));
+                    db.execSQL(insertTableStringBuilder.toString());
                 }
+                properties.add(columnName);
             }
+            if (properties.size() > 0) {
+                final String columnSQL = TextUtils.join(",", properties);
 
-            StringBuilder insertTableStringBuilder = new StringBuilder();
-
-            insertTableStringBuilder.append("INSERT INTO ").append(tableName).append(" (");
-            insertTableStringBuilder.append(TextUtils.join(",", properties));
-            insertTableStringBuilder.append(") SELECT ");
-            insertTableStringBuilder.append(TextUtils.join(",", properties));
-            insertTableStringBuilder.append(" FROM ").append(tempTableName).append(";");
-
+                StringBuilder insertTableStringBuilder = new StringBuilder();
+                insertTableStringBuilder.append("INSERT INTO ").append(tableName).append(" (");
+                insertTableStringBuilder.append(columnSQL);
+                insertTableStringBuilder.append(") SELECT ");
+                insertTableStringBuilder.append(columnSQL);
+                insertTableStringBuilder.append(" FROM ").append(tempTableName).append(";");
+                db.execSQL(insertTableStringBuilder.toString());
+            }
             StringBuilder dropTableStringBuilder = new StringBuilder();
             dropTableStringBuilder.append("DROP TABLE ").append(tempTableName);
-            db.execSQL(insertTableStringBuilder.toString());
             db.execSQL(dropTableStringBuilder.toString());
         }
     }
 
-    private String getTypeByClass(Class<?> type) throws Exception {
-        if (type.equals(String.class)) {
-            return "TEXT";
+    private static Object getTableType(Class<?> type){
+        if(type.equals(int.class)){
+            return " INTEGER DEFAULT 0";
         }
-        if (type.equals(Long.class) || type.equals(Integer.class) || type.equals(long.class)) {
-            return "INTEGER";
+        if(type.equals(long.class)){
+            return " Long DEFAULT 0";
         }
-        if (type.equals(Boolean.class)) {
-            return "BOOLEAN";
+        if(type.equals(String.class)){
+            return " TEXT ";
         }
-
-        Exception exception = new Exception(CONVERSION_CLASS_NOT_FOUND_EXCEPTION.concat(" - Class: ").concat(type.toString()));
-        exception.printStackTrace();
-        throw exception;
+        if(type.equals(boolean.class)){
+            return " NUMERIC DEFAULT 0";
+        }
+        return " TEXT";
     }
 
-    private List<String> getColumns(Database db, String tableName) {
-        List<String> columns = new ArrayList<>();
+    private static List<String> getColumns(StandardDatabase db, String tableName) {
+        List<String> columns = null;
         Cursor cursor = null;
         try {
-            cursor = db.rawQuery("SELECT * FROM " + tableName + " limit 1", null);
-            if (cursor != null) {
-                columns = new ArrayList<>(Arrays.asList(cursor.getColumnNames()));
+            cursor = db.rawQuery("SELECT * FROM " + tableName + " limit 0", null);
+            if (null != cursor && cursor.getColumnCount() > 0) {
+                columns = Arrays.asList(cursor.getColumnNames());
             }
         } catch (Exception e) {
-            Log.v(tableName, e.getMessage(), e);
             e.printStackTrace();
         } finally {
             if (cursor != null)
                 cursor.close();
+            if (null == columns)
+                columns = new ArrayList<>();
         }
         return columns;
     }
+
+
+    /**
+     * 执行具体的 数据重建
+     *
+     * @param sqliteDatabase
+     * @param daoClass
+     * @param insertSql
+     */
+    public static void migrate(SQLiteDatabase sqliteDatabase, Class<? extends AbstractDao<?, ?>> daoClass, String insertSql) {
+        StandardDatabase db = new StandardDatabase(sqliteDatabase);
+        generateNewTablesIfNotExists(db, daoClass);
+        generateTempTables(db, daoClass);
+        dropAllTables(db, true, daoClass);
+        createAllTables(db, false, daoClass);
+        restoreData(db, daoClass, insertSql);
+    }
+
+
+    /**
+     * 执行具体的 数据重建
+     *
+     * @param db
+     * @param daoClasses
+     * @param insertSql
+     */
+    private static void restoreData(StandardDatabase db, Class<? extends AbstractDao<?, ?>> daoClasses, String insertSql) {
+        DaoConfig daoConfig = new DaoConfig(db, daoClasses);
+        String tempTableName = daoConfig.tablename.concat("_TEMP");
+        db.execSQL(insertSql);
+        StringBuilder dropTableStringBuilder = new StringBuilder();
+        dropTableStringBuilder.append("DROP TABLE ").append(tempTableName);
+        db.execSQL(dropTableStringBuilder.toString());
+    }
+
+
+
+
 }
+
