@@ -108,12 +108,6 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     }
 
     @Override
-    public int getIvTorchId() {
-        return 0;
-    }
-
-
-    @Override
     public int getViewfinderViewId() {
         return 0;
     }
