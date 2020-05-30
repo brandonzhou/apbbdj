@@ -15,6 +15,7 @@ import com.mt.bbdj.baseconfig.db.core.DbUserUtil;
 import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.RxFileTool;
+import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.shshcom.station.storage.http.ApiStorageRequest;
 import com.shshcom.station.storage.http.bean.BaseResult;
 import com.shshcom.station.storage.http.bean.ExpressCompany;
@@ -32,6 +33,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -64,7 +66,7 @@ public class ScanStorageCase {
         return Hold.instance;
     }
 
-    private int getBatchNo(){
+    private String getBatchNo(){
         UserConfig userConfig = DbUserUtil.getUserConfig();
         return userConfig.getBatchNo();
     }
@@ -74,7 +76,8 @@ public class ScanStorageCase {
      */
     public void updateBatchNo(){
         UserConfig userConfig = DbUserUtil.getUserConfig();
-        userConfig.setBatchNo(userConfig.getBatchNo()+1);// 加 1
+        String batchNo = System.currentTimeMillis()+"";
+        userConfig.setBatchNo(batchNo);
         DbUserUtil.saveUserConfig(userConfig);
     }
 
@@ -113,7 +116,7 @@ public class ScanStorageCase {
         return GreenDaoUtil.findScanImage(eId);
     }
 
-    public void saveScanImage(String eId, PickupCode pickCode, byte[] imageData, String mobile,String expressCompanyId){
+    public Observable<String> saveScanImage(String eId, PickupCode pickCode, byte[] imageData, String mobile, String expressCompanyId){
         String stationId = GreenDaoUtil.getStationId();
 
         ScanImage image = new ScanImage();
@@ -128,9 +131,9 @@ public class ScanStorageCase {
         image.setPickCode(strPickCode);
         GreenDaoUtil.updateScanImage(image);
 
-        Observable.create(new ObservableOnSubscribe<Boolean>() {
+        return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void subscribe(ObservableEmitter<Boolean> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                 SHCameraHelp shCameraHelp = new SHCameraHelp();
                 String file = shCameraHelp.saveImage(context, image.getEId(),imageData);
 
@@ -138,26 +141,35 @@ public class ScanStorageCase {
                 image.setState(ScanImage.State.uploading.name());
                 GreenDaoUtil.updateScanImage(image);
 
-                boolean success;
+                BaseResult baseResult;
                 if(TextUtils.isEmpty(image.getPhone())){
-                     success = uploadImage(image);
+                     baseResult = uploadImage(image);
                 }else {
                     // 手动输入快递信息
-                    success = stationInputUploadExpress(image);
+                    baseResult = stationInputUploadExpress(image);
+                }
+                if(baseResult == null){
+                    image.setState(ScanImage.State.upload_fail.name());
+                    GreenDaoUtil.updateScanImage(image);
+                    emitter.onError(new Throwable("网络错误"));
+                    return;
                 }
 
-                if(success){
-                    image.setState(ScanImage.State.upload_success.name());
-                    RxFileTool.deleteFile(file);
-                }else {
-                    image.setState(ScanImage.State.upload_fail.name());
+                image.setState(ScanImage.State.upload_success.name());
+                RxFileTool.deleteFile(file);
+
+                if(baseResult.isSuccess()){
+                    GreenDaoUtil.updateScanImage(image);
+                    emitter.onNext("success");
+                }else{
+                    GreenDaoUtil.deleteScanImage(image.getEId());
+                    emitter.onError(new Throwable(baseResult.getMsg()));
                 }
-                GreenDaoUtil.updateScanImage(image);
+
 
             }
         }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public void retryUploadImage(List<ScanImage> list){
@@ -169,31 +181,43 @@ public class ScanStorageCase {
 
 
         for (ScanImage image : list) {
-            Observable.just(image)
-                    .flatMap(new Function<ScanImage, ObservableSource<Boolean>>() {
+            Disposable disposable = Observable.just(image)
+                    .flatMap(new Function<ScanImage, ObservableSource<String>>() {
                         @Override
-                        public ObservableSource<Boolean> apply(ScanImage image) throws Exception {
-                            boolean success;
-                            success = uploadImage(image);
-                            if(success){
-                                image.setState(ScanImage.State.upload_success.name());
-                                RxFileTool.deleteFile(image.getLocalPath());
+                        public ObservableSource<String> apply(ScanImage image) throws Exception {
+                            BaseResult baseResult;
+                            if(TextUtils.isEmpty(image.getPhone())){
+                                baseResult = uploadImage(image);
                             }else {
-                                image.setState(ScanImage.State.upload_fail.name());
+                                // 手动输入快递信息
+                                baseResult = stationInputUploadExpress(image);
                             }
+                            if(baseResult == null){
+                                image.setState(ScanImage.State.upload_fail.name());
+                                GreenDaoUtil.updateScanImage(image);
+                                throw new Exception("网络错误");
+                            }
+
+                            image.setState(ScanImage.State.upload_success.name());
+                            RxFileTool.deleteFile(image.getLocalPath());
                             GreenDaoUtil.updateScanImage(image);
 
-                            return Observable.just(success);
+                            if(baseResult.isSuccess()){
+                                return Observable.just("success");
+                            }else {
+                                throw new Exception(baseResult.getMsg());
+                            }
+
                         }
                     }).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe();
+                    .subscribe(s -> {}, throwable -> ToastUtil.showShort(throwable.getMessage()));
         }
 
 
     }
 
-    private boolean uploadImage(ScanImage image){
+    private BaseResult uploadImage(ScanImage image){
         Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image);
         //Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
         Response<String> response = NoHttp.startRequestSync(request);
@@ -203,17 +227,15 @@ public class ScanStorageCase {
             LogUtil.d("nohttp_", data);
             BaseResult result = JSONObject.parseObject(data, BaseResult.class);
             // 5002 运单已存在等
-            return result.isSuccess() || result.getCode()== 5002;
+            return result;
         }
 
 
-        return false;
+        return null;
 
     }
 
-    private boolean stationInputUploadExpress(ScanImage image){
-
-
+    private BaseResult stationInputUploadExpress(ScanImage image){
         Request<String> request = ApiStorageRequest.stationInputUploadExpress(image);
         Response<String> response = NoHttp.startRequestSync(request);
 
@@ -221,15 +243,10 @@ public class ScanStorageCase {
             String data = response.get();
             LogUtil.d("nohttp_", data);
             BaseResult result = JSONObject.parseObject(data, BaseResult.class);
-            return result.isSuccess();
+            return result;
         }
-
-
-        return false;
+        return null;
     }
-
-
-
 
 
     public StationOrcResult getOrcResult() {

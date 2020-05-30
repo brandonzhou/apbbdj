@@ -38,7 +38,8 @@ public class DbUserUtil {
         if(userConfig == null){
             userConfig = new UserConfig();
             userConfig.setStationID(stationId);
-            userConfig.setBatchNo(1);// 默认1开始
+            userConfig.setBatchNo(System.currentTimeMillis()+"");
+            saveUserConfig(userConfig);
         }
 
         return userConfig;

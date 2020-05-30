@@ -112,7 +112,7 @@ public class ApiStorageRequest {
      * http://qrcode.taowangzhan.com/bbapi/submit/stationOcrResult
      */
 
-    public static Request<String> stationOcrResult(String station_id, int batch_no) {
+    public static Request<String> stationOcrResult(String station_id, String batch_no) {
         String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationOcrResult";
 
         Map<String, Object> map = new HashMap<>();

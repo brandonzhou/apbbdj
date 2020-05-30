@@ -79,7 +79,7 @@ public class GreenDaoUtil {
                 .list();
     }
 
-    public static List<ScanImage> listScanImage(int batchNo){
+    public static List<ScanImage> listScanImage(String batchNo){
         ScanImageDao dao = getDaoSession().getScanImageDao();
 
         // 当天
@@ -110,7 +110,10 @@ public class GreenDaoUtil {
 
     public static void deleteScanImage(String eId){
         ScanImageDao dao = getDaoSession().getScanImageDao();
-        dao.deleteByKey(eId);
+        ScanImage image = findScanImage(eId);
+        if(image!= null){
+            dao.delete(image);
+        }
     }
 
 

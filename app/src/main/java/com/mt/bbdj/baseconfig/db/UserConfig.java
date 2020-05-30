@@ -14,10 +14,10 @@ public class UserConfig {
     @Id
     private String stationID;// 驿站ID
 
-    private int batchNo;// 拍照入库-批次号
+    private String batchNo;// 拍照入库-批次号
 
-    @Generated(hash = 361620047)
-    public UserConfig(String stationID, int batchNo) {
+    @Generated(hash = 688359017)
+    public UserConfig(String stationID, String batchNo) {
         this.stationID = stationID;
         this.batchNo = batchNo;
     }
@@ -34,11 +34,13 @@ public class UserConfig {
         this.stationID = stationID;
     }
 
-    public int getBatchNo() {
+    public String getBatchNo() {
         return this.batchNo;
     }
 
-    public void setBatchNo(int batchNo) {
+    public void setBatchNo(String batchNo) {
         this.batchNo = batchNo;
     }
+
+    
 }
