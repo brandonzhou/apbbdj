@@ -1175,7 +1175,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
     private void upLoadNewVersion(String version_number, String version_url) {
         String version = SystemUtil.getVersion(getActivity());
-        if (!version.equals(version_number)) {
+        if (version.compareTo(version_number)<0) {
             showDownLoadDialog(version_url);
         }
     }
