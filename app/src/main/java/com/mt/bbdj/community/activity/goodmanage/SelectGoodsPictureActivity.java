@@ -1,4 +1,4 @@
-package com.mt.bbdj.community.activity;
+package com.mt.bbdj.community.activity.goodmanage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-
-import androidx.core.content.FileProvider;
-
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +17,8 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+
+import androidx.core.content.FileProvider;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
@@ -94,12 +93,14 @@ public class SelectGoodsPictureActivity extends BaseActivity {
     public static final String IMAGE_UNSPECIFIED = "image/*";
 
     private int enterType = 0;
+    private boolean needWeight = false;
 
-    public static void actionTo(Context context, String user_id, Goods goods) {
+    public static void actionTo(Context context, String user_id, Goods goods, boolean needWeight) {
         Intent intent = new Intent(context, SelectGoodsPictureActivity.class);
         intent.putExtra("user_id", user_id);
         intent.putExtra("goods", goods);
         intent.putExtra("enterType", 0);
+        intent.putExtra("needWeight", needWeight);
         context.startActivity(intent);
     }
 
@@ -192,7 +193,7 @@ public class SelectGoodsPictureActivity extends BaseActivity {
                     mGoods.setGoods_id(mList.get(position).get("goods_id"));
                     mGoods.setImageUrl(mList.get(position).get("img"));
                     mGoods.setCode_id(mList.get(position).get("code_id"));
-                    AddGoodsNameActivity.actionTo(SelectGoodsPictureActivity.this, mGoods);
+                    AddGoodsNameActivity.actionTo(SelectGoodsPictureActivity.this, mGoods, needWeight);
                 }
             }
         });
@@ -203,6 +204,7 @@ public class SelectGoodsPictureActivity extends BaseActivity {
         mRequestQueue = NoHttp.newRequestQueue();
         mGoods = (Goods) getIntent().getSerializableExtra("goods");
         enterType =  getIntent().getIntExtra("enterType",0);
+        needWeight =  getIntent().getBooleanExtra("needWeight",false);
         searchGoodsModel = (SearchGoodsModel) getIntent().getSerializableExtra("searchGoods");
         shelves_id = mGoods.getShelces_name();
         user_id = getIntent().getStringExtra("user_id");
@@ -441,7 +443,7 @@ public class SelectGoodsPictureActivity extends BaseActivity {
                         String pictureUrl = dataObject.getString("picurl");
                         mGoods.setImageUrl(pictureUrl);
                         mGoods.setCode_id(enterType == 0?"0":searchGoodsModel.getCode_id());
-                        AddGoodsNameActivity.actionTo(SelectGoodsPictureActivity.this, mGoods);
+                        AddGoodsNameActivity.actionTo(SelectGoodsPictureActivity.this, mGoods, needWeight);
                     } else {
                         ToastUtil.showShort("上传失败，请重试！");
                         // restorePictureState();    //还原图片位

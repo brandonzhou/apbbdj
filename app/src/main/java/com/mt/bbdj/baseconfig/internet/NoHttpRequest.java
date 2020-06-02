@@ -3298,24 +3298,18 @@ public class NoHttpRequest {
 
     /**
      * 添加商品
-     *
+     * type 类型 1-计件 2-称重
      * @return
      */
-    public static Request<String> commitGoodsRequest(Map<String, String> params) {
-        String signature = StringUtil.getsignature(params);
+    public static Request<String> commitGoodsRequest(Map<String, Object> params, boolean needWeight) {
+
         Request<String> request = NoHttp.createStringRequest(InterApi.SERVICE_SHOP
                 + InterApi.ACTION_REQUEST_ADD_GOODS, RequestMethod.POST);
-        request.add("signature", signature);
-        request.add("user_id", params.get("user_id"));
-        request.add("shelves_id", params.get("shelves_id"));
-        request.add("name", params.get("name"));
-        request.add("img", params.get("img"));
-        request.add("shelves_name", params.get("shelves_name"));
-        request.add("price", params.get("price"));
-        request.add("code_id", params.get("code_id"));
-        request.add("class_name", params.get("class_name"));
-        request.add("class_id", params.get("class_id"));
-        request.add("lib_goods_id", params.get("lib_goods_id"));
+        params.put("type", needWeight? 2:1);
+        ApiStorageRequest.addSignature(params);
+
+        request.add(params);
+
         return request;
     }
 

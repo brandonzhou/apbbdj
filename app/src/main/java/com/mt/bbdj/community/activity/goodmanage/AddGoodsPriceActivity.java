@@ -1,26 +1,23 @@
-package com.mt.bbdj.community.activity;
+package com.mt.bbdj.community.activity.goodmanage;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
- import com.mt.bbdj.R;
+import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
-import com.mt.bbdj.baseconfig.db.UserBaseMessage;
-import com.mt.bbdj.baseconfig.db.gen.DaoSession;
-import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
+import com.mt.bbdj.baseconfig.db.core.DbUserUtil;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.model.Goods;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
-import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
@@ -31,12 +28,10 @@ import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
@@ -47,16 +42,19 @@ public class AddGoodsPriceActivity extends BaseActivity {
     private ImageView iv_picture;
     private RelativeLayout rl_back;
     private EditText tv_price;
+    private TextView tv_weight_price_tips;
     private Button bt_next;
     private Goods mGoods;
     private String user_id;
+    private boolean needWeight;
     private RequestQueue mRequestQueue;
 
     private final int REQUEST_ADD_GOODS = 100;    //添加商品
 
-    public static void actionTo(Context context, Goods goods) {
+    public static void actionTo(Context context, Goods goods, boolean needWeight) {
         Intent intent = new Intent(context, AddGoodsPriceActivity.class);
         intent.putExtra("goods", goods);
+        intent.putExtra("needWeight", needWeight);
         context.startActivity(intent);
     }
 
@@ -95,7 +93,7 @@ public class AddGoodsPriceActivity extends BaseActivity {
     }
 
     private void commitGoods() {
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("user_id", user_id);
         params.put("shelves_id", mGoods.getShelves_id());
         params.put("name", mGoods.getGoods_name());
@@ -106,7 +104,7 @@ public class AddGoodsPriceActivity extends BaseActivity {
         params.put("class_name", mGoods.getShelces_name());
         params.put("class_id", mGoods.getShelves_id());
         params.put("lib_goods_id", mGoods.getGoods_id());
-        Request<String> request = NoHttpRequest.commitGoodsRequest(params);
+        Request<String> request = NoHttpRequest.commitGoodsRequest(params,needWeight);
         mRequestQueue.add(REQUEST_ADD_GOODS, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -146,14 +144,13 @@ public class AddGoodsPriceActivity extends BaseActivity {
 
     private void initParams() {
         mGoods = (Goods) getIntent().getSerializableExtra("goods");
+        needWeight = getIntent().getBooleanExtra("needWeight",false);
         Glide.with(this).load(mGoods.getImageUrl()).into(iv_picture);
-        DaoSession daoSession = GreenDaoManager.getInstance().getSession();
-        UserBaseMessageDao mUserMessageDao = daoSession.getUserBaseMessageDao();
-        List<UserBaseMessage> list = mUserMessageDao.queryBuilder().list();
-        if (list != null && list.size() != 0) {
-            user_id = list.get(0).getUser_id();
-        }
+
+        user_id = DbUserUtil.getStationId();
         mRequestQueue = NoHttp.newRequestQueue();
+
+        tv_weight_price_tips.setVisibility(needWeight ? View.VISIBLE: View.GONE);
     }
 
     private void initView() {
@@ -161,6 +158,7 @@ public class AddGoodsPriceActivity extends BaseActivity {
         rl_back = findViewById(R.id.rl_back);
         bt_next = findViewById(R.id.bt_next);
         tv_price = findViewById(R.id.tv_price);
+        tv_weight_price_tips = findViewById(R.id.tv_weight_price_tips);
     }
 
     @Override

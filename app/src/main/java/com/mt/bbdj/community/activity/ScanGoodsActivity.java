@@ -12,7 +12,6 @@ import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.kdp.starbarcode.core.BarCodeScanConfig;
 import com.kdp.starbarcode.core.BarCodeType;
@@ -26,6 +25,7 @@ import com.mt.bbdj.baseconfig.model.SearchGoodsModel;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.baseconfig.view.ScanView;
+import com.mt.bbdj.community.activity.goodmanage.SelectGoodsPictureActivity;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -40,9 +40,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import butterknife.ButterKnife;
-import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
 
 public class ScanGoodsActivity extends BaseActivity {
 

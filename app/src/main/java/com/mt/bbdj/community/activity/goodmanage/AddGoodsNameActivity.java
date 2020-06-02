@@ -1,29 +1,25 @@
-package com.mt.bbdj.community.activity;
+package com.mt.bbdj.community.activity.goodmanage;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-
 import android.os.Bundle;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import com.bumptech.glide.Glide;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
-import com.mt.bbdj.baseconfig.db.UserBaseMessage;
-import com.mt.bbdj.baseconfig.db.gen.DaoSession;
-import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
+import com.mt.bbdj.baseconfig.db.core.DbUserUtil;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.model.Goods;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
-import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.baseconfig.view.MarginDecoration;
@@ -66,10 +62,12 @@ public class AddGoodsNameActivity extends BaseActivity {
     private final int REQUEST_NAME = 200;    //请求示例名称
     private GoodsAdapter goodsAdapter;
     private Goods mGoods;
+    private boolean needWeight;
 
-    public static void actionTo(Context context, Goods goods) {
+    public static void actionTo(Context context, Goods goods, boolean needWeight) {
         Intent intent = new Intent(context, AddGoodsNameActivity.class);
         intent.putExtra("goods", goods);
+        intent.putExtra("needWeight", needWeight);
         context.startActivity(intent);
     }
 
@@ -102,7 +100,7 @@ public class AddGoodsNameActivity extends BaseActivity {
                     ToastUtil.showShort("请输入商品名称");
                 } else {
                     mGoods.setGoods_name(goodsName);
-                    AddGoodsPriceActivity.actionTo(AddGoodsNameActivity.this, mGoods);
+                    AddGoodsPriceActivity.actionTo(AddGoodsNameActivity.this, mGoods, needWeight);
                 }
             }
         });
@@ -120,7 +118,7 @@ public class AddGoodsNameActivity extends BaseActivity {
             public void onItemClick(int position) {
                 String name = mGoodsData.get(position).get("name");
                 mGoods.setGoods_name(name);
-                AddGoodsPriceActivity.actionTo(AddGoodsNameActivity.this, mGoods);
+                AddGoodsPriceActivity.actionTo(AddGoodsNameActivity.this, mGoods, needWeight);
             }
         });
 
@@ -187,14 +185,11 @@ public class AddGoodsNameActivity extends BaseActivity {
     }
 
     private void initParams() {
-        DaoSession daoSession = GreenDaoManager.getInstance().getSession();
-        UserBaseMessageDao mUserMessageDao = daoSession.getUserBaseMessageDao();
-        List<UserBaseMessage> list = mUserMessageDao.queryBuilder().list();
-        if (list != null && list.size() != 0) {
-            user_id = list.get(0).getUser_id();
-        }
+
+        user_id = DbUserUtil.getStationId();
         mRequestQueue = NoHttp.newRequestQueue();
         mGoods = (Goods) getIntent().getSerializableExtra("goods");
+        needWeight = getIntent().getBooleanExtra("needWeight",false);
 
         goods_id = mGoods.getGoods_id();
         Glide.with(this).load(mGoods.getImageUrl()).into(iv_picture);

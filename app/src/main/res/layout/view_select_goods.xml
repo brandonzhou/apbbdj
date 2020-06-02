@@ -13,52 +13,116 @@
         android:layout_height="0.5dp"
         android:background="#dedede" />
 
-    <Button
-        android:textSize="@dimen/standardtitleSize"
-        android:id="@+id/bt_take_by_normal"
+    <LinearLayout
+        android:id="@+id/ll_take_by_scan_bar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="left"
-        android:background="#ffffff"
-        android:text="普通添加"></Button>
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="添加条码商品"
+            android:textSize="@dimen/text_size_main"
+            android:textColor="@color/text_main"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="(支持外卖和一体机销售)"
+            android:textSize="@dimen/text_size_little"
+            android:textColor="@color/text_grey_9"/>
+
+
+    </LinearLayout>
     <View
-        android:id="@+id/tk_num"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dedede" />
+    <LinearLayout
+        android:id="@+id/ll_take_by_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="添加称重商品"
+            android:textSize="@dimen/text_size_main"
+            android:textColor="@color/text_main"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="(仅支持一体机销售)"
+            android:textSize="@dimen/text_size_little"
+            android:textColor="@color/text_grey_9"/>
+
+
+    </LinearLayout>
+    <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#dedede" />
 
-    <Button
-        android:id="@+id/bt_take_by_scan"
+    <LinearLayout
+        android:id="@+id/ll_take_by_no_bar_code"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="left"
-        android:background="#ffffff"
-        android:text="扫描条形码添加"
-        android:textSize="@dimen/standardtitleSize"></Button>
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="添加无条码商品"
+            android:textSize="@dimen/text_size_main"
+            android:textColor="@color/text_main"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="(仅支持外卖)"
+            android:textSize="@dimen/text_size_little"
+            android:textColor="@color/text_grey_9"/>
+
+
+    </LinearLayout>
 
     <View
-        android:id="@+id/tv_k_num"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#dedede" />
 
     <View
-        android:id="@+id/tv_num"
         android:layout_width="match_parent"
         android:layout_height="8dp" />
 
     <View
-        android:id="@+id/tv_k_m"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#dedede" />
 
     <Button
-        android:textSize="@dimen/standardtitleSize"
         android:id="@+id/bt_cancle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#ffffff"
-        android:text="取消"></Button>
+        android:text="取消"
+        android:textSize="@dimen/standardtitleSize"></Button>
 </LinearLayout>

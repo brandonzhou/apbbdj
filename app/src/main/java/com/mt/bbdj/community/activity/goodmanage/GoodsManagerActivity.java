@@ -1,7 +1,6 @@
-package com.mt.bbdj.community.activity;
+package com.mt.bbdj.community.activity.goodmanage;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -9,16 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import androidx.core.content.FileProvider;
-
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,27 +19,30 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
-import com.mt.bbdj.baseconfig.db.UserBaseMessage;
-import com.mt.bbdj.baseconfig.db.gen.DaoSession;
-import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
+import com.mt.bbdj.baseconfig.db.core.DbUserUtil;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.model.Goods;
 import com.mt.bbdj.baseconfig.model.GoodsManagerModel;
-import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.SystemUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.baseconfig.view.MyDecoration;
+import com.mt.bbdj.community.activity.AddShelvesActivity;
+import com.mt.bbdj.community.activity.ScanGoodsActivity;
+import com.mt.bbdj.community.activity.SelectGoodsByStoreActivity;
 import com.mt.bbdj.community.adapter.GoodsManagerAdatpter;
 import com.mt.bbdj.community.adapter.GoodsRackAdapter;
 import com.mylhyl.circledialog.CircleDialog;
-import com.mylhyl.circledialog.callback.ConfigButton;
-import com.mylhyl.circledialog.params.ButtonParams;
 import com.widget.DateChooseWheelViewDialog;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -69,7 +65,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
@@ -104,8 +99,7 @@ public class GoodsManagerActivity extends BaseActivity {
 
     private GoodsManagerAdatpter goodsManagerAdatpter;    //商品
     private RequestQueue mRequestQueue;
-    private DaoSession mDaoSession;
-    private UserBaseMessageDao mUserMessageDao;
+
     private String user_id;
 
     private String currentShelves_id = "";     //货架id
@@ -313,13 +307,11 @@ public class GoodsManagerActivity extends BaseActivity {
     private void initParams() {
         //初始化请求队列
         mRequestQueue = NoHttp.newRequestQueue();
-        mDaoSession = GreenDaoManager.getInstance().getSession();
-        mUserMessageDao = mDaoSession.getUserBaseMessageDao();
+        user_id = DbUserUtil.getStationId();
+
         mInflater = getLayoutInflater();
-        List<UserBaseMessage> list = mUserMessageDao.queryBuilder().list();
-        if (list != null && list.size() != 0) {
-            user_id = list.get(0).getUser_id();
-        }
+
+
         ll_add_goods_bottom.setVisibility(View.GONE);
         ll_title.setVisibility(View.GONE);
     }
@@ -364,11 +356,11 @@ public class GoodsManagerActivity extends BaseActivity {
         SelectGoodsByStoreActivity.actionTo(this, user_id, mList.get(currentPosition).getShelves_id(), mList.get(currentPosition).getShelces_name());
     }
 
-    private void addGoodsForShelves() {
+    private void addGoodsForShelves(boolean needWeight) {
         if (mList.size() == 0) {
             return;
         }
-        SelectGoodsPictureActivity.actionTo(this, user_id, mList.get(currentPosition));
+        SelectGoodsPictureActivity.actionTo(this, user_id, mList.get(currentPosition), needWeight);
     }
 
 
@@ -382,6 +374,7 @@ public class GoodsManagerActivity extends BaseActivity {
         public void onSucceed(int what, Response<String> response) {
             LogUtil.i("photoFile", "GoodsManagerActivity::" + response.get());
             try {
+                LogUtil.d("nohttp_", response.get());
                 JSONObject jsonObject = new JSONObject(response.get());
                 String code = jsonObject.get("code").toString();
                 String msg = jsonObject.get("msg").toString();
@@ -994,12 +987,11 @@ public class GoodsManagerActivity extends BaseActivity {
             addgoodsWindow.dismiss();
         } else {
             View selectView = getLayoutInflater().inflate(R.layout.view_select_goods, null);
-            Button bt_take_by_normal = (Button) selectView.findViewById(R.id.bt_take_by_normal);
-            Button bt_take_by_scan = (Button) selectView.findViewById(R.id.bt_take_by_scan);
-            Button btnCancle = (Button) selectView.findViewById(R.id.bt_cancle);
-            bt_take_by_normal.setOnClickListener(mOnClickListener);
-            bt_take_by_scan.setOnClickListener(mOnClickListener);
-            btnCancle.setOnClickListener(mOnClickListener);
+            selectView.findViewById(R.id.ll_take_by_scan_bar).setOnClickListener(mOnClickListener);
+            selectView.findViewById(R.id.ll_take_by_weight).setOnClickListener(mOnClickListener);
+            selectView.findViewById(R.id.ll_take_by_no_bar_code).setOnClickListener(mOnClickListener);
+            selectView.findViewById(R.id.bt_cancle).setOnClickListener(mOnClickListener);
+
             addgoodsWindow = new PopupWindow(selectView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             //设置动画
             addgoodsWindow.setAnimationStyle(R.style.popup_window_anim);
@@ -1023,11 +1015,15 @@ public class GoodsManagerActivity extends BaseActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.bt_take_by_normal:
-                    addGoodsForShelves();      //正常添加商品
+                case R.id.ll_take_by_no_bar_code:
+                    addGoodsForShelves(false);      //添加无条码商品
                     addgoodsWindow.dismiss();
                     break;
-                case R.id.bt_take_by_scan:     //扫描添加商品
+                case R.id.ll_take_by_weight:
+                    addGoodsForShelves(true);      //添加称重商品
+                    addgoodsWindow.dismiss();
+                    break;
+                case R.id.ll_take_by_scan_bar:     //扫描添加商品
                     // ScanGoodsActivity.actionTo(GoodsManagerActivity.this, user_id, mList.get(currentPosition));
                     ScanGoodsActivity.actionTo(GoodsManagerActivity.this, REQUEST_SCAN_GOODS);
                     addgoodsWindow.dismiss();
@@ -1075,7 +1071,7 @@ public class GoodsManagerActivity extends BaseActivity {
         }
 
         scanGoodsWindow.dismiss();
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("user_id", user_id);
         params.put("shelves_id", mList.get(currentPosition).getShelves_id());
         params.put("name", name);
@@ -1086,7 +1082,7 @@ public class GoodsManagerActivity extends BaseActivity {
         params.put("class_name", mList.get(currentPosition).getShelces_name());
         params.put("class_id", mList.get(currentPosition).getShelves_id());
         params.put("lib_goods_id", "0");
-        Request<String> request = NoHttpRequest.commitGoodsRequest(params);
+        Request<String> request = NoHttpRequest.commitGoodsRequest(params, false);
         mRequestQueue.add(REQUEST_COMMIT_SCANL_GOODS, request, mResponseListener);
     }
 

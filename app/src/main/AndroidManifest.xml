@@ -206,7 +206,7 @@
             android:name=".community.activity.ScanGoodsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.AddGoodsPriceActivity"
+            android:name=".community.activity.goodmanage.AddGoodsPriceActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".community.activity.PrintCodeSettingActivity"
@@ -221,7 +221,7 @@
             android:name=".community.activity.RecommendUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.AddGoodsNameActivity"
+            android:name=".community.activity.goodmanage.AddGoodsNameActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".community.activity.ShopAddressMapActivity"
@@ -522,10 +522,10 @@
             android:name=".community.activity.EnterManager_new_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.GoodsManagerActivity"
+            android:name=".community.activity.goodmanage.GoodsManagerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SelectGoodsPictureActivity"
+            android:name=".community.activity.goodmanage.SelectGoodsPictureActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.rxfeature.activity.ActivityScanerCode"

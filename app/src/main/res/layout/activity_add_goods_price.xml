@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/grey_6"
-    tools:context=".community.activity.AddGoodsNameActivity">
+    android:orientation="vertical"
+    tools:context=".community.activity.goodmanage.AddGoodsNameActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -110,6 +109,7 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_no_weight"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -124,14 +124,27 @@
 
         <EditText
             android:id="@+id/tv_price"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@null"
-            android:inputType="number|numberDecimal"
             android:hint="请输入商品价格"
+            android:inputType="number|numberDecimal"
+            android:maxLength="8"
+            android:singleLine="true"
             android:paddingLeft="10dp"
             android:textColorHint="@color/grey_3"
             android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_weight_price_tips"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="元/千克"
+            android:textColor="@color/text_main"
+            android:textSize="@dimen/text_size_main" />
     </LinearLayout>
 
     <View
@@ -141,19 +154,19 @@
         android:layout_marginRight="15dp"
         android:background="@color/grey_4" />
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:layout_width="match_parent"
-       android:layout_height="0dp"
-       android:layout_weight="1"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 
     <Button
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
         android:id="@+id/bt_next"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/shap_solid_green_circle"
         android:text="确定添加"
