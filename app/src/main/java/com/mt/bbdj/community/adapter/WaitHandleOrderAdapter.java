@@ -1,11 +1,7 @@
 package com.mt.bbdj.community.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,10 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.model.TakeOutModel;
 
-import java.io.LineNumberReader;
 import java.util.List;
 
 public class WaitHandleOrderAdapter extends RecyclerView.Adapter<WaitHandleOrderAdapter.OrderViewHolder> {
@@ -117,9 +115,9 @@ public class WaitHandleOrderAdapter extends RecyclerView.Adapter<WaitHandleOrder
 
 
 
-        viewHolder.tv_address.setText(productModel.getAddress());
+        viewHolder.tv_order_number.setText("订单号: "+productModel.getOrder_number());
         viewHolder.tv_time_state.setText(productModel.getEstimatedTime() + " " + productModel.getCurrentTimeState());
-        viewHolder.tv_name.setText(productModel.getName());
+        viewHolder.tv_distribution_mode_name.setText("配送方式: "+productModel.getMode());
 
         String state = productModel.getOrderState();
         String tag = "";
@@ -205,7 +203,8 @@ public class WaitHandleOrderAdapter extends RecyclerView.Adapter<WaitHandleOrder
 
     class OrderViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tv_address;   //小区地址
+        private TextView tv_order_number;   //订单号
+        private TextView tv_distribution_mode_name;   //配送方式
         private TextView tv_confirm_send;   //确认送达
         private TextView tv_confirm_receive;   //确认接单
         private TextView tv_dispacth;   //去配送
@@ -227,8 +226,9 @@ public class WaitHandleOrderAdapter extends RecyclerView.Adapter<WaitHandleOrder
 
             tv_order_state = itemView.findViewById(R.id.tv_order_state);
             tv_time_state = itemView.findViewById(R.id.tv_time_state);
-            tv_address = itemView.findViewById(R.id.tv_address);
-            tv_name = itemView.findViewById(R.id.tv_name);
+            tv_order_number = itemView.findViewById(R.id.tv_order_number);
+            tv_distribution_mode_name = itemView.findViewById(R.id.tv_distribution_mode_name);
+            tv_name = itemView.findViewById(R.id.tv_distribution_mode_name);
             rl_phone = itemView.findViewById(R.id.rl_phone);
             tv_confirm_send = itemView.findViewById(R.id.tv_confirm_send);
             product_list = itemView.findViewById(R.id.product_list);

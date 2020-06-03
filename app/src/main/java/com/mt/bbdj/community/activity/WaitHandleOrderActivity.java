@@ -1,27 +1,22 @@
 package com.mt.bbdj.community.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
-import com.mt.bbdj.baseconfig.db.UserBaseMessage;
-import com.mt.bbdj.baseconfig.db.gen.DaoSession;
-import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
+import com.mt.bbdj.baseconfig.db.core.DbUserUtil;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.model.TakeOutModel;
-import com.mt.bbdj.baseconfig.utls.DateUtil;
-import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
@@ -60,8 +55,6 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
 
     private boolean isFresh = true;
     private RequestQueue mRequestQueue;
-    private DaoSession mDaoSession;
-    private UserBaseMessageDao mUserMessageDao;
     private String user_id;
     private final int REQUEST_GET_ORDER = 100;
     private final int REQUEST_RECEIVE_ORDER = 200;     //接单
@@ -240,13 +233,7 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
         //初始化请求队列
         mRequestQueue = NoHttp.newRequestQueue();
 
-        mDaoSession = GreenDaoManager.getInstance().getSession();
-        mUserMessageDao = mDaoSession.getUserBaseMessageDao();
-
-        List<UserBaseMessage> list = mUserMessageDao.queryBuilder().list();
-        if (list != null && list.size() != 0) {
-            user_id = list.get(0).getUser_id();
-        }
+        user_id = DbUserUtil.getStationId();
 
         mType = getIntent().getStringExtra("type");
         tv_title.setText("1".equals(mType) ? "待处理订单" : "已完成订单");
@@ -402,9 +389,11 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
         int length = dataArray.length();
         for (int i = 0; i < length; i++) {
             List<HashMap<String, String>> list = new ArrayList<>();
-            TakeOutModel productModel = new TakeOutModel();
+            TakeOutModel takeOutModel = new TakeOutModel();
             JSONObject jsonObject = dataArray.getJSONObject(i);
             String id = jsonObject.getString("orders_id");
+            takeOutModel.setOrder_number(jsonObject.getString("order_number"));
+            takeOutModel.setMode(jsonObject.getString("mode"));
             String user_name = jsonObject.getString("member_name");
             String user_mobile = jsonObject.getString("member_mobile");
             String region = jsonObject.getString("member_region");
@@ -434,32 +423,31 @@ public class WaitHandleOrderActivity extends BaseActivity implements XRecyclerVi
 
             if ("2".equals(states)) {    //已结单的 快递员配送 或者 自己配送
                 if (("2".equals(distribution_mode) ||"3".equals(distribution_mode)) && "0".equals(courier_id)) {
-                    productModel.setOrderState("10");    //等待快递员接单
+                    takeOutModel.setOrderState("10");    //等待快递员接单
                 } else if (("2".equals(distribution_mode) ||"3".equals(distribution_mode)) && !"0".equals(courier_id)){
-                    productModel.setOrderState("12");     //等待快递员取件
+                    takeOutModel.setOrderState("12");     //等待快递员取件
                 } else {
-                    productModel.setOrderState(states);
+                    takeOutModel.setOrderState(states);
                 }
             } else if ("3".equals(states) && !"0".equals(courier_id)) {
-                productModel.setOrderState("11");    //快递员配送中
+                takeOutModel.setOrderState("11");    //快递员配送中
             } else {
-                productModel.setOrderState(states);
+                takeOutModel.setOrderState(states);
             }
 
-            productModel.setCurrentTimeState("");
-            productModel.setAddress(region + address);
-            productModel.setPayStates(pay_states);
-            productModel.setTotal(total);
-            productModel.setLatitude(member_latitude);
-            productModel.setLongitude(member_longitude);
-            productModel.setEstimatedTime("");
-            productModel.setName(user_name);
-            productModel.setOrders_id(id);
+            takeOutModel.setCurrentTimeState("");
+            takeOutModel.setAddress(region + address);
+            takeOutModel.setPayStates(pay_states);
+            takeOutModel.setTotal(total);
+            takeOutModel.setLatitude(member_latitude);
+            takeOutModel.setLongitude(member_longitude);
+            takeOutModel.setEstimatedTime("");
+            takeOutModel.setName(user_name);
+            takeOutModel.setOrders_id(id);
 
-            productModel.setPhoneNumber(user_mobile);
-            productModel.setTakeOutList(list);
-            mList.add(productModel);
-            productModel = null;
+            takeOutModel.setPhoneNumber(user_mobile);
+            takeOutModel.setTakeOutList(list);
+            mList.add(takeOutModel);
         }
 
         if (mList.size() == 0) {

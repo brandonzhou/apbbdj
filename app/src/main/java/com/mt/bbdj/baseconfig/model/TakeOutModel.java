@@ -12,6 +12,7 @@ import java.util.List;
 public class TakeOutModel implements Serializable {
 
     private String orders_id;    //订单id
+    private String order_number;    //订单号
     private String state;      //接单、未接单
     private String estimatedTime;     //预计时间
     private String currentTimeState;     //超时或者剩余时间
@@ -23,6 +24,7 @@ public class TakeOutModel implements Serializable {
     private String total;    //总价
     private String latitude;   //纬度
     private String longitude;   //经度
+    private String mode;   //配送方式
 
     public String getLatitude() {
         return latitude;
@@ -130,5 +132,23 @@ public class TakeOutModel implements Serializable {
 
     public void setTakeOutList(List<HashMap<String, String>> takeOutList) {
         this.takeOutList = takeOutList;
+    }
+
+    public String getOrder_number() {
+        return order_number;
+    }
+
+    public TakeOutModel setOrder_number(String order_number) {
+        this.order_number = order_number;
+        return this;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public TakeOutModel setMode(String mode) {
+        this.mode = mode;
+        return this;
     }
 }

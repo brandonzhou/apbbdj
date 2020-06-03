@@ -1,18 +1,19 @@
 package com.mt.bbdj.community.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
@@ -20,7 +21,6 @@ import com.mt.bbdj.baseconfig.model.TakeOutModel;
 import com.mt.bbdj.baseconfig.utls.DateUtil;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
-import com.mt.bbdj.baseconfig.utls.OpenExternalMapAppUtils;
 import com.mt.bbdj.baseconfig.utls.OpenMapUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
@@ -63,6 +63,7 @@ public class ServiceDetailActivity extends BaseActivity {
     private RelativeLayout rl_back;
     private TakeOutModel intentData;
     private String courier_id;
+    private TextView tv_order_id;
     private TextView tv_create_time;
     private TextView tv_end_time;
     private TextView tv_dispath_type;
@@ -212,17 +213,24 @@ public class ServiceDetailActivity extends BaseActivity {
         JSONObject data = jsonObject.getJSONObject("data");
         String states = data.getString("states");
         String courier_id = data.getString("courier_id");
+        String order_number = data.getString("order_number");
         JSONArray detailedArray = data.getJSONArray("detailed");
 
         String create_time = DateUtil.changeStampToStandrdTime("yyyy-MM-dd HH:mm",StringUtil.handleNullResultForString(data.getString("create_time")));
         String end_time = DateUtil.changeStampToStandrdTime("yyyy-MM-dd HH:mm",StringUtil.handleNullResultForString(data.getString("end_time")));
+        // 1.自提 2.商家配送 3.达达配送  4 驿站称重
         String distribution_mode = data.getString("distribution_mode");
+        // distribution_mode 的文字显示
+        String mode = data.getString("mode");
         String content = StringUtil.handleNullResultForString(data.getString("content"));
 
         tv_remark.setText(content);
+        tv_order_id.setText(order_number);
         tv_create_time.setText(create_time);
         tv_end_time.setText("".equals(end_time)?"尽快送达":end_time);
-        tv_dispath_type.setText("2".equals(distribution_mode)?"快递员配送":"商家配送");
+        //tv_dispath_type.setText("2".equals(distribution_mode)?"快递员配送":"商家配送");
+        tv_dispath_type.setText(mode);
+        findViewById(R.id.ll_top_address).setVisibility("4".equals(distribution_mode)? View.GONE: View.VISIBLE);
 
         tv_confirm_receive.setVisibility(View.GONE);   //确认接单
         tv_dispacth.setVisibility(View.GONE);     //配送
@@ -289,6 +297,7 @@ public class ServiceDetailActivity extends BaseActivity {
         tv_dispacth = findViewById(R.id.tv_dispacth);
         tv_send_finish = findViewById(R.id.tv_send_finish);
 
+        tv_order_id = findViewById(R.id.tv_order_id);
         tv_create_time = findViewById(R.id.tv_create_time);
         tv_end_time = findViewById(R.id.tv_end_time);
         tv_dispath_type = findViewById(R.id.tv_dispatch_type);

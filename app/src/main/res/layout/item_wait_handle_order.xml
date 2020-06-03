@@ -55,19 +55,19 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_address"
+                android:id="@+id/tv_order_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="30dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="小区地址"
-                android:textColor="@color/grey_7"
-                android:textSize="16sp" />
+                android:text="订单号"
+                android:textColor="@color/text_main"
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tv_name"
+                android:id="@+id/tv_distribution_mode_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -75,9 +75,9 @@
                 android:minHeight="30dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="欧阳修"
-                android:textColor="@color/grey_7"
-                android:textSize="15sp" />
+                android:text="配送方式："
+                android:textColor="@color/text_main"
+                android:textSize="18sp" />
 
 
         </LinearLayout>
@@ -93,6 +93,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:layout_width="40dp"
+            android:visibility="gone"
             android:layout_height="40dp">
 
             <ImageView
