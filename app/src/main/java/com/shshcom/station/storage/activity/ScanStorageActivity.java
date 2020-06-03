@@ -445,7 +445,12 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
                 PickupCode nextCode = pickupCode.nextPickCode();
 
-                storageCase.saveScanImage(barCode, pickupCode, data, phone, expressCompanyId);
+                Disposable disposable = storageCase.saveScanImage(barCode, pickupCode, data, phone, expressCompanyId)
+                        .subscribe(s -> {
+                        }, throwable -> {
+                            DialogUtil.promptDialog(activity, throwable.getMessage());
+                            updateBottomCount();
+                        });
 
                 storageCase.updatePickCode(nextCode);
                 updateUI(barCode, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
