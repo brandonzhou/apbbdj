@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -141,6 +142,8 @@ public class ComFirst_3_Fragment extends BaseFragment {
     MyGridView mComGridViewThree;
     @BindView(R.id.banner)
     Banner banner;
+    @BindView(R.id.rl_banner)
+    RelativeLayout rl_banner;
     @BindView(R.id.ll_title)
     LinearLayout ll_title;
     @BindView(R.id.textview_serach)
@@ -730,8 +733,13 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void setBanner(List<String> images) {
-        mBanner = banner.setImages(images).setImageLoader(new GlideImageLoader());
-        mBanner.start();
+        if(images.isEmpty()){
+            rl_banner.setVisibility(View.GONE);
+        }else {
+            rl_banner.setVisibility(View.VISIBLE);
+            mBanner = banner.setImages(images).setImageLoader(new GlideImageLoader());
+            mBanner.start();
+        }
     }
 
     private void setService() {
@@ -972,7 +980,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 String code = jsonObject.get("code").toString();
                 String msg = jsonObject.get("msg").toString();
                 if ("5001".equals(code)) {
-                    handleEvent(what, jsonObject);
+                    handleHttpEvent(what, jsonObject);
                 } else {
                     ToastUtil.showShort(msg);
                 }
@@ -1007,7 +1015,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         EventBus.getDefault().post(new TargetEvent(111));
     }
 
-    private void handleEvent(int what, JSONObject jsonObject) throws JSONException {
+    private void handleHttpEvent(int what, JSONObject jsonObject) throws JSONException {
         switch (what) {
             case REQUEST_UPLOAD_AREA:    //下载省市县
                 handleUploadArea(jsonObject);
