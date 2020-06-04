@@ -1,14 +1,12 @@
 package com.shshcom.module_base.network
 
 import androidx.lifecycle.liveData
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.suspendCancellableCoroutine
+import retrofit2.*
 import java.io.IOException
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * desc:
@@ -16,14 +14,48 @@ import kotlin.coroutines.suspendCoroutine
  * 2020/5/30
  */
 open class KNetwork {
-    open suspend fun <T> Call<T>.await(): T {
-        return suspendCoroutine { continuation ->
+//    open suspend fun <T> Call<T>.await(): T {
+//        return suspendCoroutine { continuation ->
+//            enqueue(object : Callback<T> {
+//                override fun onResponse(call: Call<T>, response: Response<T>) {
+//                    val body = response.body()
+//                    if (body != null) continuation.resume(body)
+//                    else continuation.resumeWithException(RuntimeException("response body is null"))
+//                }
+//                override fun onFailure(call: Call<T>, t: Throwable) {
+//                    continuation.resumeWithException(t)
+//                }
+//            })
+//        }
+//    }
+
+
+    suspend fun <T : Any> Call<T>.await(): T {
+        return suspendCancellableCoroutine { continuation ->
+            continuation.invokeOnCancellation {
+                cancel()
+            }
             enqueue(object : Callback<T> {
                 override fun onResponse(call: Call<T>, response: Response<T>) {
-                    val body = response.body()
-                    if (body != null) continuation.resume(body)
-                    else continuation.resumeWithException(RuntimeException("response body is null"))
+                    if (response.isSuccessful) {
+                        val body = response.body()
+                        if (body == null) {
+                            val invocation = call.request().tag(Invocation::class.java)!!
+                            val method = invocation.method()
+                            val e = KotlinNullPointerException("Response from " +
+                                    method.declaringClass.name +
+                                    '.' +
+                                    method.name +
+                                    " was null but response body type was declared as non-null")
+                            continuation.resumeWithException(e)
+                        } else {
+                            continuation.resume(body)
+                        }
+                    } else {
+                        continuation.resumeWithException(HttpException(response))
+                    }
                 }
+
                 override fun onFailure(call: Call<T>, t: Throwable) {
                     continuation.resumeWithException(t)
                 }
@@ -55,6 +87,7 @@ open class KNetwork {
             Results.failure(Errors.NetworkError())
         }
     }
+
 
 
 

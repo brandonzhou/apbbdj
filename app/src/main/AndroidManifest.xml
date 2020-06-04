@@ -51,13 +51,18 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
-        <activity android:name="com.shshcom.station.storage.activity.DealWithFailThingsActivity"></activity>
+        <activity android:name="com.shshcom.station.kotlin.KotlinActivity"></activity>
+        <activity android:name="com.shshcom.station.storage.activity.DealWithFailThingsActivity" />
         <activity android:name="com.shshcom.station.storage.base.BaseActivity" />
         <activity
             android:name="com.shshcom.station.storage.activity.SetPickupCodeTypeActivity"
             android:windowSoftInputMode="stateAlwaysVisible" />
-        <activity android:name="com.shshcom.station.storage.activity.ScanOcrResultActivity" android:screenOrientation="portrait"/>
-        <activity android:name="com.shshcom.station.storage.activity.ScanImageUploadingActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.shshcom.station.storage.activity.ScanOcrResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.shshcom.station.storage.activity.ScanImageUploadingActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".community.activity.OutExceptionActivity" />
         <activity android:name=".community.activity.ExpressDetailActivity" />
         <activity
@@ -560,8 +565,9 @@
         <activity
             android:name=".community.activity.WaterOrderDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.shshcom.station.storage.activity.ScanStorageActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.shshcom.station.storage.activity.ScanStorageActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.huawei.hms.client.appid"
