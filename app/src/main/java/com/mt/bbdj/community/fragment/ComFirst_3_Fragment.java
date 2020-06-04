@@ -21,6 +21,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
 
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.impl.ConfirmPopupView;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.activity.LoginByCodeActivity;
 import com.mt.bbdj.baseconfig.application.MyApplication;
@@ -182,11 +184,14 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
     private final int REQUEST_ENTER_MESSAGE = 103;    //请求入库数据
 
+    private final int REQUEST_CHECK_VERSION = 104;    //检查版本更新
+
 
     private String user_id;
     private ExpressLogoDao mExpressLogoDao;
     private List<ExpressLogo> mExpressLogoList;
     private String version_url;
+    private String versionRemote;
     private ProgressDialog mProgressBar;
 
     final String fileName = "bbdj.apk";
@@ -336,6 +341,10 @@ public class ComFirst_3_Fragment extends BaseFragment {
         params.put("user_id", user_id);
         Request<String> request = NoHttpRequest.getPannelmessageRequest(params);
         mRequestQueue.add(REQUEST_PANNEL_MESSAGE, request, mResponseListener);
+
+        String version = SystemUtil.getVersion(getActivity());
+        Request<String> requestVersion = NoHttpRequest.checkVersion(user_id, version);
+        mRequestQueue.add(REQUEST_CHECK_VERSION, requestVersion, mResponseListener);
     }
 
     private void requestBannerMessage() {
@@ -1016,6 +1025,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 // zhhli 不再显示 20200528
                 // handleEnterMessage(jsonObject);
                 break;
+            case REQUEST_CHECK_VERSION:
+                handleNewVersion(jsonObject);
+                break;
         }
     }
 
@@ -1053,6 +1065,30 @@ public class ComFirst_3_Fragment extends BaseFragment {
         setBanner(images);
     }
 
+    private void handleNewVersion(JSONObject result) throws JSONException{
+        JSONObject jsonObject = result.getJSONObject("data");
+        if(jsonObject == null){
+            return;
+        }
+        boolean force = jsonObject.getBoolean("force");
+        String versionHttp = jsonObject.getString("version_number");
+        version_url = jsonObject.getString("version_url");
+        String version = SystemUtil.getVersion(getActivity());
+
+        if (version.compareTo(versionHttp)<0) {
+            if(force){
+                versionRemote = versionHttp;
+                showForceNewVersionDownLoadDialog();
+            }else {
+                if(!versionHttp.equals(versionRemote)){
+                    versionRemote = versionHttp;
+                    showNewVersion();
+                }
+            }
+        }
+
+    }
+
     private void chnagePannelMessage(JSONObject jsonObject) throws JSONException {
         JSONObject dataObj = jsonObject.getJSONObject("data");
         String mail_stay = dataObj.getString("mail_stay");    //待收件未处理
@@ -1066,7 +1102,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         String money = dataObj.getString("money");   //账户余额
         String min_money = dataObj.getString("min_money");   //警戒余额
         String birthday = dataObj.getString("birthday");   //入驻天数
-        String version_number = dataObj.getString("version_number");   //版本号
+        //String version_number = dataObj.getString("version_number");   //版本号
         String prohibit = dataObj.getString("prohibit");   //状态 1：正常营业  其他：禁止登录
 
         //版本地址
@@ -1096,7 +1132,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
                     if (face_numberNumber <= 0) {
                         showNoPannelDialog();       //面单不足
                     } else {
-                        upLoadNewVersion(version_number, version_url);    //更新最新版本
+                       // upLoadNewVersion(version_number, version_url);    //更新最新版本
                     }
                 }
             }
@@ -1172,22 +1208,23 @@ public class ComFirst_3_Fragment extends BaseFragment {
         dialog.show();
     }
 
-
-    private void upLoadNewVersion(String version_number, String version_url) {
-        String version = SystemUtil.getVersion(getActivity());
-        if (version.compareTo(version_number)<0) {
-            showDownLoadDialog(version_url);
+    ConfirmPopupView versionUpdateDialog;
+    private void showNewVersion(){
+        if(versionUpdateDialog == null){
+            versionUpdateDialog = new XPopup.Builder(getActivity())
+                    .asConfirm("更新提示","有新版本上线，请先更新！\n"+versionRemote, () -> download());
         }
+
+        if(!versionUpdateDialog.isShow()){
+            versionUpdateDialog.show();
+        }
+
     }
 
 
-    private void showDownLoadDialog(String version_url) {
-        editor.putString("userName", "");
-        editor.putString("password", "");
-        editor.putBoolean("update", false);
-        editor.commit();
 
-        DialogUtil.promptDialog1(getActivity(), "更新提示", "有新版本上线，请先更新！", DetermineListener, throwListener);
+    private void showForceNewVersionDownLoadDialog() {
+        DialogUtil.promptDialog1(getActivity(), "更新提示", "有新版本上线，请先更新！\n"+versionRemote, DetermineListener, throwListener);
     }
 
 
@@ -1199,6 +1236,11 @@ public class ComFirst_3_Fragment extends BaseFragment {
     };
 
     private void download() {
+        editor.putString("userName", "");
+        editor.putString("password", "");
+        editor.putBoolean("update", false);
+        editor.commit();
+
         mProgressBar = new ProgressDialog(getActivity());
         mProgressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressBar.setTitle("正在下载");

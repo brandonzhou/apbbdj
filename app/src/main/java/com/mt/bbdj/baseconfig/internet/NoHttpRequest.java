@@ -1,14 +1,13 @@
 package com.mt.bbdj.baseconfig.internet;
 
 import android.graphics.Bitmap;
+
 import androidx.annotation.NonNull;
-import android.widget.Toast;
 
 import com.mt.bbdj.baseconfig.model.ExpressMoney;
 import com.mt.bbdj.baseconfig.utls.DateUtil;
-import com.mt.bbdj.baseconfig.utls.MD5Util;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
-import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.shshcom.station.storage.http.ApiStorageRequest;
 import com.yanzhenjie.nohttp.BasicBinary;
 import com.yanzhenjie.nohttp.FileBinary;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -16,7 +15,6 @@ import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.Request;
 
 import java.io.File;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -4159,5 +4157,24 @@ public class NoHttpRequest {
         return request;
     }
 
+    /**
+     * 快递详情
+     *
+     * user_id	Integer	是	驿站 id	12
+     * app_type	Integer	是	应用类型	1-驿站 2-快递员
+     * number	String	是	版本号	1.0.23 (1.0.25 版本已下为强制更新,以上为不强制)
+     * @return
+     */
+    public static Request<String> checkVersion(String stationId, String versionNumber) {
+        Request<String> request = NoHttp.createStringRequest("https://www.81dja.com/Merchant/IndexApi/checkVersion", RequestMethod.POST);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("user_id", stationId);
+        map.put("app_type", 1);
+        map.put("number", versionNumber);
+
+        ApiStorageRequest.addSignature(map);
+        request.add(map);
+        return request;
+    }
 
 }

@@ -85,13 +85,13 @@ public class DialogUtil {
         builder.create().show();
     }
 
-    public static void promptDialog(final Context context, String msg, String btnStr1, String btnStr2, DialogInterface.OnClickListener Determine, DialogInterface.OnClickListener cancel) {
+    public static void promptDialog(final Context context, String msg, String btnStr1, String cancelStr, DialogInterface.OnClickListener Determine, DialogInterface.OnClickListener cancel) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .setMessage("提示").setCancelable(false);
         builder.setMessage(msg);
         builder.setPositiveButton(btnStr1, Determine);
-        builder.setNegativeButton(btnStr2, cancel);
+        builder.setNegativeButton(cancelStr, cancel);
         builder.create().show();
     }
 
