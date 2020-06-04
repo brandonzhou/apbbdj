@@ -195,8 +195,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
     private void initCapture() {
         helper = getCaptureHelper();
-        helper.vibrate(true)//震动
-                .fullScreenScan(true)
+        helper.fullScreenScan(true)
                 .supportVerticalCode(true)//支持扫垂直条码，建议有此需求时才使用。
                 .decodeFormats(EnumSet.of(BarcodeFormat.CODE_128))//设置只识别二维码会提升速度
                 .frontLightMode(FrontLightMode.AUTO)//设置闪光灯模式
