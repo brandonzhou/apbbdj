@@ -19,7 +19,7 @@ data class TotalStockData(
 
 /**
  *
-time	入库日期时间戳	Integer	是	1591027200
+time	入库日期时间戳	String	是	2020-06-04
 total	总库存	Integer	是	4
  */
 data class StockData(

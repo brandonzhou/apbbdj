@@ -22,7 +22,7 @@ object ApiPackageStatistic {
 
     private var service : StatisticService = ServiceCreator.create()
 
-    suspend fun <T> processApi(block:  suspend () -> BaseResult<T>) : Results<T>{
+    private suspend fun <T> processApi(block:  suspend () -> BaseResult<T>) : Results<T>{
         return withContext(Dispatchers.IO){
             try {
                 val re = block()

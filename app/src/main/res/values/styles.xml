@@ -255,7 +255,7 @@
     </style>
 
     <style name="Style_tv_little_gray">
-        <item name="android:textSize">@dimen/text_size_little</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
         <item name="android:textColor">@color/color_text_primary_dark_black</item>
     </style>
 

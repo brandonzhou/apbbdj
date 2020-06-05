@@ -238,7 +238,7 @@
                 android:paddingEnd="3dp"
                 android:text="7238283772747737\n手机号:123456"
                 android:gravity="center"
-                android:textSize="@dimen/text_size_little"
+                android:textSize="@dimen/text_size_12"
                 android:textColor="@color/white"
                 android:visibility="visible"
                 />

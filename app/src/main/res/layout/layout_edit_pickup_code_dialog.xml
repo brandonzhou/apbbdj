@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="录入后，依然需要拍照面单，留下凭证"
-            android:textSize="@dimen/text_size_little"
+            android:textSize="@dimen/text_size_12"
             android:textColor="@color/color_text_fail"
             app:layout_constraintBottom_toTopOf="@id/btn_ok"
             app:layout_constraintLeft_toLeftOf="@id/btn_cancel"
