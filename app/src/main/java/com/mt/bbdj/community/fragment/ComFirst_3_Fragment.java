@@ -95,6 +95,7 @@ import com.mylhyl.circledialog.CircleDialog;
 import com.shshcom.station.statistics.domain.ICaseBack;
 import com.shshcom.station.statistics.domain.PackageUseCase;
 import com.shshcom.station.statistics.http.bean.TodayExpressStatistics;
+import com.shshcom.station.statistics.ui.PackStockListActivity;
 import com.shshcom.station.statistics.ui.TotalPackStockActivity;
 import com.shshcom.station.storage.activity.ScanStorageActivity;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
@@ -113,6 +114,7 @@ import com.youth.banner.Banner;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -136,9 +138,12 @@ import butterknife.Unbinder;
  */
 public class ComFirst_3_Fragment extends BaseFragment {
 
-    @BindView(R.id.tv_today_in) TextView tv_today_in;
-    @BindView(R.id.tv_today_out) TextView tv_today_out;
-    @BindView(R.id.tv_storage_all_num) TextView tv_storage_all_num;
+    @BindView(R.id.tv_today_in)
+    TextView tv_today_in;
+    @BindView(R.id.tv_today_out)
+    TextView tv_today_out;
+    @BindView(R.id.tv_storage_all_num)
+    TextView tv_storage_all_num;
 
 
     @BindView(R.id.gv_com_zero)
@@ -317,7 +322,6 @@ public class ComFirst_3_Fragment extends BaseFragment {
         requestEnterData();   //入库数据
         notifyCheck();    //通知权限
     }
-
 
 
     private void notifyCheck() {
@@ -556,9 +560,8 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
 
-
     private void handleQCodeEvent() {
-        QCodeScanActivity.actionTo(getActivity(),user_id);
+        QCodeScanActivity.actionTo(getActivity(), user_id);
     }
 
     private void handleSaveManagerMoneyEvent() {
@@ -744,9 +747,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void setBanner(List<String> images) {
-        if(images.isEmpty()){
+        if (images.isEmpty()) {
             rl_banner.setVisibility(View.GONE);
-        }else {
+        } else {
             rl_banner.setVisibility(View.VISIBLE);
             mBanner = banner.setImages(images).setImageLoader(new GlideImageLoader());
             mBanner.start();
@@ -1006,7 +1009,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         @Override
         public void onFailed(int what, Response<String> response) {
             //  dialogLoading.cancel();
-          //  loginOut();
+            //  loginOut();
         }
 
         @Override
@@ -1060,7 +1063,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         } else {
             ll_title.setVisibility(View.GONE);
         }
-        if (Integer.parseInt(today_handle) !=0){
+        if (Integer.parseInt(today_handle) != 0) {
             ll_title_handing.setVisibility(View.VISIBLE);
             tv_handle_ing.setText("入库处理中：" + today_handle + "件");
         } else {
@@ -1349,7 +1352,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         mRequestQueue = null;
     }
 
-    @OnClick({R.id.textview_serach,R.id.ll_title, R.id.tv_handle_failure})
+    @OnClick({R.id.textview_serach, R.id.ll_title, R.id.tv_handle_failure})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.textview_serach:
@@ -1365,7 +1368,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void actionToHandleFaile() {
-        FailureEnterActivity.actionTo(getActivity(),user_id);
+        FailureEnterActivity.actionTo(getActivity(), user_id);
     }
 
 
@@ -1403,33 +1406,21 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void handleEnterHourseByCameraEvent() {
-//        CameraForRightNowActivity.actionTo(getActivity(),user_id);
-        //SelectEnterExpressActivity.actionTo(getActivity(),user_id);
-        //EnterSelectLocationActivity.actionTo(getActivity(),user_id);
+        // Intent intent = new Intent(getActivity(), KotlinActivity.class);
 
-//        Intent intent = new Intent(getActivity(), OutManagerActivity.class);
-//        Intent intent = new Intent(getActivity(), OutManager_new_Activity.class);
-//        Intent intent = new Intent(getActivity(), CaptureActivity.class);
-//          Intent intent = new Intent(getActivity(), KotlinActivity.class);
-
-                Intent intent = new Intent(getActivity(), ScanStorageActivity.class);
-
-
+        Intent intent = new Intent(getActivity(), ScanStorageActivity.class);
         startActivity(intent);
-
-
     }
 
 
-
-    private void httpTodayExpressStatistics(){
+    private void httpTodayExpressStatistics() {
         PackageUseCase.INSTANCE.todayExpressStatistics(new ICaseBack<TodayExpressStatistics>() {
             @Override
             public void onSuccess(TodayExpressStatistics result) {
-                if(tv_today_in!= null){
-                    tv_today_in.setText(result.getEnter()+"");
-                    tv_today_out.setText(result.getOut()+"");
-                    tv_storage_all_num.setText(result.getTotal()+"");
+                if (tv_today_in != null) {
+                    tv_today_in.setText(result.getEnter() + "");
+                    tv_today_out.setText(result.getOut() + "");
+                    tv_storage_all_num.setText(result.getTotal() + "");
                 }
             }
 
@@ -1440,20 +1431,21 @@ public class ComFirst_3_Fragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.view_today_out,R.id.view_today_in, R.id.view_storage_all_number})
+    @OnClick({R.id.view_today_out, R.id.view_today_in, R.id.view_storage_all_number})
     public void onTodayViewClicked(View view) {
-        Intent intent = new Intent();
 
-        switch (view.getId()){
+
+        switch (view.getId()) {
             case R.id.view_today_in:
-                ToastUtil.showShort("view_today_in");
-
+                PackStockListActivity.Companion.openActivity(getActivity(),
+                        DateTime.now().toString("yyyy-MM-dd"), 3);
                 break;
             case R.id.view_today_out:
-                ToastUtil.showShort("view_today_out");
+                PackStockListActivity.Companion.openActivity(getActivity(),
+                        DateTime.now().toString("yyyy-MM-dd"), 2);
                 break;
             case R.id.view_storage_all_number:
-
+                Intent intent = new Intent();
                 intent.setClass(getActivity(), TotalPackStockActivity.class);
                 getActivity().startActivity(intent);
 

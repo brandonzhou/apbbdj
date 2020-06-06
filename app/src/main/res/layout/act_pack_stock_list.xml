@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shshcom.station.statistics.ui.TotalPackStockActivity">
+
+    <include layout="@layout/toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_select"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_42"
+        app:layout_constraintTop_toBottomOf="@+id/al_root"
+        android:background="@color/white"
+        tools:layout_editor_absoluteX="0dp">
+
+
+        <TextView
+            android:id="@+id/tvCompany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:text="全部快递公司"
+            android:textColor="@color/text_main"
+            android:textSize="@dimen/text_size_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvNofify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="通知状态"
+            android:textColor="@color/text_main"
+            android:textSize="@dimen/text_size_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvPackStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:text="出库状态"
+            android:textColor="@color/text_main"
+            android:textSize="@dimen/text_size_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCompany"
+            app:layout_constraintStart_toEndOf="@+id/tvCompany"
+            app:layout_constraintTop_toTopOf="@+id/tvCompany"
+            app:layout_constraintVertical_bias="0.461"
+            app:srcCompat="@drawable/ic_arrow_down" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvPackStatus"
+            app:layout_constraintStart_toEndOf="@+id/tvPackStatus"
+            app:layout_constraintTop_toTopOf="@+id/tvPackStatus"
+            app:srcCompat="@drawable/ic_arrow_down" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvNofify"
+            app:layout_constraintStart_toEndOf="@+id/tvNofify"
+            app:layout_constraintTop_toTopOf="@+id/tvNofify"
+            app:srcCompat="@drawable/ic_arrow_down" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_select"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

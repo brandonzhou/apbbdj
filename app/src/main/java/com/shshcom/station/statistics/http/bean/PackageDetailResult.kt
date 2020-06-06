@@ -57,7 +57,7 @@ data class PackageDetailData(
         @SerializedName("number")
         val number: String,
         @SerializedName("out_time")
-        val outTime: Int,
+        val outTime: String,
         @SerializedName("picture")
         val picture: String,
         @SerializedName("pie_id")
@@ -76,4 +76,6 @@ data class PackageDetailData(
         val types: Int,
         @SerializedName("warehousing_time")
         val warehousingTime: String
-)
+){
+        var showTimeInfo = ""
+}

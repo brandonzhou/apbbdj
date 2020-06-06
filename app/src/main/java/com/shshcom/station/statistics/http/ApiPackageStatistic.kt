@@ -1,6 +1,5 @@
 package com.shshcom.station.statistics.http
 
-import com.mt.bbdj.baseconfig.utls.DateUtil
 import com.shshcom.module_base.network.Results
 import com.shshcom.module_base.network.ServiceCreator
 import com.shshcom.station.statistics.http.bean.PackageDetailResult
@@ -11,7 +10,6 @@ import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.util.ApiSignatureUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.joda.time.DateTime
 
 /**
  * desc: 包裹统计
@@ -60,7 +58,7 @@ object ApiPackageStatistic {
     signature	数据签名		是
      */
     suspend fun queryExpressDetail(stationId :String, expressId:String, notice:Int, outType: Int,
-                                   time: Int, page :Int, perPage: Int = 20) : Results<PackageDetailResult> {
+                                   time: String, page :Int, perPage: Int = 20) : Results<PackageDetailResult> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
@@ -70,7 +68,7 @@ object ApiPackageStatistic {
             map["notice"] = notice
             map["out_type"] = outType
 
-            map["time"] = DateUtil.formatDate(DateTime.now().minusDays(2).toDate(),"yyyy-MM-dd")
+            map["time"] = time
             map["page"] = page
             map["per_page"] = perPage
             ApiSignatureUtil.addSignature(map)

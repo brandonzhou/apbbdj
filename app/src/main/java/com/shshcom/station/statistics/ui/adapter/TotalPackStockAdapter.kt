@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mt.bbdj.R
 import com.shshcom.station.statistics.http.bean.StockData
+import com.shshcom.station.statistics.ui.PackStockListActivity
 
 /**
  * desc:
@@ -31,6 +32,12 @@ class TotalPackStockAdapter(var list: List<StockData>) : RecyclerView.Adapter<To
         val data : StockData = list[position]
         holder.tvTime.text = data.inTime.replace("-",".")
         holder.tvNumber.text = data.total.toString()
+
+        holder.itemView.setOnClickListener {
+            val activity = it.context
+
+            PackStockListActivity.openActivity(activity, data.inTime)
+        }
     }
 
 

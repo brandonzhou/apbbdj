@@ -53,6 +53,7 @@
     <dimen name="item_height_main">54dp</dimen>
     <dimen name="item_height_large">56dp</dimen>
     <dimen name="item_height_huge">60dp</dimen>
+    <dimen name="item_height_42">42dp</dimen>
     <dimen name="item_height_76">76dp</dimen>
     <dimen name="item_height_80">80dp</dimen>
     <dimen name="item_height_92">92dp</dimen>

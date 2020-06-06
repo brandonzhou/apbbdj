@@ -9,6 +9,7 @@ import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.shshcom.module_base.network.Results
 import com.shshcom.station.statistics.http.ApiPackageStatistic
 import com.shshcom.station.statistics.http.bean.StockData
+import com.shshcom.station.statistics.http.bean.TotalStockData
 import com.shshcom.station.statistics.ui.adapter.TotalPackStockAdapter
 import kotlinx.android.synthetic.main.activity_total_pack_stock.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -40,15 +41,16 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
 
     var page = 1
 
+    var pageSize = 1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_total_pack_stock)
-        initView()
         initData()
     }
 
-    fun initView() {
+    fun initData() {
         tv_title.text = "总入库"
         iv_back.setOnClickListener { finish() }
 
@@ -62,20 +64,18 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
         recyclerView.isNestedScrollingEnabled = false;
         recyclerView.setLoadingListener(this)
 
-
-    }
-
-    private fun initData() {
         http()
+
     }
+
+
 
     private fun http() {
         scope.launch {
             val result = ApiPackageStatistic.totalStock(stationId, page)
             when (result) {
                 is Results.Success -> {
-                    val stockList = result.data.stockDataList
-                    refreshUI(stockList)
+                        refreshUI(result.data)
                 }
 
                 is Results.Failure -> {
@@ -88,23 +88,32 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
         }
     }
 
-    private fun refreshUI(stockList : List<StockData>){
+    private fun refreshUI(totalStockData : TotalStockData){
         if (isFresh) {
             recyclerView.refreshComplete();
         } else {
             recyclerView.loadMoreComplete();
         }
 
-        stockAdapter.list = stockList
-        stockAdapter.notifyDataSetChanged()
+        if(totalStockData!= null){
+            pageSize = totalStockData.lastPage
+            stockAdapter.list = totalStockData.stockDataList
+            stockAdapter.notifyDataSetChanged()
+        }
+
 
 
     }
 
     override fun onLoadMore() {
         isFresh = false
-        page++
-        http()
+        if(page<pageSize){
+            page++
+            http()
+        }else{
+            recyclerView.loadMoreComplete();
+        }
+
     }
 
     override fun onRefresh() {
@@ -113,8 +122,4 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
         http()
     }
 
-    override fun onResume() {
-        super.onResume()
-        recyclerView.refresh()
-    }
 }
