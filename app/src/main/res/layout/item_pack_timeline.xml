@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingBottom="4dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        tools:text="拍照入库"
+        android:textSize="@dimen/text_size_main"
+        android:textColor="@color/text_main"
+        />
+
+    <TextView
+        android:id="@+id/tv_detail_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        tools:text="05-23 10:29"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/text_grey_9"
+        />
+
+    <TextView
+        android:id="@+id/tv_detail_scan_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tv_detail_name"
+        android:text="查看入库照片 >"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/text_green"
+        android:visibility="visible"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_detail_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tv_detail_scan_image"
+        tools:text="首次存放到驿站，系统自动语音通知"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/text_grey_6"
+        />
+
+    <TextView
+        android:id="@+id/tv_detail_notify_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tv_detail_state"
+        tools:text="您的快递已到达方庄南路18号院，联系方式：18511462203"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/text_2a"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+
+
+
+
+</RelativeLayout>

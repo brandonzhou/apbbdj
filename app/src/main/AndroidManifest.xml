@@ -51,7 +51,9 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
-        <activity android:name="com.shshcom.station.statistics.ui.PackStockListActivity"></activity>
+        <activity android:name="com.shshcom.station.statistics.ui.PackDetailImageActivity"></activity>
+        <activity android:name="com.shshcom.station.statistics.ui.PackDetailActivity" />
+        <activity android:name="com.shshcom.station.statistics.ui.PackStockListActivity" />
         <activity android:name="com.shshcom.station.statistics.ui.TotalPackStockActivity" />
         <activity android:name="com.shshcom.station.kotlin.KotlinActivity" />
         <activity android:name="com.shshcom.station.storage.activity.DealWithFailThingsActivity" />

@@ -30,7 +30,7 @@ android {
 
     defaultConfig {
         applicationId "com.mt.bbdj"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 3
         versionName "1.0.24"
@@ -234,4 +234,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation project(path: ':module_base')
+
+
+    implementation 'com.orient:Orient-Ui:1.0.0'
 }

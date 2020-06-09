@@ -2,6 +2,7 @@ package com.shshcom.station.statistics.http.bean
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
  *
@@ -76,6 +77,6 @@ data class PackageDetailData(
         val types: Int,
         @SerializedName("warehousing_time")
         val warehousingTime: String
-){
+): Serializable{
         var showTimeInfo = ""
 }

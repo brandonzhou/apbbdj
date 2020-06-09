@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mt.bbdj.R
 import com.shshcom.station.statistics.http.bean.PackageDetailData
+import com.shshcom.station.statistics.ui.PackDetailActivity
+import com.shshcom.station.util.AntiShakeUtils
 import com.shshcom.station.util.AppTimeUtils
 import org.joda.time.DateTime
 
@@ -17,7 +19,7 @@ import org.joda.time.DateTime
  */
 class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<PackListAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvPackId: TextView = itemView.findViewById(R.id.tvPackId)
+        val tvPackId: TextView = itemView.findViewById(R.id._tvPackId)
         val tvPackPhone: TextView = itemView.findViewById(R.id.tvPackPhone)
         val tvPickCode: TextView = itemView.findViewById(R.id.tvPickcode)
         val tvNotifyState: TextView = itemView.findViewById(R.id.tvNotifyState)
@@ -55,13 +57,16 @@ class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<
             data.showTimeInfo = getShowTime(data)
         }
 
-        if (data.types == 1) {// 1.在库2.出库
-            holder.tvPackState.text = "待出库"
-        } else {
-            holder.tvPackState.text = "已出库"
-        }
+        holder.tvPackState.text = if(data.types ==1) "待出库" else "已出库"
 
         holder.tvPackTime.text = data.showTimeInfo
+
+        holder.itemView.setOnClickListener {
+            if (AntiShakeUtils.isInvalidClick(it)){
+                return@setOnClickListener
+            }
+            PackDetailActivity.openActivity(it.context, data)
+        }
 
     }
 
