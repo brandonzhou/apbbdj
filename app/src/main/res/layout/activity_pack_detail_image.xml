@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,6 +11,88 @@
 
     <include layout="@layout/layout_pack_detail_top" />
 
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/commonTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/whilte"
+        tl:tl_divider_color="#00000000"
+        tl:tl_divider_padding="13dp"
+        tl:tl_divider_width="1dp"
+        tl:tl_indicator_color="@color/mainColor"
+        tl:tl_indicator_height="2dp"
+        tl:tl_indicator_width="10dp"
+        tl:tl_tab_padding="22dp"
+        tl:tl_tab_space_equal="true"
+        tl:tl_textSelectColor="@color/text_green"
+        tl:tl_textUnselectColor="@color/text_main"
+        tl:tl_textsize="14sp" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_none_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+
+        <ImageView
+            android:id="@+id/imageView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tl:layout_constraintBottom_toBottomOf="parent"
+            tl:layout_constraintEnd_toEndOf="parent"
+            tl:layout_constraintStart_toStartOf="parent"
+            tl:layout_constraintTop_toTopOf="parent"
+            tl:layout_constraintVertical_bias="0.29000002"
+            tl:srcCompat="@drawable/icon_pack_detail_no_image" />
+
+        <TextView
+            android:id="@+id/_tv_pack_detail_no_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="手机扫码出库，无出库照片"
+            android:textColor="@color/text_grey_9"
+            android:textSize="@dimen/text_size_14"
+            tl:layout_constraintEnd_toEndOf="parent"
+            tl:layout_constraintStart_toStartOf="parent"
+            tl:layout_constraintTop_toBottomOf="@+id/imageView9" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:scrollbars="none"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_pack_detail_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <ImageView
+                android:id="@+id/iv_pack_detail_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 
 </LinearLayout>

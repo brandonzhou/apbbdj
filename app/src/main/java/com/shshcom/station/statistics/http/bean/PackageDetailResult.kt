@@ -43,40 +43,51 @@ warehousing_time	快递入库时间戳	Integer	是	1591061056
 picture	快递入库图片url地址	String
 privacy	快递菜鸟隐私面单   0.不是1.是
 sms_content	短信内容	String	是	0
-sms_states	短信发送状态0.失败1.成功	String	是	1
+sms_states	短信发送状态 0.失败。大于0：短信发送成功次数
 sms_time	短信发送时间戳
  */
 data class PackageDetailData(
-        @SerializedName("code")
-        val code: String,
-        @SerializedName("express_id")
-        val expressId: Int,
-        @SerializedName("express_name")
-        val expressName: String,
-        @SerializedName("mobile")
-        val mobile: String,
-        @SerializedName("number")
-        val number: String,
-        @SerializedName("out_time")
-        val outTime: String,
-        @SerializedName("picture")
-        val picture: String,
-        @SerializedName("pie_id")
-        val pieId: Int,
-        @SerializedName("privacy")
-        val privacy: Int,
-        @SerializedName("sms_content")
-        val smsContent: String,
-        @SerializedName("sms_states")
-        val smsStates: Int,
-        @SerializedName("sms_time")
-        val smsTime: String,
-        @SerializedName("station_id")
-        val stationId: Int,
-        @SerializedName("types")
-        val types: Int,
-        @SerializedName("warehousing_time")
-        val warehousingTime: String
-): Serializable{
+    @SerializedName("code")
+    val code: String,
+    @SerializedName("express_icon")
+    val expressIcon: String,
+    @SerializedName("express_id")
+    val expressId: Int,
+    @SerializedName("in_picture")
+    val inPicture: String,
+    @SerializedName("mobile")
+    val mobile: String,
+    @SerializedName("number")
+    val number: String,
+    @SerializedName("out_time")
+    val outTime: String,
+    @SerializedName("out_picture")
+    val outPicture: String,
+    @SerializedName("out_picture_face")
+    val outPictureFace: String,
+    @SerializedName("pie_id")
+    val pieId: Int,
+    @SerializedName("privacy")
+    val privacy: Int,
+    @SerializedName("sms_content")
+    val smsContent: String,
+    @SerializedName("sms_states")
+    val smsStates: Int,
+    @SerializedName("sms_time")
+    val smsTime: String,
+    @SerializedName("station_id")
+    val stationId: Int,
+    @SerializedName("types")
+    val types: Int,
+    @SerializedName("unusual")
+    val unusual: Int,
+    @SerializedName("voice_states")
+    val voiceStates: Int,
+    @SerializedName("voice_time")
+    val voiceTime: String,
+    @SerializedName("warehousing_time")
+    val warehousingTime: String
+):Serializable{
         var showTimeInfo = ""
 }
+
