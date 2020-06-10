@@ -36,7 +36,7 @@ class TotalPackStockAdapter(var list: List<StockData>) : RecyclerView.Adapter<To
         holder.itemView.setOnClickListener {
             val activity = it.context
 
-            PackStockListActivity.openActivity(activity, data.inTime)
+            PackStockListActivity.openActivity(activity, data.inTime, 3)
         }
     }
 

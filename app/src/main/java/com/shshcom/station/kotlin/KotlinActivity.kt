@@ -39,7 +39,7 @@ class KotlinActivity : AppCompatActivity()  {
 
             val time = DateUtil.formatDate(DateTime.now().minusDays(5).toDate(),"yyyy-MM-dd")
             val result1 =  ApiPackageStatistic.todayExpressStatistics("12")
-                val result2 =  ApiPackageStatistic.queryExpressDetail("12","",1,1,"2020-06-05",1)
+                val result2 =  ApiPackageStatistic.queryExpressDetail("12",0,1,1,"2020-06-05",1)
 //            val result3 =  ApiPackageStatistic.totalStock("12",1)
 //            val result4 =  ApiPackageStatistic.modifyMobile("12",142462, "18811321040")
 //            val result5 =  ApiPackageStatistic.reSendSMSNotice("12",142462)

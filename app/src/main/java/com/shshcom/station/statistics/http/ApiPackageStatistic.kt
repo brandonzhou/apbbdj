@@ -57,16 +57,16 @@ object ApiPackageStatistic {
     per_page	每页多少条      默认20
     signature	数据签名		是
      */
-    suspend fun queryExpressDetail(stationId :String, expressId:String, notice:Int, outType: Int,
+    suspend fun queryExpressDetail(stationId :String, expressId:Int, notice:Int, outState: Int,
                                    time: String, page :Int, perPage: Int = 20) : Results<PackageDetailResult> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
-            if(expressId.isNotEmpty()){
+            if(expressId>0){
                 map["express_id"] = expressId
             }
             map["notice"] = notice
-            map["out_type"] = outType
+            map["out_type"] = outState
 
             map["time"] = time
             map["page"] = page

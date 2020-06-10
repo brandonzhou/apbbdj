@@ -49,7 +49,7 @@ class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<
         holder.tvPackPhone.text = "手机号: " + data.mobile
         holder.tvPickCode.text = "取件码: " + data.code
 
-        if (data.smsStates == 1) {
+        if (data.smsStates > 0 ) {
             holder.tvNotifyState.text = "已通知用户"
             holder.tvNotifyState.setTextColor(holder.itemView.resources.getColor(R.color.text_grey_6))
         } else {

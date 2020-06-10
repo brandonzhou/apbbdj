@@ -13,76 +13,114 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height_42"
         app:layout_constraintTop_toBottomOf="@+id/al_root"
-        android:background="@color/white"
-        tools:layout_editor_absoluteX="0dp">
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:background="@color/white">
 
 
-        <TextView
-            android:id="@+id/tvCompany"
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_notify"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="13dp"
-            android:text="全部快递公司"
-            android:textColor="@color/text_main"
-            android:textSize="@dimen/text_size_14"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvNofify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="通知状态"
-            android:textColor="@color/text_main"
-            android:textSize="@dimen/text_size_14"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <TextView
+                android:id="@+id/tv_notify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="通知状态"
+                android:layout_gravity="center"
+                android:textColor="@color/text_main"
+                android:textSize="@dimen/text_size_14"
+                />
 
-        <TextView
-            android:id="@+id/tvPackStatus"
+            <ImageView
+                android:id="@+id/iv_notify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/tvNofify"
+                app:layout_constraintStart_toEndOf="@+id/tvNofify"
+                app:layout_constraintTop_toTopOf="@+id/tvNofify"
+                app:srcCompat="@drawable/icon_dropdown" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_pack_state"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:text="出库状态"
-            android:textColor="@color/text_main"
-            android:textSize="@dimen/text_size_14"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <TextView
+                android:id="@+id/tv_pack_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="出库状态"
+                android:layout_gravity="center"
+                android:textColor="@color/text_main"
+                android:textSize="@dimen/text_size_14"
+                />
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvCompany"
-            app:layout_constraintStart_toEndOf="@+id/tvCompany"
-            app:layout_constraintTop_toTopOf="@+id/tvCompany"
-            app:layout_constraintVertical_bias="0.461"
-            app:srcCompat="@drawable/ic_arrow_down" />
+            <ImageView
+                android:id="@+id/iv_pack_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/tvNofify"
+                app:layout_constraintStart_toEndOf="@+id/tvNofify"
+                app:layout_constraintTop_toTopOf="@+id/tvNofify"
+                app:srcCompat="@drawable/icon_dropdown" />
 
-        <ImageView
-            android:id="@+id/imageView7"
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_company"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvPackStatus"
-            app:layout_constraintStart_toEndOf="@+id/tvPackStatus"
-            app:layout_constraintTop_toTopOf="@+id/tvPackStatus"
-            app:srcCompat="@drawable/ic_arrow_down" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <TextView
+                android:id="@+id/tv_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全部快递公司"
+                android:layout_gravity="center"
+                android:textColor="@color/text_main"
+                android:textSize="@dimen/text_size_14"
+                />
 
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvNofify"
-            app:layout_constraintStart_toEndOf="@+id/tvNofify"
-            app:layout_constraintTop_toTopOf="@+id/tvNofify"
-            app:srcCompat="@drawable/ic_arrow_down" />
+            <ImageView
+                android:id="@+id/iv_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/tvNofify"
+                app:layout_constraintStart_toEndOf="@+id/tvNofify"
+                app:layout_constraintTop_toTopOf="@+id/tvNofify"
+                app:srcCompat="@drawable/icon_dropdown" />
+
+        </LinearLayout>
+
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
