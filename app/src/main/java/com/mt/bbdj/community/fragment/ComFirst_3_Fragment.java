@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -138,6 +139,8 @@ import butterknife.Unbinder;
  */
 public class ComFirst_3_Fragment extends BaseFragment {
 
+    @BindView(R.id.iv_scan_out_package)
+    ImageView iv_scan_out_package;
     @BindView(R.id.tv_today_in)
     TextView tv_today_in;
     @BindView(R.id.tv_today_out)
@@ -321,6 +324,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         requestBannerMessage();   //请求界面轮播图
         requestEnterData();   //入库数据
         notifyCheck();    //通知权限
+        httpTodayExpressStatistics();
     }
 
 
@@ -348,8 +352,6 @@ public class ComFirst_3_Fragment extends BaseFragment {
             requestPannelMessage();
             requestBannerMessage();   //请求界面轮播图
             requestEnterData();   //入库数据
-
-            httpTodayExpressStatistics();
         }
     }
 
@@ -399,6 +401,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
         mComGridView.setOnItemClickListener(mGrideClickListener);
         mComGridViewTwo.setOnItemClickListener(mGrideClickListener);
         mComGridViewThree.setOnItemClickListener(mGrideClickListener);
+
+        iv_scan_out_package.setOnClickListener(v -> handleOutManagerEvent());
+
 
     }
 

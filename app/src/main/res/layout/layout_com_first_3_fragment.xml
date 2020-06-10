@@ -130,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="34dp"
-                    android:text="今日库存"
+                    android:text="今日入库"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_12"
                     app:layout_constraintBottom_toBottomOf="parent"

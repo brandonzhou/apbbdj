@@ -51,7 +51,7 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
     }
 
     fun initData() {
-        tv_title.text = "总入库"
+        tv_title.text = "总库存"
         iv_back.setOnClickListener { finish() }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -99,6 +99,9 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
             pageSize = totalStockData.lastPage
             stockAdapter.list = totalStockData.stockDataList
             stockAdapter.notifyDataSetChanged()
+
+            tv_title.text = "总库存(${totalStockData.total}件)"
+
         }
 
 

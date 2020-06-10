@@ -1,17 +1,16 @@
 package com.mt.bbdj.community.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
@@ -23,9 +22,7 @@ import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
-import com.mt.bbdj.baseconfig.view.MarginDecoration;
 import com.mt.bbdj.baseconfig.view.MyDecoration;
-import com.mt.bbdj.community.adapter.BluetoothScanAdapter;
 import com.mt.bbdj.community.adapter.OutExceptionAdapter;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -91,6 +88,8 @@ public class OutExceptionActivity extends AppCompatActivity {
                 }
             }
         });
+
+        iv_back.setOnClickListener(v -> finish());
     }
 
     private void outHourse() {

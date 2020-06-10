@@ -11,22 +11,26 @@ import com.shshcom.station.util.AppTimeUtils
  * 2020/6/8
  */
 class PackTimeItem(val name: String, val time: String, val state: String, val notifyInfo: String,
-                   val stateOk: Boolean = true, val showImage: Boolean = true) : ITimeItem {
+                   val stateOk: Boolean = true, val okNum : Int = 0, val showImage: Boolean = true) : ITimeItem {
     companion object {
 
         /**
-        types	快递库存状态      1.在库2.出库
+        types	快递库存状态      1.在库2.出
 
-        out_time	快递出库时间戳	Integer	是	0
+        out_time	快递出库时间戳	Integer	是	0库
         warehousing_time	快递入库时间戳	Integer	是	1591061056
 
         privacy	快递菜鸟隐私面单   0.不是1.是
 
         sms_content	短信内容	String	是	0
-        sms_states	短信发送状态0.失败1.成功	String	是	1
+        sms_states	短信发送状态0.失败 大于0：短信发送成功次数
         sms_time	短信发送时间戳
 
-        picture	快递入库图片url地址	String
+        out_picture	快递出库图片地址	String	否	out_type不是5时 out_picture为空
+        out_picture_face	快递出库人脸图片地址	String	否	out_type不是5时 out_picture_face为空
+        out_time	快递出库时间戳	String	否	2020-06-04 10:00:00
+
+        out_type	出库类型	出库操作客户端1.驿站出库2.快递员出库3.驿站后台出库4.驿站扫二维码出库5驿站一体机
          */
         fun createList(data: PackageDetailData): List<PackTimeItem> {
             val list = ArrayList<PackTimeItem>()
@@ -48,8 +52,8 @@ class PackTimeItem(val name: String, val time: String, val state: String, val no
                 // 短信已到达
                 //您的快递已到达方庄南路18号院，联系方式：
                 //18511462203
-                val stateOk = data.smsStates == 1
-                val smsState = if (stateOk) "短信已到达" else "短信未到达用户（不计费）"
+                val stateOk = data.smsStates != 0
+                val smsState = if (stateOk) "短信已到达(${data.smsStates}次)" else "短信未到达用户（不计费）"
                 val smsItem = PackTimeItem("短信通知", mmddhhmm.format(smsTime),
                         smsState, data.smsContent, showImage = false)
                 list.add(smsItem)

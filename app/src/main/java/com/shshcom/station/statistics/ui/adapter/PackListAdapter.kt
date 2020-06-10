@@ -3,8 +3,10 @@ package com.shshcom.station.statistics.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mt.bbdj.R
 import com.shshcom.station.statistics.http.bean.PackageDetailData
 import com.shshcom.station.statistics.ui.PackDetailActivity
@@ -25,6 +27,7 @@ class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<
         val tvNotifyState: TextView = itemView.findViewById(R.id.tvNotifyState)
         val tvPackState: TextView = itemView.findViewById(R.id.tvPackState)
         val tvPackTime: TextView = itemView.findViewById(R.id.tvPackTime)
+        val imageView10: ImageView = itemView.findViewById(R.id.imageView10)
     }
 
     val formatS = AppTimeUtils.createFormat(AppTimeUtils.defaultFormat)
@@ -41,6 +44,7 @@ class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: PackageDetailData = list[position]
+        Glide.with(holder.itemView).load(data.expressIcon).into(holder.imageView10)
         holder.tvPackId.text = data.number
         holder.tvPackPhone.text = "手机号: " + data.mobile
         holder.tvPickCode.text = "取件码: " + data.code

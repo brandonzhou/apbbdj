@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.mt.bbdj.baseconfig.utls.ToastUtil
@@ -65,6 +66,7 @@ class PackDetailActivity : AppCompatActivity() {
         iv_back.setOnClickListener { finish() }
 
         data = intent.getSerializableExtra("data") as PackageDetailData
+        Glide.with(this).load(data.expressIcon).into(ivCompany)
         tvPackId.text = data.number
         tvPickCode.text = data.code
         tvPackPhone.text = if (data.privacy == 0) data.mobile else "菜鸟隐私号码"
@@ -152,7 +154,7 @@ class PackDetailActivity : AppCompatActivity() {
 
     private fun callPhone() {
         val intent = Intent(Intent.ACTION_CALL)
-        intent.data = Uri.parse("tel:$data.mobile")
+        intent.data = Uri.parse("tel:${data.mobile}")
         startActivity(intent)
     }
 
