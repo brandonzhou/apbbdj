@@ -7,8 +7,6 @@ import com.mt.bbdj.baseconfig.db.gen.PickupCodeDao;
 import com.mt.bbdj.baseconfig.db.gen.ScanImageDao;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 
-import org.joda.time.DateTime;
-
 import java.util.List;
 
 /**
@@ -72,9 +70,7 @@ public class GreenDaoUtil {
         ScanImageDao dao = getDaoSession().getScanImageDao();
 
         return dao.queryBuilder()
-                .where(ScanImageDao.Properties.State.eq(state.name()),
-                        //当天 DateTime.now().withMillisOfDay(0)
-                        ScanImageDao.Properties.Time.ge(DateTime.now().withMillisOfDay(0).getMillis()))
+                .where(ScanImageDao.Properties.State.eq(state.name()))
                 .orderDesc(ScanImageDao.Properties.Time)
                 .list();
     }

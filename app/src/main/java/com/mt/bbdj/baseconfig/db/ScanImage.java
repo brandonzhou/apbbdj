@@ -4,6 +4,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.Keep;
 
 /**
  * desc:扫描图片数据
@@ -11,7 +12,7 @@ import org.greenrobot.greendao.annotation.Index;
  * 2020/5/19
  */
 @Entity(indexes = {
-        @Index(value = "time DESC", unique = false)
+        @Index(value = "time DESC")
 })
 public class ScanImage {
     public enum State {
@@ -59,8 +60,9 @@ public ScanImage(String eId, String stationId, String pickCode, String batchNo,
     this.localPath = localPath;
 }
 
-@Generated(hash = 233529434)
+@Keep
 public ScanImage() {
+    time = System.currentTimeMillis();
 }
 
 public String getEId() {
