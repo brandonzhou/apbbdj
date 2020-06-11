@@ -29,7 +29,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import org.joda.time.DateTime
 
 /**
  * 每日库存列表
@@ -74,12 +73,13 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
 
     companion object {
         /**
-         * 1全部 2已出库 3未出库
+         * 1当日日入库快递2已出库3未出库。1-3仅限当日日入库快递。4包含历史入库快递但是出库时间是当日
          */
-        fun openActivity(activity: Context, time: String, outType: Int = 1) {
+        fun openActivity(activity: Context, time: String, outType: Int = 1, isToday : Boolean = true) {
             val intent = Intent(activity, PackStockListActivity::class.java)
             intent.putExtra("time", time)
             intent.putExtra("outType", outType)
+            intent.putExtra("isToday", isToday)
             activity.startActivity(intent)
         }
     }
@@ -106,16 +106,20 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
     private fun initData() {
         time = intent.getStringExtra("time")
         outState = intent.getIntExtra("outType", 1)
+        isToday = intent.getBooleanExtra("isToday", true)
 
-        val timeToday = DateTime.now().toString("yyyy-MM-dd")
-        isToday = timeToday.equals(time)
         if (isToday) {
             tv_title.text = "今日入库"
+            if (outState == 4){
+                tv_title.text = "今日出库"
+                ll_pack_state.visibility = View.GONE
+            }
         } else {
             tv_title.text = time
             ll_notify.visibility = View.GONE
             ll_pack_state.visibility = View.GONE
         }
+
 
         // 1全部 2 已出库 3 未出库
         tv_pack_state.text = when(outState){
@@ -168,7 +172,12 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
                     }
 
                     if (isToday) {
-                        tv_title.text = "今日入库 (${totalSize}件)"
+                        if(outState == 4){
+                            tv_title.text = "今日出库 (${totalSize}件)"
+                        }else{
+                            tv_title.text = "今日入库 (${totalSize}件)"
+                        }
+
                     } else {
                         tv_title.text = "$time (${totalSize}件)"
                     }

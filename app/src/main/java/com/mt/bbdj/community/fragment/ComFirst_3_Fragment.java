@@ -1443,11 +1443,11 @@ public class ComFirst_3_Fragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.view_today_in:
                 PackStockListActivity.Companion.openActivity(getActivity(),
-                        DateTime.now().toString("yyyy-MM-dd"), 1);
+                        DateTime.now().toString("yyyy-MM-dd"), 1, true);
                 break;
             case R.id.view_today_out:
                 PackStockListActivity.Companion.openActivity(getActivity(),
-                        DateTime.now().toString("yyyy-MM-dd"), 2);
+                        DateTime.now().toString("yyyy-MM-dd"), 4,true);
                 break;
             case R.id.view_storage_all_number:
                 Intent intent = new Intent();
