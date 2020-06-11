@@ -115,6 +115,7 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_do_pack_out"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="20dp"
+    android:background="@drawable/shap_white_bg_r10"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -9,11 +10,10 @@
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
         android:gravity="center"
         android:text="修改手机号"
         android:textColor="@color/text2"
-        android:textSize="@dimen/album_sp_18"
+        android:textSize="@dimen/text_size_18"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,11 +22,11 @@
         android:id="@+id/tv_des"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginTop="6dp"
         android:gravity="center"
         android:text="原号码（菜鸟隐私号码）"
         android:textColor="@color/text_grey_9"
-        android:textSize="@dimen/album_sp_18"
+        android:textSize="@dimen/text_size_14"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title" />
@@ -36,11 +36,14 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="22dp"
-        android:padding="5dp"
         android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:hint="新手机号"
         android:inputType="phone"
-        android:background="@drawable/shape_border_green_22"
+        android:maxLines="12"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/text_main"
+        android:background="@drawable/shape_bg_line_cc"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_des" />
@@ -56,9 +59,10 @@
         app:layout_constraintTop_toBottomOf="@+id/et_phone">
 
         <ImageView
+            android:id="@+id/iv_check_send_sms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_node_status_check" />
+            android:src="@drawable/ic_node_status_pre_check" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,10 +82,11 @@
         >
         
         <TextView
+            android:id="@+id/tv_cancel"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:text="删除"
+            android:text="取消"
             android:gravity="center"
             android:textSize="15sp"
             android:textColor="@color/text_green"
@@ -89,6 +94,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_submit"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"

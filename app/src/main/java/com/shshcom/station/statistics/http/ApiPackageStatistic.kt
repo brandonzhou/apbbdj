@@ -2,6 +2,7 @@ package com.shshcom.station.statistics.http
 
 import com.shshcom.module_base.network.Results
 import com.shshcom.module_base.network.ServiceCreator
+import com.shshcom.station.statistics.http.bean.PackageDetailData
 import com.shshcom.station.statistics.http.bean.PackageDetailResult
 import com.shshcom.station.statistics.http.bean.TodayExpressStatistics
 import com.shshcom.station.statistics.http.bean.TotalStockData
@@ -18,15 +19,15 @@ import kotlinx.coroutines.withContext
  */
 object ApiPackageStatistic {
 
-    private var service : StatisticService = ServiceCreator.create()
+    private var service: StatisticService = ServiceCreator.create()
 
-    private suspend fun <T> processApi(block:  suspend () -> BaseResult<T>) : Results<T>{
-        return withContext(Dispatchers.IO){
+    private suspend fun <T> processApi(block: suspend () -> BaseResult<T>): Results<T> {
+        return withContext(Dispatchers.IO) {
             try {
                 val re = block()
-                if(re.isSuccess){
+                if (re.isSuccess) {
                     Results.success(re.data)
-                }else{
+                } else {
                     Results.failure(Exception(re.msg))
                 }
             } catch (e: Exception) {
@@ -37,7 +38,7 @@ object ApiPackageStatistic {
 
     }
 
-    suspend fun todayExpressStatistics(stationId :String) : Results<TodayExpressStatistics> {
+    suspend fun todayExpressStatistics(stationId: String): Results<TodayExpressStatistics> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
@@ -57,12 +58,12 @@ object ApiPackageStatistic {
     per_page	每页多少条      默认20
     signature	数据签名		是
      */
-    suspend fun queryExpressDetail(stationId :String, expressId:Int, notice:Int, outState: Int,
-                                   time: String, page :Int, perPage: Int = 20) : Results<PackageDetailResult> {
+    suspend fun queryExpressDetail(stationId: String, expressId: Int, notice: Int, outState: Int,
+                                   time: String, page: Int, perPage: Int = 5): Results<PackageDetailResult> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
-            if(expressId>0){
+            if (expressId > 0) {
                 map["express_id"] = expressId
             }
             map["notice"] = notice
@@ -84,7 +85,7 @@ object ApiPackageStatistic {
     page	    当前查询的页数	Integer	否	默认1
     per_page	每页多少条
      */
-    suspend fun totalStock(stationId :String, page :Int, perPage: Int = 20) : Results<TotalStockData> {
+    suspend fun totalStock(stationId: String, page: Int, perPage: Int = 20): Results<TotalStockData> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
@@ -98,15 +99,13 @@ object ApiPackageStatistic {
     }
 
 
-
-
     /**
      * 修改手机号
     station_id	驿站id	Integer	是	12
     mobile	手机号	string	是	13800138000
     pie_id	快递数据唯一id	Integer	是	4
      */
-    suspend fun modifyMobile(stationId :String,  pie_id:Int,mobile:String) : Results<Any> {
+    suspend fun modifyMobile(stationId: String, pie_id: Int, mobile: String): Results<Any> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
@@ -123,7 +122,7 @@ object ApiPackageStatistic {
     mobile	手机号	string	是	13800138000
     pie_id	快递数据唯一id	Integer	是	4
      */
-    suspend fun reSendSMSNotice(stationId :String,  pie_id:Int) : Results<Any> {
+    suspend fun reSendSMSNotice(stationId: String, pie_id: Int): Results<PackageDetailData> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
@@ -132,7 +131,6 @@ object ApiPackageStatistic {
             service.reSendSMSNotice(map).await()
         }
     }
-
 
 
 }

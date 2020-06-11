@@ -56,7 +56,7 @@ data class PackageDetailData(
     @SerializedName("in_picture")
     val inPicture: String,
     @SerializedName("mobile")
-    val mobile: String,
+    var mobile: String,
     @SerializedName("number")
     val number: String,
     @SerializedName("out_time")
@@ -70,11 +70,11 @@ data class PackageDetailData(
     @SerializedName("privacy")
     val privacy: Int,
     @SerializedName("sms_content")
-    val smsContent: String,
+    var smsContent: String,
     @SerializedName("sms_states")
-    val smsStates: Int,
+    var smsStates: Int,
     @SerializedName("sms_time")
-    val smsTime: String,
+    var smsTime: String,
     @SerializedName("station_id")
     val stationId: Int,
     @SerializedName("types")

@@ -26,7 +26,7 @@
     <dimen name="text_size_small">14sp</dimen>
     <dimen name="text_size_select">15sp</dimen>
     <dimen name="text_size_main">16sp</dimen>
-    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
     <dimen name="text_size_large_add">28sp</dimen>
     <dimen name="text_size_huge">30sp</dimen>
     <dimen name="text_size_bigger">32sp</dimen>

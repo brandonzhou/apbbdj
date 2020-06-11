@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/shap_white_bg_r10"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:text="重发短信"
+        android:textColor="@color/text2"
+        android:textSize="@dimen/text_size_18"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:text="原号码（菜鸟隐私号码）"
+        android:textColor="@color/text_grey_9"
+        android:textSize="@dimen/text_size_14"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_privacy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="该订单为隐私号码，无法重发，请拨打面单上电话进行联系"
+            android:textColor="@color/text_main"
+            android:textSize="@dimen/text_size_main" />
+
+        <TextView
+            android:id="@+id/tv_cancel_1"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_btn_green_r20"
+            android:gravity="center"
+            android:text="好的，知道了"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_send_sms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_send_sms_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_bg_line_cc"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:textColor="@color/text_grey_6"
+            android:textSize="@dimen/text_size_14"
+            tools:text="该订单为隐私号码，无法重发，请拨打面单上电话进行联系" />
+
+        <LinearLayout
+            android:id="@+id/_ll_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/ll_check">
+
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_border_green"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/text_green"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_submit"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="24dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_btn_green_r20"
+                android:gravity="center"
+                android:text="发送"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

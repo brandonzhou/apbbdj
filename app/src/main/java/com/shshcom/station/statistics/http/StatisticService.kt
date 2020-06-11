@@ -1,5 +1,6 @@
 package com.shshcom.station.statistics.http
 
+import com.shshcom.station.statistics.http.bean.PackageDetailData
 import com.shshcom.station.statistics.http.bean.PackageDetailResult
 import com.shshcom.station.statistics.http.bean.TodayExpressStatistics
 import com.shshcom.station.statistics.http.bean.TotalStockData
@@ -60,7 +61,7 @@ interface StatisticService{
     @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("https://meng.81dja.com/express/Station/reSendSMSNotice")
-    fun reSendSMSNotice(@FieldMap fields: Map<String, Any>) : Call<BaseResult<Any>>
+    fun reSendSMSNotice(@FieldMap fields: Map<String, Any>) : Call<BaseResult<PackageDetailData>>
 
 
 }

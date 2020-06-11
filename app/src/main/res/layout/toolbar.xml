@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_18"
             android:textColor="@color/color_text_primary"
             tools:text="标题" />
 

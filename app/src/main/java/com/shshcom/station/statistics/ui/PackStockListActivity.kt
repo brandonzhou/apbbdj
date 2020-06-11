@@ -1,5 +1,6 @@
 package com.shshcom.station.statistics.ui
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -285,6 +286,24 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
             iv_company.setImageDrawable(resources.getDrawable(R.drawable.icon_dropdown))
             iv_notify.setImageDrawable(resources.getDrawable(R.drawable.icon_dropdown))
             iv_pack_state.setImageDrawable(resources.getDrawable(R.drawable.icon_dropdown))
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+        if(resultCode == Activity.RESULT_OK){
+            val item= intent?.getSerializableExtra("data") as PackageDetailData
+            if(item!= null){
+                items.forEach {
+                    if(item.pieId.equals(it.pieId)){
+                        it.mobile = item.mobile
+                        adapter.notifyDataSetChanged()
+                        return@forEach
+                    }
+                }
+            }
+
+
         }
     }
 

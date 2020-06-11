@@ -1,5 +1,6 @@
 package com.shshcom.station.statistics.domain
 
+import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.shshcom.module_base.network.Results
 import com.shshcom.station.statistics.http.ApiPackageStatistic
 import com.shshcom.station.statistics.http.bean.TodayExpressStatistics
@@ -18,6 +19,10 @@ object PackageUseCase {
     val presenterScope: CoroutineScope by lazy {
         CoroutineScope(Dispatchers.Main + job)
     }
+    
+    fun getStationId() : String{
+        return DbUserUtil.getStationId()
+    }
 
     fun todayExpressStatistics(caseBack: ICaseBack<TodayExpressStatistics>){
         presenterScope.launch {
@@ -33,5 +38,9 @@ object PackageUseCase {
                 }
             }
         }
+    }
+
+    suspend fun modifyPhone(pid:Int, phone : String){
+        val results = ApiPackageStatistic.modifyMobile(getStationId(),pid, phone)
     }
 }

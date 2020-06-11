@@ -24,7 +24,7 @@
             android:layout_marginBottom="24dp"
             android:text="请录入快递信息"
             android:textColor="@color/color_text_primary"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_18"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tv_tracking_company_key"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -1,5 +1,6 @@
 package com.shshcom.station.statistics.ui.adapter
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,7 +70,7 @@ class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<
             if (AntiShakeUtils.isInvalidClick(it)){
                 return@setOnClickListener
             }
-            PackDetailActivity.openActivity(it.context, data)
+            PackDetailActivity.openActivity(it.context as Activity, data)
         }
 
     }
