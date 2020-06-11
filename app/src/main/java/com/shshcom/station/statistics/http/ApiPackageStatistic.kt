@@ -133,4 +133,18 @@ object ApiPackageStatistic {
     }
 
 
+    /**
+     * 出库
+     * number 快递单号
+     */
+    suspend fun outWarehouse2(stationId: String, number: String): Results<Any> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["user_id"] = stationId
+            map["pie_data"] = number
+            ApiSignatureUtil.addSignature(map)
+            service.outWarehouse2(map).await()
+        }
+    }
+
 }

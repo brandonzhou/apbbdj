@@ -1,7 +1,5 @@
 package com.mt.bbdj.baseconfig.model;
 
-import java.util.HashMap;
-
 /**
  * Author : ZSK
  * Date : 2019/1/10
@@ -33,6 +31,11 @@ public class TargetEvent {
     public static int SEARCH_GLOBAL_OUT_FINISH = 424;     //首页搜索已经出库
     public static int KILL_PROCESS = 425;    //重启
     public static int MONITOR_PHONE = 426;    //监听手机号
+
+
+    public static int UPDATE_PACK_STATISTIC_OUT_SUCCESS = 5001;    //更新库存统计,出库成功
+
+
 
     private int target;
 

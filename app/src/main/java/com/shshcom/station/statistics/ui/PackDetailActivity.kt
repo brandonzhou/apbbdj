@@ -17,6 +17,7 @@ import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.CenterPopupView
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
+import com.mt.bbdj.baseconfig.model.TargetEvent
 import com.mt.bbdj.baseconfig.utls.StringUtil
 import com.mt.bbdj.baseconfig.utls.ToastUtil
 import com.mt.bbdj.community.activity.OutExceptionActivity
@@ -35,6 +36,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * 快递包裹 详细信息
@@ -64,10 +68,25 @@ class PackDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pack_detail)
+        EventBus.getDefault().register(this)
 
         initData()
 
         initClick()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun receiveMessage( targetEvent: TargetEvent){
+        if(targetEvent.target == TargetEvent.UPDATE_PACK_STATISTIC_OUT_SUCCESS){
+            tvPackState.text = "已出库"
+            ll_do_pack_out.visibility = View.GONE
+        }
+
     }
 
 
@@ -196,6 +215,20 @@ class PackDetailActivity : AppCompatActivity() {
     }
 
     private fun packOut() {
+        scope.launch {
+            val results = ApiPackageStatistic.outWarehouse2(stationId, data.number)
+            when(results){
+                is Results.Success ->{
+                    ToastUtil.showShort("出库成功")
+                    ll_do_pack_out.visibility = View.GONE
+                    EventBus.getDefault().post(TargetEvent(TargetEvent.UPDATE_PACK_STATISTIC_OUT_SUCCESS, data))
+                }
+
+                is Results.Failure ->{
+                    ToastUtil.showShort("出库失败，${results.error.message}")
+                }
+            }
+        }
 
     }
 
@@ -287,11 +320,7 @@ class PackDetailActivity : AppCompatActivity() {
                 }
 
             }
-
-
         }
-
-
     }
 
 

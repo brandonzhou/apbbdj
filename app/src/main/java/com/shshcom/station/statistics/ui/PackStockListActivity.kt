@@ -13,6 +13,7 @@ import com.lxj.xpopup.core.BasePopupView
 import com.lxj.xpopup.interfaces.SimpleCallback
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
+import com.mt.bbdj.baseconfig.model.TargetEvent
 import com.mt.bbdj.baseconfig.utls.ToastUtil
 import com.shshcom.module_base.network.Results
 import com.shshcom.station.statistics.http.ApiPackageStatistic
@@ -29,6 +30,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * 每日库存列表
@@ -86,10 +90,26 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
         setContentView(R.layout.act_pack_stock_list)
         initView()
         initTopSelect()
         initData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun receiveMessage( targetEvent: TargetEvent){
+        if(targetEvent.target == TargetEvent.UPDATE_PACK_STATISTIC_OUT_SUCCESS){
+            isFresh = true
+            page = 1
+            fetchData()
+        }
+
     }
 
     private fun initView() {

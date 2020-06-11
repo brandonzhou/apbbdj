@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jcodecraeer.xrecyclerview.XRecyclerView
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
+import com.mt.bbdj.baseconfig.model.TargetEvent
 import com.shshcom.module_base.network.Results
 import com.shshcom.station.statistics.http.ApiPackageStatistic
 import com.shshcom.station.statistics.http.bean.StockData
@@ -17,6 +18,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.util.*
 
 /**
@@ -46,6 +50,7 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
         setContentView(R.layout.activity_total_pack_stock)
         initData()
     }
@@ -123,6 +128,23 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
         isFresh = true
         page = 1
         http()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun receiveMessage( targetEvent: TargetEvent){
+        if(targetEvent.target == TargetEvent.UPDATE_PACK_STATISTIC_OUT_SUCCESS){
+            isFresh = true
+            page = 1
+            http()
+        }
+
     }
 
 }

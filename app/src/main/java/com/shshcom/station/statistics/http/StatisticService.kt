@@ -63,5 +63,13 @@ interface StatisticService{
     @POST("https://meng.81dja.com/express/Station/reSendSMSNotice")
     fun reSendSMSNotice(@FieldMap fields: Map<String, Any>) : Call<BaseResult<PackageDetailData>>
 
+    /**
+     * 快递出库 outWarehouse2
+     */
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("https://meng.81dja.com/Express/Warehousing/outWarehouse2")
+    fun outWarehouse2(@FieldMap fields: Map<String, Any>) : Call<BaseResult<Any>>
+
 
 }
