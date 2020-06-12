@@ -59,7 +59,7 @@ object ApiPackageStatistic {
     signature	数据签名		是
      */
     suspend fun queryExpressDetail(stationId: String, expressId: Int, notice: Int, outState: Int,
-                                   time: String, page: Int, perPage: Int = 5): Results<PackageDetailResult> {
+                                   time: String, page: Int, perPage: Int = 10): Results<PackageDetailResult> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId

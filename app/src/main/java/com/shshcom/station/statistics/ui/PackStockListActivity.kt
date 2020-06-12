@@ -188,8 +188,6 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
                         adapter.list = items
                         adapter.notifyDataSetChanged()
                         totalSize = result.data.total
-                    }else{
-                        totalSize = 0
                     }
 
                     if (isToday) {

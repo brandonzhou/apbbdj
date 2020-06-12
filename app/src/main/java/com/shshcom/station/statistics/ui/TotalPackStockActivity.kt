@@ -21,10 +21,9 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.util.*
 
 /**
- * 快递总库存
+ * 快递总库存列表
  */
 class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListener {
     val job = Job()
@@ -95,14 +94,16 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
 
     private fun refreshUI(totalStockData : TotalStockData){
         if (isFresh) {
-            recyclerView.refreshComplete();
+            recyclerView.refreshComplete()
+            items.clear()
+            stockAdapter.notifyDataSetChanged()
         } else {
-            recyclerView.loadMoreComplete();
+            recyclerView.loadMoreComplete()
         }
 
         if(totalStockData!= null){
             pageSize = totalStockData.lastPage
-            stockAdapter.list = totalStockData.stockDataList
+            items.addAll(totalStockData.stockDataList)
             stockAdapter.notifyDataSetChanged()
 
             tv_title.text = "总库存(${totalStockData.total}件)"

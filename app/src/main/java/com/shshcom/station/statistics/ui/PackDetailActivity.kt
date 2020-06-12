@@ -86,6 +86,7 @@ class PackDetailActivity : AppCompatActivity() {
         if(targetEvent.target == TargetEvent.UPDATE_PACK_STATISTIC_OUT_SUCCESS){
             tvPackState.text = "已出库"
             ll_do_pack_out.visibility = View.GONE
+            cl_action.visibility = View.GONE
             updatePackInfoHttp()
         }
 
@@ -110,6 +111,7 @@ class PackDetailActivity : AppCompatActivity() {
             tvPackState.text = "已出库"
             tvPackState.setTextColor(resources.getColor(R.color.text_grey_9))
             ll_do_pack_out.visibility = View.GONE
+            cl_action.visibility = View.GONE
         }
 
 
@@ -224,6 +226,7 @@ class PackDetailActivity : AppCompatActivity() {
                 is Results.Success ->{
                     ToastUtil.showShort("出库成功")
                     ll_do_pack_out.visibility = View.GONE
+                    cl_action.visibility = View.GONE
                     EventBus.getDefault().post(TargetEvent(TargetEvent.UPDATE_PACK_STATISTIC_OUT_SUCCESS))
                     updatePackInfoHttp()
                 }
@@ -327,7 +330,7 @@ class PackDetailActivity : AppCompatActivity() {
         override fun onCreate() {
             super.onCreate()
             val tv_des_phone = findViewById<TextView>(R.id.tv_des)
-            tv_des_phone.text = if (data.privacy == 0) "原号码（${data.mobile}）" else "原号码（菜鸟隐私号码）"
+            tv_des_phone.text = if (data.privacy == 0) "手机号码（${data.mobile}）" else "手机号码（菜鸟隐私号码）"
 
             if (data.privacy != 0) {
                 findViewById<View>(R.id.ll_send_sms).visibility = View.GONE
