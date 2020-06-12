@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="(支持外卖和一体机销售)"
-            android:textSize="@dimen/text_size_little"
+            android:textSize="@dimen/text_size_12"
             android:textColor="@color/text_grey_9"/>
 
 
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="(仅支持一体机销售)"
-            android:textSize="@dimen/text_size_little"
+            android:textSize="@dimen/text_size_12"
             android:textColor="@color/text_grey_9"/>
 
 
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="(仅支持外卖)"
-            android:textSize="@dimen/text_size_little"
+            android:textSize="@dimen/text_size_12"
             android:textColor="@color/text_grey_9"/>
 
 
