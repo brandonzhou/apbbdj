@@ -132,6 +132,18 @@ object ApiPackageStatistic {
         }
     }
 
+    /**
+     * 获取面单详细信息
+     */
+    suspend fun getOutPie(pie_id: Int): Results<PackageDetailData> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["pie_id"] = pie_id
+            ApiSignatureUtil.addSignature(map)
+            service.getOutPie(map).await()
+        }
+    }
+
 
     /**
      * 出库

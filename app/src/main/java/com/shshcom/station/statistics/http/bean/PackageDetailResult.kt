@@ -59,6 +59,8 @@ data class PackageDetailData(
     var mobile: String,
     @SerializedName("number")
     val number: String,
+    @SerializedName("out_type")
+    val outType : Int,
     @SerializedName("out_time")
     val outTime: String,
     @SerializedName("out_picture")
@@ -89,5 +91,18 @@ data class PackageDetailData(
     val warehousingTime: String
 ):Serializable{
         var showTimeInfo = ""
+
+    /**
+     * 出库操作客户端1. 驿站出库 2. 快递员出库 3. 驿站后台出库 4. 驿站扫二维码出库 5 驿站一体机
+     */
+    fun getOutTypeStr():String{
+        return when(outType){
+            1 -> "驿站出库"
+            2 -> "快递员出库"
+            3 -> "驿站后台出库"
+            4 -> "驿站扫二维码出库"
+            else -> "驿站一体机"
+        }
+    }
 }
 

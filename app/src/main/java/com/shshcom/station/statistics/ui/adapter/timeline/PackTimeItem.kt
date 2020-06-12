@@ -45,7 +45,7 @@ class PackTimeItem(val name: String, val time: String, val state: String, val no
 
             val audioItem = PackTimeItem("语音通知", mmddhhmm.format(inTime),
                     "首次存放到驿站，系统自动语音通知", "", showImage = false)
-            list.add(audioItem)
+           // list.add(audioItem)
 
             if (!data.smsTime.isNullOrEmpty()) {
                 val smsTime = AppTimeUtils.str2Date(data.smsTime, formatS)

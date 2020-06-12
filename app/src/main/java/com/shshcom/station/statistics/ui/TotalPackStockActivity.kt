@@ -132,6 +132,7 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
 
     override fun onDestroy() {
         super.onDestroy()
+        job.cancel()
         EventBus.getDefault().unregister(this)
     }
 

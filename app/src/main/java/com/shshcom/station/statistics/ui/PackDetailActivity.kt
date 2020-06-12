@@ -78,6 +78,7 @@ class PackDetailActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
+        job.cancel()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -85,6 +86,7 @@ class PackDetailActivity : AppCompatActivity() {
         if(targetEvent.target == TargetEvent.UPDATE_PACK_STATISTIC_OUT_SUCCESS){
             tvPackState.text = "已出库"
             ll_do_pack_out.visibility = View.GONE
+            updatePackInfoHttp()
         }
 
     }
@@ -95,6 +97,7 @@ class PackDetailActivity : AppCompatActivity() {
         iv_back.setOnClickListener { finish() }
 
         data = intent.getSerializableExtra("data") as PackageDetailData
+
         Glide.with(this).load(data.expressIcon).into(ivCompany)
         tvPackId.text = data.number
         tvPickCode.text = data.code
@@ -221,7 +224,8 @@ class PackDetailActivity : AppCompatActivity() {
                 is Results.Success ->{
                     ToastUtil.showShort("出库成功")
                     ll_do_pack_out.visibility = View.GONE
-                    EventBus.getDefault().post(TargetEvent(TargetEvent.UPDATE_PACK_STATISTIC_OUT_SUCCESS, data))
+                    EventBus.getDefault().post(TargetEvent(TargetEvent.UPDATE_PACK_STATISTIC_OUT_SUCCESS))
+                    updatePackInfoHttp()
                 }
 
                 is Results.Failure ->{
@@ -230,6 +234,26 @@ class PackDetailActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun updatePackInfoHttp(){
+        scope.launch {
+            val results = ApiPackageStatistic.getOutPie( data.pieId)
+            when(results){
+                is Results.Success ->{
+                    data = results.data
+                    val list = PackTimeItem.createList(data)
+                    val adapter = recyclerView.adapter as PackDetailTimelineAdapter
+                    adapter.list = list
+                    decoration.replace(list)
+                    adapter.notifyDataSetChanged()
+                }
+
+                is Results.Failure ->{
+                    ToastUtil.showShort(" 信息更新失败，${results.error.message}")
+                }
+            }
+        }
     }
 
 

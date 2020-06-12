@@ -99,6 +99,7 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
 
     override fun onDestroy() {
         super.onDestroy()
+        job.cancel()
         EventBus.getDefault().unregister(this)
     }
 
