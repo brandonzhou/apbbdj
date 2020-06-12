@@ -89,6 +89,7 @@ import com.mt.bbdj.community.activity.SetWayMoneyActivity;
 import com.mt.bbdj.community.activity.SystemMessageAboutActivity;
 import com.mt.bbdj.community.activity.WaitHandleOrderActivity;
 import com.mt.bbdj.community.activity.WaterOrderActivity;
+import com.mt.bbdj.community.activity.WebDetailActivity;
 import com.mt.bbdj.community.activity.goodmanage.GoodsManagerActivity;
 import com.mt.bbdj.community.adapter.GlideImageLoader;
 import com.mt.bbdj.community.adapter.MyGridViewAdapter;
@@ -561,6 +562,10 @@ public class ComFirst_3_Fragment extends BaseFragment {
             case "6":       //拍照入库
                 handleEnterHourseByCameraEvent();
                 break;
+            case "7":       //数据统计
+                WebDetailActivity.actionTo(getActivity(),"https://tongji.shihuacom.com/#/?stationId="+user_id);
+//                WebDetailActivity.actionTo(getActivity(),"https://tongji.shihuacom.com/#/?stationId=2887");
+                break;
         }
     }
 
@@ -902,7 +907,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
 
     private void setTwoItemData() {
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i <= 7; i++) {
             HashMap<String, Object> item = new HashMap<>();
 
             if (i == 0) {
@@ -948,7 +953,14 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("tag", "0");
                 item.put("id", "6");
                 item.put("name", "拍照入库");
-                item.put("ic", R.drawable.ic_three_5);
+                item.put("ic", R.drawable.ic_main_pack_scan);
+            }
+
+            if (i == 7) {
+                item.put("tag", "0");
+                item.put("id", "7");
+                item.put("name", "数据统计");
+                item.put("ic", R.drawable.ic_three_2);
             }
 
             mListTwo.add(item);
@@ -998,10 +1010,14 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 JSONObject jsonObject = new JSONObject(response.get());
                 String code = jsonObject.get("code").toString();
                 String msg = jsonObject.get("msg").toString();
-                if ("5001".equals(code)) {
-                    handleHttpEvent(what, jsonObject);
-                } else {
-                    ToastUtil.showShort(msg);
+                if(what == REQUEST_BANNER_MESSAGE){
+                    handleBannerMessage(jsonObject);
+                }else {
+                    if ("5001".equals(code)) {
+                        handleHttpEvent(what, jsonObject);
+                    } else {
+                        ToastUtil.showShort(msg);
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -1045,9 +1061,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
             case REQUEST_UPLOAD_LOGO:    //更新logo图片
                 updateImagePath(jsonObject);
                 break;
-            case REQUEST_BANNER_MESSAGE:    //首页banner图
-                handleBannerMessage(jsonObject);
-                break;
+//            case REQUEST_BANNER_MESSAGE:    //首页banner图
+//                handleBannerMessage(jsonObject);
+//                break;
             case REQUEST_ENTER_MESSAGE:   //入库情况
                 // zhhli 不再显示 20200528
                 // handleEnterMessage(jsonObject);
@@ -1081,14 +1097,17 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void handleBannerMessage(JSONObject jsonObject) throws JSONException {
-        JSONArray data = jsonObject.getJSONArray("data");
         List<String> images = new ArrayList<>();
-        for (int i = 0; i < data.length(); i++) {
-            JSONObject jsonObject1 = data.getJSONObject(i);
-            String thumb = jsonObject1.getString("thumb");
-            String link = jsonObject1.getString("link");
-            images.add(thumb);
+        if(jsonObject.has("data")){
+            JSONArray data = jsonObject.getJSONArray("data");
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject jsonObject1 = data.getJSONObject(i);
+                String thumb = jsonObject1.getString("thumb");
+                String link = jsonObject1.getString("link");
+                images.add(thumb);
+            }
         }
+
         setBanner(images);
     }
 
@@ -1438,8 +1457,6 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
     @OnClick({R.id.view_today_out, R.id.view_today_in, R.id.view_storage_all_number})
     public void onTodayViewClicked(View view) {
-
-
         switch (view.getId()) {
             case R.id.view_today_in:
                 PackStockListActivity.Companion.openActivity(getActivity(),
@@ -1453,7 +1470,6 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), TotalPackStockActivity.class);
                 getActivity().startActivity(intent);
-
                 break;
         }
 

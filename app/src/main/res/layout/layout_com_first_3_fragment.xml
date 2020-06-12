@@ -24,7 +24,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="32dp"
             android:layout_centerInParent="true"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
@@ -284,7 +284,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
+                android:text="存快递"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/grey_7"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <com.mt.bbdj.baseconfig.view.MyGridView
+                android:id="@+id/gv_com_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:horizontalSpacing="10dip"
+                android:listSelector="@null"
+                android:numColumns="4"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="8dip">
+
+            </com.mt.bbdj.baseconfig.view.MyGridView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
                 android:text="外卖服务"
                 android:textColor="@color/grey_7"
                 android:textSize="17sp"
@@ -332,30 +357,7 @@
 
             </com.mt.bbdj.baseconfig.view.MyGridView>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginLeft="10dp"
-                android:text="存快递"
-                android:textColor="@color/grey_7"
-                android:textSize="17sp"
-                android:textStyle="bold" />
 
-            <com.mt.bbdj.baseconfig.view.MyGridView
-                android:id="@+id/gv_com_two"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:horizontalSpacing="10dip"
-                android:listSelector="@null"
-                android:numColumns="4"
-                android:scrollbars="none"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="8dip">
-
-            </com.mt.bbdj.baseconfig.view.MyGridView>
 
 
             <TextView
