@@ -39,6 +39,9 @@ class PackDetailTimelineAdapter(var list: List<PackTimeItem>, val packData : Pac
         holder.tv_detail_name.text = data.name
         holder.tv_detail_time.text = data.time
 
+
+
+
         holder.tv_detail_scan_image.visibility = if(data.showImage) {
             holder.tv_detail_scan_image.setOnClickListener {
                 if(AntiShakeUtils.isInvalidClick(it)){
@@ -48,6 +51,12 @@ class PackDetailTimelineAdapter(var list: List<PackTimeItem>, val packData : Pac
                 PackDetailImageActivity.openActivity(holder.itemView.context, packData, position==0)
 
             }
+            holder.tv_detail_scan_image.text = if(data.name.equals("拍照入库")){
+                "查看入库照片 >"
+            }else{
+                "查看出库照片 >"
+            }
+
             View.VISIBLE
         } else {
             View.GONE

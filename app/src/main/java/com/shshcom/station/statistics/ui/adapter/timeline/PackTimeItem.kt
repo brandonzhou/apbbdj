@@ -64,7 +64,7 @@ class PackTimeItem(val name: String, val time: String, val state: String, val no
                 val outTime = AppTimeUtils.str2Date(data.outTime, formatS)
 
                 val outItem = PackTimeItem("快递出库", mmddhhmm.format(outTime),
-                        "一体机扫描出库", "")
+                        data.getOutTypeStr(), "")
                 list.add(outItem)
             }
 

@@ -101,6 +101,7 @@
     <color name="black_tran_alpha_30">#4D000000</color>
     <color name="black_tran_alpha_40">#66000000</color>
     <color name="black_tran_alpha_50">#80000000</color>
+    <color name="text_grey_3">#FF333333</color>
     <color name="text_grey_6">#666666</color>
     <color name="text_grey_9">#909090</color>
     <color name="text_orange">#FFF86417 </color>

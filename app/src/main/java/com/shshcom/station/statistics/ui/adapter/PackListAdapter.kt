@@ -62,7 +62,19 @@ class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<
             data.showTimeInfo = getShowTime(data)
         }
 
-        holder.tvPackState.text = if(data.types ==1) "待出库" else "已出库"
+        val res = holder.itemView.context.resources
+
+        if(data.types ==1){
+            holder.tvPackState.text = "待出库"
+            holder.tvPackState.setTextColor(res.getColor(R.color.white))
+            holder.tvPackState.background = res.getDrawable(R.drawable.bg_green_r11)
+        }else{
+            // 2
+            holder.tvPackState.text =  "已出库"
+            holder.tvPackState.setTextColor(res.getColor(R.color.text_grey_3))
+            holder.tvPackState.background = res.getDrawable(R.drawable.bg_grey_r11)
+
+        }
 
         holder.tvPackTime.text = data.showTimeInfo
 

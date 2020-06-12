@@ -327,6 +327,8 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
                 items.forEach {
                     if(item.pieId.equals(it.pieId)){
                         it.mobile = item.mobile
+                        it.smsStates = item.smsStates
+                        it.smsTime = item.smsTime
                         adapter.notifyDataSetChanged()
                         return@forEach
                     }
