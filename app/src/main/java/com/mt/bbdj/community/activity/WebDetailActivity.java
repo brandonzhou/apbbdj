@@ -1,16 +1,18 @@
 package com.mt.bbdj.community.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
-
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
@@ -21,6 +23,13 @@ public class WebDetailActivity extends BaseActivity {
     private WebView webView;
     private String url;
     private RelativeLayout ivBack;
+    private TextView tv_title;
+
+    public static void actionTo(Activity activity, String url){
+        Intent intent = new Intent(activity,WebDetailActivity.class);
+        intent.putExtra("urllink",url);
+        activity.startActivity(intent);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +48,9 @@ public class WebDetailActivity extends BaseActivity {
         //支持屏幕缩放
         webSettings.setSupportZoom(false);
         webSettings.setTextZoom(100);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setAppCacheEnabled(false);
 
         webSettings.setBuiltInZoomControls(false);
         webView.loadUrl(url);
@@ -53,11 +65,27 @@ public class WebDetailActivity extends BaseActivity {
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
                     progressBar.setVisibility(View.GONE);
+                    tv_title.setText(webView.getTitle());
+
                 } else {
                     progressBar.setVisibility(View.VISIBLE);
                     progressBar.setProgress(newProgress);
                 }
             }
+        });
+        webView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView webView, String url) {
+                return false;
+            }
+
+            @Override
+            public void onPageFinished(WebView webView, String url) {
+                super.onPageFinished(webView, url);
+                tv_title.setText(webView.getTitle());
+            }
+
         });
 
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +109,7 @@ public class WebDetailActivity extends BaseActivity {
         progressBar = findViewById(R.id.progressbar);
         webView = findViewById(R.id.webview);
         ivBack = findViewById(R.id.iv_back);
+        tv_title = findViewById(R.id.tv_title);
     }
 
     @Override

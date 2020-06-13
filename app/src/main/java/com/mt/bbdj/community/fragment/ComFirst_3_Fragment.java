@@ -562,9 +562,8 @@ public class ComFirst_3_Fragment extends BaseFragment {
             case "6":       //拍照入库
                 handleEnterHourseByCameraEvent();
                 break;
-            case "7":       //数据统计
-                WebDetailActivity.actionTo(getActivity(),"https://tongji.shihuacom.com/#/?stationId="+user_id);
-//                WebDetailActivity.actionTo(getActivity(),"https://tongji.shihuacom.com/#/?stationId=2887");
+            case "7":       //·
+                WebDetailActivity.actionTo(getActivity(),"https://tongji.shshcom.com/#/?stationId="+user_id);
                 break;
         }
     }
