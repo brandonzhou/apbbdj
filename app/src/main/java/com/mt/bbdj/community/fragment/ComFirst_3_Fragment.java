@@ -884,6 +884,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("id", "8");
                 item.put("name", "操作手册");
                 item.put("ic", R.drawable.ic_three_10);
+                mListThree.add(item);
             }
             if (i == 7) {
                 item.put("tag", "0");
@@ -897,8 +898,6 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("name", "绑定的用户");
                 item.put("ic", R.drawable.ic_first_two);
             }
-
-            mListThree.add(item);
         }
         MyGridViewAdapter myGridViewAdapter = new MyGridViewAdapter(mListThree);
         mComGridViewThree.setAdapter(myGridViewAdapter);
@@ -909,7 +908,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         for (int i = 0; i <= 7; i++) {
             HashMap<String, Object> item = new HashMap<>();
 
-            if (i == 0) {
+            if (i == 0) {//隐藏
                 item.put("tag", "0");
                 item.put("id", "0");
                 item.put("name", "接收存放");
@@ -921,27 +920,29 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("id", "1");
                 item.put("name", "扫码入库");
                 item.put("ic", R.drawable.ic_two_2);
+                mListTwo.add(item);
             }
             if (i == 2) {
                 item.put("tag", "0");
                 item.put("id", "2");
                 item.put("name", "用户取件");
                 item.put("ic", R.drawable.ic_two_3);
+                mListTwo.add(item);
             }
-            if (i == 3) {
+            if (i == 3) {//隐藏
                 item.put("tag", "0");
                 item.put("id", "3");
                 item.put("name", "二维码取件");
                 item.put("ic", R.drawable.ic_two_3);
             }
-            if (i == 4) {
+            if (i == 4) {//隐藏
                 item.put("tag", "0");
                 item.put("id", "4");
                 item.put("name", "我的存放");
                 item.put("ic", R.drawable.ic_three_2);
             }
 
-            if (i == 5) {
+            if (i == 5) {//隐藏
                 item.put("tag", "0");
                 item.put("id", "5");
                 item.put("name", "寄存费用");
@@ -953,6 +954,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("id", "6");
                 item.put("name", "拍照入库");
                 item.put("ic", R.drawable.ic_main_pack_scan);
+                mListTwo.add(item);
             }
 
             if (i == 7) {
@@ -960,9 +962,10 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("id", "7");
                 item.put("name", "数据统计");
                 item.put("ic", R.drawable.ic_three_2);
+                mListTwo.add(item);
             }
 
-            mListTwo.add(item);
+
         }
         MyGridViewAdapter myGridViewAdapter = new MyGridViewAdapter(mListTwo);
         mComGridViewTwo.setAdapter(myGridViewAdapter);
