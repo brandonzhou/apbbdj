@@ -26,7 +26,8 @@ object PackageUseCase {
 
     fun todayExpressStatistics(caseBack: ICaseBack<TodayExpressStatistics>){
         presenterScope.launch {
-            val result =  ApiPackageStatistic.todayExpressStatistics("12")
+            val stationId = DbUserUtil.getStationId()
+            val result =  ApiPackageStatistic.todayExpressStatistics(stationId)
 
             when(result){
                 is Results.Success -> {
