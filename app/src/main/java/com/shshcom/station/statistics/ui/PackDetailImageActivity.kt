@@ -4,11 +4,14 @@ package com.shshcom.station.statistics.ui;
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import cn.ycbjie.ycstatusbarlib.StatusBarUtils
+import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
 import com.bumptech.glide.Glide
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
@@ -46,7 +49,9 @@ class PackDetailImageActivity : AppCompatActivity() , OnTabSelectListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pack_detail_image);
+        setContentView(R.layout.activity_pack_detail_image)
+        YCAppBar.setStatusBarLightMode(this, Color.WHITE)
+        StatusBarUtils.StatusBarLightMode(this)
 
         initData()
     }

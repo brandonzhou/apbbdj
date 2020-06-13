@@ -1,8 +1,11 @@
 package com.shshcom.station.statistics.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import cn.ycbjie.ycstatusbarlib.StatusBarUtils
+import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
 import com.jcodecraeer.xrecyclerview.XRecyclerView
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
@@ -51,6 +54,8 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
         setContentView(R.layout.activity_total_pack_stock)
+        YCAppBar.setStatusBarLightMode(this, Color.WHITE)
+        StatusBarUtils.StatusBarLightMode(this)
         initData()
     }
 

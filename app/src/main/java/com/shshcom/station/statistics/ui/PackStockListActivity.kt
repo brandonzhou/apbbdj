@@ -3,10 +3,13 @@ package com.shshcom.station.statistics.ui
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import cn.ycbjie.ycstatusbarlib.StatusBarUtils
+import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
 import com.jcodecraeer.xrecyclerview.XRecyclerView
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.BasePopupView
@@ -92,6 +95,8 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
         setContentView(R.layout.act_pack_stock_list)
+        YCAppBar.setStatusBarLightMode(this, Color.WHITE)
+        StatusBarUtils.StatusBarLightMode(this)
         initView()
         initTopSelect()
         initData()

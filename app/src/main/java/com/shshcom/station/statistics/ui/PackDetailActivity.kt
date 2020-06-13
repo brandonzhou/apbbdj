@@ -12,6 +12,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import cn.ycbjie.ycstatusbarlib.StatusBarUtils
+import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
 import com.bumptech.glide.Glide
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.core.CenterPopupView
@@ -69,6 +71,8 @@ class PackDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pack_detail)
         EventBus.getDefault().register(this)
+        YCAppBar.setStatusBarLightMode(this, Color.WHITE)
+        StatusBarUtils.StatusBarLightMode(this)
 
         initData()
 
