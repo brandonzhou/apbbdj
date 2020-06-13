@@ -10,10 +10,10 @@ public class InterApi {
      * 服务器地址/
      */
     // public static final String SERVER_ADDRESS = "http://www.81dja.com/BbdjApi/";
-    public static final String BASE_URL = "https://www.81dja.com/";
-    public static final String BASE_URL_EXPRESS = "https://meng.81dja.com/";
-    public static final String BASE_URL_ENTER = "https://qrcode.taowangzhan.com/";
-    public static final String BASE_URL_OBSERVICE = "https://express.81dja.com/";
+    public static final String BASE_URL = "https://www.81dja.com:5443/";
+    public static final String BASE_URL_EXPRESS = "https://meng.81dja.com:5443/";
+    public static final String BASE_URL_ENTER = "https://qrcode.taowangzhan.com:5443/";
+    public static final String BASE_URL_OBSERVICE = "https://express.81dja.com:5443/";
     // public static final String BASE_URL = "http://cs.81bb.cn";
     public static final String SERVER_ADDRESS = BASE_URL + "/BbdjApi/";
     //public static final String SERVER_ADDRESS_ENTER = "http://www.81dja.com/Pie/";

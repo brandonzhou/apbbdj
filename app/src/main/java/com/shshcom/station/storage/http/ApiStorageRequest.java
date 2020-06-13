@@ -79,10 +79,10 @@ public class ApiStorageRequest {
      * express_id 快递公司id
      * batch_no 批次号
      * <p>
-     * http://qrcode.taowangzhan.com/bbapi/submit/stationUploadExpressImg3
+     * http://qrcode.taowangzhan.com:5443/bbapi/submit/stationUploadExpressImg3
      */
     public static Request<String> stationUploadExpressImg3(ScanImage image) {
-        String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationUploadExpressImg3";
+        String url = "https://qrcode.taowangzhan.com:5443/bbapi/submit/stationUploadExpressImg3";
         Map<String, Object> map = new HashMap<>();
         map.put("code", image.getPickCode());
         map.put("number", image.getEId());
@@ -109,11 +109,11 @@ public class ApiStorageRequest {
     /**
      * signature	String	签名值
      * station_id	String	驿站标识
-     * http://qrcode.taowangzhan.com/bbapi/submit/stationOcrResult
+     * http://qrcode.taowangzhan.com:5443/bbapi/submit/stationOcrResult
      */
 
     public static Request<String> stationOcrResult(String station_id, String batch_no) {
-        String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationOcrResult";
+        String url = "https://qrcode.taowangzhan.com:5443/bbapi/submit/stationOcrResult";
 
         Map<String, Object> map = new HashMap<>();
         map.put("station_id", station_id);
@@ -128,7 +128,7 @@ public class ApiStorageRequest {
     /**
      * 接口名称	编辑快递面单信息
      * 功能描述	修改识别失败的快递手机号、取件码、条形码、快递公司
-     * https://qrcode.taowangzhan.com/bbapi/submit/stationUpdatePie
+     * https://qrcode.taowangzhan.com:5443/bbapi/submit/stationUpdatePie
      * <p>
      * signature	String	签名值
      * <p>
@@ -143,7 +143,7 @@ public class ApiStorageRequest {
      */
     public static Request<String> stationUpdatePie(String number, String code, String express_id,
                                                    String mobile, String pie_id, String station_id) {
-        String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationUpdatePie";
+        String url = "https://qrcode.taowangzhan.com:5443/bbapi/submit/stationUpdatePie";
 
         Map<String, Object> map = new HashMap<>();
         map.put("code", code);
@@ -167,7 +167,7 @@ public class ApiStorageRequest {
      * @return
      */
     public static Request<String> getExpressCompany(String station_id) {
-        String url = "https://meng.81dja.com/express/warehousing/getExpressCompany";
+        String url = "https://meng.81dja.com:5443/express/warehousing/getExpressCompany";
 
         Map<String, Object> map = new HashMap<>();
         map.put("user_id", station_id);
@@ -185,7 +185,7 @@ public class ApiStorageRequest {
      * @return
      */
     public static Request<String> stationSyncDelete(String station_id, String pie_id) {
-        String url = "https://qrcode.taowangzhan.com/bbapi/submit/stationSyncDelete";
+        String url = "https://qrcode.taowangzhan.com:5443/bbapi/submit/stationSyncDelete";
 
         Map<String, Object> map = new HashMap<>();
         map.put("station_id", station_id);
@@ -210,7 +210,7 @@ public class ApiStorageRequest {
      * @return
      */
     public static Request<String> stationInputUploadExpress(ScanImage image) {
-        String url = "https://qrcode.taowangzhan.com/bbapi/submit2/stationInputUploadExpress";
+        String url = "https://qrcode.taowangzhan.com:5443/bbapi/submit2/stationInputUploadExpress";
 
         Map<String, Object> map = new HashMap<>();
         map.put("batch_no", image.getBatchNo());
@@ -242,7 +242,7 @@ public class ApiStorageRequest {
      * @return
      */
     public static Request<String> queryExpress(String station_id, String barCode) {
-        String url = "https://qrcode.taowangzhan.com/bbapi/submit2/queryExpress";
+        String url = "https://qrcode.taowangzhan.com:5443/bbapi/submit2/queryExpress";
 
         Map<String, Object> map = new HashMap<>();
         map.put("station_id", station_id);

@@ -25,7 +25,7 @@ interface StatisticService{
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com/express/Station/todayExpressStatistics")
+    @POST("https://meng.81dja.com:5443/express/Station/todayExpressStatistics")
     fun todayExpressStatistics(@FieldMap fields: Map<String, Any>) : Call<BaseResult<TodayExpressStatistics>>
 
     /**
@@ -33,7 +33,7 @@ interface StatisticService{
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com/express/Station/queryExpressDetail")
+    @POST("https://meng.81dja.com:5443/express/Station/queryExpressDetail")
     fun queryExpressDetail(@FieldMap fields: Map<String, Any>) : Call<BaseResult<PackageDetailResult>>
 
     /**
@@ -42,7 +42,7 @@ interface StatisticService{
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com/express/Station/totalStock")
+    @POST("https://meng.81dja.com:5443/express/Station/totalStock")
     fun totalStock(@FieldMap fields: Map<String, Any>) : Call<BaseResult<TotalStockData>>
 
 
@@ -51,7 +51,7 @@ interface StatisticService{
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com/express/Station/modifyMobile")
+    @POST("https://meng.81dja.com:5443/express/Station/modifyMobile")
     fun modifyMobile(@FieldMap fields: Map<String, Any>) : Call<BaseResult<Any>>
 
 
@@ -60,7 +60,7 @@ interface StatisticService{
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com/express/Station/reSendSMSNotice")
+    @POST("https://meng.81dja.com:5443/express/Station/reSendSMSNotice")
     fun reSendSMSNotice(@FieldMap fields: Map<String, Any>) : Call<BaseResult<PackageDetailData>>
 
     /**
@@ -68,7 +68,7 @@ interface StatisticService{
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com/express/station/getOutPie")
+    @POST("https://meng.81dja.com:5443/express/station/getOutPie")
     fun getOutPie(@FieldMap fields: Map<String, Any>) : Call<BaseResult<PackageDetailData>>
 
     /**
@@ -76,7 +76,7 @@ interface StatisticService{
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com/Express/Warehousing/outWarehouse2")
+    @POST("https://meng.81dja.com:5443/Express/Warehousing/outWarehouse2")
     fun outWarehouse2(@FieldMap fields: Map<String, Any>) : Call<BaseResult<Any>>
 
 
