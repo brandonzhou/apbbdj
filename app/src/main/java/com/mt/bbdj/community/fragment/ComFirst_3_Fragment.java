@@ -759,7 +759,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         if (images.isEmpty()) {
             rl_banner.setVisibility(View.GONE);
         } else {
-            rl_banner.setVisibility(View.VISIBLE);
+            rl_banner.setVisibility(View.GONE);
             mBanner = banner.setImages(images).setImageLoader(new GlideImageLoader());
             mBanner.start();
         }
