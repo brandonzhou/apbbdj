@@ -149,7 +149,7 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
 
         // 1全部 2 已出库 3 未出库
         tv_pack_state.text = when(outState){
-            1 -> "全部"
+            1 -> "全部出库状态"
             2 -> "已出库"
             else -> "未出库"
         }
@@ -193,6 +193,8 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
                         adapter.list = items
                         adapter.notifyDataSetChanged()
                         totalSize = result.data.total
+                    }else{
+                        totalSize = 0
                     }
 
                     if (isToday) {
@@ -225,7 +227,7 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
                 return@setOnClickListener
             }
             val list = ArrayList<SelectItem>(20)
-            list.add(SelectItem(0, "全部", expressId == 0))
+            list.add(SelectItem(0, "全部公司", expressId == 0))
 
             for (com in companyList){
                 val id = com.express_id
@@ -250,9 +252,10 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
             }
 
             // 1 全部通知状态 2通知
-            val item1 = SelectItem(1, "全部", notify ==1)
-            val item2 = SelectItem(2, "已通知", notify ==2)
-            val list = listOf(item1, item2)
+            val item1 = SelectItem(1, "全部通知", notify ==1)
+            val item2 = SelectItem(2, "通知到达", notify ==2)
+            val item3 = SelectItem(3, "通知失败", notify ==3)
+            val list = listOf(item1, item2, item3)
             iv_notify.setImageDrawable(resources.getDrawable(R.drawable.icon_drop_up))
 
             popupView = showPopView(list) {
@@ -270,7 +273,7 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
             }
 
             // 1全部 2 已出库 3 未出库
-            val item1 = SelectItem(1, "全部", outState ==1)
+            val item1 = SelectItem(1, "全部出库状态", outState ==1)
             val item2 = SelectItem(2, "已出库", outState ==2)
             val item3 = SelectItem(3, "未出库", outState ==3)
 

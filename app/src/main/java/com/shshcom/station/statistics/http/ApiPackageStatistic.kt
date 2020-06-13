@@ -51,7 +51,7 @@ object ApiPackageStatistic {
     /**
     station_id	驿站id
     express_id	快递公司id
-    notice	    通知状态  1全部通知状态 2通知
+    notice	    通知状态  1全部通知状态 2通知 3 通知失败
     out_type	出库状态  1全部2已出库3未出库。1-3仅限当日日入库快递。4包含历史入库快递但是出库时间是当日
     time	    要查询的时间,  默认当天时间
     page	    当前查询的页数  默认1
