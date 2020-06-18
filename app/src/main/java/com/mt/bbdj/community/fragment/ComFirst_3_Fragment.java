@@ -81,7 +81,6 @@ import com.mt.bbdj.community.activity.RecommendUserActivity;
 import com.mt.bbdj.community.activity.RepertoryActivity;
 import com.mt.bbdj.community.activity.RepertoryStoreActivity;
 import com.mt.bbdj.community.activity.SaveManagerMoneyActivity;
-import com.mt.bbdj.community.activity.ScannerOutActivity;
 import com.mt.bbdj.community.activity.SearchPackageActivity;
 import com.mt.bbdj.community.activity.SelectExpressActivity;
 import com.mt.bbdj.community.activity.SendManagerActivity;
@@ -99,6 +98,7 @@ import com.shshcom.station.statistics.domain.PackageUseCase;
 import com.shshcom.station.statistics.http.bean.TodayExpressStatistics;
 import com.shshcom.station.statistics.ui.PackStockListActivity;
 import com.shshcom.station.statistics.ui.TotalPackStockActivity;
+import com.shshcom.station.storage.activity.ScanPickOutActivity;
 import com.shshcom.station.storage.activity.ScanStorageActivity;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -677,7 +677,8 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     private void handleOutManagerEvent() {
-        ScannerOutActivity.actionTo(getActivity());
+//        ScannerOutActivity.actionTo(getActivity());
+        ScanPickOutActivity.Companion.openActivity(getActivity());
     }
 
     private void handleEnterManagerEvent() {
