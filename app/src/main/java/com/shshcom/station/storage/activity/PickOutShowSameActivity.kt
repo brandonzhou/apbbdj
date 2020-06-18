@@ -57,8 +57,9 @@ class PickOutShowSameActivity : AppCompatActivity() {
         inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
             val tv_pack_company_name = itemView.findViewById<TextView>(R.id.tv_pack_company_name)
             val tv_pack_barcode = itemView.findViewById<TextView>(R.id.tv_pack_barcode)
-            val tv_pack_phone = itemView.findViewById<TextView>(R.id.tv_pack_phone)
             val tv_pack_pickcode = itemView.findViewById<TextView>(R.id.tv_pack_pickcode)
+            val tv_pack_in_time = itemView.findViewById<TextView>(R.id.tv_pack_in_time)
+
 
         }
 
@@ -78,8 +79,8 @@ class PickOutShowSameActivity : AppCompatActivity() {
 
             holder.tv_pack_company_name.text = "${info!!.expressName}："
             holder.tv_pack_barcode.text = info.number
-            holder.tv_pack_phone.text = info.mobile
             holder.tv_pack_pickcode.text = info.code
+            holder.tv_pack_in_time.text = info.warehousingTime
         }
 
     }
