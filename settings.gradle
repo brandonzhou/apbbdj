@@ -1,2 +1,3 @@
+include ':openCVLibrary343'
 include ':app', ':idcardcamera', ':zxlib', ':cameraview'
 include ':module_base'
