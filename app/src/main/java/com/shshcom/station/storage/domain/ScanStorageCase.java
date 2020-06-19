@@ -1,6 +1,7 @@
 package com.shshcom.station.storage.domain;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -16,6 +17,8 @@ import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.RxFileTool;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.shshcom.station.imageblurdetection.ImageDetectionUseCase;
+import com.shshcom.station.imageblurdetection.OpenCVData;
 import com.shshcom.station.storage.http.ApiStorageRequest;
 import com.shshcom.station.storage.http.bean.BaseResult;
 import com.shshcom.station.storage.http.bean.ExpressCompany;
@@ -114,6 +117,27 @@ public class ScanStorageCase {
 
     public ScanImage searchScanImageFromDb(String eId){
         return GreenDaoUtil.findScanImage(eId);
+    }
+
+
+    public Observable<OpenCVData> getBitmap(byte[] imageData){
+        return Observable.just(imageData)
+                .map(new Function<byte[], Bitmap>() {
+                    @Override
+                    public Bitmap apply(byte[] bytes) throws Exception {
+                        SHCameraHelp shCameraHelp = new SHCameraHelp();
+
+                        return shCameraHelp.getImageBitmap(bytes);
+                    }
+                }).map(new Function<Bitmap, OpenCVData>() {
+                    @Override
+                    public OpenCVData apply(Bitmap bitmap) throws Exception {
+
+                        double score = ImageDetectionUseCase.INSTANCE.getSharpnessScoreFromOpenCV(bitmap);
+                        return new OpenCVData(bitmap, score);
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<String> saveScanImage(String eId, PickupCode pickCode, byte[] imageData, String mobile, String expressCompanyId){

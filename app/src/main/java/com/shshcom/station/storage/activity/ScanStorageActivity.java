@@ -43,6 +43,10 @@ import com.shshcom.station.storage.http.bean.ExpressCompany;
 import com.shshcom.station.storage.widget.CustomExpressCompanyPopup;
 import com.shshcom.station.util.AntiShakeUtils;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -58,7 +62,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
  * author: zhhli
  * 2020/5/18
  */
-public class ScanStorageActivity extends CaptureActivity implements View.OnClickListener {
+public class ScanStorageActivity extends CaptureActivity implements View.OnClickListener{
     private static final String TAG = "ScanStorageActivity";
     /*请求码-配置取件码*/
     private static final int REQUEST_CODE_SET_PICK_UP_NUMBER = 1;
@@ -95,6 +99,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     ArrayList<ExpressCompany> mExpressCompanies;
 
     private State state;
+
+
 
     private enum State {
         scanning,
@@ -280,42 +286,58 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                SoundHelper.getInstance().playExpress(express_id);
-//                camera.stopPreview();
-                barCodeSanRepeatTime = 0;
-                PickupCode pickupCode = storageCase.getCurrentPickCode();
+                Disposable disposable = storageCase.getBitmap(data)
+                        .subscribe(cvData->{
+                            ToastUtil.showShort(cvData.getScore()+"");
+                            LogUtil.d("opencv", cvData.getScore()+"");
+                            tv_pickup_code.setText(cvData.getScore()+"");
 
-                PickupCode nextCode = pickupCode.nextPickCode();
-                updateUI(result, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
-                Disposable disposable = storageCase.saveScanImage(result, pickupCode, data, null, express_id + "")
-                        .subscribe(s -> {
-                        }, throwable -> {
-                            DialogUtil.promptDialog(activity, throwable.getMessage());
-                            updateBottomCount();
+                            barCodeSanRepeatTime = 0;
+                            currentBarCode = "";
+                            camera.startPreview();
+
+                            helper.restartPreviewAndDecode();
+                        }, e ->{
+
                         });
 
-                storageCase.updatePickCode(nextCode);
-                updateBottomCount();
-
-                tv_bar_code.setText(result);
-                if (tv_bar_code.getVisibility() != View.VISIBLE) {
-                    tv_bar_code.setVisibility(View.VISIBLE);
-                    tv_bar_code.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (tv_bar_code != null) {
-                                tv_bar_code.setVisibility(View.GONE);
-                            }
-                            currentBarCode = "";
-                        }
-                    }, 1500);
-                }
-
-                camera.startPreview();
-
-                helper.restartPreviewAndDecode();
             }
         });
+    }
+
+    private void getPhoto(String result, int express_id, byte[] data){
+        SoundHelper.getInstance().playExpress(express_id);
+//
+        barCodeSanRepeatTime = 0;
+        PickupCode pickupCode = storageCase.getCurrentPickCode();
+
+        PickupCode nextCode = pickupCode.nextPickCode();
+        updateUI(result, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
+        Disposable disposable = storageCase.saveScanImage(result, pickupCode, data, null, express_id + "")
+                .subscribe(s -> {
+                }, throwable -> {
+                    DialogUtil.promptDialog(activity, throwable.getMessage());
+                    updateBottomCount();
+                });
+
+        storageCase.updatePickCode(nextCode);
+        updateBottomCount();
+
+        tv_bar_code.setText(result);
+        if (tv_bar_code.getVisibility() != View.VISIBLE) {
+            tv_bar_code.setVisibility(View.VISIBLE);
+            tv_bar_code.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (tv_bar_code != null) {
+                        tv_bar_code.setVisibility(View.GONE);
+                    }
+                    currentBarCode = "";
+                }
+            }, 1500);
+        }
+
+
     }
 
     private void updateUI(String barCode, String pickCode, String nextCode) {
@@ -604,4 +626,23 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     }
 
 
+
+    BaseLoaderCallback loaderCallback ;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(loaderCallback == null){
+            loaderCallback= new BaseLoaderCallback(this){
+
+            } ;
+        }
+
+        if (!OpenCVLoader.initDebug()) {
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, loaderCallback);
+        } else {
+            loaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
+    }
 }

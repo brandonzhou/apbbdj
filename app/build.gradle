@@ -149,7 +149,8 @@ dependencies {
     implementation(name: 'alipaySdk-15.6.5-20190718211159-noUtdid', ext: 'aar')// 支付宝支付
     implementation 'top.zibin:Luban:1.1.8'
 
-    implementation(name: 'openCV-1.0.1', ext: 'aar')// 中通扫描
+//    implementation(name: 'openCV-1.0.1', ext: 'aar')// 中通扫描
+    implementation project(path: ':openCVLibrary343')
     implementation(name: 'zto-ocr-1.1.6', ext: 'aar')// 中通扫描
     implementation(name: 'zto-scanner-1.1.9', ext: 'aar')// 中通扫描
     implementation 'com.rmtheis:tess-two:9.0.0'
@@ -234,6 +235,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation project(path: ':module_base')
+
 
 
     implementation 'com.orient:Orient-Ui:1.0.0'
