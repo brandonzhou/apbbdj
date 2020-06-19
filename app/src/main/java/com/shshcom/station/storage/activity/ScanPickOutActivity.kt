@@ -306,9 +306,10 @@ class ScanPickOutActivity : CaptureActivity() {
         private fun httpSearchSameInfo(stationId: String, phone : String){
             scope.launch {
                 val results = ApiStorage.searchSameMobileExpressInfo(stationId, phone)
+                LoadDialogUtils.cannelLoadingDialog()
                 when(results) {
                     is Results.Success -> {
-                        LoadDialogUtils.cannelLoadingDialog()
+
                         val data = results.data
                         if(data.isNotEmpty()){
                             PickOutShowSameActivity.openActivity(activity, ExpressPackInfoList(data))
