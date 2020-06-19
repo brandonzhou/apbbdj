@@ -101,7 +101,8 @@ data class PackageDetailData(
             2 -> "快递员出库"
             3 -> "驿站后台出库"
             4 -> "驿站扫二维码出库"
-            else -> "驿站一体机"
+            5 -> "驿站一体机"
+            else -> "app拍照出库"
         }
     }
 }
