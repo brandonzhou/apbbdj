@@ -93,6 +93,7 @@ import com.mt.bbdj.community.activity.goodmanage.GoodsManagerActivity;
 import com.mt.bbdj.community.adapter.GlideImageLoader;
 import com.mt.bbdj.community.adapter.MyGridViewAdapter;
 import com.mylhyl.circledialog.CircleDialog;
+import com.shshcom.station.blockuser.ui.activity.BlockUserListActivity;
 import com.shshcom.station.statistics.domain.ICaseBack;
 import com.shshcom.station.statistics.domain.PackageUseCase;
 import com.shshcom.station.statistics.http.bean.TodayExpressStatistics;
@@ -562,8 +563,11 @@ public class ComFirst_3_Fragment extends BaseFragment {
             case "6":       //拍照入库
                 handleEnterHourseByCameraEvent();
                 break;
-            case "7":       //·
-                WebDetailActivity.actionTo(getActivity(),"https://tongji.shshcom.com/#/?stationId="+user_id);
+            case "7":       //数据统计
+                WebDetailActivity.actionTo(getActivity(), "https://tongji.shshcom.com/#/?stationId=" + user_id);
+                break;
+            case "8":       //敏感用户
+                BlockUserListActivity.Companion.openActivity(getActivity());
                 break;
         }
     }
@@ -906,7 +910,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
 
     private void setTwoItemData() {
-        for (int i = 0; i <= 7; i++) {
+        for (int i = 0; i <= 8; i++) {
             HashMap<String, Object> item = new HashMap<>();
 
             if (i == 0) {//隐藏
@@ -963,6 +967,14 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("id", "7");
                 item.put("name", "数据统计");
                 item.put("ic", R.drawable.ic_three_2);
+                mListTwo.add(item);
+            }
+
+            if (i == 8) {
+                item.put("tag", "0");
+                item.put("id", "8");
+                item.put("name", "敏感用户");
+                item.put("ic", R.drawable.ic_three_6);
                 mListTwo.add(item);
             }
 

@@ -51,8 +51,18 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
-        <activity android:name="com.shshcom.station.storage.activity.PickOutShowSameActivity" android:screenOrientation="portrait"/>
-        <activity android:name="com.shshcom.station.storage.activity.ScanPickOutActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.shshcom.station.blockuser.ui.activity.BlockUserSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.shshcom.station.blockuser.ui.activity.BlockUserListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.shshcom.station.storage.activity.PickOutShowSameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.shshcom.station.storage.activity.ScanPickOutActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.shshcom.station.statistics.ui.PackDetailImageActivity"
             android:screenOrientation="portrait" />

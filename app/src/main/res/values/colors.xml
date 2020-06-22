@@ -114,6 +114,7 @@
     <color name="text_blue">#4B9BFA</color>
     <color name="text_green">#FF00BE7E</color>
     <color name="text_2a">#FF2A2A2A</color>
+    <color name="text_blue_fa">#FF4B9BFA</color>
 
 
 </resources>

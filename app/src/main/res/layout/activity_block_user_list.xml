@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_main_bg"
+    android:orientation="vertical"
+    tools:context="com.shshcom.station.blockuser.ui.activity.BlockUserListActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_araw_left_grey" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="敏感用户"
+            android:textColor="@color/grey_7"
+            android:textSize="18dp" />
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:id="@+id/ll_block_search"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/margin_left_right"
+            android:layout_marginRight="@dimen/margin_left_right"
+            android:background="@drawable/main_bg_first_search_3"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="7dp"
+                android:padding="5dp"
+                android:visibility="visible"
+                android:src="@drawable/ic_main_search" />
+
+            <TextView
+                android:id="@+id/textview_serach"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginRight="5dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="通过手机号搜索"
+                android:paddingLeft="5dp"
+                android:text=""
+                android:textColorHint="@color/text_grey_9"
+                android:textSize="@dimen/text_size_14" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="@dimen/margin_left_right"
+        android:layout_marginEnd="@dimen/margin_left_right"
+        android:text="把收件人手机号标记为敏感用户，入库的时候，系统会提示入库人员，需要确认后才会入库"
+        android:gravity=""
+        android:textSize="@dimen/text_size_12"
+        android:textColor="@color/text_blue_fa" />
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_do_pack_out"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@color/white"
+        android:paddingStart="@dimen/margin_left_right"
+        android:paddingEnd="@dimen/margin_left_right"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/tv_block_user_add"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/shape_btn_green_r20"
+            android:textSize="@dimen/text_size_main"
+            android:text="+  添加用户"
+            android:textColor="@color/white"
+            android:gravity="center" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

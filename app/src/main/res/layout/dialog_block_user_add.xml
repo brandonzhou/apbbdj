@@ -11,25 +11,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="修改手机号"
+        android:text="添加敏感用户"
         android:textColor="@color/text2"
         android:textSize="@dimen/text_size_18"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_des"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:gravity="center"
-        android:text="原号码（菜鸟隐私号码）"
-        android:textColor="@color/text_grey_9"
-        android:textSize="@dimen/text_size_14"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
     <EditText
         android:id="@+id/et_phone"
@@ -46,41 +34,17 @@
         android:background="@drawable/shape_bg_line_cc"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_des" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
-    <LinearLayout
-        android:id="@+id/ll_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:maxHeight="20dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_phone">
-
-        <ImageView
-            android:id="@+id/iv_check_send_sms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_node_status_pre_check" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" 修改后，重新发送短信"
-            android:textColor="@color/text_grey_6"
-            android:textSize="@dimen/text_size_12" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/_ll_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/ll_check"
+        app:layout_constraintTop_toBottomOf="@id/et_phone"
         android:layout_marginTop="22dp"
-        android:orientation="horizontal"
-        >
-        
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/tv_cancel"
             android:layout_width="0dp"
@@ -90,8 +54,7 @@
             android:gravity="center"
             android:textSize="15sp"
             android:textColor="@color/text_green"
-            android:background="@drawable/shape_border_green"
-            />
+            android:background="@drawable/shape_border_green" />
 
         <TextView
             android:id="@+id/tv_submit"
@@ -103,9 +66,7 @@
             android:gravity="center"
             android:textSize="15sp"
             android:textColor="@color/white"
-            android:background="@drawable/shape_btn_green_r20"
-            />
-
+            android:background="@drawable/shape_btn_green_r20" />
 
 
     </LinearLayout>
