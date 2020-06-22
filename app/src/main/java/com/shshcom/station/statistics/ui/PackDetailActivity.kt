@@ -112,13 +112,17 @@ class PackDetailActivity : AppCompatActivity() {
             tvPackState.text = "待出库"
             tvPackState.setTextColor(resources.getColor(R.color.text_green))
         } else {
-            tvPackState.text = "已出库"
+            if (data.isOutException()) {
+                tvPackState.text = "异常出库"
+            } else {
+                tvPackState.text = "已出库"
+            }
             tvPackState.setTextColor(resources.getColor(R.color.text_grey_9))
             ll_do_pack_out.visibility = View.GONE
             cl_action.visibility = View.GONE
         }
 
-
+        // 构建时间线数据
         val list = PackTimeItem.createList(data)
 
         val adapter = PackDetailTimelineAdapter(list, data)

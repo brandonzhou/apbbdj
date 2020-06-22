@@ -70,7 +70,11 @@ class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<
             holder.tvPackState.background = res.getDrawable(R.drawable.bg_green_r11)
         }else{
             // 2
-            holder.tvPackState.text =  "已出库"
+            if (data.isOutException()) {
+                holder.tvPackState.text = "异常出库"
+            } else {
+                holder.tvPackState.text = "已出库"
+            }
             holder.tvPackState.setTextColor(res.getColor(R.color.text_grey_3))
             holder.tvPackState.background = res.getDrawable(R.drawable.bg_grey_r11)
 

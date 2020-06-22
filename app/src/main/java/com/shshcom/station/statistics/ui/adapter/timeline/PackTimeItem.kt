@@ -10,8 +10,14 @@ import com.shshcom.station.util.AppTimeUtils
  * author: zhhli
  * 2020/6/8
  */
-class PackTimeItem(val name: String, val time: String, val state: String, val notifyInfo: String,
-                   val stateOk: Boolean = true, val okNum : Int = 0, val showImage: Boolean = true) : ITimeItem {
+/**
+ * 标题
+ * 时间
+ *
+ * showImage 显示图片 （文字）
+ */
+class PackTimeItem(val name: String, val time: String, val smsState: String, val notifyInfo: String,
+                   val stateOk: Boolean = true, val okNum: Int = 0, val showImage: Boolean = true) : ITimeItem {
     companion object {
 
         /**
@@ -63,8 +69,13 @@ class PackTimeItem(val name: String, val time: String, val state: String, val no
             if (!data.outTime.isNullOrEmpty()) {
                 val outTime = AppTimeUtils.str2Date(data.outTime, formatS)
 
+                var outExceptionInfo = ""
+                if (data.isOutException()) {
+                    outExceptionInfo = "异常出库：${data.unusualMsg}"
+                }
+
                 val outItem = PackTimeItem("快递出库", mmddhhmm.format(outTime),
-                        data.getOutTypeStr(), "")
+                        data.getOutTypeStr(), outExceptionInfo)
                 list.add(outItem)
             }
 

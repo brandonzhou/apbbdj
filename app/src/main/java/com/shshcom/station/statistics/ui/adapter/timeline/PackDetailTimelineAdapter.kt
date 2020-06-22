@@ -63,14 +63,14 @@ class PackDetailTimelineAdapter(var list: List<PackTimeItem>, val packData : Pac
         }
 
 
-        holder.tv_detail_state.visibility = if(data.state.isEmpty()){
+        holder.tv_detail_state.visibility = if (data.smsState.isEmpty()) {
             View.GONE
-        }else{
-            holder.tv_detail_state.text = data.state
+        } else {
+            holder.tv_detail_state.text = data.smsState
             val res = holder.itemView.context.resources
-            val color = if(data.stateOk){
+            val color = if (data.stateOk) {
                 res.getColor(R.color.text_grey_6)
-            }else{
+            } else {
                 res.getColor(R.color.text_red)
             }
             holder.tv_detail_state.setTextColor(color)
