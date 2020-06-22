@@ -1,14 +1,14 @@
 package com.mt.bbdj.community.fragment;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.mt.bbdj.R;
@@ -117,10 +117,10 @@ public class GlobalSearchOutFinishFragment extends BaseFragment implements XRecy
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickOutListener(new GlobalReceiveAdapter.OnItemClickOutListener() {
+        mAdapter.setOnOutClickListener(new GlobalReceiveAdapter.OnOutClickListener() {
             @Override
             public void onItemOutClick(int position) {
-                HashMap<String,String> map = mList.get(position);
+                HashMap<String, String> map = mList.get(position);
                 String pie_id = map.get("pie_id");
                 outOfrepertory(pie_id);
             }

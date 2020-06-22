@@ -1,20 +1,26 @@
 package com.mt.bbdj.community.adapter;
 
-import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.utls.DateUtil;
+import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
+import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.shshcom.station.statistics.domain.ICaseBack;
+import com.shshcom.station.statistics.domain.PackageUseCase;
+import com.shshcom.station.statistics.http.bean.PackageDetailData;
+import com.shshcom.station.statistics.ui.PackDetailActivity;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,28 +34,24 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
 
     private List<HashMap<String, String>> mList;
 
-    private Context context;
+    private Activity activity;
 
-    private OnItemClickListener onItemClickListener;
 
-    private OnItemClickOutListener onItemClickOutListener;
+    private OnOutClickListener onOutClickListener;
 
-    public void setOnItemClickOutListener(OnItemClickOutListener onItemClickOutListener){
-        this.onItemClickOutListener = onItemClickOutListener;
+    public void setOnOutClickListener(OnOutClickListener onOutClickListener) {
+        this.onOutClickListener = onOutClickListener;
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
-        this.onItemClickListener = onItemClickListener;
-    }
 
-    public GlobalReceiveAdapter(Context context, List<HashMap<String, String>> list) {
-        this.context = context;
+    public GlobalReceiveAdapter(Activity context, List<HashMap<String, String>> list) {
+        this.activity = context;
         this.mList = list;
     }
 
     @Override
     public HaveFinishViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_receive_global,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_receive_global, parent, false);
         return new HaveFinishViewHolder(view);
     }
 
@@ -58,7 +60,7 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
         if (holder == null) {
             return ;
         }
-        HashMap<String,String> map = mList.get(position);
+        HashMap<String, String> map = mList.get(position);
         String express_name = map.get("express_name");
         String pie_id = map.get("pie_id");
         String waybill_number = map.get("waybill_number");
@@ -69,12 +71,14 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
         String phone = map.get("phone");
         String out_script = map.get("out_script");
 
+        String packageDetailData = map.get("packageDetailData");
+
         holder.billNumber.setText(waybill_number);
         holder.expressName.setText(express_name);
         holder.tagNumber.setText(tagNumber);
         holder.tagNumber.setText(tagNumber);
         holder.tv_tag_phone.setText(phone);
-        holder.enterTime.setText(DateUtil.changeStampToStandrdTime("yyyy-MM-dd HH:mm:ss",warehousing_time));
+        holder.enterTime.setText(DateUtil.changeStampToStandrdTime("yyyy-MM-dd HH:mm:ss", warehousing_time));
         if ("1".equals(types) && !"2".equals(out_script)) {
             holder.state.setText("已入库");
             holder.llOutLayout.setVisibility(View.GONE);
@@ -90,9 +94,7 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(position);
-                }
+                openDetail(pie_id);
             }
         });
 
@@ -100,8 +102,8 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
         holder.btout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onItemClickOutListener != null) {
-                    onItemClickOutListener.onItemOutClick(position);
+                if (onOutClickListener != null) {
+                    onOutClickListener.onItemOutClick(position);
                 }
             }
         });
@@ -110,8 +112,8 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
         holder.bt_out_exception.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onItemClickOutListener != null){
-                    onItemClickOutListener.onItemOutExceptionClick(position);
+                if (onOutClickListener != null) {
+                    onOutClickListener.onItemOutExceptionClick(position);
                 }
             }
         });
@@ -153,13 +155,34 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
     }
 
     //################################### 接口回调 #################################
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
     //出库
-    public interface OnItemClickOutListener{
+    public interface OnOutClickListener {
         void onItemOutClick(int position);
+
         void onItemOutExceptionClick(int position);
+    }
+
+
+    private void openDetail(String pie_id) {
+        LoadDialogUtils.showLoadingDialog(activity);
+        PackageUseCase.INSTANCE.getPackageDetailData(Integer.parseInt(pie_id), new ICaseBack<PackageDetailData>() {
+            @Override
+            public void onSuccess(PackageDetailData result) {
+                LoadDialogUtils.cannelLoadingDialog();
+                PackDetailActivity.Companion.openActivity(activity, result);
+            }
+
+            @Override
+            public void onError(@NotNull String error) {
+                LoadDialogUtils.cannelLoadingDialog();
+                ToastUtil.showShort(error);
+
+            }
+        });
+
     }
 }

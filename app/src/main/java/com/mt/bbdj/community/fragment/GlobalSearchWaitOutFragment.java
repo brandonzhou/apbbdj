@@ -1,16 +1,15 @@
 package com.mt.bbdj.community.fragment;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseFragment;
@@ -18,7 +17,6 @@ import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.gen.DaoSession;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
-import com.mt.bbdj.baseconfig.model.EnterData;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
@@ -120,7 +118,7 @@ public class GlobalSearchWaitOutFragment extends BaseFragment implements XRecycl
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickOutListener(new GlobalReceiveAdapter.OnItemClickOutListener() {
+        mAdapter.setOnOutClickListener(new GlobalReceiveAdapter.OnOutClickListener() {
             @Override
             public void onItemOutClick(int position) {
                 enterResotry(mList.get(position));
@@ -128,7 +126,7 @@ public class GlobalSearchWaitOutFragment extends BaseFragment implements XRecycl
 
             @Override
             public void onItemOutExceptionClick(int position) {
-                OutExceptionActivity.actionTo(getActivity(),mList.get(position).get("express_id"),mList.get(position).get("waybill_number"));
+                OutExceptionActivity.actionTo(getActivity(), mList.get(position).get("express_id"), mList.get(position).get("waybill_number"));
             }
         });
 

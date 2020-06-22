@@ -3,6 +3,7 @@ package com.shshcom.station.statistics.domain
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.shshcom.module_base.network.Results
 import com.shshcom.station.statistics.http.ApiPackageStatistic
+import com.shshcom.station.statistics.http.bean.PackageDetailData
 import com.shshcom.station.statistics.http.bean.TodayExpressStatistics
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +42,24 @@ object PackageUseCase {
         }
     }
 
-    suspend fun modifyPhone(pid:Int, phone : String){
-        val results = ApiPackageStatistic.modifyMobile(getStationId(),pid, phone)
+    suspend fun modifyPhone(pid: Int, phone: String) {
+        val results = ApiPackageStatistic.modifyMobile(getStationId(), pid, phone)
+    }
+
+
+    fun getPackageDetailData(pid: Int, caseBack: ICaseBack<PackageDetailData>) {
+        presenterScope.launch {
+            val result = ApiPackageStatistic.getOutPie(pid)
+
+            when (result) {
+                is Results.Success -> {
+                    caseBack.onSuccess(result.data)
+                }
+                is Results.Failure -> {
+                    val msg = result.error.message
+                    caseBack.onError(msg.orEmpty())
+                }
+            }
+        }
     }
 }
