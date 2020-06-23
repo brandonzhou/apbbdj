@@ -71,7 +71,6 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
         String phone = map.get("phone");
         String out_script = map.get("out_script");
 
-        String packageDetailData = map.get("packageDetailData");
 
         holder.billNumber.setText(waybill_number);
         holder.expressName.setText(express_name);
@@ -84,10 +83,15 @@ public class GlobalReceiveAdapter extends RecyclerView.Adapter<GlobalReceiveAdap
             holder.llOutLayout.setVisibility(View.GONE);
             holder.rlout.setVisibility(View.VISIBLE);
         } else {
-            holder.state.setText("已出库");
+            if ("2".equals(types)) {
+                holder.state.setText("已出库");
+            } else if ("3".equals(types)) {
+                holder.state.setText("异常出库");
+            }
+
             holder.llOutLayout.setVisibility(View.VISIBLE);
             holder.rlout.setVisibility(View.GONE);
-            holder.outTime.setText(DateUtil.changeStampToStandrdTime("yyyy-MM-dd HH:mm:ss",out_time));
+            holder.outTime.setText(DateUtil.changeStampToStandrdTime("yyyy-MM-dd HH:mm:ss", out_time));
         }
 
 
