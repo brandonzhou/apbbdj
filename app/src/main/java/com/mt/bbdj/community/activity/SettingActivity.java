@@ -3,7 +3,6 @@ package com.mt.bbdj.community.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mt.bbdj.R;
-import com.mt.bbdj.baseconfig.activity.LoginActivity;
 import com.mt.bbdj.baseconfig.activity.LoginByCodeActivity;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.baseconfig.utls.PackageUtils;
 import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
-import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.shshcom.station.setting.ui.activity.AutoUrgeSettingActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -66,6 +64,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         String version = PackageUtils.getVersionName(this);
         tv_app_version.setText(version);
+        findViewById(R.id.ll_setting_auto_notify).setOnClickListener(this);
     }
 
     @Override
@@ -76,6 +75,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.ll_change_password:    //修改密码
                 showChangePasswordPannel();
+                break;
+            case R.id.ll_setting_auto_notify:    //自动催取
+                AutoUrgeSettingActivity.Companion.openActivity(this);
                 break;
             case R.id.ll_address_manager:   //地址管理
                 showAddressManagerPannel();

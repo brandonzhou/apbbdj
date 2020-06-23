@@ -77,5 +77,8 @@
     <dimen name="margin_left_right">20dp</dimen>
     <dimen name="item_height_54">54dp</dimen>
     <dimen name="text_size_14">14sp</dimen>
+    <dimen name="margin_top_10">10dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
+    <dimen name="text_size_15">15sp</dimen>
 
 </resources>

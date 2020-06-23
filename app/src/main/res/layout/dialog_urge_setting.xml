@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_42">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:gravity="start|center_vertical"
+            android:paddingStart="@dimen/margin_15"
+            android:text="取消"
+            android:textColor="@color/text_grey_6"
+            android:textSize="@dimen/text_size_main" />
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:gravity="end|center_vertical"
+            android:paddingStart="@dimen/margin_15"
+            android:paddingEnd="@dimen/margin_15"
+            android:text="确定"
+            android:textColor="@color/text_green"
+            android:textSize="@dimen/text_size_15" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+</LinearLayout>

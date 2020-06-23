@@ -52,6 +52,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
         <activity
+            android:name="com.shshcom.station.setting.ui.activity.AutoUrgeSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.shshcom.station.blockuser.ui.activity.BlockUserSearchActivity"
             android:screenOrientation="portrait" />
         <activity
