@@ -22,7 +22,8 @@ public class InterApi {
     public static final String SERVER_ORDER = BASE_URL + "/ServiceOrders/";
     public static final String SERVER_URL_3 = BASE_URL + "/TakeApi/";
     //门店
-    public static final String BASE_URL_SHOP = "https://shop.81dja.com";
+    public static final String BASE_URL_SHOP = "https://shop.81dja.com:5443";
+
     public static final String SERVICE_SHOP = BASE_URL_SHOP + "/Take/AppV1/";
     public static final String SERVICE_SHOP_1 = BASE_URL_SHOP + "/Take/AppV2/";
     public static final String SERVICE_NEW = BASE_URL + "/Merchant/PublicApi/";

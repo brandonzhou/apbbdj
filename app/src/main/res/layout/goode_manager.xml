@@ -95,7 +95,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/ll_two"
+                android:id="@+id/ll_goods_edit_name"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="10dp"
@@ -123,7 +123,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_three"
+                android:id="@+id/ll_goods_edit_price"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="45dp"
@@ -153,13 +153,77 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_goods_num_add"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_border_grey_circle"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:clickable="false"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_goods_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:text="增加库存"
+                    android:textColor="@color/grey_7"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_goods_num_reduce"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="45dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_border_grey_circle"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:clickable="false"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_goods_reduce" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:text="减少库存"
+                    android:textColor="@color/grey_7"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/ll_one"
+                android:id="@+id/ll_goods_remove"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="45dp"
@@ -188,7 +252,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_four"
+                android:id="@+id/ll_goods_delete"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="25dp"
@@ -226,7 +290,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/ll_zero"
+                android:id="@+id/ll_goods_special_price"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="10dp"

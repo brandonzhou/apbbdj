@@ -19,7 +19,11 @@ public class GoodsManagerModel {
 
     private String isSpecial;   //是不是特价商品   1 : 不是特价商品
 
-    private String stock;    //库存
+    private String stock;    //库存  称重 克
+
+    private Long stockUi;    //库存  UI显示 千克
+
+    private String type;    // type类型 1-计件 2-称重
 
     public String getStock() {
         return stock;
@@ -76,4 +80,41 @@ public class GoodsManagerModel {
     public void setGoodsState(String goodsState) {
         this.goodsState = goodsState;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public GoodsManagerModel setType(String type) {
+        this.type = type;
+        return this;
+    }
+
+    public boolean isWeight() {
+        // type类型 1-计件 2-称重
+        return "2".equals(type);
+    }
+
+
+    public long getStockUi() {
+        if (stockUi == null) {
+            long num = Long.parseLong(stock);
+
+            if (isWeight()) {
+                num = num / 1000;
+            }
+
+            stockUi = num;
+        }
+        return stockUi;
+    }
+
+    public void modifyStockUI(long num, boolean isAdd) {
+        int k = isAdd ? 1 : -1;
+        stockUi = getStockUi() + num * k;
+
+
+    }
+
+
 }

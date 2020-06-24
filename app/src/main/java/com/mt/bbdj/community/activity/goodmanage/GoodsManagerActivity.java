@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +45,8 @@ import com.mt.bbdj.community.activity.SelectGoodsByStoreActivity;
 import com.mt.bbdj.community.adapter.GoodsManagerAdatpter;
 import com.mt.bbdj.community.adapter.GoodsRackAdapter;
 import com.mylhyl.circledialog.CircleDialog;
+import com.shshcom.station.shop.domain.ShopUseCase;
+import com.shshcom.station.statistics.domain.ICaseBack;
 import com.widget.DateChooseWheelViewDialog;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -53,6 +57,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -128,6 +133,8 @@ public class GoodsManagerActivity extends BaseActivity {
     private int currentPosition = 0;    //当前选择位置
 
     private PopupWindow popupWindow, changeNamePopu, changeShelvesNamePopu, changePricePopu, addgoodsWindow, specialPriceWindow, scanGoodsWindow;
+    private View viewGoodsChangeNumber;
+    private PopupWindow popGoodsChangeNumber;
     private EditText et_change_name;
     private EditText et_change_price;
     private GoodsManagerModel currentModel;
@@ -173,8 +180,9 @@ public class GoodsManagerActivity extends BaseActivity {
         initRecyclerView();
         initClickListener();
 
-        initPopuStyle();   //初始化弹出框
+        initGoodManagePop();   //初始化弹出框
         initChangeNamePopu();
+        initGoodsNumberChangePop();// 设置商品库存
         initChangeShelvesName();   //初始化货架弹框
         initChangePricePopu();
         initAddGoodsPopuStyle();     //添加商品的方式
@@ -344,7 +352,8 @@ public class GoodsManagerActivity extends BaseActivity {
                 selectGoodsByStore();
                 break;
             case R.id.ll_add_scan:
-                scanGoods();      //添加商品
+                //添加商品 选择添加商品方式
+                popShow(addgoodsWindow);
                 break;
             case R.id.rl_back:
                 finish();
@@ -367,7 +376,7 @@ public class GoodsManagerActivity extends BaseActivity {
     public OnResponseListener<String> mResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
-            LoadDialogUtils.getInstance().showLoadingDialog(GoodsManagerActivity.this);
+            LoadDialogUtils.showLoadingDialog(GoodsManagerActivity.this);
         }
 
         @Override
@@ -554,12 +563,7 @@ public class GoodsManagerActivity extends BaseActivity {
             goods.setWarehouse_shelves_id(goodsType.getString("warehouse_shelves_id"));
             goods.setSpecs(StringUtil.handleNullResultForNumber(goodsType.getString("num")));
             mList.add(goods);
-            goods = null;
 
-         /*   if (i == 0) {
-                JSONArray goodsArray = goodsType.getJSONArray("goods");
-                setGoodsData(goodsArray);
-            }*/
         }
         //goodsRackAdapter.setClickPosition(0);
         goodsRackAdapter.setData(mList);
@@ -586,8 +590,9 @@ public class GoodsManagerActivity extends BaseActivity {
             goodsManagerModel.setGoodsState(goods.getString("states"));
             goodsManagerModel.setIsSpecial(goods.getString("is_special"));
             goodsManagerModel.setStock(goods.getString("stock"));
+            goodsManagerModel.setType(goods.getString("type"));
             mData.add(goodsManagerModel);
-            goodsManagerModel = null;
+
         }
         if (mData.size() == 0) {
             ll_no_goods.setVisibility(View.VISIBLE);
@@ -627,7 +632,7 @@ public class GoodsManagerActivity extends BaseActivity {
     }
 
 
-    private void initPopuStyle() {
+    private void initGoodManagePop() {
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
         } else {
@@ -639,12 +644,12 @@ public class GoodsManagerActivity extends BaseActivity {
             tv_goods_price_ = selectView.findViewById(R.id.tv_goods_price);
             tv_goods_state = selectView.findViewById(R.id.tv_goods_state);
 
-            ll_zero = selectView.findViewById(R.id.ll_zero);
-            LinearLayout ll_one = selectView.findViewById(R.id.ll_one);
+            ll_zero = selectView.findViewById(R.id.ll_goods_special_price);
+            LinearLayout ll_one = selectView.findViewById(R.id.ll_goods_remove);
             ll_zero_wrapper = selectView.findViewById(R.id.ll_zero_wrapper);
-            LinearLayout ll_two = selectView.findViewById(R.id.ll_two);
-            LinearLayout ll_three = selectView.findViewById(R.id.ll_three);
-            LinearLayout ll_four = selectView.findViewById(R.id.ll_four);
+            LinearLayout ll_two = selectView.findViewById(R.id.ll_goods_edit_name);
+            LinearLayout ll_three = selectView.findViewById(R.id.ll_goods_edit_price);
+            LinearLayout ll_four = selectView.findViewById(R.id.ll_goods_delete);
             iv_delete.setOnClickListener(viewClicklistener);
             ll_zero.setOnClickListener(viewClicklistener);
             ll_one.setOnClickListener(viewClicklistener);
@@ -653,15 +658,12 @@ public class GoodsManagerActivity extends BaseActivity {
             ll_four.setOnClickListener(viewClicklistener);
             layout_left_close.setOnClickListener(viewClicklistener);
 
-            popupWindow = new PopupWindow(selectView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            //设置动画
-            popupWindow.setAnimationStyle(R.style.popup_window_anim);
-            //设置背景颜色
-            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#80000000")));
-            popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-            popupWindow.setTouchable(true); // 设置popupwindow可点击
-            popupWindow.setOutsideTouchable(true); // 设置popupwindow外部可点击
-            popupWindow.setFocusable(true); // 获取焦点
+            selectView.findViewById(R.id.ll_goods_num_add)
+                    .setOnClickListener(v -> showPopModifyGoodsNumber(true));
+            selectView.findViewById(R.id.ll_goods_num_reduce)
+                    .setOnClickListener(v -> showPopModifyGoodsNumber(false));
+
+            popupWindow = createPopupWindow(selectView);
         }
     }
 
@@ -738,19 +740,19 @@ public class GoodsManagerActivity extends BaseActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.ll_zero:
+                case R.id.ll_goods_special_price:
                     setSpecialPrice();     //设置为特价商品
                     break;
-                case R.id.ll_one:
+                case R.id.ll_goods_remove:
                     requestDelete();     //下架
                     break;
-                case R.id.ll_two:
+                case R.id.ll_goods_edit_name:
                     changeGoodsName();     //修改名称
                     break;
-                case R.id.ll_three:
+                case R.id.ll_goods_edit_price:
                     changePriceName();     //修改价格
                     break;
-                case R.id.ll_four:              //删除商品
+                case R.id.ll_goods_delete:              //删除商品
                     deleteGoods();
                     break;
                 case R.id.iv_delete:
@@ -870,29 +872,30 @@ public class GoodsManagerActivity extends BaseActivity {
         showSpecialPriceDialg();
     }
 
+    private void popShow(PopupWindow popupWindow) {
+        if (popupWindow != null && !popupWindow.isShowing()) {
+            popupWindow.showAtLocation(rl_goods, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        }
+    }
+
     private void showSpecialPriceDialg() {
         Glide.with(this).load(currentModel.getImageUrl()).into(iv_special_goods_image);
         tv_special_goods_name.setText(currentModel.getGoodsName());
         tv_special_goods_price.setText("￥" + currentModel.getGoodsPrice());
         et_special_promotion_price.setText("");
         et_special_promotion_number.setText("");
-        if (specialPriceWindow != null && !specialPriceWindow.isShowing()) {
-            specialPriceWindow.showAtLocation(rl_goods, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        }
+
+        popShow(specialPriceWindow);
     }
 
     private void showChangePriceDialg() {
         et_change_price.setText(currentModel.getGoodsPrice());
-        if (changePricePopu != null && !changePricePopu.isShowing()) {
-            changePricePopu.showAtLocation(rl_goods, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        }
+        popShow(changePricePopu);
     }
 
     private void showChangeNameDialg() {
         et_change_name.setText(currentModel.getGoodsName());
-        if (changeNamePopu != null && !changeNamePopu.isShowing()) {
-            changeNamePopu.showAtLocation(rl_goods, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        }
+        popShow(changeNamePopu);
     }
 
     private void requestDelete() {
@@ -904,13 +907,33 @@ public class GoodsManagerActivity extends BaseActivity {
         mRequestQueue.add(REQUEST_CHANGE_TOGGLE, request, mResponseListener);
     }
 
-    private void scanGoods() {
-        showSelectAddTypeDialog();    //选择添加商品方式
-    }
+    private void initGoodsNumberChangePop() {
+        if (popGoodsChangeNumber != null && popGoodsChangeNumber.isShowing()) {
+            popGoodsChangeNumber.dismiss();
+        } else {
+            viewGoodsChangeNumber = getLayoutInflater().inflate(R.layout.dialog_goods_manage_change_number, null);
+            viewGoodsChangeNumber.findViewById(R.id.rl_close).setOnClickListener(v -> popGoodsChangeNumber.dismiss());
+            EditText etNum = viewGoodsChangeNumber.findViewById(R.id.et_goods_num);
+            etNum.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
 
-    private void showSelectAddTypeDialog() {
-        if (addgoodsWindow != null && !addgoodsWindow.isShowing()) {
-            addgoodsWindow.showAtLocation(rl_goods, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().startsWith("0") || s.toString().equals("")) {
+                        etNum.setText("1");
+                        etNum.setSelection(1);
+                    }
+
+                }
+
+            });
+            popGoodsChangeNumber = createPopupWindow(viewGoodsChangeNumber);
         }
     }
 
@@ -931,23 +954,24 @@ public class GoodsManagerActivity extends BaseActivity {
             tv_special_end_time.setOnClickListener(mOnClickListener);
             tv_special_start_time.setOnClickListener(mOnClickListener);
 
-            specialPriceWindow = new PopupWindow(selectView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            //设置动画
-            specialPriceWindow.setAnimationStyle(R.style.popup_window_anim);
-            //设置背景颜色
-            specialPriceWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#80000000")));
-            specialPriceWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-            specialPriceWindow.setTouchable(true); // 设置popupwindow可点击
-            specialPriceWindow.setOutsideTouchable(true); // 设置popupwindow外部可点击
-            specialPriceWindow.setFocusable(true); // 获取焦点
-            LinearLayout layout_pop_close = (LinearLayout) selectView.findViewById(R.id.layout_left_close);
-            layout_pop_close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    specialPriceWindow.dismiss();
-                }
-            });
+            selectView.findViewById(R.id.layout_left_close).setOnClickListener(v -> specialPriceWindow.dismiss());
+
+            specialPriceWindow = createPopupWindow(selectView);
         }
+    }
+
+    private PopupWindow createPopupWindow(View contentView) {
+        PopupWindow popupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        //设置动画
+        popupWindow.setAnimationStyle(R.style.popup_window_anim);
+        //设置背景颜色
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#80000000")));
+        popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popupWindow.setTouchable(true); // 设置popupwindow可点击
+        popupWindow.setOutsideTouchable(true); // 设置popupwindow外部可点击
+        popupWindow.setFocusable(true); // 获取焦点
+
+        return popupWindow;
     }
 
     private void initScanGoodsPopu() {
@@ -969,16 +993,7 @@ public class GoodsManagerActivity extends BaseActivity {
             rl_scan_picture.setOnClickListener(mOnClickListener);
             iv_scan_delete.setOnClickListener(mOnClickListener);
 
-            scanGoodsWindow = new PopupWindow(selectView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            //设置动画
-            scanGoodsWindow.setAnimationStyle(R.style.popup_window_anim);
-            //设置背景颜色
-            scanGoodsWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#80000000")));
-            scanGoodsWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-            scanGoodsWindow.setTouchable(true); // 设置popupwindow可点击
-            scanGoodsWindow.setOutsideTouchable(true); // 设置popupwindow外部可点击
-            scanGoodsWindow.setFocusable(true); // 获取焦点
-
+            scanGoodsWindow = createPopupWindow(selectView);
         }
     }
 
@@ -992,22 +1007,9 @@ public class GoodsManagerActivity extends BaseActivity {
             selectView.findViewById(R.id.ll_take_by_no_bar_code).setOnClickListener(mOnClickListener);
             selectView.findViewById(R.id.bt_cancle).setOnClickListener(mOnClickListener);
 
-            addgoodsWindow = new PopupWindow(selectView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            //设置动画
-            addgoodsWindow.setAnimationStyle(R.style.popup_window_anim);
-            //设置背景颜色
-            addgoodsWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#80000000")));
-            addgoodsWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
-            addgoodsWindow.setTouchable(true); // 设置popupwindow可点击
-            addgoodsWindow.setOutsideTouchable(true); // 设置popupwindow外部可点击
-            addgoodsWindow.setFocusable(true); // 获取焦点
-            LinearLayout layout_pop_close = (LinearLayout) selectView.findViewById(R.id.layout_left_close);
-            layout_pop_close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addgoodsWindow.dismiss();
-                }
-            });
+            selectView.findViewById(R.id.layout_left_close).setOnClickListener(v -> addgoodsWindow.dismiss());
+
+            addgoodsWindow = createPopupWindow(selectView);
         }
     }
 
@@ -1219,4 +1221,73 @@ public class GoodsManagerActivity extends BaseActivity {
         Request<String> request = NoHttpRequest.commitPictureRequest(filePath);
         mRequestQueue.add(REQUEST_COMMIT_PICTURE, request, mResponseListener);
     }
+
+
+    private void showPopModifyGoodsNumber(boolean isAddNum) {
+        initGoodsNumberChangePop();
+
+        TextView tvTitle = viewGoodsChangeNumber.findViewById(R.id.tv_title_goods_number);
+        TextView tvCurNum = viewGoodsChangeNumber.findViewById(R.id.tv_goods_num);
+        TextView tvTips = viewGoodsChangeNumber.findViewById(R.id.tv_goods_num_reduce_tips);
+
+        EditText etNum = viewGoodsChangeNumber.findViewById(R.id.et_goods_num);
+        etNum.setText("");
+
+
+        if (isAddNum) {
+            tvTitle.setText("增加库存");
+            etNum.setHint("请输入添加的库存数量");
+            tvTips.setVisibility(View.INVISIBLE);
+        } else {
+            tvTitle.setText("减少库存");
+            etNum.setHint("请输入减少的库存数量");
+            tvTips.setVisibility(View.VISIBLE);
+        }
+
+        String strStock = currentModel.getStockUi() + (currentModel.isWeight() ? "kg" : "件");
+
+        tvCurNum.setText(strStock);
+
+        viewGoodsChangeNumber.findViewById(R.id.rl_submit).setOnClickListener(v -> {
+            String numStr = etNum.getText().toString();
+            long num = Long.parseLong(numStr);
+            httpGoodModifyStock(num, isAddNum);
+
+
+            popGoodsChangeNumber.dismiss();
+        });
+
+        popupWindow.dismiss();
+        popShow(popGoodsChangeNumber);
+
+    }
+
+
+    private void httpGoodModifyStock(long num, boolean isAdd) {
+        LoadDialogUtils.showLoadingDialog(this);
+        long stock = num;
+        if (currentModel.isWeight()) {
+            // 转换为 克
+            stock = num * 1000;
+        }
+        ShopUseCase.INSTANCE.modifyStock(currentModel.getGoodsId(), stock, isAdd, new ICaseBack<String>() {
+            @Override
+            public void onSuccess(String result) {
+                LoadDialogUtils.cannelLoadingDialog();
+                if (currentModel != null) {
+                    currentModel.modifyStockUI(num, isAdd);
+                }
+
+
+            }
+
+            @Override
+            public void onError(@NotNull String error) {
+                LoadDialogUtils.cannelLoadingDialog();
+                ToastUtil.showLong("操作失败：" + error);
+            }
+        });
+    }
+
+
 }
