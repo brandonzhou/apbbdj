@@ -37,10 +37,10 @@ import kotlinx.coroutines.launch
  */
 class AutoUrgeSettingActivity : AppCompatActivity() {
     companion object {
-        fun openActivity(activity: Activity) {
+        fun openActivity(activity: Activity, requestCode: Int) {
             Intent().apply {
                 setClass(activity, AutoUrgeSettingActivity::class.java)
-                activity.startActivity(this)
+                activity.startActivityForResult(this, requestCode)
             }
         }
     }
@@ -77,6 +77,7 @@ class AutoUrgeSettingActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+
         job.cancel()
     }
 
@@ -108,8 +109,20 @@ class AutoUrgeSettingActivity : AppCompatActivity() {
 
             tv_urge_type.text = urgeType!!.msg
 
-            tv_send_time.text = it.sendTime
-            setSmsText()
+
+            setResult(Activity.RESULT_OK, Intent().apply {
+                putExtra("type", tv_urge_type.text.toString())
+            })
+
+            if (urgeType!!.type == 0) {
+                ll_urge_info.visibility = View.GONE
+            } else {
+                ll_urge_info.visibility = View.VISIBLE
+                tv_send_time.text = it.sendTime
+                setSmsText()
+            }
+
+
         }
 
     }

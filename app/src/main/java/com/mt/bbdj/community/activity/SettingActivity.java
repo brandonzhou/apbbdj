@@ -10,15 +10,22 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.activity.LoginByCodeActivity;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.baseconfig.utls.PackageUtils;
 import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
+import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.shshcom.station.setting.domain.UrgeSettingUseCase;
+import com.shshcom.station.setting.http.bean.AutoUrgeData;
 import com.shshcom.station.setting.ui.activity.AutoUrgeSettingActivity;
+import com.shshcom.station.statistics.domain.ICaseBack;
 
 import org.greenrobot.eventbus.EventBus;
+import org.jetbrains.annotations.NotNull;
 
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils;
 import cn.ycbjie.ycstatusbarlib.bar.YCAppBar;
@@ -29,6 +36,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private LinearLayout ll_address_manager, ll_change_password, ll_about_app,ll_setting_print,ll_setting_print_code;
     private Button bt_cannel;
     private TextView tv_app_version;
+    private TextView tv_setting_urge_type;
     private SharedPreferences.Editor editor;
 
     @Override
@@ -43,6 +51,22 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private void initData() {
         editor = SharedPreferencesUtil.getEditor();
+        UrgeSettingUseCase.INSTANCE.getPackageUrgeSetting(new ICaseBack<AutoUrgeData>() {
+            @Override
+            public void onError(@NotNull String error) {
+                ToastUtil.showLong(error);
+
+            }
+
+            @Override
+            public void onSuccess(AutoUrgeData result) {
+                if (result != null && result.getCurrentType() != null) {
+                    String type = result.getCurrentType().getMsg();
+                    tv_setting_urge_type.setText(type);
+                }
+            }
+        });
+
     }
 
     private void initView() {
@@ -51,6 +75,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         ll_change_password = findViewById(R.id.ll_change_password);
         ll_about_app = findViewById(R.id.ll_about_app);
         tv_app_version = findViewById(R.id.tv_app_version);
+        tv_setting_urge_type = findViewById(R.id.tv_setting_urge_type);
         ll_setting_print_code = findViewById(R.id.ll_setting_print_code);
         ll_setting_print = findViewById(R.id.ll_setting_print);
         bt_cannel = findViewById(R.id.bt_cannel);
@@ -77,7 +102,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 showChangePasswordPannel();
                 break;
             case R.id.ll_setting_auto_notify:    //自动催取
-                AutoUrgeSettingActivity.Companion.openActivity(this);
+                AutoUrgeSettingActivity.Companion.openActivity(this, 1);
                 break;
             case R.id.ll_address_manager:   //地址管理
                 showAddressManagerPannel();
@@ -130,5 +155,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         Intent intent = new Intent(this, LoginByCodeActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            String type = data.getStringExtra("type");
+            tv_setting_urge_type.setText(type);
+        }
     }
 }
