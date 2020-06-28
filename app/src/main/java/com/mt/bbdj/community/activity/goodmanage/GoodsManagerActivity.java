@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -925,7 +926,7 @@ public class GoodsManagerActivity extends BaseActivity {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    if (s.toString().startsWith("0") || s.toString().equals("")) {
+                    if (s.toString().startsWith("0")) {
                         etNum.setText("1");
                         etNum.setSelection(1);
                     }
@@ -1244,15 +1245,26 @@ public class GoodsManagerActivity extends BaseActivity {
             tvTips.setVisibility(View.VISIBLE);
         }
 
-        String strStock = currentModel.getStockUi() + (currentModel.isWeight() ? "kg" : "件");
+        String strStock = currentModel.getStockUi() + (currentModel.isWeight() ? "KG" : "件");
 
         tvCurNum.setText(strStock);
 
         viewGoodsChangeNumber.findViewById(R.id.rl_submit).setOnClickListener(v -> {
             String numStr = etNum.getText().toString();
-            long num = Long.parseLong(numStr);
-            httpGoodModifyStock(num, isAddNum);
+            long num = 0;
+            if (!TextUtils.isEmpty(numStr)) {
+                num = Long.parseLong(numStr);
+            }
+            if (num == 0) {
+                ToastUtil.showLong("请输入有效值");
+                return;
+            }
+            if (!isAddNum && num > currentModel.getStockUi()) {
+                ToastUtil.showLong("减少的库存不能高于当前的库存");
+                return;
+            }
 
+            httpGoodModifyStock(num, isAddNum);
 
             popGoodsChangeNumber.dismiss();
         });
@@ -1276,6 +1288,7 @@ public class GoodsManagerActivity extends BaseActivity {
                 LoadDialogUtils.cannelLoadingDialog();
                 if (currentModel != null) {
                     currentModel.modifyStockUI(num, isAdd);
+                    goodsManagerAdatpter.notifyDataSetChanged();
                 }
 
 

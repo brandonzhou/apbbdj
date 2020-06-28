@@ -2,14 +2,14 @@ package com.mt.bbdj.community.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.mt.bbdj.R;
@@ -76,6 +76,8 @@ public class GoodsManagerAdatpter extends RecyclerView.Adapter<GoodsManagerAdatp
             holder.tv_goods_name.setTextColor(Color.parseColor("#bbbbbb"));
             holder.tv_goods_price.setTextColor(Color.parseColor("#bbbbbb"));
         }
+        String strStock = "库存" + goodsManagerModel.getStockUi() + (goodsManagerModel.isWeight() ? "KG" : "件");
+        holder.tv_goods_stock.setText(strStock);
 
     }
 
@@ -88,6 +90,7 @@ public class GoodsManagerAdatpter extends RecyclerView.Adapter<GoodsManagerAdatp
 
         private ImageView iv_image;
         private TextView tv_goods_name;
+        private TextView tv_goods_stock;
         private TextView tv_goods_price;
         private TextView tv_manager;
         private TextView tv_goods_xiajia;
@@ -97,6 +100,7 @@ public class GoodsManagerAdatpter extends RecyclerView.Adapter<GoodsManagerAdatp
             super(itemView);
             iv_image = itemView.findViewById(R.id.iv_image);
             tv_goods_name = itemView.findViewById(R.id.tv_goods_name);
+            tv_goods_stock = itemView.findViewById(R.id.tv_goods_stock);
             tv_goods_price = itemView.findViewById(R.id.tv_goods_price);
             tv_manager = itemView.findViewById(R.id.tv_manager);
             tv_goods_xiajia = itemView.findViewById(R.id.tv_goods_xiajia);
