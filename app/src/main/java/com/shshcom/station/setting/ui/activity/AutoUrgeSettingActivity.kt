@@ -103,12 +103,15 @@ class AutoUrgeSettingActivity : AppCompatActivity() {
     }
 
     private fun updateUI() {
-        urgeType = data!!.getCurrentType()
+        data?.let {
+            urgeType = it.getCurrentType()
 
-        tv_urge_type.text = urgeType?.msg
+            tv_urge_type.text = urgeType!!.msg
 
-        tv_send_time.text = data!!.sendTime
-        setSmsText()
+            tv_send_time.text = it.sendTime
+            setSmsText()
+        }
+
     }
 
     private fun setSmsText() {
