@@ -66,7 +66,7 @@ public class ScanStorageCase {
         return Hold.instance;
     }
 
-    private String getBatchNo(){
+    public String getBatchNo() {
         UserConfig userConfig = DbUserUtil.getUserConfig();
         return userConfig.getBatchNo();
     }

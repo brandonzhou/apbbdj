@@ -65,25 +65,27 @@ data class PackageDetailData(
         @SerializedName("express_id")
     val expressId: Int,
         @SerializedName("in_picture")
-    val inPicture: String,
+        val inPicture: String,
         @SerializedName("mobile")
-    var mobile: String,
+        var mobile: String,
         @SerializedName("number")
-    val number: String,
+        val number: String,
         @SerializedName("out_type")
-    val outType : Int,
+        val outType: Int,
         @SerializedName("out_time")
-    val outTime: String,
+        val outTime: String,
         @SerializedName("out_picture")
-    val outPicture: String,
+        val outPicture: String,
         @SerializedName("out_picture_face")
-    val outPictureFace: String,
+        val outPictureFace: String,
         @SerializedName("pie_id")
-    val pieId: Int,
+        val pieId: Int,
         @SerializedName("privacy")
-    val privacy: Int,
+        val privacy: Int,
         @SerializedName("sms_content")
-    var smsContent: String,
+        var smsContent: String,
+        @SerializedName("sms_type")
+        var smsType: Int,// sms_type	短信发送状态	Integer	是	1.短信已发送。2：短信待发送
         @SerializedName("sms_states")
         var smsStates: Int,
         @SerializedName("sms_time")

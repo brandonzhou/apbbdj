@@ -14,9 +14,13 @@ import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.utls.DialogUtil;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.shshcom.station.base.ICaseBack;
 import com.shshcom.station.storage.domain.ScanStorageCase;
+import com.shshcom.station.storage.domain.StorageCase;
 import com.shshcom.station.storage.http.bean.BaseResult;
 import com.shshcom.station.storage.http.bean.StationOrcResult;
+
+import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -153,12 +157,26 @@ public class ScanOcrResultActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private void doSubmit(){
-        if(isComplete){
-            storageCase.updateBatchNo();
-            finish();
-        }else {
-            DialogUtil.promptDialog(activity,"有错误件未处理");
+    private void doSubmit() {
+        if (isComplete) {
+
+            StorageCase.INSTANCE.confirmSubmitWarehouse(new ICaseBack<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    ToastUtil.showLong(result);
+                    storageCase.updateBatchNo();
+                    finish();
+                }
+
+                @Override
+                public void onError(@NotNull String error) {
+                    ToastUtil.showLong(error);
+                }
+            });
+
+
+        } else {
+            DialogUtil.promptDialog(activity, "有错误件未处理");
         }
     }
 }

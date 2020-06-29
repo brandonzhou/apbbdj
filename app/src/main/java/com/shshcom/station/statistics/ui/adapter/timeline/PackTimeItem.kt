@@ -30,6 +30,7 @@ class PackTimeItem(val name: String, val time: String, val smsState: String, val
 
         sms_content	短信内容	String	是	0
         sms_states	短信发送状态0.失败 大于0：短信发送成功次数
+        sms_type	短信发送状态	Integer	是	1.短信已发送。2：短信待发送
         sms_time	短信发送时间戳
 
         out_picture	快递出库图片地址	String	否	out_type不是5时 out_picture为空
@@ -58,8 +59,11 @@ class PackTimeItem(val name: String, val time: String, val smsState: String, val
                 // 短信已到达
                 //您的快递已到达方庄南路18号院，联系方式：
                 //18511462203
-                val stateOk = data.smsStates != 0
-                val smsState = if (stateOk) "短信已到达(${data.smsStates}次)" else "短信未到达用户（不计费）"
+                var smsState = "短信待发送"
+                if (data.smsType == 1) {
+                    val stateOk = data.smsStates != 0
+                    smsState = if (stateOk) "短信已到达(${data.smsStates}次)" else "短信未到达用户（不计费）"
+                }
                 val smsItem = PackTimeItem("短信通知", mmddhhmm.format(smsTime),
                         smsState, data.smsContent, showImage = false)
                 list.add(smsItem)

@@ -107,4 +107,19 @@ object ApiStorage : KNetwork() {
     }
 
 
+    /**
+     * 延时发送短信-确认提交入库
+     * number 快递单号
+     */
+    suspend fun confirmSubmitWarehouse(stationId: String, batch_no: String): Results<Any> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = stationId
+            map["batch_no"] = batch_no
+            ApiSignatureUtil.addSignature(map)
+            service.confirmSubmitWarehouse(map).await()
+        }
+    }
+
+
 }

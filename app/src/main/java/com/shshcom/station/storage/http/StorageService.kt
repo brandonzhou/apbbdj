@@ -50,7 +50,15 @@ interface StorageService {
     @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("https://meng.81dja.com:5443/express/station/searchSameMobileExpressInfo")
-    fun searchSameMobileExpressInfo(@FieldMap  fields: Map<String, Any>) : Call<BaseResult<List<ExpressPackInfo>>>
+    fun searchSameMobileExpressInfo(@FieldMap fields: Map<String, Any>): Call<BaseResult<List<ExpressPackInfo>>>
 
+
+    /**
+     * 14.延时发送短信-确认提交入库
+     */
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("https://meng.81dja.com:5443/express/station/confirmSubmitWarehouse")
+    fun confirmSubmitWarehouse(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
 
 }

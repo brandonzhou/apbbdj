@@ -50,11 +50,16 @@ class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<
         holder.tvPackPhone.text = "手机号: " + data.mobile
         holder.tvPickCode.text = "取件码: " + data.code
 
-        if (data.smsStates > 0 ) {
-            holder.tvNotifyState.text = "已通知用户"
-            holder.tvNotifyState.setTextColor(holder.itemView.resources.getColor(R.color.text_grey_6))
+        if (data.smsType == 1) {
+            if (data.smsStates > 0) {
+                holder.tvNotifyState.text = "已通知用户"
+                holder.tvNotifyState.setTextColor(holder.itemView.resources.getColor(R.color.text_grey_6))
+            } else {
+                holder.tvNotifyState.text = "通知用户失败"
+                holder.tvNotifyState.setTextColor(holder.itemView.resources.getColor(R.color.text_red))
+            }
         } else {
-            holder.tvNotifyState.text = "通知用户失败"
+            holder.tvNotifyState.text = "短信待发送"
             holder.tvNotifyState.setTextColor(holder.itemView.resources.getColor(R.color.text_red))
         }
 
@@ -64,11 +69,11 @@ class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<
 
         val res = holder.itemView.context.resources
 
-        if(data.types ==1){
+        if (data.types == 1) {
             holder.tvPackState.text = "待出库"
             holder.tvPackState.setTextColor(res.getColor(R.color.white))
             holder.tvPackState.background = res.getDrawable(R.drawable.bg_green_r11)
-        }else{
+        } else {
             // 2
             if (data.isOutException()) {
                 holder.tvPackState.text = "异常出库"
