@@ -19,10 +19,10 @@ import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.baseconfig.utls.PackageUtils;
 import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.shshcom.station.base.ICaseBack;
 import com.shshcom.station.setting.domain.UrgeSettingUseCase;
 import com.shshcom.station.setting.http.bean.AutoUrgeData;
 import com.shshcom.station.setting.ui.activity.AutoUrgeSettingActivity;
-import com.shshcom.station.statistics.domain.ICaseBack;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;

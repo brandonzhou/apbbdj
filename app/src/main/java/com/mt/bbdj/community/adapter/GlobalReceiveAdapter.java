@@ -15,7 +15,7 @@ import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.utls.DateUtil;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
-import com.shshcom.station.statistics.domain.ICaseBack;
+import com.shshcom.station.base.ICaseBack;
 import com.shshcom.station.statistics.domain.PackageUseCase;
 import com.shshcom.station.statistics.http.bean.PackageDetailData;
 import com.shshcom.station.statistics.ui.PackDetailActivity;

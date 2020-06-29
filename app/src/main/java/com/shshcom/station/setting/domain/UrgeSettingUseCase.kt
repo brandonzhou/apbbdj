@@ -1,9 +1,9 @@
 package com.shshcom.station.setting.domain
 
 import com.shshcom.module_base.network.Results
+import com.shshcom.station.base.ICaseBack
 import com.shshcom.station.setting.http.ApiSetting
 import com.shshcom.station.setting.http.bean.AutoUrgeData
-import com.shshcom.station.statistics.domain.ICaseBack
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

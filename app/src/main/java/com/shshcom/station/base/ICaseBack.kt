@@ -1,4 +1,4 @@
-package com.shshcom.station.statistics.domain
+package com.shshcom.station.base
 
 /**
  * desc:

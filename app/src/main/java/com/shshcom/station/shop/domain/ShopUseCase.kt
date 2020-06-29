@@ -2,8 +2,8 @@ package com.shshcom.station.shop.domain
 
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.shshcom.module_base.network.Results
+import com.shshcom.station.base.ICaseBack
 import com.shshcom.station.shop.http.ApiShop
-import com.shshcom.station.statistics.domain.ICaseBack
 import com.shshcom.station.statistics.domain.PackageUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
