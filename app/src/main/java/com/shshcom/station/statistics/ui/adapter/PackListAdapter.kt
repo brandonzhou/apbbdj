@@ -58,9 +58,11 @@ class PackListAdapter(var list: List<PackageDetailData>) : RecyclerView.Adapter<
                 holder.tvNotifyState.text = "通知用户失败"
                 holder.tvNotifyState.setTextColor(holder.itemView.resources.getColor(R.color.text_red))
             }
-        } else {
+        } else if (data.smsType == 2) {
             holder.tvNotifyState.text = "短信待发送"
             holder.tvNotifyState.setTextColor(holder.itemView.resources.getColor(R.color.text_red))
+        } else if (data.smsType == 3) {
+            holder.tvNotifyState.text = ""
         }
 
         if (data.showTimeInfo.isNullOrEmpty()) {

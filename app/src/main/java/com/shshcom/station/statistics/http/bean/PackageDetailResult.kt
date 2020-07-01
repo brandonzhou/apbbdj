@@ -85,7 +85,7 @@ data class PackageDetailData(
         @SerializedName("sms_content")
         var smsContent: String,
         @SerializedName("sms_type")
-        var smsType: Int,// sms_type	短信发送状态	Integer	是	1.短信已发送。2：短信待发送
+        var smsType: Int,// sms_type	短信发送状态	Integer	是	 1.短信已发送。2：短信待发送 3.不展示提示信息
         @SerializedName("sms_states")
         var smsStates: Int,
         @SerializedName("sms_time")

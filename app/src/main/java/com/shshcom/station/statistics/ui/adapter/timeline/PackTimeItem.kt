@@ -59,10 +59,14 @@ class PackTimeItem(val name: String, val time: String, val smsState: String, val
                 // 短信已到达
                 //您的快递已到达方庄南路18号院，联系方式：
                 //18511462203
-                var smsState = "短信待发送"
+                var smsState = ""
                 if (data.smsType == 1) {
                     val stateOk = data.smsStates != 0
                     smsState = if (stateOk) "短信已到达(${data.smsStates}次)" else "短信未到达用户（不计费）"
+                } else if (data.smsType == 2) {
+                    smsState = "短信待发送"
+                } else if (data.smsType == 3) {
+                    smsState = ""
                 }
                 val smsItem = PackTimeItem("短信通知", mmddhhmm.format(smsTime),
                         smsState, data.smsContent, showImage = false)
