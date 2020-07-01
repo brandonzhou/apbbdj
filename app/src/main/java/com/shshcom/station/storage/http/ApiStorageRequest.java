@@ -89,6 +89,7 @@ public class ApiStorageRequest {
         map.put("station_id", image.getStationId());
         map.put("express_id", image.getExpressCompanyId());
         map.put("batch_no", image.getBatchNo());
+        map.put("blur_score", image.getBlurScore());
         addSignature(map);
 
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
@@ -219,6 +220,7 @@ public class ApiStorageRequest {
         map.put("mobile", image.getPhone());
         map.put("number", image.getEId());
         map.put("station_id", image.getStationId());
+        map.put("blur_score", image.getBlurScore());
         addSignature(map);
 
 

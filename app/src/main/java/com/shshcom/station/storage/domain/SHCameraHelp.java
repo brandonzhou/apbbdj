@@ -33,6 +33,17 @@ public class SHCameraHelp {
     }
 
 
+    public String saveImage(Context context, String fileName, Bitmap bitmap) {
+        String filePath = createFileDir(context, fileName);
+
+        boolean success = saveImage(filePath, bitmap);
+        if (success) {
+            return filePath;
+        } else {
+            return null;
+        }
+    }
+
     public String saveImage(Context context, String fileName, byte[] data) {
         String filePath = createFileDir(context, fileName);
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -85,11 +96,11 @@ public class SHCameraHelp {
         LogUtil.d("ScanStorageCase", "height:" + height + " width:" + width);
         int inSampleSize = 1;
         if (height > reqHeight || width > reqWidth) {
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
-                inSampleSize *= 2;
-            }
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+            // 选择宽和高中最小的比率作为inSampleSize的值，这样可以保证最终图片的宽和高
+            // 一定都会大于等于目标的宽和高。
+            inSampleSize = Math.min(heightRatio, widthRatio);
         }
         return inSampleSize;
     }

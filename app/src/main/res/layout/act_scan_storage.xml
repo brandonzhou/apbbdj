@@ -226,7 +226,7 @@
             android:layout_marginLeft="@dimen/dp_60"
             android:layout_marginRight="@dimen/dp_60"
             android:background="@drawable/bg_mark_trans"
-            android:visibility="gone"
+            android:visibility="visible"
             >
 
             <TextView

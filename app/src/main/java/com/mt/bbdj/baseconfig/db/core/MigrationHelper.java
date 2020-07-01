@@ -131,16 +131,19 @@ public final class MigrationHelper {
     }
 
     private static Object getTableType(Class<?> type){
-        if(type.equals(int.class)){
+        if (type.equals(int.class)) {
             return " INTEGER DEFAULT 0";
         }
-        if(type.equals(long.class)){
+        if (type.equals(long.class)) {
             return " Long DEFAULT 0";
         }
-        if(type.equals(String.class)){
+        if (type.equals(double.class)) {
+            return " Double DEFAULT 0";
+        }
+        if (type.equals(String.class)) {
             return " TEXT ";
         }
-        if(type.equals(boolean.class)){
+        if (type.equals(boolean.class)) {
             return " NUMERIC DEFAULT 0";
         }
         return " TEXT";

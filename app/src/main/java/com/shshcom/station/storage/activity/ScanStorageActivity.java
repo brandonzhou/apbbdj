@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,6 +26,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.interfaces.SimpleCallback;
+import com.mt.bbdj.BuildConfig;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.PickupCode;
 import com.mt.bbdj.baseconfig.db.ScanImage;
@@ -37,12 +37,15 @@ import com.mt.bbdj.baseconfig.utls.SoundHelper;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.baseconfig.utls.UtilDialog;
+import com.shshcom.station.base.ICaseBack;
+import com.shshcom.station.imageblurdetection.OpenCVData;
 import com.shshcom.station.storage.domain.ScanStorageCase;
 import com.shshcom.station.storage.http.bean.BaseResult;
 import com.shshcom.station.storage.http.bean.ExpressCompany;
 import com.shshcom.station.storage.widget.CustomExpressCompanyPopup;
 import com.shshcom.station.util.AntiShakeUtils;
 
+import org.jetbrains.annotations.NotNull;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
@@ -62,7 +65,7 @@ import static com.lxj.xpopup.enums.PopupAnimation.ScaleAlphaFromCenter;
  * author: zhhli
  * 2020/5/18
  */
-public class ScanStorageActivity extends CaptureActivity implements View.OnClickListener{
+public class ScanStorageActivity extends CaptureActivity implements View.OnClickListener {
     private static final String TAG = "ScanStorageActivity";
     /*请求码-配置取件码*/
     private static final int REQUEST_CODE_SET_PICK_UP_NUMBER = 1;
@@ -101,12 +104,25 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     private State state;
 
 
-
     private enum State {
         scanning,
         capturing,
         editing
     }
+
+    private ICaseBack<String> iCaseBack = new ICaseBack<String>() {
+        @Override
+        public void onSuccess(String result) {
+
+        }
+
+        @Override
+        public void onError(@NotNull String error) {
+            DialogUtil.promptDialog(activity, error);
+            updateBottomCount();
+
+        }
+    };
 
     @Override
     public int getLayoutId() {
@@ -138,6 +154,11 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         storageCase.retryUploadImage(list);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        iCaseBack = null;
+    }
 
     private void initPermission() {
         //请求Camera权限
@@ -156,12 +177,11 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE_CAMERA:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.i(TAG, "onRequestPermissionsResult granted");
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    LogUtil.i(TAG, "onRequestPermissionsResult granted");
 
                 } else {
-                    Log.i(TAG, "onRequestPermissionsResult denied");
+                    LogUtil.i(TAG, "onRequestPermissionsResult denied");
                     UtilDialog.showDialog(this, "请前往设置中开启摄像头权限");
                 }
                 break;
@@ -260,7 +280,8 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             public void accept(BaseResult<ExpressCompany> baseResult) throws Exception {
                 ExpressCompany expressCompany = baseResult.getData();
                 if (tv_bar_code != null && expressCompany != null) {
-                    takePicture(result, expressCompany.getExpress_id());
+                    currentExpress = expressCompany;
+                    takePicture();
 
                 }
             }
@@ -269,8 +290,10 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             public void accept(Throwable throwable) throws Exception {
                 ToastUtil.showShort(throwable.getMessage());
                 // 重置状态
-                currentBarCode = "";
-                helper.restartPreviewAndDecode();
+                if (tv_bar_code != null) {
+                    currentBarCode = "";
+                    helper.restartPreviewAndDecode();
+                }
             }
         });
 
@@ -278,7 +301,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     }
 
 
-    private void takePicture(String result, int express_id) {
+    private void takePicture() {
         // https://stackoverflow.com/questions/21723557/java-lang-runtimeexception-takepicture-failed
         // RuntimeException: Camera is being used after Camera.release() was called
         Camera camera = helper.getCameraManager().getOpenCamera().getCamera();
@@ -287,38 +310,34 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 Disposable disposable = storageCase.getBitmap(data)
-                        .subscribe(cvData->{
-                            ToastUtil.showShort(cvData.getScore()+"");
-                            LogUtil.d("opencv", cvData.getScore()+"");
-                            tv_pickup_code.setText(cvData.getScore()+"");
+                        .subscribe(cvData -> {
+                            SoundHelper.getInstance().playExpress(currentExpress.getExpress_id());
+                            if (BuildConfig.DEBUG) {
+                                tv_pickup_code.setText(cvData.getScore() + "");
+                                LogUtil.d("opencv", cvData.getScore() + "");
+                            }
 
-                            barCodeSanRepeatTime = 0;
-                            currentBarCode = "";
-                            camera.startPreview();
+                            if (cvData.isValid()) {
+                                httpSubmit(currentBarCode, currentExpress.getExpress_id(), cvData);
+                            } else {
+                                //ToastUtil.showLong("请重拍");
+                                retryCaptureDialog(cvData.getScore(), false);
+                            }
 
-                            helper.restartPreviewAndDecode();
-                        }, e ->{
-
+                        }, e -> {
                         });
 
             }
         });
     }
 
-    private void getPhoto(String result, int express_id, byte[] data){
-        SoundHelper.getInstance().playExpress(express_id);
-//
-        barCodeSanRepeatTime = 0;
+    private void httpSubmit(String result, int express_id, OpenCVData cvData) {
+
         PickupCode pickupCode = storageCase.getCurrentPickCode();
 
         PickupCode nextCode = pickupCode.nextPickCode();
         updateUI(result, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
-        Disposable disposable = storageCase.saveScanImage(result, pickupCode, data, null, express_id + "")
-                .subscribe(s -> {
-                }, throwable -> {
-                    DialogUtil.promptDialog(activity, throwable.getMessage());
-                    updateBottomCount();
-                });
+        storageCase.saveScanImage(result, pickupCode, cvData, null, express_id + "", iCaseBack);
 
         storageCase.updatePickCode(nextCode);
         updateBottomCount();
@@ -332,12 +351,45 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                     if (tv_bar_code != null) {
                         tv_bar_code.setVisibility(View.GONE);
                     }
+                    barCodeSanRepeatTime = 0;
                     currentBarCode = "";
                 }
             }, 1500);
         }
 
+        Camera camera = helper.getCameraManager().getOpenCamera().getCamera();
+        camera.startPreview();
 
+        helper.restartPreviewAndDecode();
+
+
+    }
+
+    private void retryCaptureDialog(double score, boolean isEdit) {
+        new XPopup.Builder(this)
+                .asConfirm("提示", "照片不清晰，请重拍(" + score + ")", "取消", "重拍", () -> {
+                    // 重拍
+                    String showTips = currentExpress.getExpress_name() + "\n" + currentBarCode;
+                    if (isEdit) {
+                        showTips = currentBarCode + "\n手机号:" + currentPhone;
+                    }
+                    tv_capture_bar_code.setText(showTips);
+
+                    Camera camera = helper.getCameraManager().getOpenCamera().getCamera();
+                    camera.startPreview();
+
+                    setViewShow(true, R.id.rl_capture);
+                    setViewShow(false, R.id.tv_tip_edit_express, R.id.tv_tip_capture);
+                }, () -> {
+                    // 取消
+                    currentBarCode = "";
+                    barCodeSanRepeatTime = 0;
+                    Camera camera = helper.getCameraManager().getOpenCamera().getCamera();
+                    camera.startPreview();
+
+                    helper.restartPreviewAndDecode();
+
+                }, false).show();
     }
 
     private void updateUI(String barCode, String pickCode, String nextCode) {
@@ -374,10 +426,11 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 }
                 break;
             case R.id.iv_capture:
-                saveEditExpress(currentBarCode, currentPhone, "" + currentExpress.getExpress_id());
+                saveEditExpress(currentBarCode, currentPhone, currentExpress.getExpress_id() + "");
                 break;
             case R.id.iv_close_edit:
                 closeEditDialog();
+                resetScan();
                 break;
             case R.id.rl_back:
                 finish();
@@ -432,10 +485,20 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         if (activity.isDestroyed()) {
             return;
         }
-        setViewShow(false, R.id.rl_capture, R.id.rl_express_info_tips);
+        // setViewShow(false, R.id.rl_capture, R.id.rl_express_info_tips);
+        setViewShow(false, R.id.rl_capture);
         setViewShow(true, R.id.tv_tip_edit_express, R.id.tv_tip_capture);
         state = State.scanning;
 
+    }
+
+    private void resetScan() {
+        currentBarCode = "";
+        barCodeSanRepeatTime = 0;
+        state = State.scanning;
+        Camera camera = helper.getCameraManager().getOpenCamera().getCamera();
+        camera.startPreview();
+        helper.restartPreviewAndDecode();
     }
 
     private void setViewShow(boolean show, int... viewIds) {
@@ -462,27 +525,38 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         camera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                PickupCode pickupCode = storageCase.getCurrentPickCode();
+                Disposable disposable = storageCase.getBitmap(data)
+                        .subscribe(cvData -> {
+                            if (BuildConfig.DEBUG) {
+                                tv_pickup_code.setText(cvData.getScore() + "");
+                                LogUtil.d("opencv", cvData.getScore() + "");
+                            }
 
-                PickupCode nextCode = pickupCode.nextPickCode();
+                            if (cvData.isValid()) {
+                                PickupCode pickupCode = storageCase.getCurrentPickCode();
 
-                Disposable disposable = storageCase.saveScanImage(barCode, pickupCode, data, phone, expressCompanyId)
-                        .subscribe(s -> {
-                        }, throwable -> {
-                            DialogUtil.promptDialog(activity, throwable.getMessage());
-                            updateBottomCount();
+                                PickupCode nextCode = pickupCode.nextPickCode();
+
+                                storageCase.saveScanImage(barCode, pickupCode, cvData, phone, expressCompanyId, iCaseBack);
+
+                                storageCase.updatePickCode(nextCode);
+                                updateUI(barCode, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
+                                updateBottomCount();
+
+                                currentBarCode = "";
+
+                                camera.startPreview();
+
+
+                                helper.restartPreviewAndDecode();
+                            } else {
+                                retryCaptureDialog(cvData.getScore(), true);
+                            }
+
+
+                        }, e -> {
                         });
 
-                storageCase.updatePickCode(nextCode);
-                updateUI(barCode, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
-                updateBottomCount();
-
-                currentBarCode = "";
-
-                camera.startPreview();
-
-
-                helper.restartPreviewAndDecode();
             }
         });
 
@@ -518,6 +592,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
             findViewById(R.id.btn_cancel).setOnClickListener(v -> {
                         dismiss();
                         closeEditDialog();
+                        resetScan();
                     }
             );
             findViewById(R.id.btn_ok).setOnClickListener(v -> {
@@ -571,26 +646,12 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                 currentExpress = list.get(position);
                 tv_tracking_company_value.setText(currentExpress.getExpress_name());
 
-//                setShowKeyboard(etExpressCode,true);
 
             }
         });
         return popup;
     }
 
-    private void setShowKeyboard(View view, boolean isShow) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        if (isShow) {
-            //显示软键盘
-            imm.showSoftInputFromInputMethod(view.getWindowToken(), 0);
-        } else {
-            //隐藏软键盘 //
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-
-
-    }
 
     /**
      * 获取快递公司列表
@@ -626,17 +687,16 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     }
 
 
-
-    BaseLoaderCallback loaderCallback ;
+    BaseLoaderCallback loaderCallback;
 
     @Override
     public void onResume() {
         super.onResume();
 
-        if(loaderCallback == null){
-            loaderCallback= new BaseLoaderCallback(this){
+        if (loaderCallback == null) {
+            loaderCallback = new BaseLoaderCallback(this) {
 
-            } ;
+            };
         }
 
         if (!OpenCVLoader.initDebug()) {

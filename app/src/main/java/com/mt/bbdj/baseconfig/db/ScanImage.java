@@ -40,34 +40,36 @@ public class ScanImage {
     private String expressCompanyId;
 
 
-
     private long time;
 
     private String localPath;
 
-@Generated(hash = 820179988)
-public ScanImage(String eId, String stationId, String pickCode, String batchNo,
-        String state, String phone, String expressCompanyId, long time,
-        String localPath) {
-    this.eId = eId;
-    this.stationId = stationId;
-    this.pickCode = pickCode;
-    this.batchNo = batchNo;
-    this.state = state;
-    this.phone = phone;
-    this.expressCompanyId = expressCompanyId;
-    this.time = time;
-    this.localPath = localPath;
-}
+    private double blurScore;
 
-@Keep
-public ScanImage() {
-    time = System.currentTimeMillis();
-}
+    @Generated(hash = 964157298)
+    public ScanImage(String eId, String stationId, String pickCode, String batchNo,
+                     String state, String phone, String expressCompanyId, long time,
+                     String localPath, double blurScore) {
+        this.eId = eId;
+        this.stationId = stationId;
+        this.pickCode = pickCode;
+        this.batchNo = batchNo;
+        this.state = state;
+        this.phone = phone;
+        this.expressCompanyId = expressCompanyId;
+        this.time = time;
+        this.localPath = localPath;
+        this.blurScore = blurScore;
+    }
 
-public String getEId() {
-    return this.eId;
-}
+    @Keep
+    public ScanImage() {
+        time = System.currentTimeMillis();
+    }
+
+    public String getEId() {
+        return this.eId;
+    }
 
 public void setEId(String eId) {
     this.eId = eId;
@@ -117,27 +119,33 @@ public String getExpressCompanyId() {
     return this.expressCompanyId;
 }
 
-public void setExpressCompanyId(String expressCompanyId) {
-    this.expressCompanyId = expressCompanyId;
-}
+    public void setExpressCompanyId(String expressCompanyId) {
+        this.expressCompanyId = expressCompanyId;
+    }
 
-public long getTime() {
-    return this.time;
-}
+    public long getTime() {
+        return this.time;
+    }
 
-public void setTime(long time) {
-    this.time = time;
-}
+    public void setTime(long time) {
+        this.time = time;
+    }
 
-public String getLocalPath() {
-    return this.localPath;
-}
+    public String getLocalPath() {
+        return this.localPath;
+    }
 
-public void setLocalPath(String localPath) {
-    this.localPath = localPath;
-}
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
+    }
 
+    public double getBlurScore() {
+        return this.blurScore;
+    }
 
+    public void setBlurScore(double blurScore) {
+        this.blurScore = blurScore;
+    }
 
 
 }

@@ -7,4 +7,8 @@ import android.graphics.Bitmap
  * author: zhhli
  * 2020/6/19
  */
-data class OpenCVData(val bitmap: Bitmap, val score: Double)
+data class OpenCVData(val bitmap: Bitmap, val score: Double) {
+    fun isValid(): Boolean {
+        return score > 100
+    }
+}

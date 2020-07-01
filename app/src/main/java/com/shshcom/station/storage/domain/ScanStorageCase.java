@@ -17,6 +17,7 @@ import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.RxFileTool;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.shshcom.station.base.ICaseBack;
 import com.shshcom.station.imageblurdetection.ImageDetectionUseCase;
 import com.shshcom.station.imageblurdetection.OpenCVData;
 import com.shshcom.station.storage.http.ApiStorageRequest;
@@ -140,7 +141,7 @@ public class ScanStorageCase {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<String> saveScanImage(String eId, PickupCode pickCode, byte[] imageData, String mobile, String expressCompanyId){
+    public void saveScanImage(String eId, PickupCode pickCode, OpenCVData cvData, String mobile, String expressCompanyId, ICaseBack<String> iCaseBack) {
         String stationId = GreenDaoUtil.getStationId();
 
         ScanImage image = new ScanImage();
@@ -149,17 +150,18 @@ public class ScanStorageCase {
         image.setExpressCompanyId(expressCompanyId);
         image.setPhone(mobile);
         image.setBatchNo(getBatchNo());
+        image.setBlurScore(cvData.getScore());
 
         // 根据规则，生成真正的取件码
         String strPickCode = pickCode.createRealPickCode(eId);
         image.setPickCode(strPickCode);
         GreenDaoUtil.updateScanImage(image);
 
-        return Observable.create(new ObservableOnSubscribe<String>() {
+        Disposable disposable = Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                 SHCameraHelp shCameraHelp = new SHCameraHelp();
-                String file = shCameraHelp.saveImage(context, image.getEId(),imageData);
+                String file = shCameraHelp.saveImage(context, image.getEId(), cvData.getBitmap());
 
                 image.setLocalPath(file);
                 image.setState(ScanImage.State.uploading.name());
@@ -182,10 +184,10 @@ public class ScanStorageCase {
                 image.setState(ScanImage.State.upload_success.name());
                 RxFileTool.deleteFile(file);
 
-                if(baseResult.isSuccess()){
+                if (baseResult.isSuccess()) {
                     GreenDaoUtil.updateScanImage(image);
                     emitter.onNext("success");
-                }else{
+                } else {
                     GreenDaoUtil.deleteScanImage(image.getEId());
                     emitter.onError(new Throwable(baseResult.getMsg()));
                 }
@@ -193,7 +195,13 @@ public class ScanStorageCase {
 
             }
         }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> {
+                }, e -> {
+                    if (iCaseBack != null) {
+                        iCaseBack.onError(e.getMessage());
+                    }
+                });
     }
 
     public void retryUploadImage(List<ScanImage> list){

@@ -33,7 +33,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 8
-        versionName "1.0.29"
+        versionName "1.0.29-dev-next"
         renderscriptTargetApi 19
         multiDexKeepProguard file("./tinker_multidexkeep.pro")
         renderscriptSupportModeEnabled true
@@ -70,7 +70,7 @@ android {
     buildToolsVersion = '28.0.3'
 
     greendao {
-        schemaVersion 37    //版本
+        schemaVersion 38    //版本
         daoPackage 'com.mt.bbdj.baseconfig.db.gen'
         //targetGenDir 'src/main/java'
     }
