@@ -51,6 +51,8 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
+        <activity android:name="com.shshcom.station.setting.ui.activity.company.CompanySettingActivity"></activity>
+        <activity android:name="com.shshcom.station.setting.ui.activity.company.CompanyListActivity" />
         <activity
             android:name="com.shshcom.station.setting.ui.activity.AutoUrgeSettingActivity"
             android:screenOrientation="portrait" />

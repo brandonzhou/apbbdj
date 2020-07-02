@@ -4,6 +4,7 @@ import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.shshcom.module_base.network.Results
 import com.shshcom.module_base.network.ServiceCreator
 import com.shshcom.station.setting.http.bean.AutoUrgeData
+import com.shshcom.station.setting.http.bean.CompanySettingData
 import com.shshcom.station.storage.http.ApiStorage.await
 import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.util.ApiSignatureUtil
@@ -54,6 +55,28 @@ object ApiSetting {
             map["cur_urge_type"] = cur_urge_type
             ApiSignatureUtil.addSignature(map)
             service.setPackageUrgeSetting(map).await()
+        }
+    }
+
+
+    suspend fun getBrandManagement(): Results<List<CompanySettingData>> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = getStationId()
+
+            ApiSignatureUtil.addSignature(map)
+            service.getBrandManagement(map).await()
+        }
+    }
+
+    suspend fun saveBrandManagement(express_id: Int, type: Int): Results<Any> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = getStationId()
+            map["express_id"] = express_id
+            map["type"] = type
+            ApiSignatureUtil.addSignature(map)
+            service.saveBrandManagement(map).await()
         }
     }
 

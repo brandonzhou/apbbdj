@@ -26,6 +26,7 @@ import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.community.activity.MywalletActivity;
 import com.mt.bbdj.community.activity.SettingActivity;
+import com.shshcom.station.setting.ui.activity.company.CompanyListActivity;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -52,9 +53,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     private final int REQUEST_GET_MESSAGE = 1001;    //我的基本信息
 
     private ImageView head;
-    private ImageView iv_manager_phone,iv_manager_head;
-    private LinearLayout ll_pill,ll_setting,ll_money;
-    private TextView tv_name,tv_code,tv_phone,tv_money,tv_manager_name,tv_manager_phone,tv_service_phone;
+    private ImageView iv_manager_phone, iv_manager_head;
+    private LinearLayout ll_pill, ll_setting, ll_money, ll_setting_company;
+    private TextView tv_name, tv_code, tv_phone, tv_money, tv_manager_name, tv_manager_phone, tv_service_phone;
 
     public static MyFragment getInstance() {
         MyFragment comDataFragment = new MyFragment();
@@ -84,6 +85,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.iv_manager_phone:   //联系管家
                 contractManager();
+                break;
+            case R.id.ll_setting_company:
+                CompanyListActivity.Companion.openActivity(getActivity());
                 break;
         }
     }
@@ -120,6 +124,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         ll_setting.setOnClickListener(this);
         iv_manager_phone.setOnClickListener(this);
         ll_money.setOnClickListener(this);
+        ll_setting_company.setOnClickListener(this);
 
     }
 
@@ -128,6 +133,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         ll_pill = view.findViewById(R.id.ll_pill);
         ll_setting = view.findViewById(R.id.ll_setting);
         ll_money = view.findViewById(R.id.ll_money);
+        ll_setting_company = view.findViewById(R.id.ll_setting_company);
         tv_name = view.findViewById(R.id.tv_name);
         tv_phone = view.findViewById(R.id.tv_phone);
         tv_code = view.findViewById(R.id.tv_code);
