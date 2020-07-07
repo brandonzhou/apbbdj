@@ -51,7 +51,13 @@
         android:theme="@style/MainTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,theme,icon,allowBackup">
-        <activity android:name="com.shshcom.station.setting.ui.activity.company.CompanySettingActivity"></activity>
+        <activity
+            android:name="com.shshcom.station.setting.ui.activity.SmsTempleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.shshcom.station.statistics.ui.NotifyPackListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.shshcom.station.setting.ui.activity.company.CompanySettingActivity" />
         <activity android:name="com.shshcom.station.setting.ui.activity.company.CompanyListActivity" />
         <activity
             android:name="com.shshcom.station.setting.ui.activity.AutoUrgeSettingActivity"

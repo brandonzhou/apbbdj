@@ -1,9 +1,6 @@
 package com.shshcom.station.statistics.http
 
-import com.shshcom.station.statistics.http.bean.PackageDetailData
-import com.shshcom.station.statistics.http.bean.PackageDetailResult
-import com.shshcom.station.statistics.http.bean.TodayExpressStatistics
-import com.shshcom.station.statistics.http.bean.TotalStockData
+import com.shshcom.station.statistics.http.bean.*
 import com.shshcom.station.storage.http.bean.BaseResult
 import retrofit2.Call
 import retrofit2.http.FieldMap
@@ -77,7 +74,25 @@ interface StatisticService{
     @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("https://meng.81dja.com:5443/Express/Warehousing/outWarehouse2")
-    fun outWarehouse2(@FieldMap fields: Map<String, Any>) : Call<BaseResult<Any>>
+    fun outWarehouse2(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
+
+
+    /**
+     * 今日微信公众号通知了wechat_toal个快递
+     */
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("https://meng.81dja.com:5443/express/station/queryStationTodayNoticeStats")
+    fun queryWeChatTodayNotice(@FieldMap fields: Map<String, Any>): Call<BaseResult<WeChatTodayNotice>>
+
+
+    /**
+     * 取件通知统计数据查询接口
+     */
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("https://meng.81dja.com:5443/express/station/queryStationNoticeStats")
+    fun queryStationNoticeStats(@FieldMap fields: Map<String, Any>): Call<BaseResult<PackNotifyData>>
 
 
 }

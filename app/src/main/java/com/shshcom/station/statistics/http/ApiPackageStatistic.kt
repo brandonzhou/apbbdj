@@ -2,10 +2,7 @@ package com.shshcom.station.statistics.http
 
 import com.shshcom.module_base.network.Results
 import com.shshcom.module_base.network.ServiceCreator
-import com.shshcom.station.statistics.http.bean.PackageDetailData
-import com.shshcom.station.statistics.http.bean.PackageDetailResult
-import com.shshcom.station.statistics.http.bean.TodayExpressStatistics
-import com.shshcom.station.statistics.http.bean.TotalStockData
+import com.shshcom.station.statistics.http.bean.*
 import com.shshcom.station.storage.http.ApiStorage.await
 import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.util.ApiSignatureUtil
@@ -158,5 +155,32 @@ object ApiPackageStatistic {
             service.outWarehouse2(map).await()
         }
     }
+
+
+    /**
+     * 首页 今日微信公众号通知了x个快递
+     */
+    suspend fun queryWeChatTodayNotice(stationId: String): Results<WeChatTodayNotice> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = stationId
+            ApiSignatureUtil.addSignature(map)
+            service.queryWeChatTodayNotice(map).await()
+        }
+    }
+
+    /**
+     * 取件通知统计数据查询接口
+     */
+    suspend fun queryStationNoticeStats(stationId: String, page: Int): Results<PackNotifyData> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = stationId
+            map["page"] = page
+            ApiSignatureUtil.addSignature(map)
+            service.queryStationNoticeStats(map).await()
+        }
+    }
+
 
 }

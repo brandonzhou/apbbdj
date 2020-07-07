@@ -6,6 +6,7 @@ import com.shshcom.station.base.ICaseBack
 import com.shshcom.station.statistics.http.ApiPackageStatistic
 import com.shshcom.station.statistics.http.bean.PackageDetailData
 import com.shshcom.station.statistics.http.bean.TodayExpressStatistics
+import com.shshcom.station.statistics.http.bean.WeChatTodayNotice
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -51,6 +52,23 @@ object PackageUseCase {
     fun getPackageDetailData(pid: Int, caseBack: ICaseBack<PackageDetailData>) {
         presenterScope.launch {
             val result = ApiPackageStatistic.getOutPie(pid)
+
+            when (result) {
+                is Results.Success -> {
+                    caseBack.onSuccess(result.data)
+                }
+                is Results.Failure -> {
+                    val msg = result.error.message
+                    caseBack.onError(msg.orEmpty())
+                }
+            }
+        }
+    }
+
+
+    fun queryWeChatTodayNotice(caseBack: ICaseBack<WeChatTodayNotice>) {
+        presenterScope.launch {
+            val result = ApiPackageStatistic.queryWeChatTodayNotice(getStationId())
 
             when (result) {
                 is Results.Success -> {

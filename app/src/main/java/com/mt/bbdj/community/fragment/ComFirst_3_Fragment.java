@@ -39,7 +39,6 @@ import com.mt.bbdj.baseconfig.db.gen.ExpressLogoDao;
 import com.mt.bbdj.baseconfig.db.gen.MingleAreaDao;
 import com.mt.bbdj.baseconfig.db.gen.ProvinceDao;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
-import com.mt.bbdj.baseconfig.internet.InterApi;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.model.Constant;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
@@ -97,6 +96,8 @@ import com.shshcom.station.base.ICaseBack;
 import com.shshcom.station.blockuser.ui.activity.BlockUserListActivity;
 import com.shshcom.station.statistics.domain.PackageUseCase;
 import com.shshcom.station.statistics.http.bean.TodayExpressStatistics;
+import com.shshcom.station.statistics.http.bean.WeChatTodayNotice;
+import com.shshcom.station.statistics.ui.NotifyPackListActivity;
 import com.shshcom.station.statistics.ui.PackStockListActivity;
 import com.shshcom.station.statistics.ui.TotalPackStockActivity;
 import com.shshcom.station.storage.activity.ScanPickOutActivity;
@@ -117,6 +118,7 @@ import com.youth.banner.Banner;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,6 +176,16 @@ public class ComFirst_3_Fragment extends BaseFragment {
     @BindView(R.id.tv_handle_ing)
     TextView tv_handle_ing;
     Unbinder unbinder;
+
+    @BindView(R.id.ll_wechat_notify)
+    LinearLayout ll_wechat_notify;
+    @BindView(R.id.ll_recharge_notify)
+    LinearLayout ll_recharge_notify;
+    @BindView(R.id.tv_wechat_notify_number)
+    TextView tv_wechat_notify_number;
+    @BindView(R.id.tv_recharge)
+    TextView tv_recharge;
+
 
     View mView;
 
@@ -280,11 +292,6 @@ public class ComFirst_3_Fragment extends BaseFragment {
             }
         }
 
-        if (InterApi.SERVER_ADDRESS.contains("www.81dja.com")) {
-
-        } else {
-
-        }
     }
 
     private void updataExpressState() {
@@ -327,6 +334,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         requestEnterData();   //入库数据
         notifyCheck();    //通知权限
         httpTodayExpressStatistics();
+        httpWeChatTodayNotice();
     }
 
 
@@ -384,6 +392,22 @@ public class ComFirst_3_Fragment extends BaseFragment {
         mRequestQueue.add(REQUEST_ENTER_MESSAGE, request, mResponseListener);
     }
 
+    private void httpWeChatTodayNotice() {
+        PackageUseCase.INSTANCE.queryWeChatTodayNotice(new ICaseBack<WeChatTodayNotice>() {
+            @Override
+            public void onSuccess(WeChatTodayNotice result) {
+                if (tv_wechat_notify_number != null) {
+                    tv_wechat_notify_number.setText(
+                            String.format("今日使用微信公众号通知了%d个快递", result.getWechatTotal()));
+                }
+            }
+
+            @Override
+            public void onError(@NotNull String error) {
+            }
+        });
+    }
+
     private void initData() {
 
     }
@@ -406,6 +430,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
         iv_scan_out_package.setOnClickListener(v -> handleOutManagerEvent());
 
+        ll_wechat_notify.setOnClickListener(v -> NotifyPackListActivity.Companion.openActivity(getActivity()));
+
+        tv_recharge.setOnClickListener(v -> RechargeActivity.openActivity(getActivity()));
 
     }
 
@@ -1166,8 +1193,10 @@ public class ComFirst_3_Fragment extends BaseFragment {
         //String version_number = dataObj.getString("version_number");   //版本号
         String prohibit = dataObj.getString("prohibit");   //状态 1：正常营业  其他：禁止登录
 
-        //版本地址
-        version_url = dataObj.getString("version_url");
+        int need_recharge = dataObj.getInt("need_recharge");   //是否提示充值 （新增参数）
+        String recharge_notify_msg = dataObj.getString("recharge_notify_msg");   //充值提示文字内容 （新增参数）
+
+
         //String unread_url = dataObj.getString("unread_url");   //未读消息
 
         editor.putString("money", money);
@@ -1193,11 +1222,14 @@ public class ComFirst_3_Fragment extends BaseFragment {
                     if (face_numberNumber <= 0) {
                         showNoPannelDialog();       //面单不足
                     } else {
-                       // upLoadNewVersion(version_number, version_url);    //更新最新版本
+                        // upLoadNewVersion(version_number, version_url);    //更新最新版本
                     }
                 }
             }
         }
+
+        // 1 显示充值提醒
+        ll_recharge_notify.setVisibility(need_recharge == 1 ? View.VISIBLE : View.GONE);
 
         mListZero.get(0).put("tag", orders_sum);
         myGridViewAdapter.notifyDataSetChanged();
