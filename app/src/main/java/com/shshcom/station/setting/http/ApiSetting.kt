@@ -5,6 +5,7 @@ import com.shshcom.module_base.network.Results
 import com.shshcom.module_base.network.ServiceCreator
 import com.shshcom.station.setting.http.bean.AutoUrgeData
 import com.shshcom.station.setting.http.bean.CompanySettingData
+import com.shshcom.station.setting.http.bean.CustomSMSTemplateData
 import com.shshcom.station.storage.http.ApiStorage.await
 import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.util.ApiSignatureUtil
@@ -77,6 +78,27 @@ object ApiSetting {
             map["type"] = type
             ApiSignatureUtil.addSignature(map)
             service.saveBrandManagement(map).await()
+        }
+    }
+
+
+    suspend fun getCustomSMSTemplate(): Results<CustomSMSTemplateData> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = getStationId()
+            ApiSignatureUtil.addSignature(map)
+            service.getCustomSMSTemplate(map).await()
+        }
+    }
+
+    suspend fun saveCustomSMSTemplate(custom_phone: String, custom_address: String): Results<Any> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = getStationId()
+            map["custom_account"] = custom_phone
+            map["custom_address"] = custom_address
+            ApiSignatureUtil.addSignature(map)
+            service.saveCustomSMSTemplate(map).await()
         }
     }
 

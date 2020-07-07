@@ -23,6 +23,7 @@ import com.shshcom.station.base.ICaseBack;
 import com.shshcom.station.setting.domain.UrgeSettingUseCase;
 import com.shshcom.station.setting.http.bean.AutoUrgeData;
 import com.shshcom.station.setting.ui.activity.AutoUrgeSettingActivity;
+import com.shshcom.station.setting.ui.activity.SmsTempleActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
@@ -89,6 +90,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         String version = PackageUtils.getVersionName(this);
         tv_app_version.setText(version);
+        findViewById(R.id.ll_setting_sms_temple).setOnClickListener(this);
         findViewById(R.id.ll_setting_auto_notify).setOnClickListener(this);
     }
 
@@ -100,6 +102,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.ll_change_password:    //修改密码
                 showChangePasswordPannel();
+                break;
+            case R.id.ll_setting_sms_temple:    //短信模版
+                SmsTempleActivity.Companion.openActivity(this);
                 break;
             case R.id.ll_setting_auto_notify:    //自动催取
                 AutoUrgeSettingActivity.Companion.openActivity(this, 1);

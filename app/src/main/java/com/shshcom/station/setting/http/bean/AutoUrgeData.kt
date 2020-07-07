@@ -23,23 +23,10 @@ data class AutoUrgeData(
     }
 }
 
-data class SmsTemplate(
-        @SerializedName("content")
-        val content: String,
-        @SerializedName("list")
-        val list: List<TemplateKey>
-)
 
 data class UrgeType(
         @SerializedName("msg")
         val msg: String,
         @SerializedName("type")
         val type: Int
-)
-
-data class TemplateKey(
-        @SerializedName("key")
-        val key: String,
-        @SerializedName("val")
-        val valX: String
 )

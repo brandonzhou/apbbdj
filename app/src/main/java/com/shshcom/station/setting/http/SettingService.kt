@@ -2,6 +2,7 @@ package com.shshcom.station.setting.http
 
 import com.shshcom.station.setting.http.bean.AutoUrgeData
 import com.shshcom.station.setting.http.bean.CompanySettingData
+import com.shshcom.station.setting.http.bean.CustomSMSTemplateData
 import com.shshcom.station.storage.http.bean.BaseResult
 import retrofit2.Call
 import retrofit2.http.FieldMap
@@ -49,4 +50,20 @@ interface SettingService {
     @FormUrlEncoded
     @POST("https://meng.81dja.com:5443/express/station/saveBrandManagement")
     fun saveBrandManagement(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
+
+    /**
+     * 短信模版-获取驿站自定义短信内容
+     */
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("https://meng.81dja.com:5443/express/station/customSMSTemplate")
+    fun getCustomSMSTemplate(@FieldMap fields: Map<String, Any>): Call<BaseResult<CustomSMSTemplateData>>
+
+    /**
+     * 短信模版-获取驿站自定义短信内容
+     */
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("https://meng.81dja.com:5443/express/station/saveCustomSMSTemplate")
+    fun saveCustomSMSTemplate(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
 }
