@@ -57,8 +57,12 @@
         <activity
             android:name="com.shshcom.station.statistics.ui.NotifyPackListActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.shshcom.station.setting.ui.activity.company.CompanySettingActivity" />
-        <activity android:name="com.shshcom.station.setting.ui.activity.company.CompanyListActivity" />
+        <activity
+            android:name="com.shshcom.station.setting.ui.activity.company.CompanySettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.shshcom.station.setting.ui.activity.company.CompanyListActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.shshcom.station.setting.ui.activity.AutoUrgeSettingActivity"
             android:screenOrientation="portrait" />
