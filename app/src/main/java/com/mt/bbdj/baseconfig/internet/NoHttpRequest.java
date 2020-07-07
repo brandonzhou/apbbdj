@@ -4160,7 +4160,7 @@ public class NoHttpRequest {
      * @return
      */
     public static Request<String> checkVersion(String stationId, String versionNumber) {
-        Request<String> request = NoHttp.createStringRequest("https://www.81dja.com/Merchant/IndexApi/checkVersion", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest("https://www.81dja.com:5443/Merchant/IndexApi/checkVersion", RequestMethod.POST);
         HashMap<String, Object> map = new HashMap<>();
         map.put("user_id", stationId);
         map.put("app_type", 1);
