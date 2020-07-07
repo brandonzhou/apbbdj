@@ -23,8 +23,8 @@
     <dimen name="text_size_lesser">10sp</dimen>
     <dimen name="text_size_mini">11sp</dimen>
     <dimen name="text_size_12">12sp</dimen>
-    <dimen name="text_size_small">14sp</dimen>
-    <dimen name="text_size_select">15sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_15">15sp</dimen>
     <dimen name="text_size_main">16sp</dimen>
     <dimen name="text_size_18">18sp</dimen>
     <dimen name="text_size_large_add">28sp</dimen>
@@ -76,9 +76,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="margin_left_right">20dp</dimen>
     <dimen name="item_height_54">54dp</dimen>
-    <dimen name="text_size_14">14sp</dimen>
+
     <dimen name="margin_top_10">10dp</dimen>
     <dimen name="margin_15">15dp</dimen>
-    <dimen name="text_size_15">15sp</dimen>
+    <dimen name="margin_20">20dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
 
 </resources>

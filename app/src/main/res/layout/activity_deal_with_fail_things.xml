@@ -198,7 +198,7 @@
             android:paddingEnd="3dp"
             tools:text="快递单号：7238283772747737"
             android:gravity="center"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="@dimen/text_size_14"
             android:textColor="@color/white"
             android:visibility="visible"
             />

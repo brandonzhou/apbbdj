@@ -19,7 +19,7 @@
         android:layout_marginRight="@dimen/margin_right"
         android:text="起始编号预览"
         android:textColor="@color/color_text_primary"
-        android:textSize="@dimen/text_size_small"
+        android:textSize="@dimen/text_size_14"
         android:layout_marginBottom="14dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
