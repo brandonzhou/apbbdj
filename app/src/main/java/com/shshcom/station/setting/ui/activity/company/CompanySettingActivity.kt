@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils
 import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
@@ -55,11 +56,18 @@ class CompanySettingActivity : AppCompatActivity() {
 
         tv_title.text = data.expressName
 
-        tv_company_setting_1_title.text = data.option.get(0).title
-        tv_company_setting_1_msg.text = data.option.get(0).msg
+        tv_company_setting_1_title.text = data.option[0].title
+        tv_company_setting_1_msg.text = data.option[0].msg
+        cl_company_setting_1.tag = data.option[0].type
 
-        tv_company_setting_2_title.text = data.option.get(1).title
-        tv_company_setting_2_msg.text = data.option.get(0).msg
+        if (data.option.size > 1) {
+            tv_company_setting_2_title.text = data.option[1].title
+            tv_company_setting_2_msg.text = data.option[1].msg
+            cl_company_setting_2.tag = data.option[1].type
+        } else {
+            cl_company_setting_2.visibility = View.GONE
+        }
+
 
 
 
@@ -70,16 +78,16 @@ class CompanySettingActivity : AppCompatActivity() {
             if (AntiShakeUtils.isInvalidClick(it)) {
                 return@setOnClickListener
             }
-            if (data.type == 2) {
-                httpSave(1)
+            if (data.type != it.tag) {
+                httpSave(it.tag as Int)
             }
         }
         cl_company_setting_2.setOnClickListener {
             if (AntiShakeUtils.isInvalidClick(it)) {
                 return@setOnClickListener
             }
-            if (data.type == 1) {
-                httpSave(2)
+            if (data.type != it.tag) {
+                httpSave(it.tag as Int)
             }
         }
     }
