@@ -44,8 +44,8 @@
     <application
         android:name=".baseconfig.application.SophixStubApplication"
         android:allowBackup="false"
-        android:icon="@drawable/ic_logo_"
-        android:label="兵兵到家"
+        android:icon="@mipmap/ic_launcher"
+        android:label="兵兵驿站"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@drawable/ic_logo_"
         android:theme="@style/MainTheme"
