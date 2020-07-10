@@ -105,19 +105,19 @@ public class OpearteActivity extends BaseActivity {
                 OpearPictureActivity.actionTo(this, 6);
                 break;
             case R.id.tv_video_one:
-                OperaVideoActivity.actionTo(this, OperaterUrl.VIDEO_1, "如何在兵兵到家公众号查询物流信息");
+                OperaVideoActivity.actionTo(this, OperaterUrl.VIDEO_1, "如何在兵兵驿站公众号查询物流信息");
                 break;
             case R.id.tv_video_two:
-                OperaVideoActivity.actionTo(this, OperaterUrl.VIDEO_2, "如何在兵兵到家app查询物流信息");
+                OperaVideoActivity.actionTo(this, OperaterUrl.VIDEO_2, "如何在兵兵驿站app查询物流信息");
                 break;
             case R.id.tv_video_three:
                 OperaVideoActivity.actionTo(this, OperaterUrl.VIDEO_3, "如何在门店下单寄件");
                 break;
             case R.id.tv_video_four:
-                OperaVideoActivity.actionTo(this, OperaterUrl.VIDEO_4, "如何在兵兵到家app下单寄件");
+                OperaVideoActivity.actionTo(this, OperaterUrl.VIDEO_4, "如何在兵兵驿站app下单寄件");
                 break;
             case R.id.tv_video_five:
-                OperaVideoActivity.actionTo(this, OperaterUrl.VIDEO_5, "如何在兵兵到家app上交接管理");
+                OperaVideoActivity.actionTo(this, OperaterUrl.VIDEO_5, "如何在兵兵驿站app上交接管理");
                 break;
         }
     }

@@ -2,9 +2,10 @@ package com.mt.bbdj.community.activity;
 
 
 import android.os.Bundle;
-import androidx.appcompat.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
@@ -14,7 +15,7 @@ public class AboutAppActivity extends BaseActivity {
     private RelativeLayout iv_Back;
     private AppCompatTextView appCompatTextView;
 
-    private String message = "   “兵兵到家”是一家专注于解决“社区快递最后100米末端配送问题”的互联网公司，" +
+    private String message = "   “兵兵驿站”是一家专注于解决“社区快递最后100米末端配送问题”的互联网公司，" +
             "主要向社区提供快递代收、代寄服务，并以快递服务为入口，为社区用户提供线上线下（O2O）综合性生活服务，" +
             "从而打造社区O2O一站式生活服务平台";
     @Override

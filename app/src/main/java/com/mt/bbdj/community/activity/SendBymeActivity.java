@@ -5,14 +5,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
- import com.mt.bbdj.R;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.gen.DaoSession;
@@ -22,7 +23,6 @@ import com.mt.bbdj.baseconfig.model.TakeOutModel;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
-import com.mt.bbdj.baseconfig.utls.OpenExternalMapAppUtils;
 import com.mt.bbdj.baseconfig.utls.OpenMapUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
@@ -111,7 +111,7 @@ public class SendBymeActivity extends BaseActivity {
             public void onClick(View view) {
                 OpenMapUtil.openGaoDeMap(SendBymeActivity.this,intentData.getLatitude(),intentData.getLongitude(),intentData.getAddress());
               /*  OpenExternalMapAppUtils.openMapMarker(SendBymeActivity.this,intentData.getLongitude(),intentData.getLatitude(),
-                        intentData.getAddress(),  intentData.getAddress(),"兵兵到家",0);*/
+                        intentData.getAddress(),  intentData.getAddress(),"兵兵驿站",0);*/
             }
         });
 
@@ -120,7 +120,7 @@ public class SendBymeActivity extends BaseActivity {
             public void onClick(View view) {
                 OpenMapUtil.openBaiduMap(SendBymeActivity.this,intentData.getLatitude(),intentData.getLongitude(),intentData.getAddress());
               /*  OpenExternalMapAppUtils.openMapMarker(SendBymeActivity.this,intentData.getLongitude(),intentData.getLatitude(),
-                        intentData.getAddress(),  intentData.getAddress(),"兵兵到家",1);*/
+                        intentData.getAddress(),  intentData.getAddress(),"兵兵驿站",1);*/
             }
         });
 

@@ -86,7 +86,7 @@ TEXT 8 0 65  991 [Sender] [Sender_Phone]
 TEXT 8 0 110 1540 客服热线 [servicePhone]
 TEXT 5 0 280 1460 驿站代码
 TEXT 5 0 275 1495 [stageCode]
-TEXT 55 0 448 1552 兵兵到家公众号
+TEXT 55 0 448 1552 兵兵驿站公众号
 SETBOLD 0
 TEXT 3 0 65  1123 内容品名:[goodName]
 TEXT 3 0 230  1123 计费重量:[wight]

@@ -1,6 +1,5 @@
 package com.mt.bbdj.baseconfig.service;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.IBinder;
-import androidx.annotation.NonNull;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -18,12 +16,9 @@ import com.mt.bbdj.baseconfig.activity.MainActivity;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.gen.DaoSession;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
-import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.baseconfig.utls.GreenDaoManager;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -53,7 +48,7 @@ public class MonitorPhoneService extends Service {
         Intent nfIntent = new Intent(this, MainActivity.class);
         builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0))
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_logo_))
-                .setContentTitle("兵兵到家")
+                .setContentTitle("兵兵驿站")
                 .setSmallIcon(R.drawable.ic_logo_)
                 .setContentText("正在运行");
         Notification notification = builder.build(); // 获取构建好的Notificationnotification.defaults = Notification.DEFAULT_SOUND; //设置为默认的声音
