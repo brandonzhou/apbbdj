@@ -23,9 +23,11 @@ import android.os.Build;
 
 import com.king.zxing.util.LogUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -354,6 +356,103 @@ public final class CameraConfigurationUtils {
         return defaultSize;
     }
 
+    /**
+     * find best pictureSize value,on the basis of camera supported pictureSize and screen size
+     *
+     * @param parameters
+     * @param screenResolution
+     * @return
+     */
+    public static Point findBestPictureSizeValue(Camera.Parameters parameters, Point screenResolution) {
+
+        List<Camera.Size> rawSupportedSizes = parameters.getSupportedPictureSizes();
+        if (rawSupportedSizes == null) {
+            LogUtils.w("Device returned no supported preview sizes; using default");
+            Camera.Size defaultSize = parameters.getPictureSize();
+            if (defaultSize == null) {
+                throw new IllegalStateException("Parameters contained no preview size!");
+            }
+            return new Point(defaultSize.width, defaultSize.height);
+        }
+
+        // Sort by size, descending
+        List<Camera.Size> supportedPreviewSizes = new ArrayList<>(rawSupportedSizes);
+        Collections.sort(supportedPreviewSizes, new Comparator<Camera.Size>() {
+            @Override
+            public int compare(Camera.Size a, Camera.Size b) {
+                int aPixels = a.height * a.width;
+                int bPixels = b.height * b.width;
+                if (bPixels < aPixels) {
+                    return -1;
+                }
+                if (bPixels > aPixels) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+
+        if (LogUtils.isShowLog()) {//检查是否可以输出日志
+            StringBuilder previewSizesString = new StringBuilder();
+            for (Camera.Size supportedPreviewSize : supportedPreviewSizes) {
+                previewSizesString.append(supportedPreviewSize.width).append('x')
+                        .append(supportedPreviewSize.height).append(' ');
+            }
+            LogUtils.i("Supported picture sizes: " + previewSizesString);
+        }
+
+        double screenAspectRatio;
+        if (screenResolution.x > screenResolution.y) {
+            screenAspectRatio = screenResolution.x / (double) screenResolution.y;//屏幕尺寸比例
+        } else {
+            screenAspectRatio = screenResolution.y / (double) screenResolution.x;//屏幕尺寸比例
+        }
+
+        // Remove sizes that are unsuitable
+        Iterator<Camera.Size> it = supportedPreviewSizes.iterator();
+        while (it.hasNext()) {
+            Camera.Size supportedPreviewSize = it.next();
+            int realWidth = supportedPreviewSize.width;
+            int realHeight = supportedPreviewSize.height;
+            if (realWidth * realHeight < MIN_PREVIEW_PIXELS) {//delete if less than minimum size
+                it.remove();
+                continue;
+            }
+
+            //camera preview width > height
+            boolean isCandidatePortrait = realWidth < realHeight;//width less than height
+            int maybeFlippedWidth = isCandidatePortrait ? realHeight : realWidth;
+            int maybeFlippedHeight = isCandidatePortrait ? realWidth : realHeight;
+            double aspectRatio = maybeFlippedWidth / (double) maybeFlippedHeight;//ratio for camera
+            double distortion = Math.abs(aspectRatio - screenAspectRatio);//returan absolute value
+            if (distortion > MAX_ASPECT_DISTORTION) {//delete if distoraion greater than 0.15
+                it.remove();
+                continue;
+            }
+
+            if (maybeFlippedWidth == screenResolution.x && maybeFlippedHeight == screenResolution.y) {//serceen size equal to camera supportedPreviewSize
+                Point exactPoint = new Point(realWidth, realHeight);
+                LogUtils.i("Found preview size exactly matching screen size: " + exactPoint);
+                return exactPoint;
+            }
+        }
+
+        if (!supportedPreviewSizes.isEmpty()) {//default return first supportedPreviewSize,mean largest
+            Camera.Size largestPreview = supportedPreviewSizes.get(0);
+            Point largestSize = new Point(largestPreview.width, largestPreview.height);
+            LogUtils.i("Using largest suitable preview size: " + largestSize);
+            return largestSize;
+        }
+
+        // If there is nothing at all suitable, return current preview size
+        Camera.Size defaultPreview = parameters.getPictureSize();
+        if (defaultPreview == null) {
+            throw new IllegalStateException("Parameters contained no preview size!");
+        }
+        Point defaultSize = new Point(defaultPreview.width, defaultPreview.height);
+        LogUtils.i("No suitable preview sizes, using default: " + defaultSize);
+        return defaultSize;
+    }
 
     private static String findSettableValue(String name,
                                             Collection<String> supportedValues,

@@ -45,6 +45,7 @@ final class CameraConfigurationManager {
     private Point cameraResolution;
     private Point bestPreviewSize;
     private Point previewSizeOnScreen;
+    private Point pictureSizeOnScreen;
 
     CameraConfigurationManager(Context context) {
         this.context = context;
@@ -125,7 +126,8 @@ final class CameraConfigurationManager {
         LogUtils.i("Camera resolution: " + cameraResolution);
         bestPreviewSize = CameraConfigurationUtils.findBestPreviewSizeValue(parameters, screenResolution);
         LogUtils.i("Best available preview size: " + bestPreviewSize);
-
+        pictureSizeOnScreen = CameraConfigurationUtils.findBestPictureSizeValue(parameters, screenResolution);
+        LogUtils.i("Best available preview size: " + pictureSizeOnScreen);
 
         boolean isScreenPortrait = screenResolution.x < screenResolution.y;
         boolean isPreviewSizePortrait = bestPreviewSize.x < bestPreviewSize.y;
@@ -190,6 +192,8 @@ final class CameraConfigurationManager {
         }
 
         parameters.setPreviewSize(bestPreviewSize.x, bestPreviewSize.y);
+        // 拍照尺寸
+        parameters.setPictureSize(pictureSizeOnScreen.x, pictureSizeOnScreen.y);
 
         theCamera.setParameters(parameters);
 
