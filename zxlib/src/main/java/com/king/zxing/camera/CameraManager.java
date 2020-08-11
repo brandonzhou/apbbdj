@@ -22,12 +22,14 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Handler;
-import android.util.Log;
 import android.view.SurfaceHolder;
+
+import androidx.annotation.FloatRange;
+
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.king.zxing.camera.open.OpenCamera;
 import com.king.zxing.camera.open.OpenCameraInterface;
-import com.king.zxing.util.ResizeAbleSurfaceView;
+import com.king.zxing.util.LogUtils;
 
 import java.io.IOException;
 
@@ -40,8 +42,6 @@ import java.io.IOException;
  */
 @SuppressWarnings("deprecation") // camera APIs
 public final class CameraManager {
-
-    private static final String TAG = CameraManager.class.getSimpleName();
 
     private static final int MIN_FRAME_WIDTH = 240;
     private static final int MIN_FRAME_HEIGHT = 240;
@@ -59,6 +59,11 @@ public final class CameraManager {
     private int requestedCameraId = OpenCameraInterface.NO_REQUESTED_CAMERA;
     private int requestedFramingRectWidth;
     private int requestedFramingRectHeight;
+    private boolean isFullScreenScan;
+
+    private float framingRectRatio;
+    private int framingRectVerticalOffset;
+    private int framingRectHorizontalOffset;
 
     /**
      * Preview frames are delivered here, which we pass on to the registered handler. Make sure to
@@ -66,22 +71,24 @@ public final class CameraManager {
      */
     private final PreviewCallback previewCallback;
 
+    private OnTorchListener onTorchListener;
+    private OnSensorListener onSensorListener;
+
+    private boolean isTorch;
+
     public CameraManager(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.configManager = new CameraConfigurationManager(context);
         previewCallback = new PreviewCallback(configManager);
     }
 
-    public Point getPreviewSize() {
-        return configManager.getBestPreviewSize();
-    }
     /**
      * Opens the camera driver and initializes the hardware parameters.
      *
      * @param holder The surface object which the camera will draw preview frames into.
      * @throws IOException Indicates the camera driver failed to open.
      */
-    public synchronized void openDriver(ResizeAbleSurfaceView surfaceView, SurfaceHolder holder) throws IOException {
+    public void openDriver(SurfaceHolder holder) throws IOException {
         OpenCamera theCamera = camera;
         if (theCamera == null) {
             theCamera = OpenCameraInterface.open(requestedCameraId);
@@ -105,21 +112,21 @@ public final class CameraManager {
         Camera.Parameters parameters = cameraObject.getParameters();
         String parametersFlattened = parameters == null ? null : parameters.flatten(); // Save these, temporarily
         try {
-            configManager.setDesiredCameraParameters(surfaceView,theCamera, false);
+            configManager.setDesiredCameraParameters(theCamera, false);
         } catch (RuntimeException re) {
             // Driver failed
-            Log.w(TAG, "Camera rejected parameters. Setting only minimal safe-mode parameters");
-            Log.i(TAG, "Resetting to saved camera params: " + parametersFlattened);
+            LogUtils.w("Camera rejected parameters. Setting only minimal safe-mode parameters");
+            LogUtils.i("Resetting to saved camera params: " + parametersFlattened);
             // Reset:
             if (parametersFlattened != null) {
                 parameters = cameraObject.getParameters();
                 parameters.unflatten(parametersFlattened);
                 try {
                     cameraObject.setParameters(parameters);
-                    configManager.setDesiredCameraParameters(surfaceView,theCamera, true);
+                    configManager.setDesiredCameraParameters(theCamera, true);
                 } catch (RuntimeException re2) {
                     // Well, darn. Give up
-                    Log.w(TAG, "Camera rejected even safe-mode parameters! No configuration");
+                    LogUtils.w("Camera rejected even safe-mode parameters! No configuration");
                 }
             }
         }
@@ -138,7 +145,7 @@ public final class CameraManager {
     /**
      * Closes the camera driver if still in use.
      */
-    public synchronized void closeDriver() {
+    public void closeDriver() {
         if (camera != null) {
             camera.getCamera().release();
             camera = null;
@@ -147,12 +154,16 @@ public final class CameraManager {
             framingRect = null;
             framingRectInPreview = null;
         }
+        isTorch = false;
+        if (onTorchListener != null) {
+            onTorchListener.onTorchChanged(false);
+        }
     }
 
     /**
      * Asks the camera hardware to begin drawing preview frames to the screen.
      */
-    public synchronized void startPreview() {
+    public void startPreview() {
         OpenCamera theCamera = camera;
         if (theCamera != null && !previewing) {
             theCamera.getCamera().startPreview();
@@ -164,7 +175,7 @@ public final class CameraManager {
     /**
      * Tells the camera to stop drawing preview frames.
      */
-    public synchronized void stopPreview() {
+    public void stopPreview() {
         if (autoFocusManager != null) {
             autoFocusManager.stop();
             autoFocusManager = null;
@@ -189,13 +200,21 @@ public final class CameraManager {
                 autoFocusManager.stop();
                 autoFocusManager = null;
             }
+            this.isTorch = newSetting;
             configManager.setTorch(theCamera.getCamera(), newSetting);
             if (wasAutoFocusManager) {
                 autoFocusManager = new AutoFocusManager(context, theCamera.getCamera());
                 autoFocusManager.start();
             }
+
+            if (onTorchListener != null) {
+                onTorchListener.onTorchChanged(newSetting);
+            }
+
         }
+
     }
+
 
     /**
      * A single preview frame will be returned to the handler supplied. The data will arrive as byte[]
@@ -225,35 +244,29 @@ public final class CameraManager {
             if (camera == null) {
                 return null;
             }
-            Point screenResolution = configManager.getScreenResolution();
-            if (screenResolution == null) {
+            Point point = configManager.getCameraResolution();
+            if (point == null) {
                 // Called early, before init even finished
                 return null;
             }
 
-            int width = findDesiredDimensionInRange(screenResolution.x, MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
-            int height = findDesiredDimensionInRange(screenResolution.y, MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
+            int width = point.x;
+            int height = point.y;
 
-            int size = Math.min(width,height);
+            if (isFullScreenScan) {
+                framingRect = new Rect(0, 0, width, height);
+            } else {
+                int size = (int) (Math.min(width, height) * framingRectRatio);
 
-            int leftOffset = (screenResolution.x - size) / 2;
-            int topOffset = (screenResolution.y - size) / 2;
-            framingRect = new Rect(leftOffset, topOffset, leftOffset + size, topOffset + size);
-            Log.d(TAG, "Calculated framing rect: " + framingRect);
+                int leftOffset = (width - size) / 2 + framingRectHorizontalOffset;
+                int topOffset = (height - size) / 2 + framingRectVerticalOffset;
+                framingRect = new Rect(leftOffset, topOffset, leftOffset + size, topOffset + size);
+            }
+
         }
         return framingRect;
     }
 
-    private static int findDesiredDimensionInRange(int resolution, int hardMin, int hardMax) {
-        int dim = 5 * resolution / 8; // Target 5/8 of each dimension
-        if (dim < hardMin) {
-            return hardMin;
-        }
-        if (dim > hardMax) {
-            return hardMax;
-        }
-        return dim;
-    }
 
     /**
      * Like {@link #getFramingRect} but coordinates are in terms of the preview frame,
@@ -274,6 +287,7 @@ public final class CameraManager {
                 // Called early, before init even finished
                 return null;
             }
+
 //            rect.left = rect.left * cameraResolution.x / screenResolution.x;
 //            rect.right = rect.right * cameraResolution.x / screenResolution.x;
 //            rect.top = rect.top * cameraResolution.y / screenResolution.y;
@@ -284,11 +298,36 @@ public final class CameraManager {
             rect.top = rect.top * cameraResolution.x / screenResolution.y;
             rect.bottom = rect.bottom * cameraResolution.x / screenResolution.y;
 
+
             framingRectInPreview = rect;
         }
+
         return framingRectInPreview;
     }
 
+    public void setFullScreenScan(boolean fullScreenScan) {
+        isFullScreenScan = fullScreenScan;
+    }
+
+    public void setFramingRectRatio(@FloatRange(from = 0.0f, to = 1.0f) float framingRectRatio) {
+        this.framingRectRatio = framingRectRatio;
+    }
+
+    public void setFramingRectVerticalOffset(int framingRectVerticalOffset) {
+        this.framingRectVerticalOffset = framingRectVerticalOffset;
+    }
+
+    public void setFramingRectHorizontalOffset(int framingRectHorizontalOffset) {
+        this.framingRectHorizontalOffset = framingRectHorizontalOffset;
+    }
+
+    public Point getCameraResolution() {
+        return configManager.getCameraResolution();
+    }
+
+    public Point getScreenResolution() {
+        return configManager.getScreenResolution();
+    }
 
     /**
      * Allows third party apps to specify the camera ID, rather than determine
@@ -319,7 +358,7 @@ public final class CameraManager {
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
-            Log.d(TAG, "Calculated manual framing rect: " + framingRect);
+            LogUtils.d("Calculated manual framing rect: " + framingRect);
             framingRectInPreview = null;
         } else {
             requestedFramingRectWidth = width;
@@ -331,22 +370,73 @@ public final class CameraManager {
      * A factory method to build the appropriate LuminanceSource object based on the format
      * of the preview buffers, as described by Camera.Parameters.
      *
-     * @param data A preview frame.
-     * @param width The width of the image.
+     * @param data   A preview frame.
+     * @param width  The width of the image.
      * @param height The height of the image.
-            * @return A PlanarYUVLuminanceSource instance.
+     * @return A PlanarYUVLuminanceSource instance.
      */
     public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
         Rect rect = getFramingRectInPreview();
         if (rect == null) {
             return null;
         }
-        int size = Math.min(width,height);
-        int left = (width-size)/2;
-        int top = (height-size)/2;
+
+        if (isFullScreenScan) {
+            return new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
+        }
+        int size = (int) (Math.min(width, height) * framingRectRatio);
+        int left = (width - size) / 2 + framingRectHorizontalOffset;
+        int top = (height - size) / 2 + framingRectVerticalOffset;
         // Go ahead and assume it's YUV rather than die.
         return new PlanarYUVLuminanceSource(data, width, height, left, top,
-                left + size, top + size, false);
+                size, size, false);
     }
+
+    /**
+     * 提供闪光灯监听
+     *
+     * @param listener
+     */
+    public void setOnTorchListener(OnTorchListener listener) {
+        this.onTorchListener = listener;
+    }
+
+    /**
+     * 传感器光线照度监听
+     *
+     * @param listener
+     */
+    public void setOnSensorListener(OnSensorListener listener) {
+        this.onSensorListener = listener;
+    }
+
+    public void sensorChanged(boolean tooDark, float ambientLightLux) {
+        if (onSensorListener != null) {
+            onSensorListener.onSensorChanged(isTorch, tooDark, ambientLightLux);
+        }
+    }
+
+    public interface OnTorchListener {
+        /**
+         * 当闪光灯状态改变时触发
+         *
+         * @param torch true表示开启、false表示关闭
+         */
+        void onTorchChanged(boolean torch);
+    }
+
+
+    /**
+     * 传感器灯光亮度监听
+     */
+    public interface OnSensorListener {
+        /**
+         * @param torch           闪光灯是否开启
+         * @param tooDark         传感器检测到的光线亮度，是否太暗
+         * @param ambientLightLux 光线照度
+         */
+        void onSensorChanged(boolean torch, boolean tooDark, float ambientLightLux);
+    }
+
 
 }

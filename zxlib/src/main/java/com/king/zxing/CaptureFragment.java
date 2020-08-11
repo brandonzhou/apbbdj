@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Jenly Yu
+ * Copyright (C) 2019 Jenly Yu
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,25 @@
 package com.king.zxing;
 
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.king.zxing.camera.CameraManager;
 
 /**
  * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
  */
-public class CaptureActivity extends AppCompatActivity implements OnCaptureCallback {
+public class CaptureFragment extends Fragment implements OnCaptureCallback {
 
     public static final String KEY_RESULT = Intents.Scan.RESULT;
+
+    private View mRootView;
 
     private SurfaceView surfaceView;
     private ViewfinderView viewfinderView;
@@ -39,29 +42,38 @@ public class CaptureActivity extends AppCompatActivity implements OnCaptureCallb
 
     private CaptureHelper mCaptureHelper;
 
+    public static CaptureFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        CaptureFragment fragment = new CaptureFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         int layoutId = getLayoutId();
         if (isContentView(layoutId)) {
-            setContentView(layoutId);
+            mRootView = inflater.inflate(getLayoutId(), container, false);
         }
         initUI();
-        mCaptureHelper.onCreate();
+        return mRootView;
     }
 
     /**
      * 初始化
      */
     public void initUI() {
-        surfaceView = findViewById(getSurfaceViewId());
+        surfaceView = mRootView.findViewById(getSurfaceViewId());
         int viewfinderViewId = getViewfinderViewId();
         if (viewfinderViewId != 0) {
-            viewfinderView = findViewById(viewfinderViewId);
+            viewfinderView = mRootView.findViewById(viewfinderViewId);
         }
         int ivTorchId = getIvTorchId();
         if (ivTorchId != 0) {
-            ivTorch = findViewById(ivTorchId);
+            ivTorch = mRootView.findViewById(ivTorchId);
             ivTorch.setVisibility(View.INVISIBLE);
         }
         initCaptureHelper();
@@ -73,7 +85,7 @@ public class CaptureActivity extends AppCompatActivity implements OnCaptureCallb
     }
 
     /**
-     * 返回true时会自动初始化{@link #setContentView(int)}，返回为false是需自己去初始化{@link #setContentView(int)}
+     * 返回true时会自动初始化{@link #mRootView}，返回为false时需自己去通过{@link #setRootView(View)}初始化{@link #mRootView}
      *
      * @param layoutId
      * @return 默认返回true
@@ -92,7 +104,7 @@ public class CaptureActivity extends AppCompatActivity implements OnCaptureCallb
     }
 
     /**
-     * {@link #viewfinderView} 的 ID
+     * {@link ViewfinderView} 的 id
      *
      * @return 默认返回{@code R.id.viewfinderView}, 如果不需要扫码框可以返回0
      */
@@ -100,9 +112,8 @@ public class CaptureActivity extends AppCompatActivity implements OnCaptureCallb
         return R.id.viewfinderView;
     }
 
-
     /**
-     * 预览界面{@link #surfaceView} 的ID
+     * 预览界面{@link #surfaceView} 的id
      *
      * @return
      */
@@ -138,6 +149,25 @@ public class CaptureActivity extends AppCompatActivity implements OnCaptureCallb
         return mCaptureHelper.getCameraManager();
     }
 
+    //--------------------------------------------
+
+    public View getRootView() {
+        return mRootView;
+    }
+
+    public void setRootView(View rootView) {
+        this.mRootView = rootView;
+    }
+
+
+    //--------------------------------------------
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mCaptureHelper.onCreate();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -156,12 +186,6 @@ public class CaptureActivity extends AppCompatActivity implements OnCaptureCallb
         mCaptureHelper.onDestroy();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        mCaptureHelper.onTouchEvent(event);
-        return super.onTouchEvent(event);
-    }
-
     /**
      * 接收扫码结果回调
      *
@@ -172,4 +196,5 @@ public class CaptureActivity extends AppCompatActivity implements OnCaptureCallb
     public boolean onResultCallback(String result) {
         return false;
     }
+
 }

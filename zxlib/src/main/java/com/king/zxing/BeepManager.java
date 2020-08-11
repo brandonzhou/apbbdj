@@ -26,13 +26,14 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.util.Log;
+
+import com.king.zxing.util.LogUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * Manages beeps and vibrations for {@link CaptureActivity}.
+ * Manages beeps and vibrations for {@link Activity}.
  */
 public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable {
 
@@ -62,7 +63,7 @@ public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable
 
     synchronized void updatePrefs() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-        playBeep = shouldBeep(prefs, activity);
+        shouldBeep(prefs, activity);
 //        vibrate = prefs.getBoolean(Preferences.KEY_VIBRATE, false);
         if (playBeep && mediaPlayer == null) {
             // The volume on STREAM_SYSTEM is not adjustable, and users found it too loud,
@@ -83,7 +84,7 @@ public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable
     }
 
     private static boolean shouldBeep(SharedPreferences prefs, Context activity) {
-        boolean shouldPlayBeep = prefs.getBoolean(Preferences.KEY_PLAY_BEEP, true);
+        boolean shouldPlayBeep = prefs.getBoolean(Preferences.KEY_PLAY_BEEP, false);
         if (shouldPlayBeep) {
             // See if sound settings overrides this
             AudioManager audioService = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
@@ -97,7 +98,7 @@ public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private MediaPlayer buildMediaPlayer(Context activity) {
         MediaPlayer mediaPlayer = new MediaPlayer();
-        try (AssetFileDescriptor file = activity.getResources().openRawResourceFd(R.raw.beep)) {
+        try (AssetFileDescriptor file = activity.getResources().openRawResourceFd(R.raw.zxl_beep)) {
             mediaPlayer.setDataSource(file.getFileDescriptor(), file.getStartOffset(), file.getLength());
             mediaPlayer.setOnErrorListener(this);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -106,7 +107,7 @@ public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable
             mediaPlayer.prepare();
             return mediaPlayer;
         } catch (IOException ioe) {
-            Log.w(TAG, ioe);
+            LogUtils.w(ioe);
             mediaPlayer.release();
             return null;
         }

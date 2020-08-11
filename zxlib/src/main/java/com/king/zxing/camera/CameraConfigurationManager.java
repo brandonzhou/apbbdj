@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
@@ -30,7 +29,7 @@ import android.view.WindowManager;
 import com.king.zxing.Preferences;
 import com.king.zxing.camera.open.CameraFacing;
 import com.king.zxing.camera.open.OpenCamera;
-import com.king.zxing.util.ResizeAbleSurfaceView;
+import com.king.zxing.util.LogUtils;
 
 /**
  * A class which deals with reading, parsing, and setting the camera parameters which are used to
@@ -38,8 +37,6 @@ import com.king.zxing.util.ResizeAbleSurfaceView;
  */
 @SuppressWarnings("deprecation") // camera APIs
 final class CameraConfigurationManager {
-
-    private static final String TAG = "CameraConfiguration";
 
     private final Context context;
     private int cwNeededRotation;
@@ -84,38 +81,51 @@ final class CameraConfigurationManager {
                     throw new IllegalArgumentException("Bad rotation: " + displayRotation);
                 }
         }
-        Log.i(TAG, "Display at: " + cwRotationFromNaturalToDisplay);
+        LogUtils.i("Display at: " + cwRotationFromNaturalToDisplay);
 
         int cwRotationFromNaturalToCamera = camera.getOrientation();
-        Log.i(TAG, "Camera at: " + cwRotationFromNaturalToCamera);
+        LogUtils.i("Camera at: " + cwRotationFromNaturalToCamera);
 
         // Still not 100% sure about this. But acts like we need to flip this:
         if (camera.getFacing() == CameraFacing.FRONT) {
             cwRotationFromNaturalToCamera = (360 - cwRotationFromNaturalToCamera) % 360;
-            Log.i(TAG, "Front camera overriden to: " + cwRotationFromNaturalToCamera);
+            LogUtils.i("Front camera overriden to: " + cwRotationFromNaturalToCamera);
         }
-        cwNeededRotation = cwRotationFromNaturalToDisplay;
+
+    /*
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    String overrideRotationString;
+    if (camera.getFacing() == CameraFacing.FRONT) {
+      overrideRotationString = prefs.getString(PreferencesActivity.KEY_FORCE_CAMERA_ORIENTATION_FRONT, null);
+    } else {
+      overrideRotationString = prefs.getString(PreferencesActivity.KEY_FORCE_CAMERA_ORIENTATION, null);
+    }
+    if (overrideRotationString != null && !"-".equals(overrideRotationString)) {
+      LogUtils.i("Overriding camera manually to " + overrideRotationString);
+      cwRotationFromNaturalToCamera = Integer.parseInt(overrideRotationString);
+    }
+     */
+
         cwRotationFromDisplayToCamera = (360 + cwRotationFromNaturalToCamera - cwRotationFromNaturalToDisplay) % 360;
-        Log.i(TAG, "Final display orientation: " + cwRotationFromDisplayToCamera);
+        LogUtils.i("Final display orientation: " + cwRotationFromDisplayToCamera);
         if (camera.getFacing() == CameraFacing.FRONT) {
-            Log.i(TAG, "Compensating rotation for front camera");
+            LogUtils.i("Compensating rotation for front camera");
             cwNeededRotation = (360 - cwRotationFromDisplayToCamera) % 360;
         } else {
             cwNeededRotation = cwRotationFromDisplayToCamera;
         }
-        Log.i(TAG, "Clockwise rotation from display to camera: " + cwNeededRotation);
-
+        LogUtils.i("Clockwise rotation from display to camera: " + cwNeededRotation);
 
         Point theScreenResolution = new Point();
         display.getSize(theScreenResolution);
-
         screenResolution = theScreenResolution;
-        Log.i(TAG, "Screen resolution in current orientation: " + screenResolution);
+        LogUtils.i("Screen resolution in current orientation: " + screenResolution);
 
         cameraResolution = CameraConfigurationUtils.findBestPreviewSizeValue(parameters, screenResolution);
-        Log.i(TAG, "Camera resolution: " + cameraResolution);
+        LogUtils.i("Camera resolution: " + cameraResolution);
         bestPreviewSize = CameraConfigurationUtils.findBestPreviewSizeValue(parameters, screenResolution);
-        Log.i(TAG, "Best available preview size: " + bestPreviewSize);
+        LogUtils.i("Best available preview size: " + bestPreviewSize);
+
 
         boolean isScreenPortrait = screenResolution.x < screenResolution.y;
         boolean isPreviewSizePortrait = bestPreviewSize.x < bestPreviewSize.y;
@@ -125,27 +135,23 @@ final class CameraConfigurationManager {
         } else {
             previewSizeOnScreen = new Point(bestPreviewSize.y, bestPreviewSize.x);
         }
-        Log.i(TAG, "Preview size on screen: " + previewSizeOnScreen);
+        LogUtils.i("Preview size on screen: " + previewSizeOnScreen);
     }
 
-    private int getWidth(int height, Point bestPreviewSize) {
-        return (bestPreviewSize.x / bestPreviewSize.y) * height;
-    }
-
-    void setDesiredCameraParameters(ResizeAbleSurfaceView surfaceView, OpenCamera camera, boolean safeMode) {
+    void setDesiredCameraParameters(OpenCamera camera, boolean safeMode) {
 
         Camera theCamera = camera.getCamera();
         Camera.Parameters parameters = theCamera.getParameters();
 
         if (parameters == null) {
-            Log.w(TAG, "Device error: no camera parameters are available. Proceeding without configuration.");
+            LogUtils.w("Device error: no camera parameters are available. Proceeding without configuration.");
             return;
         }
 
-        Log.i(TAG, "Initial camera parameters: " + parameters.flatten());
+        LogUtils.i("Initial camera parameters: " + parameters.flatten());
 
         if (safeMode) {
-            Log.w(TAG, "In camera config safe mode -- most settings will not be honored");
+            LogUtils.w("In camera config safe mode -- most settings will not be honored");
         }
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -153,8 +159,6 @@ final class CameraConfigurationManager {
         if (parameters.isZoomSupported()) {
             parameters.setZoom(parameters.getMaxZoom() / 10);
         }
-        //
-        theCamera.setParameters(parameters);
 
         initializeTorch(parameters, prefs, safeMode);
 
@@ -185,30 +189,20 @@ final class CameraConfigurationManager {
 
         }
 
-
-      /*  int height = getScreenHeight(context);
-        int width = getScreenWidth(context);
-        int widthData = getWidth(height, bestPreviewSize);
-        bestPreviewSize.y = bestPreviewSize.x * height / width;*/
-        //  parameters.setPreviewSize(bestPreviewSize.x, bestPreviewSize.y);
         parameters.setPreviewSize(bestPreviewSize.x, bestPreviewSize.y);
-        //  surfaceView.resize(bestPreviewSize.x, bestPreviewSize.y);
 
         theCamera.setParameters(parameters);
 
         theCamera.setDisplayOrientation(cwRotationFromDisplayToCamera);
 
-
         Camera.Parameters afterParameters = theCamera.getParameters();
         Camera.Size afterSize = afterParameters.getPreviewSize();
         if (afterSize != null && (bestPreviewSize.x != afterSize.width || bestPreviewSize.y != afterSize.height)) {
-            Log.w(TAG, "Camera said it supported preview size " + bestPreviewSize.x + 'x' + bestPreviewSize.y +
+            LogUtils.w("Camera said it supported preview size " + bestPreviewSize.x + 'x' + bestPreviewSize.y +
                     ", but after setting it, preview size is " + afterSize.width + 'x' + afterSize.height);
             bestPreviewSize.x = afterSize.width;
             bestPreviewSize.y = afterSize.height;
         }
-
-
     }
 
     Point getBestPreviewSize() {
@@ -261,35 +255,6 @@ final class CameraConfigurationManager {
         if (!safeMode && !prefs.getBoolean(Preferences.KEY_DISABLE_EXPOSURE, true)) {
             CameraConfigurationUtils.setBestExposure(parameters, newSetting);
         }
-    }
-
-    /**
-     * 获取屏幕高度（px）
-     *
-     * @param context
-     * @return
-     */
-    public static int getScreenHeight(Context context) {
-        //return context.getResources().getDisplayMetrics().heightPixels;
-        return dip2px(context, 250);
-    }
-
-    /**
-     * 获取屏幕宽度（px）
-     *
-     * @param context
-     * @return
-     */
-    public static int getScreenWidth(Context context) {
-        int width = context.getResources().getDisplayMetrics().widthPixels;
-        return dip2px(context, width);
-    }
-
-
-    //dp转px
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
     }
 
 }

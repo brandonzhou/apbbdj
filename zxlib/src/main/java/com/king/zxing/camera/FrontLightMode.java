@@ -16,7 +16,9 @@ package com.king.zxing.camera;
  */
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.king.zxing.Preferences;
 
@@ -25,19 +27,30 @@ import com.king.zxing.Preferences;
  */
 public enum FrontLightMode {
 
-    /** Always on. */
+    /**
+     * Always on.
+     */
     ON,
-    /** On only when ambient light is low. */
+    /**
+     * On only when ambient light is low.
+     */
     AUTO,
-    /** Always off. */
+    /**
+     * Always off.
+     */
     OFF;
 
     private static FrontLightMode parse(String modeString) {
-        return modeString == null ? OFF : valueOf(modeString);
+        return modeString == null ? AUTO : valueOf(modeString);
     }
 
     public static FrontLightMode readPref(SharedPreferences sharedPrefs) {
-        return parse(sharedPrefs.getString(Preferences.KEY_FRONT_LIGHT_MODE, OFF.toString()));
+        return parse(sharedPrefs.getString(Preferences.KEY_FRONT_LIGHT_MODE, AUTO.toString()));
+    }
+
+    public static void put(Context context, FrontLightMode mode) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putString(Preferences.KEY_FRONT_LIGHT_MODE, mode.toString()).commit();
     }
 
 }
