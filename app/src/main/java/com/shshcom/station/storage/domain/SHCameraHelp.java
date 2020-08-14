@@ -5,11 +5,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
+import com.mt.bbdj.baseconfig.application.MyApplication;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+
+import me.shouheng.compress.Compress;
+import me.shouheng.compress.strategy.Strategies;
+import me.shouheng.compress.strategy.config.ScaleMode;
 
 /**
  * desc:
@@ -19,7 +24,7 @@ import java.io.FileOutputStream;
 public class SHCameraHelp {
 
     int reqWidth = 720;
-    int reqHeight = 360;
+    int reqHeight = 720;
 
     private String createFileDir(Context context, String fileName) {
         File imgFile = context.getExternalFilesDir("scan_image");
@@ -46,36 +51,30 @@ public class SHCameraHelp {
 
     public String saveImage(Context context, String fileName, byte[] data) {
         String filePath = createFileDir(context, fileName);
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeByteArray(data, 0, data.length, options);
-        try {
-            options.inSampleSize = calculateInSampleSize(options, 500, 500);
-            options.inJustDecodeBounds = false;
-            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);
-            Matrix matrix = new Matrix();
-            matrix.postRotate(90);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                    bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            boolean success = saveImage(filePath, bitmap);
-            if (success) {
-                return filePath;
-            }
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        }
 
-        return null;
+        Bitmap bitmap = getImageBitmap(data);
+
+        boolean success = saveImage(filePath, bitmap);
+        if (success) {
+            return filePath;
+        } else {
+            return null;
+        }
 
     }
 
 
     private static boolean saveImage(String path, Bitmap bitmap) {
         try {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                    bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
             bos.flush();
             bos.close();
+            printBitmapInfo(bitmap);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -87,6 +86,15 @@ public class SHCameraHelp {
 
 
         return false;
+    }
+
+    private static void printBitmapInfo(Bitmap bitmap) {
+        final int height = bitmap.getHeight();
+        ;
+        final int width = bitmap.getWidth();
+        ;
+        LogUtil.d("ScanStorageCase", "height:" + height + " width:" + width);
+
     }
 
 
@@ -106,66 +114,14 @@ public class SHCameraHelp {
     }
 
 
+    public Bitmap getImageBitmap(byte[] data) {
+        Compress compress = Compress.Companion.with(MyApplication.getInstance(), data);
 
-
-    public Bitmap getImageBitmap(byte[] data) throws Exception {
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeByteArray(data, 0, data.length, options);
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-        options.inJustDecodeBounds = false;
-        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, options);
-        LogUtil.d("ScanStorageCase", "height:" + options.outHeight + " width:" + options.outWidth);
-        Matrix matrix = new Matrix();
-        matrix.postRotate(90);
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0,
-                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
-//        String path = createFileDir(MyApplication.getInstance(),"123");
-//
-//
-//        try {
-//            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path));
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-//            bos.flush();
-//            bos.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-//        FileInputStream fis = new FileInputStream(path);
-//        return BitmapFactory.decodeStream(fis);
-
-        return bitmap;
-
+        return compress.strategy(Strategies.INSTANCE.compressor())
+                .setMaxHeight(reqWidth)
+                .setMaxWidth(reqWidth)
+                .setScaleMode(ScaleMode.SCALE_SMALLER)
+                .asBitmap().get();
     }
 
 }
-
-/*
-
-File imgFile = this.getExternalFilesDir("image");
-        if (!imgFile.exists()){
-            imgFile.mkdir();
-        }
-        try {
-            File file = new File(imgFile.getAbsolutePath() + File.separator +
-                    System.currentTimeMillis() + ".jpg");
-            // 使用openInputStream(uri)方法获取字节输入流
-            InputStream fileInputStream = getContentResolver().openInputStream(uri);
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            byte[] buffer = new byte[1024];
-            int byteRead;
-            while (-1 != (byteRead = fileInputStream.read(buffer))) {
-                fileOutputStream.write(buffer, 0, byteRead);
-            }
-            fileInputStream.close();
-            fileOutputStream.flush();
-            fileOutputStream.close();
-            // 文件可用新路径 file.getAbsolutePath()
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
- */
