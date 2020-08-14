@@ -15,7 +15,7 @@ import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils
 import com.mt.bbdj.baseconfig.utls.ToastUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.setting.http.ApiSetting
 import com.shshcom.station.setting.http.bean.CompanySettingData
 import kotlinx.android.synthetic.main.activity_company_list.*
@@ -75,12 +75,12 @@ class CompanyListActivity : AppCompatActivity() {
             val result = ApiSetting.getBrandManagement()
             LoadDialogUtils.cannelLoadingDialog()
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     myAdapter.list = result.data
                     myAdapter.notifyDataSetChanged()
 
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     ToastUtil.showLong(result.error.toString())
 
                 }

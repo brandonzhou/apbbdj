@@ -21,7 +21,7 @@ import com.lxj.xpopup.core.BottomPopupView
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils
 import com.mt.bbdj.baseconfig.utls.ToastUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.setting.http.ApiSetting
 import com.shshcom.station.setting.http.bean.AutoUrgeData
 import com.shshcom.station.setting.http.bean.UrgeType
@@ -88,12 +88,12 @@ class AutoUrgeSettingActivity : AppCompatActivity() {
             LoadDialogUtils.cannelLoadingDialog()
 
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     data = result.data
 
                     updateUI()
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     ToastUtil.showLong(result.error.message)
                 }
             }
@@ -169,11 +169,11 @@ class AutoUrgeSettingActivity : AppCompatActivity() {
             LoadDialogUtils.cannelLoadingDialog()
 
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     data!!.curUrgeType = urgeType.type
                     updateUI()
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     ToastUtil.showLong(result.error.message)
                 }
             }

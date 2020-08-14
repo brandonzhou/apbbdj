@@ -1,7 +1,7 @@
 package com.shshcom.station.setting.http
 
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.module_base.network.ServiceCreator
 import com.shshcom.station.setting.http.bean.AutoUrgeData
 import com.shshcom.station.setting.http.bean.CompanySettingData
@@ -20,18 +20,18 @@ import kotlinx.coroutines.withContext
 object ApiSetting {
     private var service: SettingService = ServiceCreator.create()
 
-    private suspend fun <T> processApi(block: suspend () -> BaseResult<T>): Results<T> {
+    private suspend fun <T> processApi(block: suspend () -> BaseResult<T>): KResults<T> {
         return withContext(Dispatchers.IO) {
             try {
                 val re = block()
                 if (re.isSuccess) {
-                    Results.success(re.data)
+                    KResults.success(re.data)
                 } else {
-                    Results.failure(Exception(re.msg))
+                    KResults.failure(Exception(re.msg))
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Results.failure<T>(e)
+                KResults.failure<T>(e)
             }
         }
     }
@@ -40,7 +40,7 @@ object ApiSetting {
         return DbUserUtil.getStationId()
     }
 
-    suspend fun getPackageUrgeSetting(): Results<AutoUrgeData> {
+    suspend fun getPackageUrgeSetting(): KResults<AutoUrgeData> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = getStationId()
@@ -49,7 +49,7 @@ object ApiSetting {
         }
     }
 
-    suspend fun setPackageUrgeSetting(cur_urge_type: Int): Results<Any> {
+    suspend fun setPackageUrgeSetting(cur_urge_type: Int): KResults<Any> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = getStationId()
@@ -60,7 +60,7 @@ object ApiSetting {
     }
 
 
-    suspend fun getBrandManagement(): Results<List<CompanySettingData>> {
+    suspend fun getBrandManagement(): KResults<List<CompanySettingData>> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = getStationId()
@@ -70,7 +70,7 @@ object ApiSetting {
         }
     }
 
-    suspend fun saveBrandManagement(express_id: Int, type: Int): Results<Any> {
+    suspend fun saveBrandManagement(express_id: Int, type: Int): KResults<Any> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = getStationId()
@@ -82,7 +82,7 @@ object ApiSetting {
     }
 
 
-    suspend fun getCustomSMSTemplate(): Results<CustomSMSTemplateData> {
+    suspend fun getCustomSMSTemplate(): KResults<CustomSMSTemplateData> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = getStationId()
@@ -91,7 +91,7 @@ object ApiSetting {
         }
     }
 
-    suspend fun saveCustomSMSTemplate(custom_phone: String, custom_address: String): Results<Any> {
+    suspend fun saveCustomSMSTemplate(custom_phone: String, custom_address: String): KResults<Any> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = getStationId()

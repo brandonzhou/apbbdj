@@ -1,6 +1,6 @@
 package com.shshcom.station.setting.domain
 
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.base.ICaseBack
 import com.shshcom.station.setting.http.ApiSetting
 import com.shshcom.station.setting.http.bean.AutoUrgeData
@@ -25,10 +25,10 @@ object UrgeSettingUseCase {
             val result = ApiSetting.getPackageUrgeSetting()
 
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     caseBack.onSuccess(result.data)
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     val msg = result.error.message
                     caseBack.onError(msg.orEmpty())
                 }

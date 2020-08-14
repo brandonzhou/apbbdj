@@ -74,17 +74,17 @@ open class KNetwork {
             }
 
 
-    fun <T> processApiResponse(response: Response<T>): Results<T> {
+    fun <T> processApiResponse(response: Response<T>): KResults<T> {
         return try {
             val responseCode = response.code()
             val responseMessage = response.message()
             if (response.isSuccessful) {
-                Results.success(response.body()!!)
+                KResults.success(response.body()!!)
             } else {
-                Results.failure(Errors.NetworkError(responseCode, responseMessage))
+                KResults.failure(KErrors.NetworkError(responseCode, responseMessage))
             }
         } catch (e: IOException) {
-            Results.failure(Errors.NetworkError())
+            KResults.failure(KErrors.NetworkError())
         }
     }
 
@@ -93,21 +93,21 @@ open class KNetwork {
 
 }
 
-sealed class Results<out T> {
+sealed class KResults<out T> {
 
     companion object {
-        fun <T> success(result: T): Results<T> = Success(result)
-        fun <T> failure(error: Throwable): Results<T> = Failure(error)
+        fun <T> success(result: T): KResults<T> = Success(result)
+        fun <T> failure(error: Throwable): KResults<T> = Failure(error)
     }
 
-    data class Failure(val error: Throwable) : Results<Nothing>()
-    data class Success<out T>(val data: T) : Results<T>()
+    data class Failure(val error: Throwable) : KResults<Nothing>()
+    data class Success<out T>(val data: T) : KResults<T>()
 }
 
-sealed class Errors : Throwable() {
-    data class NetworkError(val code: Int = -1, val desc: String = "") : Errors()
-    object EmptyInputError : Errors()
-    object EmptyResultsError : Errors()
-    object SingleError : Errors()
+sealed class KErrors : Throwable() {
+    data class NetworkError(val code: Int = -1, val desc: String = "") : KErrors()
+    object EmptyInputError : KErrors()
+    object EmptyResultsError : KErrors()
+    object SingleError : KErrors()
 }
 

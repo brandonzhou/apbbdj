@@ -25,7 +25,7 @@ import com.lxj.xpopup.interfaces.SimpleCallback
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.mt.bbdj.baseconfig.utls.*
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.storage.domain.SHCameraHelp
 import com.shshcom.station.storage.http.ApiStorage
 import com.shshcom.station.storage.http.bean.ExpressPackInfo
@@ -169,17 +169,17 @@ class ScanPickOutActivity : CaptureActivity() {
             LoadDialogUtils.showLoadingDialog(activity)
             val results = ApiStorage.getPackageInfo(stationId, barcode)
             when(results){
-                is Results.Success->{
+                is KResults.Success -> {
                     LoadDialogUtils.cannelLoadingDialog()
                     takePicture(results.data)
 
                 }
-                is Results.Failure ->{
+                is KResults.Failure -> {
                     LoadDialogUtils.cannelLoadingDialog()
 
                     showErrorDialog(results.error.message)
 
-                   // takePicture(gson.fromJson(json, ExpressPackInfo::class.java))
+                    // takePicture(gson.fromJson(json, ExpressPackInfo::class.java))
 
 
                 }
@@ -280,11 +280,11 @@ class ScanPickOutActivity : CaptureActivity() {
                 val results = ApiStorage.outPackage(stationId, info.number, File(info.localFile))
 
                 when(results){
-                    is Results.Success->{
+                    is KResults.Success -> {
                         ToastUtil.showShort("出库成功")
                     }
 
-                    is Results.Failure ->{
+                    is KResults.Failure -> {
                         LoadDialogUtils.cannelLoadingDialog()
 
                         showErrorDialog(results.error.message)
@@ -308,15 +308,15 @@ class ScanPickOutActivity : CaptureActivity() {
                 val results = ApiStorage.searchSameMobileExpressInfo(stationId, phone)
                 LoadDialogUtils.cannelLoadingDialog()
                 when(results) {
-                    is Results.Success -> {
+                    is KResults.Success -> {
 
                         val data = results.data
-                        if(data.isNotEmpty()){
+                        if (data.isNotEmpty()) {
                             PickOutShowSameActivity.openActivity(activity, ExpressPackInfoList(data))
                         }
                     }
-                    is Results.Failure ->{
-                       // ToastUtil.showLong(results.error.message)
+                    is KResults.Failure -> {
+                        // ToastUtil.showLong(results.error.message)
                     }
                 }
             }

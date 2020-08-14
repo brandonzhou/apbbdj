@@ -17,7 +17,7 @@ import cn.ycbjie.ycstatusbarlib.StatusBarUtils
 import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
 import com.jcodecraeer.xrecyclerview.XRecyclerView
 import com.mt.bbdj.R
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.blockuser.http.ApiBlockUser
 import com.shshcom.station.blockuser.http.bean.BlockUser
 import com.shshcom.station.blockuser.http.bean.BlockUserData
@@ -125,9 +125,9 @@ class BlockUserSearchActivity : AppCompatActivity(), XRecyclerView.LoadingListen
             val results = ApiBlockUser.blockUserList(key, page)
             if (key == searchkey) {
                 when (results) {
-                    is Results.Success -> refreshUI(results.data)
+                    is KResults.Success -> refreshUI(results.data)
 
-                    is Results.Failure -> {
+                    is KResults.Failure -> {
                     }
                 }
             }

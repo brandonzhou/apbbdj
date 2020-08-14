@@ -1,7 +1,7 @@
 package com.shshcom.station.blockuser.http
 
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.module_base.network.ServiceCreator
 import com.shshcom.station.blockuser.http.bean.BlockUserData
 import com.shshcom.station.storage.http.ApiStorage.await
@@ -18,18 +18,18 @@ import kotlinx.coroutines.withContext
 object ApiBlockUser {
     private var service: BlockUserService = ServiceCreator.create()
 
-    private suspend fun <T> processApi(block: suspend () -> BaseResult<T>): Results<T> {
+    private suspend fun <T> processApi(block: suspend () -> BaseResult<T>): KResults<T> {
         return withContext(Dispatchers.IO) {
             try {
                 val re = block()
                 if (re.isSuccess) {
-                    Results.success(re.data)
+                    KResults.success(re.data)
                 } else {
-                    Results.failure(Exception(re.msg))
+                    KResults.failure(Exception(re.msg))
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Results.failure<T>(e)
+                KResults.failure<T>(e)
             }
         }
     }
@@ -45,7 +45,7 @@ object ApiBlockUser {
     page	Integer	是	页码	1
     keyword	String	是	搜索关键词
      */
-    suspend fun blockUserList(keyword: String, page: Int): Results<BlockUserData> {
+    suspend fun blockUserList(keyword: String, page: Int): KResults<BlockUserData> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = getStationId()
@@ -60,7 +60,7 @@ object ApiBlockUser {
     station_id	Integer	是	驿站 id	12
     mobile	String	是	手机号	18310576535
      */
-    suspend fun addBlockUser(mobile: String): Results<Any> {
+    suspend fun addBlockUser(mobile: String): KResults<Any> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = getStationId()
@@ -74,7 +74,7 @@ object ApiBlockUser {
     station_id	Integer	是	驿站 id	12
     block_id	Integer	是	名单标识	2
      */
-    suspend fun delBlockUser(blockId: Int): Results<Any> {
+    suspend fun delBlockUser(blockId: Int): KResults<Any> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = getStationId()

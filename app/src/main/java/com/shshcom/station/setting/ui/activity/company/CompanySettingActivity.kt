@@ -11,7 +11,7 @@ import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils
 import com.mt.bbdj.baseconfig.utls.ToastUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.setting.http.ApiSetting
 import com.shshcom.station.setting.http.bean.CompanySettingData
 import com.shshcom.station.util.AntiShakeUtils
@@ -115,12 +115,12 @@ class CompanySettingActivity : AppCompatActivity() {
             LoadDialogUtils.cannelLoadingDialog()
 
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     data.type = type
                     refreshView()
                     setResult(Activity.RESULT_OK)
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     ToastUtil.showLong(result.error.message)
                 }
             }

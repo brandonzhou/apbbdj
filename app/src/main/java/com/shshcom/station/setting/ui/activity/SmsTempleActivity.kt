@@ -17,7 +17,7 @@ import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils
 import com.mt.bbdj.baseconfig.utls.StringUtil
 import com.mt.bbdj.baseconfig.utls.ToastUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.setting.http.ApiSetting
 import com.shshcom.station.setting.http.bean.CustomSMSTemplateData
 import kotlinx.android.synthetic.main.activity_notify_pack_list.rl_back
@@ -114,7 +114,7 @@ class SmsTempleActivity : AppCompatActivity() {
             val result = ApiSetting.getCustomSMSTemplate()
             LoadDialogUtils.cannelLoadingDialog()
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     result.data?.let {
                         data = it
                         et_sms_phone.setText(it.phone)
@@ -125,7 +125,7 @@ class SmsTempleActivity : AppCompatActivity() {
 
                 }
 
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     ToastUtil.showLong(result.error.message)
                 }
             }
@@ -187,11 +187,11 @@ class SmsTempleActivity : AppCompatActivity() {
             val result = ApiSetting.saveCustomSMSTemplate(data.phone, data.customAddress)
             LoadDialogUtils.cannelLoadingDialog()
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     toast("修改成功")
                 }
 
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     ToastUtil.showLong(result.error.message)
                 }
             }

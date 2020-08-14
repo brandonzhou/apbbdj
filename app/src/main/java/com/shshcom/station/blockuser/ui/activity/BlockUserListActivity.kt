@@ -17,7 +17,7 @@ import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils
 import com.mt.bbdj.baseconfig.utls.StringUtil
 import com.mt.bbdj.baseconfig.utls.ToastUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.blockuser.http.ApiBlockUser
 import com.shshcom.station.blockuser.http.bean.BlockUser
 import com.shshcom.station.blockuser.http.bean.BlockUserData
@@ -103,9 +103,9 @@ class BlockUserListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
         scope.launch {
             val results = ApiBlockUser.blockUserList("", page)
             when (results) {
-                is Results.Success -> refreshUI(results.data)
+                is KResults.Success -> refreshUI(results.data)
 
-                is Results.Failure -> {
+                is KResults.Failure -> {
                 }
             }
         }
@@ -146,12 +146,12 @@ class BlockUserListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
             val result = ApiBlockUser.addBlockUser(phone)
             LoadDialogUtils.cannelLoadingDialog()
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     ToastUtil.showShort("添加成功")
 
                     onRefresh()
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     ToastUtil.showShort(result.error.message)
                 }
             }

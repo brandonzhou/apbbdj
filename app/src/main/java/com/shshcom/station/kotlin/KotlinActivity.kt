@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.utls.DateUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.statistics.http.ApiPackageStatistic
 import kotlinx.android.synthetic.main.activity_kotlin.*
 import kotlinx.coroutines.CoroutineScope
@@ -46,10 +46,10 @@ class KotlinActivity : AppCompatActivity()  {
 
             val result = result2
             when(result){
-                is Results.Success -> {
+                is KResults.Success -> {
                     tvBtn.text = result.toString()
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     tvBtn.text = result.error.message
                 }
             }

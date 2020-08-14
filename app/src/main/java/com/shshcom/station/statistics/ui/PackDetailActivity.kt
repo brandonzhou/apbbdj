@@ -25,7 +25,7 @@ import com.mt.bbdj.baseconfig.utls.ToastUtil
 import com.mt.bbdj.community.activity.OutExceptionActivity
 import com.orient.me.widget.rv.itemdocration.timeline.SingleTimeLineDecoration
 import com.orient.me.widget.rv.itemdocration.timeline.TimeLine
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.statistics.http.ApiPackageStatistic
 import com.shshcom.station.statistics.http.bean.PackageDetailData
 import com.shshcom.station.statistics.ui.adapter.timeline.PackDetailTimelineAdapter
@@ -190,7 +190,7 @@ class PackDetailActivity : AppCompatActivity() {
         scope.launch {
             val result = ApiPackageStatistic.reSendSMSNotice(stationId, data.pieId)
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     val dataH = result.data
                     data.smsStates = dataH.smsStates
                     data.smsTime = dataH.smsTime
@@ -208,7 +208,7 @@ class PackDetailActivity : AppCompatActivity() {
                     ToastUtil.showShort("发送成功")
                 }
 
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     ToastUtil.showShort("发送失败:\n" + result.error.message)
                 }
             }
@@ -231,7 +231,7 @@ class PackDetailActivity : AppCompatActivity() {
         scope.launch {
             val results = ApiPackageStatistic.outWarehouse2(stationId, data.number)
             when(results){
-                is Results.Success ->{
+                is KResults.Success -> {
                     ToastUtil.showShort("出库成功")
                     ll_do_pack_out.visibility = View.GONE
                     cl_action.visibility = View.GONE
@@ -239,7 +239,7 @@ class PackDetailActivity : AppCompatActivity() {
                     updatePackInfoHttp()
                 }
 
-                is Results.Failure ->{
+                is KResults.Failure -> {
                     ToastUtil.showShort("出库失败，${results.error.message}")
                 }
             }
@@ -251,7 +251,7 @@ class PackDetailActivity : AppCompatActivity() {
         scope.launch {
             val results = ApiPackageStatistic.getOutPie( data.pieId)
             when(results){
-                is Results.Success ->{
+                is KResults.Success -> {
                     data = results.data
                     val list = PackTimeItem.createList(data)
                     val adapter = recyclerView.adapter as PackDetailTimelineAdapter
@@ -260,7 +260,7 @@ class PackDetailActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
 
-                is Results.Failure ->{
+                is KResults.Failure -> {
                     ToastUtil.showShort(" 信息更新失败，${results.error.message}")
                 }
             }
@@ -310,7 +310,7 @@ class PackDetailActivity : AppCompatActivity() {
             scope.launch {
                 val result = ApiPackageStatistic.modifyMobile(data.stationId.toString(), data.pieId, phone)
                 when (result) {
-                    is Results.Success -> {
+                    is KResults.Success -> {
                         ToastUtil.showShort("修改成功")
                         tvPackPhone.text = if (data.privacy == 0) data.mobile else "菜鸟隐私号码"
                         // 更新上一页
@@ -321,7 +321,7 @@ class PackDetailActivity : AppCompatActivity() {
 
 
                     }
-                    is Results.Failure -> {
+                    is KResults.Failure -> {
                         ToastUtil.showShort("修改失败")
                     }
                 }

@@ -17,7 +17,7 @@ import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.mt.bbdj.baseconfig.utls.ToastUtil
 import com.mt.bbdj.community.activity.WebDetailActivity
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.statistics.http.ApiPackageStatistic
 import com.shshcom.station.statistics.http.bean.NotifyBean
 import com.shshcom.station.statistics.http.bean.PackNotifyData
@@ -90,11 +90,11 @@ class NotifyPackListActivity : AppCompatActivity(), XRecyclerView.LoadingListene
         scope.launch {
             val result = ApiPackageStatistic.queryStationNoticeStats(stationId, page)
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     refreshUI(result.data)
                 }
 
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     ToastUtil.showLong(result.error.message)
                 }
             }

@@ -18,7 +18,7 @@ import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.mt.bbdj.baseconfig.model.TargetEvent
 import com.mt.bbdj.baseconfig.utls.ToastUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.statistics.http.ApiPackageStatistic
 import com.shshcom.station.statistics.http.bean.PackageDetailData
 import com.shshcom.station.statistics.ui.adapter.PackListAdapter
@@ -178,7 +178,7 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
             val result = ApiPackageStatistic.queryExpressDetail(stationId, expressId,
                     notify, outState, time, page)
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     if (isFresh) {
                         recyclerView.refreshComplete()
                         items.clear()
@@ -210,7 +210,7 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
 
                 }
 
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     ToastUtil.showShort(result.error.message)
                 }
             }

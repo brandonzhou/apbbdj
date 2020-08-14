@@ -1,7 +1,7 @@
 package com.shshcom.station.statistics.domain
 
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.base.ICaseBack
 import com.shshcom.station.statistics.http.ApiPackageStatistic
 import com.shshcom.station.statistics.http.bean.PackageDetailData
@@ -33,10 +33,10 @@ object PackageUseCase {
             val result =  ApiPackageStatistic.todayExpressStatistics(stationId)
 
             when(result){
-                is Results.Success -> {
+                is KResults.Success -> {
                     caseBack.onSuccess(result.data)
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     val msg = result.error.message
                     caseBack.onError(msg.orEmpty())
                 }
@@ -54,10 +54,10 @@ object PackageUseCase {
             val result = ApiPackageStatistic.getOutPie(pid)
 
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     caseBack.onSuccess(result.data)
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     val msg = result.error.message
                     caseBack.onError(msg.orEmpty())
                 }
@@ -71,10 +71,10 @@ object PackageUseCase {
             val result = ApiPackageStatistic.queryWeChatTodayNotice(getStationId())
 
             when (result) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     caseBack.onSuccess(result.data)
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     val msg = result.error.message
                     caseBack.onError(msg.orEmpty())
                 }

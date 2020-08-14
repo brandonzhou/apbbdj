@@ -1,7 +1,7 @@
 package com.shshcom.station.storage.domain
 
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.base.ICaseBack
 import com.shshcom.station.storage.http.ApiStorage
 import kotlinx.coroutines.CoroutineScope
@@ -30,10 +30,10 @@ object StorageCase {
             val results = ApiStorage.confirmSubmitWarehouse(getStationId(), batchNo)
 
             when (results) {
-                is Results.Success -> {
+                is KResults.Success -> {
                     caseBack.onSuccess("提交成功")
                 }
-                is Results.Failure -> {
+                is KResults.Failure -> {
                     results.error.message?.let { caseBack.onError(it) }
                 }
             }

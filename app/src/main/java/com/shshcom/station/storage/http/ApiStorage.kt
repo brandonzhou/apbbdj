@@ -1,7 +1,7 @@
 package com.shshcom.station.storage.http
 
 import com.shshcom.module_base.network.KNetwork
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.module_base.network.ServiceCreator
 import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.storage.http.bean.ExpressCompany
@@ -25,18 +25,18 @@ object ApiStorage : KNetwork() {
     private var service: StorageService = ServiceCreator.create()
 
 
-    suspend fun <T> processApi(block: suspend () -> BaseResult<T>): Results<T> {
+    suspend fun <T> processApi(block: suspend () -> BaseResult<T>): KResults<T> {
         return withContext(Dispatchers.IO) {
             try {
                 val re = block()
                 if (re.isSuccess) {
-                    Results.success(re.data)
+                    KResults.success(re.data)
                 } else {
-                    Results.failure(Exception(re.msg))
+                    KResults.failure(Exception(re.msg))
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Results.failure<T>(e)
+                KResults.failure<T>(e)
             }
         }
 
@@ -53,7 +53,7 @@ object ApiStorage : KNetwork() {
     }
 
 
-    suspend fun getPackageInfo(stationId: String, barcode: String): Results<ExpressPackInfo> {
+    suspend fun getPackageInfo(stationId: String, barcode: String): KResults<ExpressPackInfo> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
@@ -69,7 +69,7 @@ object ApiStorage : KNetwork() {
     code	快递单号	string	是	12
     type	出库类型	Integer	是	6.app拍照出库
      */
-    suspend fun outPackage(stationId: String, barcode: String, file : File): Results<Any> {
+    suspend fun outPackage(stationId: String, barcode: String, file: File): KResults<Any> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
@@ -96,7 +96,7 @@ object ApiStorage : KNetwork() {
         }
     }
 
-    suspend fun searchSameMobileExpressInfo(stationId: String, mobile: String): Results<List<ExpressPackInfo>> {
+    suspend fun searchSameMobileExpressInfo(stationId: String, mobile: String): KResults<List<ExpressPackInfo>> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
@@ -111,7 +111,7 @@ object ApiStorage : KNetwork() {
      * 延时发送短信-确认提交入库
      * number 快递单号
      */
-    suspend fun confirmSubmitWarehouse(stationId: String, batch_no: String): Results<Any> {
+    suspend fun confirmSubmitWarehouse(stationId: String, batch_no: String): KResults<Any> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId

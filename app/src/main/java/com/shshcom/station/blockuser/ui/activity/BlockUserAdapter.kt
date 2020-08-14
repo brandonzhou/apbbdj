@@ -10,7 +10,7 @@ import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.interfaces.OnConfirmListener
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.utls.LoadDialogUtils
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.blockuser.http.ApiBlockUser
 import com.shshcom.station.blockuser.http.bean.BlockUser
 import kotlinx.coroutines.CoroutineScope
@@ -74,13 +74,13 @@ class BlockUserAdapter(var list: ArrayList<BlockUser>, val scope: CoroutineScope
                 val results = ApiBlockUser.delBlockUser(data.blockId)
                 LoadDialogUtils.cannelLoadingDialog()
                 when (results) {
-                    is Results.Success -> {
+                    is KResults.Success -> {
                         list.remove(data)
                         notifyDataSetChanged()
 
                     }
 
-                    is Results.Failure -> {
+                    is KResults.Failure -> {
                     }
                 }
             }

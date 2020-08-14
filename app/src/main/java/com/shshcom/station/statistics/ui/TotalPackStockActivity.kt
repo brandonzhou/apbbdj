@@ -10,7 +10,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView
 import com.mt.bbdj.R
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.mt.bbdj.baseconfig.model.TargetEvent
-import com.shshcom.module_base.network.Results
+import com.shshcom.module_base.network.KResults
 import com.shshcom.station.statistics.http.ApiPackageStatistic
 import com.shshcom.station.statistics.http.bean.StockData
 import com.shshcom.station.statistics.http.bean.TotalStockData
@@ -83,11 +83,11 @@ class TotalPackStockActivity : AppCompatActivity(), XRecyclerView.LoadingListene
         scope.launch {
             val result = ApiPackageStatistic.totalStock(stationId, page)
             when (result) {
-                is Results.Success -> {
-                        refreshUI(result.data)
+                is KResults.Success -> {
+                    refreshUI(result.data)
                 }
 
-                is Results.Failure -> {
+                is KResults.Failure -> {
 
 
                 }
