@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="text_main">#FF17182B</color>
+    <color name="text_grey_3">#FF333333</color>
+    <color name="text_grey_6">#666666</color>
+    <color name="text_grey_9">#909090</color>
+    <color name="text_orange">#FFF86417</color>
+    <color name="text_red">#FFF72626</color>
+    <color name="text_color_15">#FF151515</color>
+    <color name="text_green">#FF00BE7E</color>
+    <color name="text_2a">#FF2A2A2A</color>
+    <color name="text_blue_fa">#FF4B9BFA</color>
+    <color name="text_hint">#B8BBC7</color>
+
+    <color name="text_fail">#FF2020</color><!--错误,警告,警示-->
+    <color name="et_bg_gray">#F8F8F8</color><!--输入框-灰色背景-->
+
+
+    <color name="bg_main">#F8F8F8</color><!--背景色-->
+    <color name="line_main">#DDDDDD</color>
+
+
+    <color name="orange_light_e9">#FEF3E9</color>
+
+
+    <color name="tran_alpha_4d">#4D000000</color>
+    <color name="tran_alpha_66">#66000000</color>
+    <color name="tran_alpha_80">#80000000</color>
+</resources>

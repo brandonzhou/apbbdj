@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
  * 2020/5/30
  */
 object ServiceCreator {
-    private const val BASE_URL = "https://api.caiyunapp.com/"
+    private const val BASE_URL = "https://meng.81dja.com:5443"
 
     private fun getOkHttpClient(): OkHttpClient{
         val  builder = OkHttpClient.Builder()

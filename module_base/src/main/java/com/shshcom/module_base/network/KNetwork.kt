@@ -101,7 +101,7 @@ sealed class KResults<out T> {
     }
 
     data class Failure(val error: Throwable) : KResults<Nothing>()
-    data class Success<out T>(val data: T) : KResults<T>()
+    data class Success<out T>(val data: T, val msg: String = "") : KResults<T>()
 }
 
 sealed class KErrors : Throwable() {
@@ -109,5 +109,6 @@ sealed class KErrors : Throwable() {
     object EmptyInputError : KErrors()
     object EmptyResultsError : KErrors()
     object SingleError : KErrors()
+
 }
 
