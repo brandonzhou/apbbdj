@@ -974,11 +974,12 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 item.put("ic", R.drawable.ic_three_2);
             }
 
-            if (i == 5) {//隐藏
+            if (i == 5) {
                 item.put("tag", "0");
                 item.put("id", "5");
                 item.put("name", "寄存费用");
                 item.put("ic", R.drawable.ic_three_5);
+                mListTwo.add(item);
             }
 
             if (i == 6) {
