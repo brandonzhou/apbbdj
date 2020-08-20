@@ -155,7 +155,7 @@
         android:id="@+id/cl_rule"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height_main"
-        android:layout_marginTop="@dimen/margin_top"
+        android:layout_marginTop="@dimen/margin_top_10"
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/cl_start_number_preview"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -207,7 +207,7 @@
         android:id="@+id/cl_shelf_number"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height_main"
-        android:layout_marginTop="@dimen/margin_top"
+        android:layout_marginTop="@dimen/margin_top_10"
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/cl_rule"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -260,7 +260,7 @@
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/cl_shelf_number"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_goneMarginTop="@dimen/margin_top"
+        app:layout_goneMarginTop="@dimen/margin_top_10"
         >
         <TextView
             android:id="@+id/tv_set_start_number_key"
