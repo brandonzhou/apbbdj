@@ -23,8 +23,6 @@ import me.shouheng.compress.strategy.config.ScaleMode;
  */
 public class SHCameraHelp {
 
-    int reqWidth = 720;
-    int reqHeight = 720;
 
     private String createFileDir(Context context, String fileName) {
         File imgFile = context.getExternalFilesDir("scan_image");
@@ -115,11 +113,12 @@ public class SHCameraHelp {
 
 
     public Bitmap getImageBitmap(byte[] data) {
+        // https://github.com/Shouheng88/Compressor/blob/master/README-zh.md
         Compress compress = Compress.Companion.with(MyApplication.getInstance(), data);
 
         return compress.strategy(Strategies.INSTANCE.compressor())
-                .setMaxHeight(reqWidth)
-                .setMaxWidth(reqWidth)
+                .setMaxHeight(1080)
+                .setMaxWidth(1920)
                 .setScaleMode(ScaleMode.SCALE_SMALLER)
                 .asBitmap().get();
     }
