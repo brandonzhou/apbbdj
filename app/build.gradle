@@ -33,7 +33,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 10
-        versionName "1.0.30.1-dev"
+        versionName "1.0.31"
         renderscriptTargetApi 19
         multiDexKeepProguard file("./tinker_multidexkeep.pro")
         renderscriptSupportModeEnabled true
