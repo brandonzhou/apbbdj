@@ -937,77 +937,72 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
 
     private void setTwoItemData() {
-        for (int i = 0; i <= 8; i++) {
-            HashMap<String, Object> item = new HashMap<>();
+        HashMap<String, Object> item6 = new HashMap<>();
+        item6.put("tag", "0");
+        item6.put("id", "6");
+        item6.put("name", "拍照入库");
+        item6.put("ic", R.drawable.ic_main_pack_scan);
+        mListTwo.add(item6);
 
-            if (i == 0) {//隐藏
-                item.put("tag", "0");
-                item.put("id", "0");
-                item.put("name", "接收存放");
-                item.put("ic", R.drawable.ic_two_1);
-            }
+        //隐藏
+        HashMap<String, Object> item0 = new HashMap<>();
+        item0.put("tag", "0");
+        item0.put("id", "0");
+        item0.put("name", "接收存放");
+        item0.put("ic", R.drawable.ic_two_1);
 
-            if (i == 1) {
-                item.put("tag", "0");
-                item.put("id", "1");
-                item.put("name", "扫码入库");
-                item.put("ic", R.drawable.ic_two_2);
-                mListTwo.add(item);
-            }
-            if (i == 2) {
-                item.put("tag", "0");
-                item.put("id", "2");
-                item.put("name", "用户取件");
-                item.put("ic", R.drawable.ic_two_3);
-                mListTwo.add(item);
-            }
-            if (i == 3) {//隐藏
-                item.put("tag", "0");
-                item.put("id", "3");
-                item.put("name", "二维码取件");
-                item.put("ic", R.drawable.ic_two_3);
-            }
-            if (i == 4) {//隐藏
-                item.put("tag", "0");
-                item.put("id", "4");
-                item.put("name", "我的存放");
-                item.put("ic", R.drawable.ic_three_2);
-            }
+        HashMap<String, Object> item1 = new HashMap<>();
+        item1.put("tag", "0");
+        item1.put("id", "1");
+        item1.put("name", "扫码入库");
+        item1.put("ic", R.drawable.ic_two_2);
+        mListTwo.add(item1);
 
-            if (i == 5) {
-                item.put("tag", "0");
-                item.put("id", "5");
-                item.put("name", "寄存费用");
-                item.put("ic", R.drawable.ic_three_5);
-                mListTwo.add(item);
-            }
-
-            if (i == 6) {
-                item.put("tag", "0");
-                item.put("id", "6");
-                item.put("name", "拍照入库");
-                item.put("ic", R.drawable.ic_main_pack_scan);
-                mListTwo.add(item);
-            }
-
-            if (i == 7) {
-                item.put("tag", "0");
-                item.put("id", "7");
-                item.put("name", "数据统计");
-                item.put("ic", R.drawable.ic_three_2);
-                mListTwo.add(item);
-            }
-
-            if (i == 8) {
-                item.put("tag", "0");
-                item.put("id", "8");
-                item.put("name", "敏感用户");
-                item.put("ic", R.drawable.ic_three_6);
-                mListTwo.add(item);
-            }
+        HashMap<String, Object> item2 = new HashMap<>();
+        item2.put("tag", "0");
+        item2.put("id", "2");
+        item2.put("name", "用户取件");
+        item2.put("ic", R.drawable.ic_two_3);
+        mListTwo.add(item2);
 
 
-        }
+        HashMap<String, Object> item3 = new HashMap<>();
+        item3.put("tag", "0");
+        item3.put("id", "3");
+        item3.put("name", "二维码取件");
+        item3.put("ic", R.drawable.ic_two_3);
+
+
+        HashMap<String, Object> item4 = new HashMap<>();
+        item4.put("tag", "0");
+        item4.put("id", "4");
+        item4.put("name", "我的存放");
+        item4.put("ic", R.drawable.ic_three_2);
+
+
+        HashMap<String, Object> item5 = new HashMap<>();
+        item5.put("tag", "0");
+        item5.put("id", "5");
+        item5.put("name", "寄存费用");
+        item5.put("ic", R.drawable.ic_three_5);
+        mListTwo.add(item5);
+
+
+        HashMap<String, Object> item7 = new HashMap<>();
+        item7.put("tag", "0");
+        item7.put("id", "7");
+        item7.put("name", "数据统计");
+        item7.put("ic", R.drawable.ic_three_2);
+        mListTwo.add(item7);
+
+        HashMap<String, Object> item8 = new HashMap<>();
+        item8.put("tag", "0");
+        item8.put("id", "8");
+        item8.put("name", "敏感用户");
+        item8.put("ic", R.drawable.ic_three_6);
+        mListTwo.add(item8);
+
+
         MyGridViewAdapter myGridViewAdapter = new MyGridViewAdapter(mListTwo);
         mComGridViewTwo.setAdapter(myGridViewAdapter);
 
@@ -1053,9 +1048,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 JSONObject jsonObject = new JSONObject(response.get());
                 String code = jsonObject.get("code").toString();
                 String msg = jsonObject.get("msg").toString();
-                if(what == REQUEST_BANNER_MESSAGE){
+                if (what == REQUEST_BANNER_MESSAGE) {
                     handleBannerMessage(jsonObject);
-                }else {
+                } else {
                     if ("5001".equals(code)) {
                         handleHttpEvent(what, jsonObject);
                     } else {
@@ -1141,7 +1136,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
     private void handleBannerMessage(JSONObject jsonObject) throws JSONException {
         List<String> images = new ArrayList<>();
-        if(jsonObject.has("data")){
+        if (jsonObject.has("data")) {
             JSONArray data = jsonObject.getJSONArray("data");
             for (int i = 0; i < data.length(); i++) {
                 JSONObject jsonObject1 = data.getJSONObject(i);
@@ -1154,9 +1149,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
         setBanner(images);
     }
 
-    private void handleNewVersion(JSONObject result) throws JSONException{
+    private void handleNewVersion(JSONObject result) throws JSONException {
         JSONObject jsonObject = result.getJSONObject("data");
-        if(jsonObject == null){
+        if (jsonObject == null) {
             return;
         }
         boolean force = jsonObject.getBoolean("force");
@@ -1164,12 +1159,12 @@ public class ComFirst_3_Fragment extends BaseFragment {
         version_url = jsonObject.getString("version_url");
         String version = SystemUtil.getVersion(getActivity());
 
-        if (version.compareTo(versionHttp)<0) {
-            if(force){
+        if (version.compareTo(versionHttp) < 0) {
+            if (force) {
                 versionRemote = versionHttp;
                 showForceNewVersionDownLoadDialog();
-            }else {
-                if(!versionHttp.equals(versionRemote)){
+            } else {
+                if (!versionHttp.equals(versionRemote)) {
                     versionRemote = versionHttp;
                     showNewVersion();
                 }
@@ -1303,22 +1298,22 @@ public class ComFirst_3_Fragment extends BaseFragment {
     }
 
     ConfirmPopupView versionUpdateDialog;
-    private void showNewVersion(){
-        if(versionUpdateDialog == null){
+
+    private void showNewVersion() {
+        if (versionUpdateDialog == null) {
             versionUpdateDialog = new XPopup.Builder(getActivity())
-                    .asConfirm("更新提示","有新版本上线，请先更新！\n"+versionRemote, () -> download());
+                    .asConfirm("更新提示", "有新版本上线，请先更新！\n" + versionRemote, () -> download());
         }
 
-        if(!versionUpdateDialog.isShow()){
+        if (!versionUpdateDialog.isShow()) {
             versionUpdateDialog.show();
         }
 
     }
 
 
-
     private void showForceNewVersionDownLoadDialog() {
-        DialogUtil.promptDialog1(getActivity(), "更新提示", "有新版本上线，请先更新！\n"+versionRemote, DetermineListener, throwListener);
+        DialogUtil.promptDialog1(getActivity(), "更新提示", "有新版本上线，请先更新！\n" + versionRemote, DetermineListener, throwListener);
     }
 
 
@@ -1512,7 +1507,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
                 break;
             case R.id.view_today_out:
                 PackStockListActivity.Companion.openActivity(getActivity(),
-                        DateTime.now().toString("yyyy-MM-dd"), 4,true);
+                        DateTime.now().toString("yyyy-MM-dd"), 4, true);
                 break;
             case R.id.view_storage_all_number:
                 Intent intent = new Intent();
