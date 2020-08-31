@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/bg_main"
+    android:orientation="vertical"
     tools:context="com.shshcom.station.storage.activity.PickOutShowSameActivity">
+
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
@@ -32,6 +33,7 @@
 
 
         <TextView
+            android:id="@+id/tv_bar_title"
             android:layout_width="150dp"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
@@ -45,45 +47,114 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_left_right"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="@dimen/margin_left_right"
+        android:background="@drawable/shape_bg_white_r5"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:id="@+id/tv_pack_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="18512345678"
+                android:textColor="@color/text_main"
+                android:textSize="@dimen/text_size_main" />
+
+            <TextView
+                android:id="@+id/tv_wx_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="已绑定公众号"
+                android:gravity="end"
+                android:textColor="@color/text_grey_9"
+                android:textSize="@dimen/text_size_main" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_wx_qr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_main"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="24dp" />
+
+            <ImageView
+                android:id="@+id/iv_wx_qr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="扫上方二维码关注公众号\n点击公众号“驿站快递”绑定手机号"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/text_grey_6"
+                android:textSize="@dimen/text_size_14" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_below="@id/rl_title"
+        android:layout_gravity="start"
         android:layout_marginTop="18dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_pack_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="12345678901"
-            android:textColor="@color/text_main"
-            android:textSize="@dimen/text_size_main"
-            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="  名下还有"
+            android:text="名下还有"
+            android:layout_marginStart="20dp"
             android:textColor="@color/text_grey_6"
-            android:textSize="@dimen/text_size_main"
-            />
+            android:textSize="@dimen/text_size_main" />
 
         <TextView
             android:id="@+id/tv_pack_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="2件"
             android:textColor="@color/text_red"
             android:textSize="@dimen/text_size_main"
-            />
+            tools:text="2件" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="快递"
             android:textColor="@color/text_grey_6"
-            android:textSize="@dimen/text_size_main"
-            />
+            android:textSize="@dimen/text_size_main" />
 
     </LinearLayout>
 
@@ -91,24 +162,23 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginTop="13dp"
+        android:layout_weight="1"
         android:background="@color/bg_main"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <TextView
         android:id="@+id/tv_restart_scan"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@drawable/shape_btn_green_r20"
-        android:gravity="center"
-        android:text="拍照出库"
-        android:textColor="@color/white"
-        android:textSize="15sp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="4dp"
+        android:background="@drawable/shape_btn_green_r20"
+        android:gravity="center"
+        android:text="继续出库"
+        android:textColor="@color/white"
+        android:textSize="15sp"
 
         />
 

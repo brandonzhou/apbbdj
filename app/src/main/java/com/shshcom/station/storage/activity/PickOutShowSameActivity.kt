@@ -3,6 +3,7 @@ package com.shshcom.station.storage.activity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,17 +14,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils
 import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
+import com.king.zxing.util.CodeUtils
 import com.mt.bbdj.R
+import com.shshcom.module_base.utils.DensityUtils
 import com.shshcom.station.storage.http.bean.ExpressPackInfo
 import com.shshcom.station.storage.http.bean.ExpressPackInfoList
+import com.shshcom.station.storage.http.bean.WxOfficeSubscribeState
 import kotlinx.android.synthetic.main.activity_pick_out_show_same.*
 
 class PickOutShowSameActivity : AppCompatActivity() {
 
-    companion object{
-        fun openActivity(activity: Activity, data: ExpressPackInfoList){
-            val intent= Intent(activity, PickOutShowSameActivity::class.java)
+    companion object {
+        fun openActivity(activity: Activity, data: ExpressPackInfoList, wxState: WxOfficeSubscribeState?) {
+            val intent = Intent(activity, PickOutShowSameActivity::class.java)
             intent.putExtra("data", data)
+            // val wxState2 = WxOfficeSubscribeState( "http://weixin.qq.com/q/02D3KftrL1eLh1k8Kcxvcf",1)
+            intent.putExtra("wxState", wxState)
             activity.startActivity(intent)
         }
     }
@@ -38,6 +44,11 @@ class PickOutShowSameActivity : AppCompatActivity() {
 
         val data = intent.getSerializableExtra("data") as ExpressPackInfoList
 
+        var wxOfficeSubscribeState = intent.getSerializableExtra("wxState") as WxOfficeSubscribeState?
+        wxOfficeSubscribeState?.let {
+            showQrCode(it)
+        }
+
         val phone = data.list[0].mobile
         val size = data.list.size.toString() + "件"
         tv_pack_phone.text = phone
@@ -50,11 +61,34 @@ class PickOutShowSameActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
 
 
+    }
+
+
+    private fun showQrCode(subscribeState: WxOfficeSubscribeState) {
+        val state = subscribeState.state
+        if (state == 1) {
+            tv_wx_state.text = "已绑定公众号"
+        } else {
+            ll_wx_qr.visibility = View.VISIBLE
+            tv_wx_state.text = "未绑定公众号"
+            tv_wx_state.setTextColor(tv_wx_state.resources.getColor(R.color.text_red))
+
+            val code = subscribeState.qrcode.replace("\\", "")
+            Thread(Runnable {
+
+                //生成二维码相关放在子线程里面
+                val bitmap: Bitmap = CodeUtils.createQRCode(code, DensityUtils.dp2px(100f))
+                runOnUiThread {
+                    //显示二维码
+                    iv_wx_qr.setImageBitmap(bitmap)
+                }
+            }).start()
+        }
 
     }
 
-    inner class MyAdapter(val list: List<ExpressPackInfo>): RecyclerView.Adapter<MyAdapter.ViewHolder>() {
-        inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+    inner class MyAdapter(val list: List<ExpressPackInfo>) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val tv_pack_company_name = itemView.findViewById<TextView>(R.id.tv_pack_company_name)
             val tv_pack_barcode = itemView.findViewById<TextView>(R.id.tv_pack_barcode)
             val tv_pack_pickcode = itemView.findViewById<TextView>(R.id.tv_pack_pickcode)

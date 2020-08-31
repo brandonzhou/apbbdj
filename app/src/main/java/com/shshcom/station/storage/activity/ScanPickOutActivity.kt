@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils
 import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
+import com.google.gson.Gson
 import com.google.zxing.BarcodeFormat
 import com.king.zxing.CaptureActivity
 import com.king.zxing.CaptureHelper
@@ -34,6 +35,7 @@ import kotlinx.android.synthetic.main.activity_scan_pick_out.*
 import kotlinx.coroutines.*
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 扫描出库
@@ -63,7 +65,6 @@ class ScanPickOutActivity : CaptureActivity() {
     private var barCodeSanRepeatTime = 0
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YCAppBar.setStatusBarLightMode(this, Color.WHITE)
@@ -88,7 +89,6 @@ class ScanPickOutActivity : CaptureActivity() {
     }
 
 
-
     private fun initPermission() {
         //请求Camera权限
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -110,7 +110,8 @@ class ScanPickOutActivity : CaptureActivity() {
                     LogUtil.i(TAG, "onRequestPermissionsResult denied")
                     UtilDialog.showDialog(this, "请前往设置中开启摄像头权限")
                 }
-            else -> {}
+            else -> {
+            }
         }
     }
 
@@ -154,7 +155,7 @@ class ScanPickOutActivity : CaptureActivity() {
     }
 
     val json = "{\n" +
-            "  \"pie_id\": 152309,\n" +
+            "  \"pie_id\": 264090,\n" +
             "  \"number\": \"1112899611576\",\n" +
             "  \"code\": \"AA-17-1002\",\n" +
             "  \"express_id\": 100108,\n" +
@@ -162,16 +163,17 @@ class ScanPickOutActivity : CaptureActivity() {
             "  \"mobile\": \"18811321040\"\n" +
             "}"
 
-//    val gson = Gson()
-    private fun httpInfo(barcode : String){
+    val gson = Gson()
+    private fun httpInfo(barcode: String) {
         scope.launch {
             val stationId = DbUserUtil.getStationId()
             LoadDialogUtils.showLoadingDialog(activity)
             val results = ApiStorage.getPackageInfo(stationId, barcode)
-            when(results){
+            when (results) {
                 is KResults.Success -> {
                     LoadDialogUtils.cannelLoadingDialog()
                     takePicture(results.data)
+
 
                 }
                 is KResults.Failure -> {
@@ -179,7 +181,8 @@ class ScanPickOutActivity : CaptureActivity() {
 
                     showErrorDialog(results.error.message)
 
-                    // takePicture(gson.fromJson(json, ExpressPackInfo::class.java))
+//                    val stationId = DbUserUtil.getStationId()
+//                    httpSearchSameInfo(stationId, gson.fromJson(json, ExpressPackInfo::class.java))
 
 
                 }
@@ -187,35 +190,35 @@ class ScanPickOutActivity : CaptureActivity() {
         }
     }
 
-    private fun showErrorDialog(message :String?){
+    private fun showErrorDialog(message: String?) {
         XPopup.Builder(activity).setPopupCallback(object : SimpleCallback() {
             override fun onDismiss() {
                 super.onDismiss()
                 restartScan()
             }
-        }).asConfirm("提示",message) { }.show()
+        }).asConfirm("提示", message) { }.show()
     }
 
-    private fun takePicture(info : ExpressPackInfo){
+    private fun takePicture(info: ExpressPackInfo) {
 
         val camera = helper.cameraManager.openCamera.camera
         camera.startPreview()
 
-        camera.takePicture(null, null, object : Camera.PictureCallback{
+        camera.takePicture(null, null, object : Camera.PictureCallback {
             override fun onPictureTaken(data: ByteArray?, camera: Camera?) {
                 barCodeSanRepeatTime = 0
 
                 scope.launch {
-                    val file = withContext(Dispatchers.IO){
+                    val file = withContext(Dispatchers.IO) {
                         val shCameraHelp = SHCameraHelp()
-                        shCameraHelp.saveImage(rl_title.context, "out_"+info.number, data)
+                        shCameraHelp.saveImage(rl_title.context, "out_" + info.number, data)
                     }
 
                     info.localFile = file
 
                     XPopup.Builder(activity)
                             .autoOpenSoftInput(true)
-                            .setPopupCallback(object : SimpleCallback(){
+                            .setPopupCallback(object : SimpleCallback() {
                                 override fun onDismiss() {
                                     super.onDismiss()
                                     restartScan()
@@ -233,8 +236,7 @@ class ScanPickOutActivity : CaptureActivity() {
     }
 
 
-
-    private fun restartScan(){
+    private fun restartScan() {
         currentBarCode = ""
         barCodeSanRepeatTime = 0
         val camera = helper.cameraManager?.openCamera?.camera
@@ -243,17 +245,17 @@ class ScanPickOutActivity : CaptureActivity() {
     }
 
 
-    inner class SubmitPopView(context: Context, var info : ExpressPackInfo?) : CenterPopupView(context) {
+    inner class SubmitPopView(context: Context, var info: ExpressPackInfo?) : CenterPopupView(context) {
         override fun getImplLayoutId(): Int {
             return R.layout.dialog_pack_pick_out
         }
 
         override fun onCreate() {
-            if(info == null){
+            if (info == null) {
                 findViewById<View>(R.id.cl_pack_none).visibility = View.VISIBLE
                 findViewById<View>(R.id.cl_pack_submit).visibility = View.GONE
-                findViewById<View>(R.id.tv_pack_close).setOnClickListener { dismiss()}
-            }else{
+                findViewById<View>(R.id.tv_pack_close).setOnClickListener { dismiss() }
+            } else {
                 findViewById<View>(R.id.cl_pack_none).visibility = View.GONE
                 findViewById<View>(R.id.cl_pack_submit).visibility = View.VISIBLE
                 showInfo()
@@ -262,26 +264,27 @@ class ScanPickOutActivity : CaptureActivity() {
         }
 
         @SuppressLint("SetTextI18n")
-        private fun showInfo(){
+        private fun showInfo() {
             findViewById<TextView>(R.id.tv_pack_company_name).text = "${info!!.expressName}："
             findViewById<TextView>(R.id.tv_pack_barcode).text = info!!.number
             findViewById<TextView>(R.id.tv_pack_phone).text = info!!.mobile
             findViewById<TextView>(R.id.tv_pack_pickcode).text = info!!.code
-            findViewById<View>(R.id.tv_cancel).setOnClickListener {  dismiss() }
+            findViewById<View>(R.id.tv_cancel).setOnClickListener { dismiss() }
             findViewById<View>(R.id.tv_submit).setOnClickListener { httpPickOut(info!!) }
         }
 
 
-
-        private fun httpPickOut(info : ExpressPackInfo){
+        private fun httpPickOut(info: ExpressPackInfo) {
             scope.launch {
                 LoadDialogUtils.showLoadingDialog(activity)
                 val stationId = DbUserUtil.getStationId()
                 val results = ApiStorage.outPackage(stationId, info.number, File(info.localFile))
 
-                when(results){
+                when (results) {
                     is KResults.Success -> {
                         ToastUtil.showShort("出库成功")
+                        httpSearchSameInfo(stationId, info)
+
                     }
 
                     is KResults.Failure -> {
@@ -291,40 +294,57 @@ class ScanPickOutActivity : CaptureActivity() {
                     }
                 }
 
-                httpSearchSameInfo(stationId, info.mobile)
 
                 RxFileTool.deleteFile(info.localFile)
 
                 dismiss()
-
-
-
             }
-        }
 
 
-        private fun httpSearchSameInfo(stationId: String, phone : String){
-            scope.launch {
-                val results = ApiStorage.searchSameMobileExpressInfo(stationId, phone)
-                LoadDialogUtils.cannelLoadingDialog()
-                when(results) {
-                    is KResults.Success -> {
-
-                        val data = results.data
-                        if (data.isNotEmpty()) {
-                            PickOutShowSameActivity.openActivity(activity, ExpressPackInfoList(data))
-                        }
-                    }
-                    is KResults.Failure -> {
-                        // ToastUtil.showLong(results.error.message)
-                    }
-                }
-            }
         }
 
     }
 
+    private fun httpSearchSameInfo(stationId: String, info: ExpressPackInfo) {
+        scope.launch {
 
+            val defSearch = async {
+                ApiStorage.searchSameMobileExpressInfo(stationId, info.mobile)
+            }
+
+            val defWx = async {
+                ApiStorage.wxOfficeSubscribe(stationId, info.pieId)
+            }
+
+            val results = defSearch.await()
+            val wxResult = defWx.await()
+
+            LoadDialogUtils.cannelLoadingDialog()
+
+
+            var wxState = when (wxResult) {
+                is KResults.Success -> {
+                    wxResult.data
+                }
+                is KResults.Failure -> {
+                    null
+                }
+            }
+
+            val infoList = when (results) {
+                is KResults.Success -> {
+                    val data = results.data
+                    ExpressPackInfoList(data)
+                }
+                is KResults.Failure -> {
+                    ExpressPackInfoList(ArrayList())
+                }
+            }
+
+            PickOutShowSameActivity.openActivity(activity, infoList, wxState)
+
+        }
+    }
 
 
 }

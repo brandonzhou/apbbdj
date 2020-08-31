@@ -6,6 +6,7 @@ import com.shshcom.module_base.network.ServiceCreator
 import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.storage.http.bean.ExpressCompany
 import com.shshcom.station.storage.http.bean.ExpressPackInfo
+import com.shshcom.station.storage.http.bean.WxOfficeSubscribeState
 import com.shshcom.station.util.ApiSignatureUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -103,6 +104,16 @@ object ApiStorage : KNetwork() {
             map["mobile"] = mobile
             ApiSignatureUtil.addSignature(map)
             service.searchSameMobileExpressInfo(map).await()
+        }
+    }
+
+    suspend fun wxOfficeSubscribe(stationId: String, eId: Int): KResults<WxOfficeSubscribeState> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = stationId
+            map["pie_id"] = eId
+            ApiSignatureUtil.addSignature(map)
+            service.wxOfficeSubscribe(map).await()
         }
     }
 

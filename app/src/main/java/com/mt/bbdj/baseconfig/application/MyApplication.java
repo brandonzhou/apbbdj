@@ -15,6 +15,7 @@ import com.mt.bbdj.baseconfig.utls.RxTool;
 import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
 import com.mt.bbdj.baseconfig.utls.SoundHelper;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
+import com.shshcom.module_base.utils.Utils;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
@@ -44,7 +45,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-
+        Utils.INSTANCE.init(this);
         //初始化数据存储
         initDatabase();
 
@@ -69,6 +70,8 @@ public class MyApplication extends Application {
         if(BuildConfig.DEBUG){
             initDebug();
         }
+
+
     }
 
     private void initSettingPush() {

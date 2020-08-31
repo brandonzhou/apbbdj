@@ -3,6 +3,7 @@ package com.shshcom.station.storage.http
 import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.storage.http.bean.ExpressCompany
 import com.shshcom.station.storage.http.bean.ExpressPackInfo
+import com.shshcom.station.storage.http.bean.WxOfficeSubscribeState
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -51,6 +52,14 @@ interface StorageService {
     @FormUrlEncoded
     @POST("https://meng.81dja.com:5443/express/station/searchSameMobileExpressInfo")
     fun searchSameMobileExpressInfo(@FieldMap fields: Map<String, Any>): Call<BaseResult<List<ExpressPackInfo>>>
+
+    /**
+     * 通过运单号，查询 公众号关注状态
+     */
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("https://express.81dja.com:5443/express/Pieoutpack/pirStatNum")
+    fun wxOfficeSubscribe(@FieldMap fields: Map<String, Any>): Call<BaseResult<WxOfficeSubscribeState>>
 
 
     /**
