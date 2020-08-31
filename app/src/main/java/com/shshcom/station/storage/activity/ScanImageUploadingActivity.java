@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.ScanImage;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
+import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.shshcom.station.storage.domain.ScanStorageCase;
 
 import java.util.List;
@@ -86,7 +87,7 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
             imageView.setVisibility(View.INVISIBLE);
 
             tv_btn_upload.setText("下一步…");
-            tv_btn_upload.setOnClickListener(v -> ScanOcrResultActivity.openActivity(this));
+            tv_btn_upload.setOnClickListener(v -> ToastUtil.showShort("请等待上传成功后，重试"));
             return;
         }
 
