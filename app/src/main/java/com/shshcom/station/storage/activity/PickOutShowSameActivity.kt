@@ -3,7 +3,6 @@ package com.shshcom.station.storage.activity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,9 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import cn.ycbjie.ycstatusbarlib.StatusBarUtils
 import cn.ycbjie.ycstatusbarlib.bar.YCAppBar
-import com.king.zxing.util.CodeUtils
+import com.bumptech.glide.Glide
 import com.mt.bbdj.R
-import com.shshcom.module_base.utils.DensityUtils
 import com.shshcom.station.storage.http.bean.ExpressPackInfo
 import com.shshcom.station.storage.http.bean.ExpressPackInfoList
 import com.shshcom.station.storage.http.bean.WxOfficeSubscribeState
@@ -69,20 +67,14 @@ class PickOutShowSameActivity : AppCompatActivity() {
         if (state == 1) {
             tv_wx_state.text = "已绑定公众号"
         } else {
-            ll_wx_qr.visibility = View.VISIBLE
             tv_wx_state.text = "未绑定公众号"
+            if (subscribeState.qrcode.isEmpty()) {
+                return
+            }
+            ll_wx_qr.visibility = View.VISIBLE
             tv_wx_state.setTextColor(tv_wx_state.resources.getColor(R.color.text_red))
 
-            val code = subscribeState.qrcode.replace("\\", "")
-            Thread(Runnable {
-
-                //生成二维码相关放在子线程里面
-                val bitmap: Bitmap = CodeUtils.createQRCode(code, DensityUtils.dp2px(100f))
-                runOnUiThread {
-                    //显示二维码
-                    iv_wx_qr.setImageBitmap(bitmap)
-                }
-            }).start()
+            Glide.with(this).load(subscribeState.qrcode).into(iv_wx_qr);
         }
 
     }
