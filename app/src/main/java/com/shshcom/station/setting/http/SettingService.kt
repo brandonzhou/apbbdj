@@ -1,5 +1,6 @@
 package com.shshcom.station.setting.http
 
+import com.shshcom.config.meng
 import com.shshcom.station.setting.http.bean.AutoUrgeData
 import com.shshcom.station.setting.http.bean.CompanySettingData
 import com.shshcom.station.setting.http.bean.CustomSMSTemplateData
@@ -20,7 +21,7 @@ interface SettingService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com:5443/express/station/getPackageUrgeSetting")
+    @POST("$meng/express/station/getPackageUrgeSetting")
     fun getPackageUrgeSetting(@FieldMap fields: Map<String, Any>): Call<BaseResult<AutoUrgeData>>
 
     /**
@@ -29,7 +30,7 @@ interface SettingService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com:5443/express/station/setPackageUrgeSetting")
+    @POST("$meng/express/station/setPackageUrgeSetting")
     fun setPackageUrgeSetting(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
 
 
@@ -39,7 +40,7 @@ interface SettingService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com:5443/express/station/brandManagement")
+    @POST("$meng/express/station/brandManagement")
     fun getBrandManagement(@FieldMap fields: Map<String, Any>): Call<BaseResult<List<CompanySettingData>>>
 
     /**
@@ -48,7 +49,7 @@ interface SettingService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com:5443/express/station/saveBrandManagement")
+    @POST("$meng/express/station/saveBrandManagement")
     fun saveBrandManagement(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
 
     /**
@@ -56,7 +57,7 @@ interface SettingService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com:5443/express/station/customSMSTemplate")
+    @POST("$meng/express/station/customSMSTemplate")
     fun getCustomSMSTemplate(@FieldMap fields: Map<String, Any>): Call<BaseResult<CustomSMSTemplateData>>
 
     /**
@@ -64,6 +65,6 @@ interface SettingService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com:5443/express/station/saveCustomSMSTemplate")
+    @POST("$meng/express/station/saveCustomSMSTemplate")
     fun saveCustomSMSTemplate(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
 }

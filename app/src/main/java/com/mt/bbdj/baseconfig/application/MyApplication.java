@@ -132,9 +132,9 @@ public class MyApplication extends Application {
         // 如果你需要自定义配置：
         InitializationConfig config = InitializationConfig.newBuilder(this)
                 // 全局连接服务器超时时间，单位毫秒，默认10s。
-                .connectionTimeout(10 * 1000)
+                .connectionTimeout(15 * 1000)
                 // 全局等待服务器响应超时时间，单位毫秒，默认10s。
-                .readTimeout(10 * 1000)
+                .readTimeout(20 * 1000)
                 // 配置缓存，默认保存数据库DBCacheStore，保存到SD卡使用DiskCacheStore。
                 .cacheStore(
                         // 如果不使用缓存，setEnable(false)禁用。

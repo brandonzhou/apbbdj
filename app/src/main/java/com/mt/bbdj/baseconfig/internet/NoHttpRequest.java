@@ -81,7 +81,7 @@ public class NoHttpRequest {
         params.put("express_id",express_id);
         String signature = StringUtil.getsignature(params);
         BasicBinary fileBinary = new FileBinary(new File(filePath));
-        Request<String> request = NoHttp.createStringRequest("https://qrcode.taowangzhan.com/bbapi/Submit/stationUploadExpressImg", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/bbapi/Submit/stationUploadExpressImg", RequestMethod.POST);
         request.add("station_id", station_id);
         request.add("file", fileBinary);
         request.add("uuid", uuid);
@@ -2287,7 +2287,7 @@ public class NoHttpRequest {
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
         String signature = StringUtil.getSignatureString(timeStamp, randomStr, encryption);
-        Request<String> request = NoHttp.createStringRequest("https://www.81dja.com/Payment/WeChatPay", RequestMethod.GET);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_station + "/Payment/WeChatPay", RequestMethod.GET);
         request.add("method", InterApi.ACTION_CANNEL_ORDER_REQUEST);
         request.add("signature", signature);
         request.add("timeStamp", timeStamp);     //时间戳
@@ -2304,24 +2304,7 @@ public class NoHttpRequest {
         String randomStr = StringUtil.getRandomNumberString(7);
         String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
         String signature = StringUtil.getSignatureString(timeStamp, randomStr, encryption);
-        Request<String> request = NoHttp.createStringRequest("https://www.81dja.com/Payment/AliPay", RequestMethod.GET);
-        request.add("method", InterApi.ACTION_CANNEL_ORDER_REQUEST);
-        request.add("signature", signature);
-        request.add("timeStamp", timeStamp);     //时间戳
-        request.add("randomStr", randomStr);     //随机值
-        request.add("Encryption", encryption);    //加密值
-        request.add("user_id", user_id);
-        request.add("money", money);
-        return request;
-    }
-
-    //微信支付请求接口
-    public static Request<String> getAliaPayforRequest(String user_id, String money) {
-        String timeStamp = DateUtil.getCurrentTimeStamp();
-        String randomStr = StringUtil.getRandomNumberString(7);
-        String encryption = StringUtil.splitStringFromLast(timeStamp, 4);
-        String signature = StringUtil.getSignatureString(timeStamp, randomStr, encryption);
-        Request<String> request = NoHttp.createStringRequest("http://www.81dja.com/Payment/WeChatPay", RequestMethod.GET);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_station + "/Payment/AliPay", RequestMethod.GET);
         request.add("method", InterApi.ACTION_CANNEL_ORDER_REQUEST);
         request.add("signature", signature);
         request.add("timeStamp", timeStamp);     //时间戳
@@ -4009,7 +3992,7 @@ public class NoHttpRequest {
      */
     public static Request<String> commitDataRequest(HashMap<String,String> parms) {
         String signature = StringUtil.getsignature(parms);
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER+"station/Stationexpress/savePieinfo", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/station/Stationexpress/savePieinfo", RequestMethod.POST);
         request.add("signature", signature);
         request.add("pie_id", parms.get("pie_id"));
         request.add("mobile", parms.get("mobile"));
@@ -4026,7 +4009,7 @@ public class NoHttpRequest {
      */
     public static Request<String> delFailureEnterData(HashMap<String,String> parms) {
         String signature = StringUtil.getsignature(parms);
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER+"station/Stationexpress/delPieinfo", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/station/Stationexpress/delPieinfo", RequestMethod.POST);
         request.add("signature", signature);
         request.add("station_id", parms.get("station_id"));
         request.add("pie_id", parms.get("pie_id"));
@@ -4040,7 +4023,7 @@ public class NoHttpRequest {
      */
     public static Request<String> getFailureEnterData(HashMap<String,String> parms) {
         String signature = StringUtil.getsignature(parms);
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER+"station/Stationexpress/pieFailRecord", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/station/Stationexpress/pieFailRecord", RequestMethod.POST);
         request.add("signature", signature);
         request.add("station_id", parms.get("station_id"));
         request.add("page", parms.get("page"));
@@ -4054,7 +4037,7 @@ public class NoHttpRequest {
      */
     public static Request<String> getEnterStateData(HashMap<String,String> parms) {
         String signature = StringUtil.getsignature(parms);
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER+"station/Stationexpress/indexData", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/station/Stationexpress/indexData", RequestMethod.POST);
         request.add("signature", signature);
         request.add("station_id", parms.get("station_id"));
         return request;
@@ -4064,7 +4047,7 @@ public class NoHttpRequest {
      * 确认入库
      */
     public static Request<String> comfirmEnterRequest(String signature, Map<String, String> params) {
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER + "/bbapi/Submit/stationUploadExpressImg2", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/bbapi/Submit/stationUploadExpressImg2", RequestMethod.POST);
         request.add("signature", signature);
         request.add("uuid", params.get("uuid"));
         request.add("number", params.get("number"));
@@ -4083,7 +4066,7 @@ public class NoHttpRequest {
     public static Request<String> commitExpressPictureRequest(Map<String,String> params,String file) {
         String signature = StringUtil.getsignature2(params);
         BasicBinary fileBinary = new FileBinary(new File(file));
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER + "bbapi/Submit/stationUploadExpressImg2", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/bbapi/Submit/stationUploadExpressImg2", RequestMethod.POST);
         request.add("signature", signature);
         request.add("file", fileBinary);
         request.add("uuid", params.get("uuid"));
@@ -4098,7 +4081,7 @@ public class NoHttpRequest {
      */
     public static Request<String> getCurrentData(HashMap<String, String> parms) {
         String signature = StringUtil.getsignature2(parms);
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER + "bbapi/Submit/getStationLastPie", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/bbapi/Submit/getStationLastPie", RequestMethod.POST);
         request.add("signature", signature);
         request.add("station_id", parms.get("station_id"));
         request.add("uuid", parms.get("uuid"));
@@ -4112,7 +4095,7 @@ public class NoHttpRequest {
      */
     public static Request<String> getEnterDateDetail(HashMap<String, String> parms) {
         String signature = StringUtil.getsignature2(parms);
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER  + "bbapi/Submit/getStationDataList", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/bbapi/Submit/getStationDataList", RequestMethod.POST);
         request.add("signature", signature);
         request.add("station_id", parms.get("station_id"));
         request.add("type", parms.get("type"));
@@ -4125,7 +4108,7 @@ public class NoHttpRequest {
      */
     public static Request<String> commitChange(Map<String, String> params) {
         String signature = StringUtil.getsignature2(params);
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER + "/bbapi/Submit/stationUpdatePie", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/bbapi/Submit/stationUpdatePie", RequestMethod.POST);
         request.add("signature", signature);
         request.add("uuid", params.get("uuid"));
         request.add("station_id", params.get("station_id"));
@@ -4144,7 +4127,7 @@ public class NoHttpRequest {
      */
     public static Request<String> expressDetail(HashMap<String, String> parms) {
         String signature = StringUtil.getsignature2(parms);
-        Request<String> request = NoHttp.createStringRequest(InterApi.BASE_URL_ENTER  + "bbapi/Submit/showPie", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_qrcode + "/bbapi/Submit/showPie", RequestMethod.POST);
         request.add("signature", signature);
         request.add("pie_id", parms.get("pie_id"));
         request.add("uuid", parms.get("uuid"));
@@ -4152,15 +4135,16 @@ public class NoHttpRequest {
     }
 
     /**
-     * 快递详情
-     *
+     * 检查更新
+     * <p>
      * user_id	Integer	是	驿站 id	12
      * app_type	Integer	是	应用类型	1-驿站 2-快递员
      * number	String	是	版本号	1.0.23 (1.0.25 版本已下为强制更新,以上为不强制)
+     *
      * @return
      */
     public static Request<String> checkVersion(String stationId, String versionNumber) {
-        Request<String> request = NoHttp.createStringRequest("https://www.81dja.com:5443/Merchant/IndexApi/checkVersion", RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(InterApi.url_station + "/Merchant/IndexApi/checkVersion", RequestMethod.POST);
         HashMap<String, Object> map = new HashMap<>();
         map.put("user_id", stationId);
         map.put("app_type", 1);

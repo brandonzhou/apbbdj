@@ -9,34 +9,36 @@ public class InterApi {
     /**
      * 服务器地址/
      */
-    // public static final String SERVER_ADDRESS = "http://www.81dja.com/BbdjApi/";
-    public static final String BASE_URL = "https://www.81dja.com:5443/";
-    public static final String BASE_URL_EXPRESS = "https://meng.81dja.com:5443/";
-    public static final String BASE_URL_ENTER = "https://qrcode.taowangzhan.com:5443/";
-    public static final String BASE_URL_OBSERVICE = "https://express.81dja.com:5443/";
-    // public static final String BASE_URL = "http://cs.81bb.cn";
-    public static final String SERVER_ADDRESS = BASE_URL + "/BbdjApi/";
-    //public static final String SERVER_ADDRESS_ENTER = "http://www.81dja.com/Pie/";
-    public static final String SERVER_ADDRESS_ENTER = BASE_URL + "/Pie/";
-    public static final String SERVER_HANDLE = BASE_URL + "/StationApi/";
-    public static final String SERVER_ORDER = BASE_URL + "/ServiceOrders/";
-    public static final String SERVER_URL_3 = BASE_URL + "/TakeApi/";
+    public static final String _base_url = "https://express.shshcom.com:5443";
+    public static final String url_station = _base_url + "/station_v1";//
+
+    public static final String url_meng = _base_url + "/meng";
+
+    public static final String url_qrcode = _base_url + "/qrcode";
+    public static final String url_jijian_v1 = _base_url + "/jijian_v1";
+    public static final String url_shop = _base_url + "/shop";
+
+
+    public static final String SERVER_ADDRESS = url_station + "/BbdjApi/";
+
+    public static final String SERVER_ADDRESS_ENTER = url_station + "/Pie/";
+    public static final String SERVER_HANDLE = url_station + "/StationApi/";
+    public static final String SERVER_ORDER = url_station + "/ServiceOrders/";
+    public static final String SERVER_URL_3 = url_station + "/TakeApi/";
     //门店
-    public static final String BASE_URL_SHOP = "https://shop.81dja.com:5443";
 
-    public static final String SERVICE_SHOP = BASE_URL_SHOP + "/Take/AppV1/";
-    public static final String SERVICE_SHOP_1 = BASE_URL_SHOP + "/Take/AppV2/";
-    public static final String SERVICE_NEW = BASE_URL + "/Merchant/PublicApi/";
-    public static final String SERVICE_NEW_1 = BASE_URL + "/Merchant/IndexApi/";
-    public static final String SERVICE_NEW_3 = BASE_URL + "/Merchant/UserApi/";
-    public static final String SERVICE_NEW_4 = BASE_URL_EXPRESS + "Express/Express/";
-    public static final String SERVICE_NEW_5 = BASE_URL_EXPRESS + "Express/Warehousing/";
-    public static final String SERVICE_NEW_6 = BASE_URL_EXPRESS + "Express/Station/";
-    public static final String SERVICE_NEW_7 = BASE_URL_OBSERVICE + "express/Pieoutpack/";
-    public static final String SERVICE_NEW_9 = BASE_URL_EXPRESS + "express/Warehousing/";
+    public static final String SERVICE_SHOP = url_shop + "/Take/AppV1/";
+    public static final String SERVICE_SHOP_1 = url_shop + "/Take/AppV2/";
+    public static final String SERVICE_NEW = url_station + "/Merchant/PublicApi/";
+    public static final String SERVICE_NEW_1 = url_station + "/Merchant/IndexApi/";
+    public static final String SERVICE_NEW_3 = url_station + "/Merchant/UserApi/";
 
-    // public static final String SERVER_ADDRESS = "http://yanshi.81dja.com/BbdjApi/";
-    // public static final String SERVER_ADDRESS = "http://www.81dja.com/BbdjApi/";
+    public static final String SERVICE_NEW_4 = url_meng + "/Express/Express/";
+    public static final String SERVICE_NEW_5 = url_meng + "/Express/Warehousing/";
+    public static final String SERVICE_NEW_6 = url_meng + "/Express/Station/";
+    public static final String SERVICE_NEW_7 = url_jijian_v1 + "/express/Pieoutpack/";
+    public static final String SERVICE_NEW_9 = url_meng + "/express/Warehousing/";
+
 
     /**
      * 获取验证码

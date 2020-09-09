@@ -35,7 +35,7 @@ public class HttpLogInterceptor implements Interceptor {
         String responseDetail = getResponseDetail(response);
 
         String detail =
-                "HttpLogInterceptor \n发送请求url：" + response.request().url()
+                "HttpLogInterceptor \n发送请求url：" + request.url()
                         + "\n发送请求 method：" + request.method()
                         + "\n发送请求 body：\n" + reqDetail
                         + "\n收到响应 code:" + response.code()

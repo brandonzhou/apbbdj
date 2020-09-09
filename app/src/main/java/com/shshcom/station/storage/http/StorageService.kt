@@ -1,5 +1,7 @@
 package com.shshcom.station.storage.http
 
+import com.shshcom.config.jijian_v1
+import com.shshcom.config.meng
 import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.storage.http.bean.ExpressCompany
 import com.shshcom.station.storage.http.bean.ExpressPackInfo
@@ -20,7 +22,7 @@ interface StorageService {
 
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com:5443/express/warehousing/getExpressCompany")
+    @POST("$meng/express/warehousing/getExpressCompany")
     fun getExpressCompany(@FieldMap  fields: Map<String, Any>) : Call<BaseResult<List<ExpressCompany>>>
 
 
@@ -29,7 +31,7 @@ interface StorageService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com:5443/express/station/getExpressInfo")
+    @POST("$meng/express/station/getExpressInfo")
     fun getPackageInfo(@FieldMap  fields: Map<String, Any>) : Call<BaseResult<ExpressPackInfo>>
 
     /**
@@ -37,11 +39,11 @@ interface StorageService {
      */
 //    @JvmSuppressWildcards
 //    @Multipart
-//    @POST("https://meng.81dja.com:5443/express/station/barOutWarehouse")
+//    @POST("$meng/express/station/barOutWarehouse")
 //    fun barOutWarehouse(@PartMap queryMap: Map<String, Any>, @Part  file: MultipartBody.Part) : Call<BaseResult<Any>>
 
     @JvmSuppressWildcards
-    @POST("https://meng.81dja.com:5443/express/station/barOutWarehouse")
+    @POST("$meng/express/station/barOutWarehouse")
     fun barOutWarehouse( @Body file: RequestBody) : Call<BaseResult<Any>>
 
 
@@ -50,7 +52,7 @@ interface StorageService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com:5443/express/station/searchSameMobileExpressInfo")
+    @POST("$meng/express/station/searchSameMobileExpressInfo")
     fun searchSameMobileExpressInfo(@FieldMap fields: Map<String, Any>): Call<BaseResult<List<ExpressPackInfo>>>
 
     /**
@@ -58,7 +60,7 @@ interface StorageService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://express.81dja.com:5443/express/Pieoutpack/pirStatNum")
+    @POST("$jijian_v1/express/Pieoutpack/pirStatNum")
     fun wxOfficeSubscribe(@FieldMap fields: Map<String, Any>): Call<BaseResult<WxOfficeSubscribeState>>
 
 
@@ -67,7 +69,7 @@ interface StorageService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://meng.81dja.com:5443/express/station/confirmSubmitWarehouse")
+    @POST("$meng/express/station/confirmSubmitWarehouse")
     fun confirmSubmitWarehouse(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
 
 }
