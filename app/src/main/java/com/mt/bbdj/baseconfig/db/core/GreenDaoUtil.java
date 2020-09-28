@@ -66,11 +66,12 @@ public class GreenDaoUtil {
         dao.insertOrReplaceInTx(scanImageList);
     }
 
-    public static List<ScanImage> listScanImage(ScanImage.State state){
+    public static List<ScanImage> listScanImage(ScanImage.State state, String batchNo) {
         ScanImageDao dao = getDaoSession().getScanImageDao();
 
         return dao.queryBuilder()
-                .where(ScanImageDao.Properties.State.eq(state.name()))
+                .where(ScanImageDao.Properties.State.eq(state.name()),
+                        ScanImageDao.Properties.BatchNo.eq(batchNo))
                 .orderDesc(ScanImageDao.Properties.Time)
                 .list();
     }

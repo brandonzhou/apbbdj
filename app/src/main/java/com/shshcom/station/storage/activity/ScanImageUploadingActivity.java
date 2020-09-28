@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.ScanImage;
@@ -26,12 +28,15 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
     private TextView tv_upload_state;
     private TextView tv_upload_detail;
     private TextView tv_btn_upload;
+    private TextView tv_btn_fail_look;
     private ImageView imageView;
+    private ConstraintLayout cl_root;
+    private ConstraintSet constraintSet = new ConstraintSet();
 
     private ScanStorageCase storageCase;
     private Disposable disposable;
 
-    public static void openActivity(Activity activity){
+    public static void openActivity(Activity activity) {
         Intent intent = new Intent(activity, ScanImageUploadingActivity.class);
         activity.startActivity(intent);
     }
@@ -48,26 +53,41 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        initData();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(disposable!= null){
+        if (disposable != null) {
             disposable.dispose();
         }
     }
 
-    private void initView(){
+    private void initView() {
         tv_upload_state = findViewById(R.id.tv_upload_state);
         tv_upload_detail = findViewById(R.id.tv_upload_detail);
         tv_btn_upload = findViewById(R.id.tv_btn_upload);
+        tv_btn_fail_look = findViewById(R.id.tv_btn_fail_look);
+        cl_root = findViewById(R.id.cl_root);
+
+        constraintSet.clone(cl_root);
+
 
         imageView = findViewById(R.id.imageView);
 
         findViewById(R.id.rl_back).setOnClickListener(v -> finish());
 
+        tv_btn_fail_look.setOnClickListener(v -> {
+            ScanImageFailLocalActivity.Companion.openActivity(this);
+        });
+
     }
 
-    private void refresh(){
-        disposable = Observable.interval(0,2, TimeUnit.SECONDS)
+    private void refresh() {
+        disposable = Observable.interval(0, 2, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     LogUtil.v("zhhli", "initData");
@@ -75,12 +95,13 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
                 });
     }
 
-    private void initData(){
+    private void initData() {
         int successSize = storageCase.getScanImageList(ScanImage.State.upload_success).size();
         int uploadingSize = storageCase.getScanImageList(ScanImage.State.uploading).size();
 
+        constraintSet.setVisibility(R.id.tv_btn_fail_look, ConstraintSet.GONE);
 
-        if(uploadingSize>0){
+        if (uploadingSize > 0) {
             tv_upload_state.setText("上传中…");
             tv_upload_detail.setText(String.format("已上传成功%d张，剩余%d张照片", successSize, uploadingSize));
 
@@ -88,6 +109,7 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
 
             tv_btn_upload.setText("下一步…");
             tv_btn_upload.setOnClickListener(v -> ToastUtil.showShort("请等待上传成功后，重试"));
+            setShow(false);
             return;
         }
 
@@ -95,7 +117,7 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
         disposable.dispose();
         List<ScanImage> failList = storageCase.getScanImageList(ScanImage.State.upload_fail);
 
-        if(failList.isEmpty()){
+        if (failList.isEmpty()) {
             imageView.setVisibility(View.INVISIBLE);
             tv_upload_state.setText("上传完成");
             tv_upload_detail.setText(String.format("已上传成功%d张，剩余0张照片", successSize));
@@ -105,8 +127,10 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
                 ScanOcrResultActivity.openActivity(this);
                 finish();
             });
+            setShow(false);
 
-        }else {
+        } else {
+            setShow(true);
             imageView.setVisibility(View.VISIBLE);
             tv_upload_state.setText("上传失败，请重试…");
             tv_upload_detail.setText(String.format("已上传成功%d张，剩余%d张照片", successSize, failList.size()));
@@ -115,10 +139,20 @@ public class ScanImageUploadingActivity extends AppCompatActivity {
             tv_btn_upload.setText("重试");
             tv_btn_upload.setOnClickListener(v -> {
                 storageCase.retryUploadImage(failList);
+
                 refresh();
+                setShow(false);
+
             });
+
+
         }
 
 
+    }
+
+    private void setShow(boolean show) {
+        constraintSet.setVisibility(R.id.tv_btn_fail_look, show ? ConstraintSet.VISIBLE : ConstraintSet.GONE);
+        constraintSet.applyTo(cl_root);
     }
 }

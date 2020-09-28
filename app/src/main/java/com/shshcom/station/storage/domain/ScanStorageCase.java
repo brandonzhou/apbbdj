@@ -102,7 +102,7 @@ public class ScanStorageCase {
 
 
     public List<ScanImage> getScanImageList(ScanImage.State state){
-        return GreenDaoUtil.listScanImage(state);
+        return GreenDaoUtil.listScanImage(state, getBatchNo());
     }
 
     public boolean isAllImageUploaded(){
@@ -249,12 +249,14 @@ public class ScanStorageCase {
 
     }
 
-    private BaseResult uploadImage(ScanImage image){
+    private BaseResult uploadImage(ScanImage image) {
         Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image);
         //Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
+        request.setConnectTimeout(3 * 1000);
+        request.setReadTimeout(3 * 1000);
         Response<String> response = NoHttp.startRequestSync(request);
 
-        if(response.isSucceed()){
+        if (response.isSucceed()) {
             String data = response.get();
             LogUtil.d("nohttp_", data);
             BaseResult result = JSONObject.parseObject(data, BaseResult.class);
@@ -267,11 +269,13 @@ public class ScanStorageCase {
 
     }
 
-    private BaseResult stationInputUploadExpress(ScanImage image){
+    private BaseResult stationInputUploadExpress(ScanImage image) {
         Request<String> request = ApiStorageRequest.stationInputUploadExpress(image);
+        request.setConnectTimeout(30 * 1000);
+        request.setReadTimeout(30 * 1000);
         Response<String> response = NoHttp.startRequestSync(request);
 
-        if(response.isSucceed()){
+        if (response.isSucceed()) {
             String data = response.get();
             LogUtil.d("nohttp_", data);
             BaseResult result = JSONObject.parseObject(data, BaseResult.class);

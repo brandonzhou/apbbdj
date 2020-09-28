@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:background="@color/white">
+
+    <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+            android:id="@+id/_tvPackId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/text_main"
+            android:textSize="@dimen/text_size_14"
+            app:layout_constraintStart_toEndOf="@+id/imageView10"
+            app:layout_constraintTop_toTopOf="@+id/imageView10"
+            tools:text="ZT660845188539" />
+
+    <TextView
+            android:id="@+id/tvPackPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/text_grey_6"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintStart_toStartOf="@+id/_tvPackId"
+            app:layout_constraintTop_toBottomOf="@+id/_tvPackId"
+            tools:text="手机号：18511462203" />
+
+    <TextView
+            android:id="@+id/tvPickcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/text_grey_6"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintBottom_toTopOf="@+id/tvBatchNo"
+            app:layout_constraintStart_toStartOf="@+id/_tvPackId"
+            app:layout_constraintTop_toBottomOf="@+id/tvPackPhone"
+            tools:text="取件码：299296" />
+
+    <TextView
+            android:id="@+id/tvBatchNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_grey_6"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+            app:layout_constraintStart_toStartOf="@+id/_tvPackId"
+            tools:text="批次号：123" />
+
+
+    <TextView
+            android:id="@+id/tvPackTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:textColor="@color/text_grey_6"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintBottom_toBottomOf="@+id/tvBatchNo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvBatchNo"
+            tools:text="2020.06.07 20:32出库" />
+
+
+    <TextView
+            android:id="@+id/tvPackDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:minWidth="60dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="center"
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/bg_red_r11"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/white"
+            android:text="删 除" />
+</androidx.constraintlayout.widget.ConstraintLayout>
