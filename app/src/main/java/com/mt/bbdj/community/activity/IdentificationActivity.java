@@ -9,13 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
-
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -28,6 +21,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
@@ -35,7 +32,6 @@ import com.baidu.ocr.sdk.model.IDCardParams;
 import com.baidu.ocr.sdk.model.IDCardResult;
 import com.bumptech.glide.Glide;
 import com.mt.bbdj.R;
-
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.gen.DaoSession;
 import com.mt.bbdj.baseconfig.db.gen.UserBaseMessageDao;
@@ -71,7 +67,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.wildma.idcardcamera.camera.CameraActivity.REQUEST_CODE;
-import static com.wildma.idcardcamera.camera.CameraActivity.RESULT_CODE;
 
 
 public class IdentificationActivity extends AppCompatActivity {
@@ -382,7 +377,7 @@ public class IdentificationActivity extends AppCompatActivity {
               tvPersonNumber.setText(personNumber);
             }
           } else {
-            String signDate = result.getIssueAuthority().getWords();
+            //String signDate = result.getIssueAuthority().getWords();
                        /* if ("".equals(signDate)) {
                             ToastUtil.showShort("请拍摄清晰的身份证背面照！");
                             ivAddBack.setVisibility(View.VISIBLE);
