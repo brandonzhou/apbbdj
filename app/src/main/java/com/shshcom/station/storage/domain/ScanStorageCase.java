@@ -252,8 +252,8 @@ public class ScanStorageCase {
     private BaseResult uploadImage(ScanImage image) {
         Request<String> request = ApiStorageRequest.stationUploadExpressImg3(image);
         //Request<String> request = ApiStorageRequest.stationOcrResult(stationId);
-        request.setConnectTimeout(3 * 1000);
-        request.setReadTimeout(3 * 1000);
+        request.setConnectTimeout(30 * 1000);
+        request.setReadTimeout(30 * 1000);
         Response<String> response = NoHttp.startRequestSync(request);
 
         if (response.isSucceed()) {

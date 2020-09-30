@@ -35,7 +35,6 @@ import kotlinx.android.synthetic.main.activity_scan_pick_out.*
 import kotlinx.coroutines.*
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * 扫描出库
@@ -331,17 +330,20 @@ class ScanPickOutActivity : CaptureActivity() {
                 }
             }
 
-            val infoList = when (results) {
+            when (results) {
                 is KResults.Success -> {
                     val data = results.data
-                    ExpressPackInfoList(data)
+                    if (data.isNotEmpty()) {
+                        val infoList = ExpressPackInfoList(data)
+                        PickOutShowSameActivity.openActivity(activity, infoList, wxState)
+                    }
+
                 }
                 is KResults.Failure -> {
-                    ExpressPackInfoList(ArrayList())
+
                 }
             }
 
-            PickOutShowSameActivity.openActivity(activity, infoList, wxState)
 
         }
     }
