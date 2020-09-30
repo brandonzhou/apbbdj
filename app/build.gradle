@@ -32,8 +32,8 @@ android {
         applicationId "com.mt.bbdj"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 13
-        versionName "1.0.34"
+        versionCode 14
+        versionName "1.0.35"
         renderscriptTargetApi 19
         multiDexKeepProguard file("./tinker_multidexkeep.pro")
         renderscriptSupportModeEnabled true
