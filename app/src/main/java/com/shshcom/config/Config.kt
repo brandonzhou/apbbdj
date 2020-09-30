@@ -10,3 +10,4 @@ package com.shshcom.config
 const val qrcode = "/qrcode"
 const val meng = "/meng"
 const val jijian_v1 = "/jijian_v1"
+const val passport = "/passport"

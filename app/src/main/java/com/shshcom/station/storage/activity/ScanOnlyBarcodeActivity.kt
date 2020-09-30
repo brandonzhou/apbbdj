@@ -21,7 +21,8 @@ import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.mt.bbdj.baseconfig.utls.*
 import com.shshcom.module_base.network.KResults
 import com.shshcom.station.storage.http.ApiStorage
-import kotlinx.android.synthetic.main.activity_scan_pick_out.*
+import kotlinx.android.synthetic.main.activity_scan_only_barcode.*
+import kotlinx.android.synthetic.main.activity_scan_pick_out.rl_back
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -56,7 +57,6 @@ class ScanOnlyBarcodeActivity : CaptureActivity() {
 
     private var currentBarCode: String = ""
 
-    private var barCodeSanRepeatTime = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         YCAppBar.setStatusBarLightMode(this, Color.WHITE)
@@ -127,19 +127,19 @@ class ScanOnlyBarcodeActivity : CaptureActivity() {
             return true
         }
 
-//        if (barCodeSanRepeatTime < 3) {
-//            barCodeSanRepeatTime++
-//            helper.restartPreviewAndDecode()
-//            return true
-//        }
 
         if (result == currentBarCode) {
-            helper.restartPreviewAndDecode()
+            SoundHelper.getInstance().playNotifiRepeatSound()
+            rl_back.postDelayed({
+                if (rl_back != null) {
+                    helper.restartPreviewAndDecode()
+                }
+            }, 1000)
             return true
         }
 
-        barCodeSanRepeatTime = 0
         currentBarCode = result!!
+        tv_bar_code.text = currentBarCode
 
         httpInfo(currentBarCode)
 
@@ -158,10 +158,15 @@ class ScanOnlyBarcodeActivity : CaptureActivity() {
             when (results) {
                 is KResults.Success -> {
                     SoundHelper.getInstance().scanInSuccess(activity)
-                    restartScan()
+                    rl_back.postDelayed({
+                        if (rl_back != null) {
+                            helper.restartPreviewAndDecode()
+                        }
+                    }, 1500)
                 }
                 is KResults.Failure -> {
                     SoundHelper.getInstance().scanInFail(activity)
+
                     showErrorDialog(results.error.message)
 
                 }
@@ -173,14 +178,13 @@ class ScanOnlyBarcodeActivity : CaptureActivity() {
         XPopup.Builder(activity).setPopupCallback(object : SimpleCallback() {
             override fun onDismiss() {
                 super.onDismiss()
-                restartScan()
+                helper.restartPreviewAndDecode()
+
             }
         }).asConfirm("提示", message) { }.show()
     }
 
     private fun restartScan() {
-        currentBarCode = ""
-        barCodeSanRepeatTime = 0
         val camera = helper.cameraManager?.openCamera?.camera
         camera?.startPreview()
         helper.restartPreviewAndDecode()

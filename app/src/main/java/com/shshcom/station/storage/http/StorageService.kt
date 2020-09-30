@@ -2,6 +2,7 @@ package com.shshcom.station.storage.http
 
 import com.shshcom.config.jijian_v1
 import com.shshcom.config.meng
+import com.shshcom.config.passport
 import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.storage.http.bean.ExpressCompany
 import com.shshcom.station.storage.http.bean.ExpressPackInfo
@@ -66,6 +67,7 @@ interface StorageService {
 
     /**
      * 14.延时发送短信-确认提交入库
+     * http://task.shkjplus.cn:8100/T777
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
@@ -78,7 +80,7 @@ interface StorageService {
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
-    @POST("https://passport.81dja.com:5443/user/Station/importWaybillNumberApp")
+    @POST("$passport/user/Station/importWaybillNumberApp")
     fun importWaybillNumberApp(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
 
 }
