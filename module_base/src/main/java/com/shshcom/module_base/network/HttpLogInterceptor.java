@@ -125,11 +125,17 @@ public class HttpLogInterceptor implements Interceptor {
             int numStart = index + 2;
             int numFinish = numStart + 4;
             String substring = working.substring(numStart, numFinish);
-            int number = Integer.parseInt(substring, 16);
             String stringStart = working.substring(0, index);
             String stringEnd = working.substring(numFinish);
-            working = stringStart + ((char) number) + stringEnd;
-            index = working.indexOf("\\u");
+            try {
+                int number = Integer.parseInt(substring, 16);
+                working = stringStart + ((char) number) + stringEnd;
+                index = working.indexOf("\\u");
+            } catch (Exception e) {
+                index = working.indexOf("\\u", numFinish);
+            }
+
+
         }
         return working.replace("\\", "");
     }

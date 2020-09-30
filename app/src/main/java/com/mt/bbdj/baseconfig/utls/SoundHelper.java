@@ -29,16 +29,18 @@ public class SoundHelper {
     private int take_again;
     private int take_code_again;
     private int take_linear_again;
-    private int express_baishi   ;
-    private int express_debang   ;
-    private int express_ems      ;
-    private int express_jd       ;
-    private int express_jitu     ;
-    private int express_shentong ;
-    private int express_shunfeng ;
-    private int express_tiantian ;
-    private int express_yousu    ;
-    private int express_youzheng ;
+    private int scan_in_success;
+    private int scan_in_fail;
+    private int express_baishi;
+    private int express_debang;
+    private int express_ems;
+    private int express_jd;
+    private int express_jitu;
+    private int express_shentong;
+    private int express_shunfeng;
+    private int express_tiantian;
+    private int express_yousu;
+    private int express_youzheng;
     private int express_yuantong ;
     private int express_yunda    ;
     private int express_zhongtong;
@@ -70,15 +72,16 @@ public class SoundHelper {
         take_code_again = soundPool.load(context, R.raw.ic_code, 1);
         take_linear_again = soundPool.load(context, R.raw.ic_linnera, 1);
 
+        scan_in_success = soundPool.load(context, R.raw.scan_in_success, 1);
+        scan_in_fail = soundPool.load(context, R.raw.scan_in_fail, 1);
 
 
-
-        express_baishi    = soundPool.load(context, R.raw.express_baishi    , 1);
-        express_debang    = soundPool.load(context, R.raw.express_debang    , 1);
-        express_ems       = soundPool.load(context, R.raw.express_ems       , 1);
-        express_jd        = soundPool.load(context, R.raw.express_jd        , 1);
-        express_jitu      = soundPool.load(context, R.raw.express_jitu      , 1);
-        express_shentong  = soundPool.load(context, R.raw.express_shentong  , 1);
+        express_baishi = soundPool.load(context, R.raw.express_baishi, 1);
+        express_debang = soundPool.load(context, R.raw.express_debang, 1);
+        express_ems = soundPool.load(context, R.raw.express_ems, 1);
+        express_jd = soundPool.load(context, R.raw.express_jd, 1);
+        express_jitu = soundPool.load(context, R.raw.express_jitu, 1);
+        express_shentong = soundPool.load(context, R.raw.express_shentong, 1);
         express_shunfeng  = soundPool.load(context, R.raw.express_shunfeng  , 1);
         express_tiantian  = soundPool.load(context, R.raw.express_tiantian  , 1);
         express_yousu     = soundPool.load(context, R.raw.express_yousu     , 1);
@@ -225,14 +228,23 @@ public class SoundHelper {
             case 100109	: // "宅急送"
             case 100111	: // "快捷快递"
             case 100112	: // "安能快递"
-            case 100115	: // "天猫超市"
-            case 100116	: // "其他快递"
-            case 100118	: // "苏宁物流"
+            case 100115: // "天猫超市"
+            case 100116: // "其他快递"
+            case 100118: // "苏宁物流"
             default:
                 playNotifiSuccessSound();
                 break;
 
         }
+    }
+
+    public void scanInSuccess(Context context) {
+
+        soundPool.play(scan_in_success, 1, 1, 10, 0, 1);
+    }
+
+    public void scanInFail(Context context) {
+        soundPool.play(scan_in_fail, 1, 1, 10, 0, 1);
     }
 
 }

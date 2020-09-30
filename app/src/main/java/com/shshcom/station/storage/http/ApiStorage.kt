@@ -132,5 +132,22 @@ object ApiStorage : KNetwork() {
         }
     }
 
+    /**
+     * 驿站APP导入运单号
+     * user_id	String	是	驿站标识	1
+     * number	String	是	运单号	1
+     * express_id	Integer	是	快递公司	默认先填 100107
+     */
+    suspend fun importWaybillNumberApp(stationId: String, barcode: String): KResults<Any> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["user_id"] = stationId
+            map["express_id"] = "100107"
+            map["number"] = barcode
+            ApiSignatureUtil.addSignature(map)
+            service.importWaybillNumberApp(map).await()
+        }
+    }
+
 
 }

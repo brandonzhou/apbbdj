@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.mt.bbdj">
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.mt.bbdj">
 
     <uses-sdk tools:overrideLibrary="cn.jzvd,org.raphets.roundimageview" />
     <!-- android 9.0上使用前台服务，需要添加权限 -->
@@ -42,71 +42,72 @@
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
 
     <application
-        android:name=".baseconfig.application.SophixStubApplication"
-        android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
-        android:label="兵兵驿站"
-        android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@drawable/ic_logo_"
-        android:theme="@style/MainTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:label,theme,icon,allowBackup">
+            android:name=".baseconfig.application.SophixStubApplication"
+            android:allowBackup="false"
+            android:icon="@mipmap/ic_launcher"
+            android:label="兵兵驿站"
+            android:networkSecurityConfig="@xml/network_security_config"
+            android:roundIcon="@drawable/ic_logo_"
+            android:theme="@style/MainTheme"
+            tools:ignore="GoogleAppIndexingWarning"
+            tools:replace="android:label,theme,icon,allowBackup">
+        <activity android:name="com.shshcom.station.storage.activity.ScanOnlyBarcodeActivity"></activity>
         <activity
-            android:name="com.shshcom.station.setting.ui.activity.SmsTempleActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.setting.ui.activity.SmsTempleActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.statistics.ui.NotifyPackListActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.statistics.ui.NotifyPackListActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.setting.ui.activity.company.CompanySettingActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.setting.ui.activity.company.CompanySettingActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.setting.ui.activity.company.CompanyListActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.setting.ui.activity.company.CompanyListActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.setting.ui.activity.AutoUrgeSettingActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.setting.ui.activity.AutoUrgeSettingActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.blockuser.ui.activity.BlockUserSearchActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.blockuser.ui.activity.BlockUserSearchActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.blockuser.ui.activity.BlockUserListActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.blockuser.ui.activity.BlockUserListActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.storage.activity.PickOutShowSameActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.storage.activity.PickOutShowSameActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.storage.activity.ScanPickOutActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.storage.activity.ScanPickOutActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.statistics.ui.PackDetailImageActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.statistics.ui.PackDetailImageActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.statistics.ui.PackDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.statistics.ui.PackDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.statistics.ui.PackStockListActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.statistics.ui.PackStockListActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.statistics.ui.TotalPackStockActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.statistics.ui.TotalPackStockActivity"
+                android:screenOrientation="portrait" />
         <activity android:name="com.shshcom.station.kotlin.KotlinActivity" />
         <activity android:name="com.shshcom.station.storage.activity.DealWithFailThingsActivity" />
         <activity android:name="com.shshcom.station.storage.base.BaseActivity" />
         <activity
-            android:name="com.shshcom.station.storage.activity.SetPickupCodeTypeActivity"
-            android:windowSoftInputMode="stateAlwaysVisible" />
+                android:name="com.shshcom.station.storage.activity.SetPickupCodeTypeActivity"
+                android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
-            android:name="com.shshcom.station.storage.activity.ScanOcrResultActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.storage.activity.ScanOcrResultActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.storage.activity.ScanImageUploadingActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.storage.activity.ScanImageUploadingActivity"
+                android:screenOrientation="portrait" />
         <activity android:name=".community.activity.OutExceptionActivity" />
         <activity android:name=".community.activity.ExpressDetailActivity" />
         <activity
-            android:name=".community.activity.SelectEnterExpressActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SelectEnterExpressActivity"
+                android:screenOrientation="portrait" />
 
         <service android:name=".baseconfig.service.UploadService" />
         <service android:name=".baseconfig.service.MonitorPhoneService" />
@@ -118,180 +119,180 @@
         </receiver>
 
         <activity
-            android:name=".community.activity.PaymentRecordActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PaymentRecordActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.OrderRecordDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.OrderRecordDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.PaymentDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PaymentDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.OrderRecordActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.OrderRecordActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.CameraForRightNowActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.CameraForRightNowActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.FailureEnterActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.FailureEnterActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ChangeExpressMessageActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ChangeExpressMessageActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.EnterDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.EnterDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.CheckPictureDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.CheckPictureDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.TakePictureActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.TakePictureActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.EditCodeActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.EditCodeActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ScannerActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ScannerActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ScannerPrintActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ScannerPrintActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SelectExpressActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SelectExpressActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.MipushTestActivity"
-            android:exported="true"
-            android:launchMode="singleTask" />
+                android:name=".community.activity.MipushTestActivity"
+                android:exported="true"
+                android:launchMode="singleTask" />
         <activity
-            android:name=".community.activity.PrintPannelActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PrintPannelActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.PrintCodeActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PrintCodeActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.PrintLabelSettingActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PrintLabelSettingActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.PrintLabelActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PrintLabelActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.PrintTakeNumberActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PrintTakeNumberActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".baseconfig.utls.camera.CameraActivity"
-            android:screenOrientation="portrait" />
+                android:name=".baseconfig.utls.camera.CameraActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.QCodeScanActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.QCodeScanActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.EnterSelectLocationActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.EnterSelectLocationActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ManualMailingActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ManualMailingActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SaveManagerMoneyActivity"
-            android:screenOrientation="portrait" /> <!-- 适配全面屏 -->
+                android:name=".community.activity.SaveManagerMoneyActivity"
+                android:screenOrientation="portrait" /> <!-- 适配全面屏 -->
         <activity
-            android:name=".community.activity.ScannerOutActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ScannerOutActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SettingActivity"
-            android:screenOrientation="portrait" /> <!-- 适配华为(hua wei)刘海屏 -->
+                android:name=".community.activity.SettingActivity"
+                android:screenOrientation="portrait" /> <!-- 适配华为(hua wei)刘海屏 -->
         <!-- 适配华为（huawei）刘海屏 -->
         <activity
-            android:name=".community.activity.SearchShelvesActivity"
-            android:screenOrientation="portrait" /> <!-- 适配小米（xiaomi）刘海屏 -->
+                android:name=".community.activity.SearchShelvesActivity"
+                android:screenOrientation="portrait" /> <!-- 适配小米（xiaomi）刘海屏 -->
         <activity
-            android:name=".community.activity.SearchShelvesGoodsActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SearchShelvesGoodsActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.AddShelvesAndGoodsActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.AddShelvesAndGoodsActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SearchGoodsActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SearchGoodsActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.AddShelvesActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.AddShelvesActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.MyClientActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.MyClientActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SelectGoodsByStoreActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.SelectGoodsByStoreActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.CouponUseDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.CouponUseDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.CouponForUserActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.CouponForUserActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.CreateCouponActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.CreateCouponActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.CouponActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.CouponActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SetWayMoneyActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SetWayMoneyActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ScanGoodsActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ScanGoodsActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.goodmanage.AddGoodsPriceActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.goodmanage.AddGoodsPriceActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.PrintCodeSettingActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PrintCodeSettingActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.PrintTakeNumber1Activity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PrintTakeNumber1Activity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.BindUserActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.BindUserActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.RecommendUserActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.RecommendUserActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.goodmanage.AddGoodsNameActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.goodmanage.AddGoodsNameActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ShopAddressMapActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ShopAddressMapActivity"
+                android:screenOrientation="portrait" />
         <activity android:name=".community.activity.OperaVideoActivity" />
         <activity
-            android:name=".baseconfig.activity.MainActivity"
-            android:screenOrientation="portrait" />
+                android:name=".baseconfig.activity.MainActivity"
+                android:screenOrientation="portrait" />
         <activity android:name=".baseconfig.base.BaseActivity" />
         <activity
-            android:name=".baseconfig.activity.IdentitySelectActivity"
-            android:screenOrientation="portrait" /> <!-- 设置key -->
+                android:name=".baseconfig.activity.IdentitySelectActivity"
+                android:screenOrientation="portrait" /> <!-- 设置key -->
         <activity
-            android:name=".community.activity.CommunityActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" /> <!-- 定位需要的服务 -->
+                android:name=".community.activity.CommunityActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:launchMode="singleTask"
+                android:screenOrientation="portrait" /> <!-- 定位需要的服务 -->
         <activity
-            android:name=".corporation.activity.CorporationActivity"
-            android:screenOrientation="portrait" />
+                android:name=".corporation.activity.CorporationActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".baseconfig.activity.LoginActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+                android:name=".baseconfig.activity.LoginActivity"
+                android:launchMode="singleTask"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.WaterOrderActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.WaterOrderActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".baseconfig.activity.RegisterAccountActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".baseconfig.activity.RegisterAccountActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".baseconfig.activity.RegisterCompleteActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".baseconfig.activity.RegisterCompleteActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <!--
   <meta-data
             android:name="TINKER_ID"
@@ -299,83 +300,83 @@
         -->
         <!-- 华为推送 -->
         <activity
-            android:name=".baseconfig.activity.RegisterFinishActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".baseconfig.activity.RegisterFinishActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".baseconfig.activity.FindPasswordActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".baseconfig.activity.FindPasswordActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.MatterShopActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.MatterShopActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.yanzhenjie.durban.DurbanActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+                android:name="com.yanzhenjie.durban.DurbanActivity"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:screenOrientation="portrait"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+                android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
-            android:name=".community.activity.MessageAboutActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.MessageAboutActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.MessageRechargePannelActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.MessageRechargePannelActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.RechargeFinishActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.RechargeFinishActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.PannelRechargeActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.PannelRechargeActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.SendResByHandActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.SendResByHandActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.FastmailMessageActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.FastmailMessageActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.ChangeMessageActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.ChangeMessageActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.ExpressageListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.ExpressageListActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.IdentificationActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+                android:name=".community.activity.IdentificationActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".community.activity.SendManagerActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SendManagerActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.MailingdetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.MailingdetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.CauseForcannelOrderActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.CauseForcannelOrderActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.RecordSheetActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.RecordSheetActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.BluetoothSearchActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.BluetoothSearchActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.PrintPreviewActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PrintPreviewActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.RecordSheetDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.RecordSheetDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".baseconfig.activity.LoadActivity"
-            android:screenOrientation="portrait">
+                android:name=".baseconfig.activity.LoadActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -384,135 +385,135 @@
         </activity>
         <activity android:name=".baseconfig.activity.SlideActivity" />
         <activity
-            android:name=".community.activity.BluetoothSearchAgainActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.BluetoothSearchAgainActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.BaseMessageActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.BaseMessageActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.MywalletActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.MywalletActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.WithdrawCashActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.WithdrawCashActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.WithdrawCashRecordActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.WithdrawCashRecordActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ConsumeRecordActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ConsumeRecordActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.BindAccountActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.BindAccountActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SettingCenterActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SettingCenterActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ChangePasswordActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ChangePasswordActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.AboutAppActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.AboutAppActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.MessageManagerdActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.MessageManagerdActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ComplainManagerdActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ComplainManagerdActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SearchPackageActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SearchPackageActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ShowPackageMessageActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ShowPackageMessageActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.GoodsDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.GoodsDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SystemMessageAboutActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SystemMessageAboutActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.WebDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.WebDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ClientManagerActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ClientManagerActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.WaitHandleOrderActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.WaitHandleOrderActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ClientMessageDetail"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ClientMessageDetail"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ClientMessageChangeActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ClientMessageChangeActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.OrderDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.OrderDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.MyOrderActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.MyOrderActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.MyOrderDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.MyOrderDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.MyAddressActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.MyAddressActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.EditAddressActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.EditAddressActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.PayforOrderActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PayforOrderActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.king.zxing.CaptureActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.king.zxing.CaptureActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.EnterManagerActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.EnterManagerActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SendBymeActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SendBymeActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.PayforOrderFromShopingCardActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.PayforOrderFromShopingCardActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ShopCarActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ShopCarActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ChangeManagerdActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ChangeManagerdActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.MoneyFormatManagerActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.MoneyFormatManagerActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.OutManagerActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.OutManagerActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.RepertoryActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.RepertoryActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.RepertoryDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.RepertoryDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.GlobalSearchActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.GlobalSearchActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.RegisterAggreementActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.RegisterAggreementActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.RechargeRecordActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.RechargeRecordActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+                android:name=".wxapi.WXPayEntryActivity"
+                android:exported="true"
+                android:launchMode="singleTop"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.RechargeActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden">
+                android:name=".community.activity.RechargeActivity"
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -522,129 +523,129 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".community.activity.YesterdayPayActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.YesterdayPayActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".baseconfig.activity.LoginByCodeActivity"
-            android:screenOrientation="portrait" />
+                android:name=".baseconfig.activity.LoginByCodeActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.YesterdSendPayActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.YesterdSendPayActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.BluetoothNumberActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.BluetoothNumberActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SignatureActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+                android:name=".community.activity.SignatureActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:screenOrientation="landscape"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name=".community.activity.YesterdPaiActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.YesterdPaiActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.SendByExpressActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.SendByExpressActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.DispatchingTypeActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.DispatchingTypeActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ServiceDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ServiceDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.CompleteServiceActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.CompleteServiceActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.EnterManager_new_Activity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.EnterManager_new_Activity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.goodmanage.GoodsManagerActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.goodmanage.GoodsManagerActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.goodmanage.SelectGoodsPictureActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.goodmanage.SelectGoodsPictureActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.rxfeature.activity.ActivityScanerCode"
-            android:screenOrientation="portrait" />
+                android:name="com.rxfeature.activity.ActivityScanerCode"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.OutManager_new_Activity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.OutManager_new_Activity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.StoreManagerdActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.StoreManagerdActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.RepertoryStoreActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.RepertoryStoreActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ConsumeDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ConsumeDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.OpearteActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.OpearteActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ClearOrderActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ClearOrderActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ClearStateActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ClearStateActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.ClearDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.ClearDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.QuotedPriceActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.QuotedPriceActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.CannelOrderActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.CannelOrderActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.OpearPictureActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.OpearPictureActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name=".community.activity.OpearVideoActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+                android:name=".community.activity.OpearVideoActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name=".community.activity.WaterOrderDetailActivity"
-            android:screenOrientation="portrait" />
+                android:name=".community.activity.WaterOrderDetailActivity"
+                android:screenOrientation="portrait" />
         <activity
-            android:name="com.shshcom.station.storage.activity.ScanStorageActivity"
-            android:screenOrientation="portrait" />
+                android:name="com.shshcom.station.storage.activity.ScanStorageActivity"
+                android:screenOrientation="portrait" />
         <activity android:name="com.shshcom.station.storage.activity.ScanImageFailLocalActivity" />
 
         <meta-data
-            android:name="com.huawei.hms.client.appid"
-            android:value="appid=101289369" />
+                android:name="com.huawei.hms.client.appid"
+                android:value="appid=101289369" />
         <meta-data
-            android:name="android.max_aspect"
-            android:value="2.4" />
+                android:name="android.max_aspect"
+                android:value="2.4" />
         <meta-data
-            android:name="android.notch_support"
-            android:value="true" />
+                android:name="android.notch_support"
+                android:value="true" />
         <meta-data
-            android:name="notch.config"
-            android:value="portrait|landscape" />
+                android:name="notch.config"
+                android:value="portrait|landscape" />
         <meta-data
-            android:name="com.amap.api.v2.apikey"
-            android:value="ad46bd828313c14fdd3f0377bb2dd4b2" />
+                android:name="com.amap.api.v2.apikey"
+                android:value="ad46bd828313c14fdd3f0377bb2dd4b2" />
         <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="efOWqlX3W5wG57G9b6i9awuwrC9fmMCM" />
+                android:name="com.baidu.lbsapi.API_KEY"
+                android:value="efOWqlX3W5wG57G9b6i9awuwrC9fmMCM" />
         <meta-data
-            android:name="com.taobao.android.hotfix.IDSECRET"
-            android:value="27763077-1" />
+                android:name="com.taobao.android.hotfix.IDSECRET"
+                android:value="27763077-1" />
         <meta-data
-            android:name="com.taobao.android.hotfix.APPSECRET"
-            android:value="782dde0d4b8923dab68fcb31b3f2db49" />
+                android:name="com.taobao.android.hotfix.APPSECRET"
+                android:value="782dde0d4b8923dab68fcb31b3f2db49" />
         <meta-data
-            android:name="com.taobao.android.hotfix.RSASECRET"
-            android:value="MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCEHZykgi6HUNeixv+j7uNXcgkrnk4uxb9v3YCBhl1wwXT6islWEHpbGZJVoKIp4lSwtGEwtShAz0mCtP4PYiSHSPe1r5AsNokxNF7IK2xmSStYp7Y7kFbvBxFR4Jp7QsEdMUe9I3ioSfRv/bo/SPic2uluWmHs55TH4v7RrqhKhqdpksqJMY9/22FFoJ1lGVnu1cnUw+2pAhhQWwOiLyRvBdKB76AzMWFy3lolse2OJ/CAw4qQUX4i/hJSdJ4vFltOFW1Qh8FjjIEEf6ykWQdJrXrVBcNs6uEto0DF7/+X3CmGBfGXfCcR9yznc+3vlgSa2ft9znjqofukcIjct+ORAgMBAAECggEAQlU/1dVLGUO80QzLQ/roiHpIIm9cX92Hrdnv8JiPB9MKMdVHG4AwftcLAxUg9pid3w7iEXuTl168UPUg7oZfQtGfFcjtQVWsclkSEbzDs2OfcObb93IUQ/UvfAWiaqrsnQSmOU+6//wJz8T8I1Q3B0Jem7qjmjf4GphdStg/xRK2/l6EVcOEPamrIC2+WTdSfKTPT6BJY+tZnMXdPyyAan+eK6jy83nt7EdquVaWmnZbGOIu4SkJsjrk5a9/6hw5zHlchmkjCj3JPmSkhipN+WEayWTJ/McDBg72MmU5fbE6Q26S8rZ96C230SLFwR0hTAgFwQk3XlKT3wlwXigs8QKBgQDMVGuXxs3w3td3718OCD91zvzZXD8KhVmoLJE9hMKhFAEUvhe9vPRzxH0/RNqIkY+8CrBu/V44TIYuS1tGP8CPd6r01auNU0gKADKvtVEnR8ln/3lmg+78NrwBHtSUrOVW+BO5tdj7ubLAgKwzcp5D3M7CCfbjsmUuEMobCNgnPQKBgQClhk8Qrk1qYpLssPi6QwQzbweYn6vJeLfqgpFgcCxyvsvhSUTWoA5orFKgXnRTI5iK+v5IVlpL231V8gMehZC48ztO9cFX6SSwDuPhmKylX0f1l9k/2vLq+FW+4DlxApwTxNPNrLzojmk5BhARSExbXjkku+aEbSJLj5QqkKyS5QKBgDZWLNaL07A+UmZejZSZtOaLSMo0sb8GfzUtxOHrMCbNvwvZEU8vtIIkunncwZCXxPVokkqxriCimPwupfMkePyuAhRhzeEjSIEAVHpNaWtct76kPZB5fVAs7goOPNHcuJBMIFK+fRlT5Kk0jpaP4G6DhagsJi+e/TEm3dgangCxAoGAHwsAWw2FgVU5XuCV1UDqUccZ8prHegKE45tXLnH7NA3qaLb4DRR5f1IKMP9l6426dx45gFGJn75rVCoOQbQk/zrGvblDaHxWIBq6zD14647iDQJMgThL5JtsYV7mBvbJVL/ORT2HNEo5G7OyYbtgbqZOK0B+LAnXq7oivJTjeK0CgYEAh1Z0BFmiTvn80q2I1t/inpdk1X4T78g2X+/OT/dPgR8DTKqr8iEzwr0CklYZPthFvm1GU7bDjaBNAzQF+sdqvVcMqArApFIItf6ltmi9zLaKvJ9YNWva+tkfhWx1mA2Efd8fvB3UaDXzwTsPDflwf5VZKjrJYM848x3nhk0Yp5Q=" />
+                android:name="com.taobao.android.hotfix.RSASECRET"
+                android:value="MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCEHZykgi6HUNeixv+j7uNXcgkrnk4uxb9v3YCBhl1wwXT6islWEHpbGZJVoKIp4lSwtGEwtShAz0mCtP4PYiSHSPe1r5AsNokxNF7IK2xmSStYp7Y7kFbvBxFR4Jp7QsEdMUe9I3ioSfRv/bo/SPic2uluWmHs55TH4v7RrqhKhqdpksqJMY9/22FFoJ1lGVnu1cnUw+2pAhhQWwOiLyRvBdKB76AzMWFy3lolse2OJ/CAw4qQUX4i/hJSdJ4vFltOFW1Qh8FjjIEEf6ykWQdJrXrVBcNs6uEto0DF7/+X3CmGBfGXfCcR9yznc+3vlgSa2ft9znjqofukcIjct+ORAgMBAAECggEAQlU/1dVLGUO80QzLQ/roiHpIIm9cX92Hrdnv8JiPB9MKMdVHG4AwftcLAxUg9pid3w7iEXuTl168UPUg7oZfQtGfFcjtQVWsclkSEbzDs2OfcObb93IUQ/UvfAWiaqrsnQSmOU+6//wJz8T8I1Q3B0Jem7qjmjf4GphdStg/xRK2/l6EVcOEPamrIC2+WTdSfKTPT6BJY+tZnMXdPyyAan+eK6jy83nt7EdquVaWmnZbGOIu4SkJsjrk5a9/6hw5zHlchmkjCj3JPmSkhipN+WEayWTJ/McDBg72MmU5fbE6Q26S8rZ96C230SLFwR0hTAgFwQk3XlKT3wlwXigs8QKBgQDMVGuXxs3w3td3718OCD91zvzZXD8KhVmoLJE9hMKhFAEUvhe9vPRzxH0/RNqIkY+8CrBu/V44TIYuS1tGP8CPd6r01auNU0gKADKvtVEnR8ln/3lmg+78NrwBHtSUrOVW+BO5tdj7ubLAgKwzcp5D3M7CCfbjsmUuEMobCNgnPQKBgQClhk8Qrk1qYpLssPi6QwQzbweYn6vJeLfqgpFgcCxyvsvhSUTWoA5orFKgXnRTI5iK+v5IVlpL231V8gMehZC48ztO9cFX6SSwDuPhmKylX0f1l9k/2vLq+FW+4DlxApwTxNPNrLzojmk5BhARSExbXjkku+aEbSJLj5QqkKyS5QKBgDZWLNaL07A+UmZejZSZtOaLSMo0sb8GfzUtxOHrMCbNvwvZEU8vtIIkunncwZCXxPVokkqxriCimPwupfMkePyuAhRhzeEjSIEAVHpNaWtct76kPZB5fVAs7goOPNHcuJBMIFK+fRlT5Kk0jpaP4G6DhagsJi+e/TEm3dgangCxAoGAHwsAWw2FgVU5XuCV1UDqUccZ8prHegKE45tXLnH7NA3qaLb4DRR5f1IKMP9l6426dx45gFGJn75rVCoOQbQk/zrGvblDaHxWIBq6zD14647iDQJMgThL5JtsYV7mBvbJVL/ORT2HNEo5G7OyYbtgbqZOK0B+LAnXq7oivJTjeK0CgYEAh1Z0BFmiTvn80q2I1t/inpdk1X4T78g2X+/OT/dPgR8DTKqr8iEzwr0CklYZPthFvm1GU7bDjaBNAzQF+sdqvVcMqArApFIItf6ltmi9zLaKvJ9YNWva+tkfhWx1mA2Efd8fvB3UaDXzwTsPDflwf5VZKjrJYM848x3nhk0Yp5Q=" />
 
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="${applicationId}.provider"
+                android:exported="false"
+                android:grantUriPermissions="true">
             <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/provider_paths" />
         </provider>
 
         <service android:name="com.amap.api.location.APSService" />

@@ -72,4 +72,13 @@ interface StorageService {
     @POST("$meng/express/station/confirmSubmitWarehouse")
     fun confirmSubmitWarehouse(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
 
+
+    /**
+     * 15.驿站APP导入运单号
+     */
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("https://passport.81dja.com:5443/user/Station/importWaybillNumberApp")
+    fun importWaybillNumberApp(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
+
 }

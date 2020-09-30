@@ -100,6 +100,7 @@ import com.shshcom.station.statistics.http.bean.WeChatTodayNotice;
 import com.shshcom.station.statistics.ui.NotifyPackListActivity;
 import com.shshcom.station.statistics.ui.PackStockListActivity;
 import com.shshcom.station.statistics.ui.TotalPackStockActivity;
+import com.shshcom.station.storage.activity.ScanOnlyBarcodeActivity;
 import com.shshcom.station.storage.activity.ScanPickOutActivity;
 import com.shshcom.station.storage.activity.ScanStorageActivity;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
@@ -596,6 +597,9 @@ public class ComFirst_3_Fragment extends BaseFragment {
             case "8":       //敏感用户
                 BlockUserListActivity.Companion.openActivity(getActivity());
                 break;
+            case "9":       //免通知入库
+                ScanOnlyBarcodeActivity.Companion.openActivity(getActivity());
+                break;
         }
     }
 
@@ -1001,6 +1005,14 @@ public class ComFirst_3_Fragment extends BaseFragment {
         item8.put("name", "敏感用户");
         item8.put("ic", R.drawable.ic_three_6);
         mListTwo.add(item8);
+
+
+        HashMap<String, Object> item9 = new HashMap<>();
+        item9.put("tag", "0");
+        item9.put("id", "9");
+        item9.put("name", "免通知入库");
+        item9.put("ic", R.drawable.ic_main_scan_only_barcode);
+        mListTwo.add(item9);
 
 
         MyGridViewAdapter myGridViewAdapter = new MyGridViewAdapter(mListTwo);
