@@ -1,6 +1,7 @@
 package com.mt.bbdj.community.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -13,27 +14,22 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-
-
-
-import android.os.Bundle;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
-import com.mt.bbdj.baseconfig.db.BluetoothMessage;
 import com.mt.bbdj.baseconfig.internet.NoHttpRequest;
 import com.mt.bbdj.baseconfig.model.TargetEvent;
 import com.mt.bbdj.baseconfig.utls.DateUtil;
@@ -42,10 +38,8 @@ import com.mt.bbdj.baseconfig.utls.LogUtil;
 import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
-import com.mt.bbdj.baseconfig.view.LoadingDialog;
 import com.mt.bbdj.baseconfig.view.MarginDecoration;
 import com.mt.bbdj.community.adapter.BluetoothScanAdapter;
-import com.mt.bbdj.community.adapter.ExpressAdapter;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -62,13 +56,11 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Timer;
 
 import HPRTAndroidSDKA300.HPRTPrinterHelper;
 import HPRTAndroidSDKA300.PublicFunction;
@@ -114,14 +106,14 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
     private RequestQueue mRequestQueue;
 
 
-    public static void actionTo(Context context,String user_id,String mail_id,String goods_name,String weight,String money) {
+    public static void actionTo(Activity context, String user_id, String mail_id, String goods_name, String weight, String money) {
         Intent intent = new Intent(context, PrintPannelActivity.class);
-        intent.putExtra("user_id",user_id);
-        intent.putExtra("mail_id",mail_id);
-        intent.putExtra("goods_name",goods_name);
-        intent.putExtra("weight",weight);
-        intent.putExtra("money",money);
-        context.startActivity(intent);
+        intent.putExtra("user_id", user_id);
+        intent.putExtra("mail_id", mail_id);
+        intent.putExtra("goods_name", goods_name);
+        intent.putExtra("weight", weight);
+        intent.putExtra("money", money);
+        context.startActivityForResult(intent, 1);
     }
 
     @Override
@@ -392,6 +384,7 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
                         savePannelMessage(jsonObject);
                         LoadDialogUtils.cannelLoadingDialog();
                         connectBluetooth();   //连接蓝牙
+                        setResult(RESULT_OK);
                     } else {
                         ToastUtil.showShort(msg);
                     }
@@ -506,8 +499,8 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
             HPRTPrinterHelper.openEndStatic(true);//开启
             HPRTPrinterHelper.PrintData(path);//打印机打印
 
-            InputStream inbmp = this.getResources().getAssets().open("ic_logo_mini.png");
-            Bitmap bitmap = BitmapFactory.decodeStream(inbmp);
+            InputStream inbmpBingBingLogo = this.getResources().getAssets().open("ic_logo_mini.png");// 顶部兵兵logo
+            Bitmap bitmap = BitmapFactory.decodeStream(inbmpBingBingLogo);
             HPRTPrinterHelper.Expanded("20", "10", bitmap, (byte) 0);//第一联 顶部兵兵logo
 
 //            InputStream inbmp6 = this.getResources().getAssets().open("ic_send_logo.png");
@@ -519,22 +512,31 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
 //            InputStream inbmp8 = this.getResources().getAssets().open("ic_post_logo.png");
 //            Bitmap bitmap8 = BitmapFactory.decodeStream(inbmp8);
 //            HPRTPrinterHelper.Expanded("525", "1215", bitmap8, (byte) 0);// 第三联 寄
-            InputStream inbmp4 = this.getResources().getAssets().open("ic_code.png");
-            Bitmap bitmap4 = BitmapFactory.decodeStream(inbmp4);
-            HPRTPrinterHelper.Expanded("443", "1430", bitmap4, (byte) 0);//二维码
-            InputStream inbmp3 = this.getResources().getAssets().open("ic_logo_mini.png");
-            Bitmap bitmap3 = BitmapFactory.decodeStream(inbmp3);
-            HPRTPrinterHelper.Expanded("20", "1450", bitmap3, (byte) 0);//第二联 兵兵logo
 
-            HPRTPrinterHelper.AutLine("65","395",500,5,true,false,Receiver_address + Receiver_address1);
-            HPRTPrinterHelper.AutLine("65","890",500,5,true,false,Receiver_address + Receiver_address1);
-            HPRTPrinterHelper.AutLine("65","1021",500,5,true,false,Sender_address + Sender_address1);
-            HPRTPrinterHelper.AutLine("65","532",500,5,true,false,Sender_address + Sender_address1);
+
+            /**
+             * 2020-10-24
+             * TEXT 8 0 110 1540 客服热线 [servicePhone]
+             * TEXT 5 0 280 1460 驿站代码
+             * TEXT 5 0 275 1495 [stageCode]
+             * TEXT 55 0 448 1552 兵兵驿站公众号
+             */
+//            InputStream inbmp4 = this.getResources().getAssets().open("ic_code.png");
+//            Bitmap bitmap4 = BitmapFactory.decodeStream(inbmp4);
+//            HPRTPrinterHelper.Expanded("443", "1430", bitmap4, (byte) 0);//二维码
+//            InputStream inbmp3 = this.getResources().getAssets().open("ic_logo_mini.png");
+//            Bitmap bitmap3 = BitmapFactory.decodeStream(inbmp3);
+//            HPRTPrinterHelper.Expanded("20", "1450", bitmap3, (byte) 0);//第二联 兵兵logo
+
+            HPRTPrinterHelper.AutLine("65", "395", 500, 5, true, false, Receiver_address + Receiver_address1);
+            HPRTPrinterHelper.AutLine("65", "890", 500, 5, true, false, Receiver_address + Receiver_address1);
+            HPRTPrinterHelper.AutLine("65", "1021", 500, 5, true, false, Sender_address + Sender_address1);
+            HPRTPrinterHelper.AutLine("65", "532", 500, 5, true, false, Sender_address + Sender_address1);
 
             fastLogoBig = "";
             fastLogoMini = "";
 
-            setLogoData();   //设置logo
+            setLogoData();   //设置快递公司logo
             InputStream inbmp5 = this.getResources().getAssets().open(fastLogoMini);
             Bitmap bitmap5 = BitmapFactory.decodeStream(inbmp5);
             HPRTPrinterHelper.Expanded("410", "622", bitmap5, (byte) 0);//第一联 快递公司logo
