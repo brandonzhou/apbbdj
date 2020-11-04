@@ -2,7 +2,6 @@ package com.shshcom.station.storage.domain;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -15,7 +14,6 @@ import com.mt.bbdj.baseconfig.db.UserConfig;
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil;
 import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil;
 import com.mt.bbdj.baseconfig.utls.LogUtil;
-import com.mt.bbdj.baseconfig.utls.RxFileTool;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.shshcom.station.base.ICaseBack;
 import com.shshcom.station.imageblurdetection.ImageDetectionUseCase;
@@ -29,15 +27,15 @@ import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -157,51 +155,54 @@ public class ScanStorageCase {
         image.setPickCode(strPickCode);
         GreenDaoUtil.updateScanImage(image);
 
-        Disposable disposable = Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-                SHCameraHelp shCameraHelp = new SHCameraHelp();
-                String file = shCameraHelp.saveImage(context, image.getEId(), cvData.getBitmap());
 
-                image.setLocalPath(file);
-                image.setState(ScanImage.State.uploading.name());
-                GreenDaoUtil.updateScanImage(image);
+        StorageCase.INSTANCE.stationUploadExpress(image, cvData, iCaseBack);
 
-                BaseResult baseResult;
-                if(TextUtils.isEmpty(image.getPhone())){
-                     baseResult = uploadImage(image);
-                }else {
-                    // 手动输入快递信息
-                    baseResult = stationInputUploadExpress(image);
-                }
-                if(baseResult == null){
-                    image.setState(ScanImage.State.upload_fail.name());
-                    GreenDaoUtil.updateScanImage(image);
-                    emitter.onError(new Throwable("网络错误"));
-                    return;
-                }
-
-                image.setState(ScanImage.State.upload_success.name());
-                RxFileTool.deleteFile(file);
-
-                if (baseResult.isSuccess()) {
-                    GreenDaoUtil.updateScanImage(image);
-                    emitter.onNext("success");
-                } else {
-                    GreenDaoUtil.deleteScanImage(image.getEId());
-                    emitter.onError(new Throwable(baseResult.getMsg()));
-                }
-
-
-            }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
-                }, e -> {
-                    if (iCaseBack != null) {
-                        iCaseBack.onError(e.getMessage());
-                    }
-                });
+//        Disposable disposable = Observable.create(new ObservableOnSubscribe<String>() {
+//            @Override
+//            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+//                SHCameraHelp shCameraHelp = new SHCameraHelp();
+//                String file = shCameraHelp.saveImage(context, image.getEId(), cvData.getBitmap());
+//
+//                image.setLocalPath(file);
+//                image.setState(ScanImage.State.uploading.name());
+//                GreenDaoUtil.updateScanImage(image);
+//
+//                BaseResult baseResult;
+//                if(TextUtils.isEmpty(image.getPhone())){
+//                     baseResult = uploadImage(image);
+//                }else {
+//                    // 手动输入快递信息
+//                    baseResult = stationInputUploadExpress(image);
+//                }
+//                if(baseResult == null){
+//                    image.setState(ScanImage.State.upload_fail.name());
+//                    GreenDaoUtil.updateScanImage(image);
+//                    emitter.onError(new Throwable("网络错误"));
+//                    return;
+//                }
+//
+//                image.setState(ScanImage.State.upload_success.name());
+//                RxFileTool.deleteFile(file);
+//
+//                if (baseResult.isSuccess()) {
+//                    GreenDaoUtil.updateScanImage(image);
+//                    emitter.onNext("success");
+//                } else {
+//                    GreenDaoUtil.deleteScanImage(image.getEId());
+//                    emitter.onError(new Throwable(baseResult.getMsg()));
+//                }
+//
+//
+//            }
+//        }).subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(s -> {
+//                }, e -> {
+//                    if (iCaseBack != null) {
+//                        iCaseBack.onError(e.getMessage());
+//                    }
+//                });
     }
 
     public void retryUploadImage(List<ScanImage> list){
@@ -213,37 +214,50 @@ public class ScanStorageCase {
 
 
         for (ScanImage image : list) {
-            Disposable disposable = Observable.just(image)
-                    .flatMap(new Function<ScanImage, ObservableSource<String>>() {
-                        @Override
-                        public ObservableSource<String> apply(ScanImage image) throws Exception {
-                            BaseResult baseResult;
-                            if(TextUtils.isEmpty(image.getPhone())){
-                                baseResult = uploadImage(image);
-                            }else {
-                                // 手动输入快递信息
-                                baseResult = stationInputUploadExpress(image);
-                            }
-                            if(baseResult == null){
-                                image.setState(ScanImage.State.upload_fail.name());
-                                GreenDaoUtil.updateScanImage(image);
-                                throw new Exception("网络错误");
-                            }
+            StorageCase.INSTANCE.retryUpload(image, new ICaseBack<String>() {
+                @Override
+                public void onSuccess(String result) {
 
-                            image.setState(ScanImage.State.upload_success.name());
-                            RxFileTool.deleteFile(image.getLocalPath());
-                            GreenDaoUtil.updateScanImage(image);
+                }
 
-                            if(baseResult.isSuccess()){
-                                return Observable.just("success");
-                            }else {
-                                throw new Exception(baseResult.getMsg());
-                            }
+                @Override
+                public void onError(@NotNull String error) {
+                    ToastUtil.showShort(error);
 
-                        }
-                    }).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(s -> {}, throwable -> ToastUtil.showShort(throwable.getMessage()));
+                }
+            });
+
+//            Disposable disposable = Observable.just(image)
+//                    .flatMap(new Function<ScanImage, ObservableSource<String>>() {
+//                        @Override
+//                        public ObservableSource<String> apply(ScanImage image) throws Exception {
+//                            BaseResult baseResult;
+//                            if(TextUtils.isEmpty(image.getPhone())){
+//                                baseResult = uploadImage(image);
+//                            }else {
+//                                // 手动输入快递信息
+//                                baseResult = stationInputUploadExpress(image);
+//                            }
+//                            if(baseResult == null){
+//                                image.setState(ScanImage.State.upload_fail.name());
+//                                GreenDaoUtil.updateScanImage(image);
+//                                throw new Exception("网络错误");
+//                            }
+//
+//                            image.setState(ScanImage.State.upload_success.name());
+//                            RxFileTool.deleteFile(image.getLocalPath());
+//                            GreenDaoUtil.updateScanImage(image);
+//
+//                            if(baseResult.isSuccess()){
+//                                return Observable.just("success");
+//                            }else {
+//                                throw new Exception(baseResult.getMsg());
+//                            }
+//
+//                        }
+//                    }).subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(s -> {}, throwable -> ToastUtil.showShort(throwable.getMessage()));
         }
 
 

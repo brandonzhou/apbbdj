@@ -97,10 +97,10 @@ sealed class KResults<out T> {
 
     companion object {
         fun <T> success(result: T): KResults<T> = Success(result)
-        fun <T> failure(error: Throwable): KResults<T> = Failure(error)
+        fun <T> failure(error: Throwable, code: Int = 1, msg: String = ""): KResults<T> = Failure(error, code, msg)
     }
 
-    data class Failure(val error: Throwable) : KResults<Nothing>()
+    data class Failure(val error: Throwable, val code: Int = 1, val msg: String = "") : KResults<Nothing>()
     data class Success<out T>(val data: T, val msg: String = "") : KResults<T>()
 }
 

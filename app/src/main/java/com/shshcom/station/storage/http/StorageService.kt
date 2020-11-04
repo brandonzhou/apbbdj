@@ -3,6 +3,7 @@ package com.shshcom.station.storage.http
 import com.shshcom.config.jijian_v1
 import com.shshcom.config.meng
 import com.shshcom.config.passport
+import com.shshcom.config.qrcode
 import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.storage.http.bean.ExpressCompany
 import com.shshcom.station.storage.http.bean.ExpressPackInfo
@@ -21,10 +22,19 @@ import retrofit2.http.POST
  */
 interface StorageService {
 
+
+    @JvmSuppressWildcards
+    @POST("$qrcode/bbapi/submit/stationUploadExpressImg3")
+    fun stationUploadExpressImg3(@Body file: RequestBody): Call<BaseResult<Any>>
+
+    @JvmSuppressWildcards
+    @POST("$qrcode/bbapi/submit2/stationInputUploadExpress")
+    fun stationInputUploadExpress(@Body file: RequestBody): Call<BaseResult<Any>>
+
     @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("$meng/express/warehousing/getExpressCompany")
-    fun getExpressCompany(@FieldMap  fields: Map<String, Any>) : Call<BaseResult<List<ExpressCompany>>>
+    fun getExpressCompany(@FieldMap fields: Map<String, Any>): Call<BaseResult<List<ExpressCompany>>>
 
 
     /**

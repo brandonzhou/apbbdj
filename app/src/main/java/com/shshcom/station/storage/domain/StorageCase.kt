@@ -1,13 +1,16 @@
 package com.shshcom.station.storage.domain
 
+import com.mt.bbdj.baseconfig.db.ScanImage
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
+import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil
+import com.mt.bbdj.baseconfig.utls.RxFileTool
 import com.shshcom.module_base.network.KResults
+import com.shshcom.module_base.utils.Utils
 import com.shshcom.station.base.ICaseBack
+import com.shshcom.station.imageblurdetection.OpenCVData
 import com.shshcom.station.storage.http.ApiStorage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.io.File
 
 /**
  * desc:
@@ -40,4 +43,101 @@ object StorageCase {
 
         }
     }
+
+    /**
+     * 拍照入库，上传
+     */
+    fun stationUploadExpress(image: ScanImage, cvData: OpenCVData, caseBack: ICaseBack<String>) {
+        presenterScope.launch {
+            val file = withContext(Dispatchers.IO) {
+                val shCameraHelp = SHCameraHelp()
+                val file = shCameraHelp.saveImage(Utils.context, image.getEId(), cvData.bitmap)
+
+
+                image.localPath = file
+                image.state = ScanImage.State.uploading.name
+                GreenDaoUtil.updateScanImage(image)
+
+                file
+            }
+
+
+            val kResults = if (image.phone != null && image.phone.isNotBlank()) {
+                ApiStorage.stationInputUploadExpress(image)
+
+            } else {
+                ApiStorage.stationUploadExpressImg3(image)
+
+            }
+
+            when (kResults) {
+                is KResults.Success -> {
+                    image.state = ScanImage.State.upload_success.name
+                    GreenDaoUtil.updateScanImage(image)
+                    RxFileTool.deleteFile(file)
+                    caseBack.onSuccess(kResults.msg)
+                }
+
+                is KResults.Failure -> {
+                    image.state = ScanImage.State.upload_fail.name
+                    GreenDaoUtil.updateScanImage(image)
+                    // 已入库等
+                    val msg = if (kResults.code != 5002) {
+                        image.eId + " : " + kResults.msg
+                    } else {
+                        GreenDaoUtil.deleteScanImage(image.eId);
+                        RxFileTool.deleteFile(file)
+                        image.eId + " : " + kResults.msg
+                    }
+                    caseBack.onError(msg)
+                }
+            }
+
+        }
+
+
+    }
+
+
+    fun retryUpload(image: ScanImage, caseBack: ICaseBack<String>) {
+        presenterScope.launch {
+
+            val kResults = if (image.phone != null && image.phone.isNotBlank()) {
+                ApiStorage.stationInputUploadExpress(image)
+
+            } else {
+                ApiStorage.stationUploadExpressImg3(image)
+
+            }
+
+            val file = File(image.localPath)
+
+            when (kResults) {
+                is KResults.Success -> {
+                    image.state = ScanImage.State.upload_success.name
+                    GreenDaoUtil.updateScanImage(image)
+                    RxFileTool.deleteFile(file)
+                    caseBack.onSuccess(kResults.msg)
+                }
+
+                is KResults.Failure -> {
+                    image.state = ScanImage.State.upload_fail.name
+                    GreenDaoUtil.updateScanImage(image)
+                    // 已入库等
+                    val msg = if (kResults.code != 5002) {
+                        image.eId + " : " + kResults.msg
+                    } else {
+                        GreenDaoUtil.deleteScanImage(image.eId);
+                        RxFileTool.deleteFile(file)
+                        image.eId + " : " + kResults.msg
+
+                    }
+                    caseBack.onError(msg)
+                }
+            }
+
+        }
+    }
+
+
 }

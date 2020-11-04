@@ -1,5 +1,6 @@
 package com.shshcom.station.storage.http
 
+import com.mt.bbdj.baseconfig.db.ScanImage
 import com.shshcom.module_base.network.KNetwork
 import com.shshcom.module_base.network.KResults
 import com.shshcom.module_base.network.ServiceCreator
@@ -33,7 +34,24 @@ object ApiStorage : KNetwork() {
                 if (re.isSuccess) {
                     KResults.success(re.data)
                 } else {
-                    KResults.failure(Exception(re.msg))
+                    KResults.failure(Exception(re.msg), re.code, re.msg)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                KResults.failure<T>(e, -1, msg = e.message.toString())
+            }
+        }
+
+    }
+
+    suspend fun <T> processApiUpload(block: suspend () -> BaseResult<T>): KResults<T> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val re = block()
+                if (re.data != null) {
+                    KResults.success(re.data)
+                } else {
+                    KResults.failure(Exception(re.msg), re.code, re.msg)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -41,6 +59,59 @@ object ApiStorage : KNetwork() {
             }
         }
 
+    }
+
+
+    suspend fun stationUploadExpressImg3(image: ScanImage): KResults<Any> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["batch_no"] = image.batchNo
+            map["code"] = image.pickCode
+            map["express_id"] = image.expressCompanyId
+            map["number"] = image.eId
+            map["station_id"] = image.stationId
+            map["blur_score"] = image.blurScore
+            ApiSignatureUtil.addSignature(map)
+
+            //构建body
+            val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+            map.forEach {
+                bodyBuilder.addFormDataPart(it.key, it.value.toString())
+            }
+
+            val file = File(image.localPath)
+            bodyBuilder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
+
+            service.stationUploadExpressImg3(bodyBuilder.build()).await()
+        }
+    }
+
+
+    suspend fun stationInputUploadExpress(image: ScanImage): KResults<Any> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["batch_no"] = image.batchNo
+            map["code"] = image.pickCode
+            map["express_id"] = image.expressCompanyId
+            map["mobile"] = image.phone
+            map["number"] = image.eId
+            map["station_id"] = image.stationId
+            map["blur_score"] = image.blurScore
+            ApiSignatureUtil.addSignature(map)
+
+            //构建body
+            val bodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+            map.forEach {
+                bodyBuilder.addFormDataPart(it.key, it.value.toString())
+            }
+
+            val file = File(image.localPath)
+            bodyBuilder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
+
+            service.stationInputUploadExpress(bodyBuilder.build()).await()
+        }
     }
 
 
