@@ -26,6 +26,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.interfaces.SimpleCallback;
+import com.lxj.xpopup.util.KeyboardUtils;
 import com.mt.bbdj.BuildConfig;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.db.PickupCode;
@@ -596,7 +597,13 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                     }
             );
             findViewById(R.id.btn_ok).setOnClickListener(v -> {
-                        dismissOrHideSoftInput();
+
+
+                        if (currentExpress == null) {
+                            ToastUtil.showShort("请选择快递公司");
+                            return;
+                        }
+
                         String expressCode = etExpressCode.getText().toString().trim();
                         if (TextUtils.isEmpty(expressCode)) {
                             ToastUtil.showShort(getResources().getString(R.string.input_express_code));
@@ -607,6 +614,9 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                             ToastUtil.showShort(getResources().getString(R.string.phone_format_error));
                             return;
                         }
+
+                        KeyboardUtils.hideSoftInput(EditDialogView.this);
+
                         currentBarCode = expressCode;
                         currentPhone = phone;
                         String showTips = currentBarCode + "\n手机号:" + currentPhone;
