@@ -27,6 +27,33 @@ object StorageCase {
         return DbUserUtil.getStationId()
     }
 
+    private var retry = 0;
+
+    fun queryOSSParams() {
+
+        presenterScope.launch {
+            val results = ApiStorage.queryOSSParams(getStationId())
+            when (results) {
+                is KResults.Success -> {
+
+                    OSSWrapper.sharedWrapper().setConfig(results.data)
+                    retry = 0
+
+                }
+                is KResults.Failure -> {
+                    results.error.message?.let {
+                        if (retry < 3) {
+                            retry++
+                            queryOSSParams();
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+
     fun confirmSubmitWarehouse(caseBack: ICaseBack<String>) {
         presenterScope.launch {
             val batchNo = ScanStorageCase.getInstance().batchNo
@@ -58,15 +85,24 @@ object StorageCase {
                 image.state = ScanImage.State.uploading.name
                 GreenDaoUtil.updateScanImage(image)
 
-                file
+                val remoteUrl = OSSWrapper.sharedWrapper().asyncPutImage(image, file)
+
+                remoteUrl
+
+            }
+
+            if (file.isBlank()) {
+                image.state = ScanImage.State.upload_fail.name
+                GreenDaoUtil.updateScanImage(image)
+                return@launch
             }
 
 
             val kResults = if (image.phone != null && image.phone.isNotBlank()) {
-                ApiStorage.stationInputUploadExpress(image)
+                ApiStorage.stationInputUploadExpressBill(image, file)
 
             } else {
-                ApiStorage.stationUploadExpressImg3(image)
+                ApiStorage.stationShootUploadExpressBill(image, file)
 
             }
 
@@ -102,11 +138,28 @@ object StorageCase {
     fun retryUpload(image: ScanImage, caseBack: ICaseBack<String>) {
         presenterScope.launch {
 
+            val remoteUrl = withContext(Dispatchers.IO) {
+
+                val remoteUrl = OSSWrapper.sharedWrapper().asyncPutImage(image, image.localPath)
+
+                remoteUrl
+
+            }
+
+            if (remoteUrl.isBlank()) {
+                val db = GreenDaoUtil.findScanImage(image.eId)
+                if (db != null && db.state == ScanImage.State.uploading.name) {
+                    image.state = ScanImage.State.upload_fail.name
+                    GreenDaoUtil.updateScanImage(image)
+                }
+                return@launch
+            }
+
             val kResults = if (image.phone != null && image.phone.isNotBlank()) {
-                ApiStorage.stationInputUploadExpress(image)
+                ApiStorage.stationInputUploadExpressBill(image, remoteUrl)
 
             } else {
-                ApiStorage.stationUploadExpressImg3(image)
+                ApiStorage.stationShootUploadExpressBill(image, remoteUrl)
 
             }
 

@@ -4,10 +4,7 @@ import com.shshcom.config.jijian_v1
 import com.shshcom.config.meng
 import com.shshcom.config.passport
 import com.shshcom.config.qrcode
-import com.shshcom.station.storage.http.bean.BaseResult
-import com.shshcom.station.storage.http.bean.ExpressCompany
-import com.shshcom.station.storage.http.bean.ExpressPackInfo
-import com.shshcom.station.storage.http.bean.WxOfficeSubscribeState
+import com.shshcom.station.storage.http.bean.*
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -22,6 +19,20 @@ import retrofit2.http.POST
  */
 interface StorageService {
 
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("$qrcode/bbapi/submit2/queryOSSParams")
+    fun queryOSSParams(@FieldMap fields: Map<String, Any>): Call<BaseResult<OSSConfig>>
+
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("$qrcode/bbapi/submit2/stationShootUploadExpressBill")
+    fun stationShootUploadExpressBill(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
+
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("$qrcode/bbapi/submit2/stationInputUploadExpressBill")
+    fun stationInputUploadExpressBill(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
 
     @JvmSuppressWildcards
     @POST("$qrcode/bbapi/submit/stationUploadExpressImg3")

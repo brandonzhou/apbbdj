@@ -62,6 +62,7 @@ public class ScanStorageCase {
 
     public void init(Context context) {
         this.context = context.getApplicationContext();
+        StorageCase.INSTANCE.queryOSSParams();
     }
 
     public static ScanStorageCase getInstance(){

@@ -4,10 +4,7 @@ import com.mt.bbdj.baseconfig.db.ScanImage
 import com.shshcom.module_base.network.KNetwork
 import com.shshcom.module_base.network.KResults
 import com.shshcom.module_base.network.ServiceCreator
-import com.shshcom.station.storage.http.bean.BaseResult
-import com.shshcom.station.storage.http.bean.ExpressCompany
-import com.shshcom.station.storage.http.bean.ExpressPackInfo
-import com.shshcom.station.storage.http.bean.WxOfficeSubscribeState
+import com.shshcom.station.storage.http.bean.*
 import com.shshcom.station.util.ApiSignatureUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -59,6 +56,53 @@ object ApiStorage : KNetwork() {
             }
         }
 
+    }
+
+    suspend fun queryOSSParams(stationId: String): KResults<OSSConfig> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = stationId
+            ApiSignatureUtil.addSignature(map)
+
+            service.queryOSSParams(map).await()
+        }
+    }
+
+
+    suspend fun stationShootUploadExpressBill(image: ScanImage, remoteUrl: String): KResults<Any> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["batch_no"] = image.batchNo
+            map["code"] = image.pickCode
+            map["express_id"] = image.expressCompanyId
+            map["number"] = image.eId
+            map["station_id"] = image.stationId
+            map["blur_score"] = image.blurScore
+            map["picture"] = remoteUrl
+            ApiSignatureUtil.addSignature(map)
+
+
+            service.stationShootUploadExpressBill(map).await()
+        }
+    }
+
+
+    suspend fun stationInputUploadExpressBill(image: ScanImage, remoteUrl: String): KResults<Any> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["batch_no"] = image.batchNo
+            map["code"] = image.pickCode
+            map["express_id"] = image.expressCompanyId
+            map["mobile"] = image.phone
+            map["number"] = image.eId
+            map["station_id"] = image.stationId
+            map["blur_score"] = image.blurScore
+            map["picture"] = remoteUrl
+            ApiSignatureUtil.addSignature(map)
+
+
+            service.stationInputUploadExpressBill(map).await()
+        }
     }
 
 
