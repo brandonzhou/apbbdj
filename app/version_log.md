@@ -14,3 +14,9 @@
 
 ### V1.0.36-C15
 * 修改打印模板
+
+
+
+
+schemaVersion 39
+PickupCode 增加 shelfId、lastCode字段
