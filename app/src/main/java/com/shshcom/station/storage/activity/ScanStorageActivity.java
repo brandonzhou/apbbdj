@@ -3,6 +3,7 @@ package com.shshcom.station.storage.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -41,6 +42,7 @@ import com.mt.bbdj.baseconfig.utls.UtilDialog;
 import com.shshcom.station.base.ICaseBack;
 import com.shshcom.station.imageblurdetection.OpenCVData;
 import com.shshcom.station.storage.domain.ScanStorageCase;
+import com.shshcom.station.storage.domain.StorageCase;
 import com.shshcom.station.storage.http.bean.BaseResult;
 import com.shshcom.station.storage.http.bean.ExpressCompany;
 import com.shshcom.station.storage.widget.CustomExpressCompanyPopup;
@@ -125,6 +127,31 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         }
     };
 
+
+    private ICaseBack<String> iCaseBackPickCode = new ICaseBack<String>() {
+        @Override
+        public void onSuccess(String result) {
+            if (activity != null) {
+                PickupCode pickupCode = storageCase.getCurrentPickCode();
+                tv_pickup_code.setText(pickupCode.getCurrentNumber());
+            }
+        }
+
+        @Override
+        public void onError(@NotNull String error) {
+            if (activity != null) {
+                DialogUtil.promptDialog(activity, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+            }
+
+        }
+    };
+
+
     @Override
     public int getLayoutId() {
         return R.layout.act_scan_storage;
@@ -159,6 +186,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     public void onDestroy() {
         super.onDestroy();
         iCaseBack = null;
+        iCaseBackPickCode = null;
     }
 
     private void initPermission() {
@@ -206,8 +234,18 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     }
 
     private void initData() {
-        PickupCode pickupCode = storageCase.getCurrentPickCode();
-        tv_pickup_code.setText(pickupCode.getCurrentNumber());
+        int size = storageCase.getCurrentImageSize();
+        if (size > 0) {
+            // 当前批次未提交
+            PickupCode pickupCode = storageCase.getCurrentPickCode();
+            if (pickupCode != null) {
+                tv_pickup_code.setText(pickupCode.getCurrentNumber());
+            }
+        } else {
+            // 已提交，需要同步服务器
+            StorageCase.INSTANCE.httpRestorePickCode(iCaseBackPickCode);
+        }
+
 
         ScanImage scanImage = storageCase.getLastScanImage();
 
@@ -335,6 +373,13 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
     private void httpSubmit(String result, int express_id, OpenCVData cvData) {
 
         PickupCode pickupCode = storageCase.getCurrentPickCode();
+        if (pickupCode == null) {
+            DialogUtil.promptDialog(activity, "无取件码，操作失败");
+            return;
+        }
+
+        // 根据规则，生成真正的取件码
+        pickupCode.createRealPickCode(result);
 
         PickupCode nextCode = pickupCode.nextPickCode();
         updateUI(result, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
@@ -414,7 +459,10 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         switch (view.getId()) {
             case R.id.iv_pickup_code_modify:
                 PickupCode pickupCode = storageCase.getCurrentPickCode();
-                SetPickupCodeTypeActivity.openActivity(this, REQUEST_CODE_SET_PICK_UP_NUMBER, pickupCode);
+                if (pickupCode != null) {
+                    //SetPickupCodeTypeActivity.openActivity(this, REQUEST_CODE_SET_PICK_UP_NUMBER, pickupCode);
+                    SetPickCodeActivity.Companion.openActivity(this, REQUEST_CODE_SET_PICK_UP_NUMBER, pickupCode);
+                }
                 break;
             case R.id.tv_tip_edit_express:
                 openEditDialog();
@@ -535,6 +583,11 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
 
                             if (cvData.isValid()) {
                                 PickupCode pickupCode = storageCase.getCurrentPickCode();
+                                if (pickupCode == null) {
+                                    DialogUtil.promptDialog(activity, "无取件码，操作失败");
+                                    return;
+                                }
+                                pickupCode.createRealPickCode(barCode);
 
                                 PickupCode nextCode = pickupCode.nextPickCode();
 

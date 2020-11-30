@@ -54,6 +54,7 @@
     <dimen name="item_height_large">56dp</dimen>
     <dimen name="item_height_huge">60dp</dimen>
     <dimen name="item_height_42">42dp</dimen>
+    <dimen name="item_height_46">46dp</dimen>
     <dimen name="item_height_48">48dp</dimen>
     <dimen name="item_height_76">76dp</dimen>
     <dimen name="item_height_80">80dp</dimen>
@@ -80,5 +81,6 @@
     <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_20">20dp</dimen>
     <dimen name="margin_10">10dp</dimen>
+
 
 </resources>

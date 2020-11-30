@@ -70,7 +70,7 @@ android {
     buildToolsVersion = '28.0.3'
 
     greendao {
-        schemaVersion 38    //版本
+        schemaVersion 39    //版本
         daoPackage 'com.mt.bbdj.baseconfig.db.gen'
         //targetGenDir 'src/main/java'
     }
@@ -241,4 +241,7 @@ dependencies {
     implementation 'com.orient:Orient-Ui:1.0.0'
     // oss
     implementation 'com.aliyun.dpa:oss-android-sdk:2.9.5'
+
+
+    implementation 'com.google.android:flexbox:2.0.1'
 }

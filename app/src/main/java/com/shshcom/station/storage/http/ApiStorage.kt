@@ -1,6 +1,7 @@
 package com.shshcom.station.storage.http
 
 import com.mt.bbdj.baseconfig.db.ScanImage
+import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.shshcom.module_base.network.KNetwork
 import com.shshcom.module_base.network.KResults
 import com.shshcom.module_base.network.ServiceCreator
@@ -168,6 +169,33 @@ object ApiStorage : KNetwork() {
         }
     }
 
+    suspend fun queryPickupCode(): KResults<List<PickCodeRemote>> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = DbUserUtil.getStationId()
+            ApiSignatureUtil.addSignature(map)
+            service.queryPickupCode(map).await()
+        }
+    }
+
+
+    suspend fun savePickupCode(pickCodeRemote: PickCodeRemote, operate: String): KResults<PickCodeRemote> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["station_id"] = DbUserUtil.getStationId()
+            map["operate"] = operate
+            map["rule"] = pickCodeRemote.rule
+            map["number"] = pickCodeRemote.number
+            map["time"] = pickCodeRemote.time
+            map["last_code"] = pickCodeRemote.lastCode
+
+            map["shelves_id"] = pickCodeRemote.shelvesId
+            map["shelves_name"] = pickCodeRemote.shelvesName
+            ApiSignatureUtil.addSignature(map)
+            service.savePickupCode(map).await()
+        }
+    }
+
 
     suspend fun getPackageInfo(stationId: String, barcode: String): KResults<ExpressPackInfo> {
         return processApi {
@@ -237,11 +265,12 @@ object ApiStorage : KNetwork() {
      * 延时发送短信-确认提交入库
      * number 快递单号
      */
-    suspend fun confirmSubmitWarehouse(stationId: String, batch_no: String): KResults<Any> {
+    suspend fun confirmSubmitWarehouse(stationId: String, batch_no: String, shelves: String): KResults<Any> {
         return processApi {
             val map = HashMap<String, Any>()
             map["station_id"] = stationId
             map["batch_no"] = batch_no
+            map["shelves"] = shelves
             ApiSignatureUtil.addSignature(map)
             service.confirmSubmitWarehouse(map).await()
         }

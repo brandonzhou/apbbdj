@@ -145,7 +145,7 @@ public class ScanStorageCase {
 
         ScanImage image = new ScanImage();
         image.setStationId(stationId);
-        image.setEId(eId);
+        image.setEId(eId.toUpperCase());
         image.setExpressCompanyId(expressCompanyId);
         image.setPhone(mobile);
         image.setBatchNo(getBatchNo());

@@ -1,5 +1,7 @@
 package com.shshcom.station.storage.domain
 
+import com.google.gson.Gson
+import com.mt.bbdj.baseconfig.db.PickupCode
 import com.mt.bbdj.baseconfig.db.ScanImage
 import com.mt.bbdj.baseconfig.db.core.DbUserUtil
 import com.mt.bbdj.baseconfig.db.core.GreenDaoUtil
@@ -9,6 +11,7 @@ import com.shshcom.module_base.utils.Utils
 import com.shshcom.station.base.ICaseBack
 import com.shshcom.station.imageblurdetection.OpenCVData
 import com.shshcom.station.storage.http.ApiStorage
+import com.shshcom.station.storage.http.bean.PickCodeRemote
 import kotlinx.coroutines.*
 import java.io.File
 
@@ -57,7 +60,17 @@ object StorageCase {
     fun confirmSubmitWarehouse(caseBack: ICaseBack<String>) {
         presenterScope.launch {
             val batchNo = ScanStorageCase.getInstance().batchNo
-            val results = ApiStorage.confirmSubmitWarehouse(getStationId(), batchNo)
+
+            val list = ArrayList<PickCodeRemote>()
+            val listDb = GreenDaoUtil.listPickupCodeAll()
+            listDb.forEach {
+                val remote = PickCodeRemote.from(it)
+                list.add(remote)
+            }
+            val gson = Gson()
+            val shelves = gson.toJson(list)
+
+            val results = ApiStorage.confirmSubmitWarehouse(getStationId(), batchNo, shelves)
 
             when (results) {
                 is KResults.Success -> {
@@ -187,6 +200,57 @@ object StorageCase {
                     }
                     caseBack.onError(msg)
                 }
+            }
+
+        }
+    }
+
+
+    fun toPickupCode(remote: PickCodeRemote): PickupCode {
+        val pickupCode = PickupCode()
+        pickupCode.stationId = getStationId()
+        pickupCode.startNumber = remote.number
+        pickupCode.shelfId = remote.shelvesId
+        pickupCode.shelfNumber = remote.shelvesName
+        pickupCode.time = remote.time
+        pickupCode.lastCode = remote.lastCode
+
+        val type = PickupCode.Type.from(remote.rule)
+
+        pickupCode.type = type.desc
+
+        val db = GreenDaoUtil.getPickCode(remote.shelvesId)
+        if (db != null) {
+            pickupCode.uId = db.uId
+        }
+
+        return pickupCode
+    }
+
+    fun httpRestorePickCode(caseBack: ICaseBack<String>?) {
+        presenterScope.launch {
+            val kResults = ApiStorage.queryPickupCode()
+            when (kResults) {
+                is KResults.Success -> {
+                    val list = ArrayList<PickupCode>()
+                    kResults.data.forEach {
+                        val pickupCode = toPickupCode(it)
+                        list.add(pickupCode)
+                    }
+                    GreenDaoUtil.restorePickCodeList(list)
+
+                    if (caseBack != null) {
+                        caseBack.onSuccess("")
+                    }
+
+                }
+                is KResults.Failure -> {
+
+                    if (caseBack != null) {
+                        caseBack.onError("取件码更新失败：" + kResults.msg)
+                    }
+                }
+
             }
 
         }

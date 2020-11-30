@@ -48,13 +48,24 @@ interface StorageService {
     fun getExpressCompany(@FieldMap fields: Map<String, Any>): Call<BaseResult<List<ExpressCompany>>>
 
 
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("$meng/express/Warehousing/queryPickupCode")
+    fun queryPickupCode(@FieldMap fields: Map<String, Any>): Call<BaseResult<List<PickCodeRemote>>>
+
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("$meng/express/Warehousing/savePickupCode")
+    fun savePickupCode(@FieldMap fields: Map<String, Any>): Call<BaseResult<PickCodeRemote>>
+
+
     /**
      * 拍照出库，查询快递信息
      */
     @JvmSuppressWildcards
     @FormUrlEncoded
     @POST("$meng/express/station/getExpressInfo")
-    fun getPackageInfo(@FieldMap  fields: Map<String, Any>) : Call<BaseResult<ExpressPackInfo>>
+    fun getPackageInfo(@FieldMap fields: Map<String, Any>): Call<BaseResult<ExpressPackInfo>>
 
     /**
      * 拍照出库，确认出库

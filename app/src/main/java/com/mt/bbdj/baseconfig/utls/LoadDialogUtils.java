@@ -35,7 +35,20 @@ public class LoadDialogUtils {
         LoadingDialog.Builder loadBuilder = new LoadingDialog.Builder(context)
                 .setCancelable(true)
                 .setCancelOutside(false);
-        loadingDialog =  loadBuilder.create();
+        loadingDialog = loadBuilder.create();
+        loadingDialog.show();
+        if (loadingDialogList == null) {
+            loadingDialogList = new ArrayList<>();
+        }
+        loadingDialogList.add(loadingDialog);
+    }
+
+
+    public static void showLoadingDialog(Activity context, boolean isCancelable) {
+        LoadingDialog.Builder loadBuilder = new LoadingDialog.Builder(context)
+                .setCancelable(isCancelable)
+                .setCancelOutside(false);
+        loadingDialog = loadBuilder.create();
         loadingDialog.show();
         if (loadingDialogList == null) {
             loadingDialogList = new ArrayList<>();

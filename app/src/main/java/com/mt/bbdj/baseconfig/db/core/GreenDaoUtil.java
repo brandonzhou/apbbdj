@@ -16,52 +16,106 @@ import java.util.List;
  */
 public class GreenDaoUtil {
 
-    private static DaoSession getDaoSession(){
+    private static DaoSession getDaoSession() {
         return GreenDaoManager.getInstance().getSession();
     }
 
-    public static String getStationId(){
+    public static String getStationId() {
         return DbUserUtil.getUserBase().getUser_id();
     }
 
 
-
-    public static void updatePickCode(PickupCode pickupCode){
+    public static void insertPickCode(PickupCode pickupCode) {
         PickupCodeDao dao = getDaoSession().getPickupCodeDao();
-        pickupCode.setStationId(getStationId());
-        long time = System.currentTimeMillis();
-        pickupCode.setTime(time);
-
-        PickupCode dbCode = getPickCodeLast();
-        // 设置UID，确保目前只有一条数据，方便以后需求扩展
-        pickupCode.setUId(dbCode.getUId());
-        dao.insertOrReplace(pickupCode);
+        dao.save(pickupCode);
     }
 
-    public static PickupCode getPickCodeLast(){
+    // 重置覆盖
+    public static void restorePickCodeList(List<PickupCode> list) {
+        PickupCodeDao dao = getDaoSession().getPickupCodeDao();
+        dao.deleteAll();
+        dao.insertInTx(list);
+    }
+
+    public static void delPickCode(Long uId) {
+        PickupCodeDao dao = getDaoSession().getPickupCodeDao();
+        dao.deleteByKey(uId);
+    }
+
+
+    public static void updatePickCode(PickupCode pickupCode) {
+        PickupCodeDao dao = getDaoSession().getPickupCodeDao();
+        pickupCode.setStationId(getStationId());
+
+        PickupCode dbCode = getPickCode(pickupCode.getShelfId());
+//        PickupCode dbCode = getPickCodeLast();
+        //----- 设置UID，确保每个货架只有一条数据
+        if (dbCode != null) {
+            pickupCode.setUId(dbCode.getUId());
+        }
+        dao.insertOrReplace(pickupCode);
+
+
+    }
+
+    public static PickupCode getPickCode(int shelfId) {
         PickupCodeDao dao = getDaoSession().getPickupCodeDao();
         PickupCode pickupCode = dao.queryBuilder()
-                .where(PickupCodeDao.Properties.StationId.eq(getStationId()))
+                .where(PickupCodeDao.Properties.StationId.eq(getStationId()),
+                        PickupCodeDao.Properties.ShelfId.eq(shelfId))
                 .unique();
-
-        if(pickupCode == null){
-            pickupCode = new PickupCode();
-            pickupCode.setStartNumber(1000);
-            pickupCode.setCurrentNumber("1000");
-            pickupCode.setType(PickupCode.Type.type_code.getDesc());
-        }
 
         return pickupCode;
     }
 
+    public static PickupCode getPickCodeLast() {
+        PickupCodeDao dao = getDaoSession().getPickupCodeDao();
+        PickupCode pickupCode = dao.queryBuilder()
+                .where(PickupCodeDao.Properties.StationId.eq(getStationId()))
+                .orderDesc(PickupCodeDao.Properties.Time)
+                .limit(1).unique();
+
+//        if(pickupCode == null){
+//            pickupCode = new PickupCode();
+//            pickupCode.setStartNumber(1000);
+//            pickupCode.setType(PickupCode.Type.type_code.getDesc());
+//        }
+
+        return pickupCode;
+    }
+
+    public static List<PickupCode> listPickupCodeAll() {
+        PickupCodeDao dao = getDaoSession().getPickupCodeDao();
+        return dao.queryBuilder()
+                .list();
+    }
+
+    /**
+     * @return 列出所有货架取件码
+     */
+    public static List<PickupCode> listPickupCodeHasShelf() {
+        PickupCodeDao dao = getDaoSession().getPickupCodeDao();
+        return dao.queryBuilder()
+                .where(PickupCodeDao.Properties.StationId.eq(getStationId()),
+                        PickupCodeDao.Properties.Type.notEq(PickupCode.Type.type_code.getDesc()))
+                .list();
+    }
+
+    public static PickupCode listPickupCodeOnlyNumber() {
+        PickupCodeDao dao = getDaoSession().getPickupCodeDao();
+        return dao.queryBuilder()
+                .where(PickupCodeDao.Properties.StationId.eq(getStationId()),
+                        PickupCodeDao.Properties.Type.eq(PickupCode.Type.type_code.getDesc()))
+                .limit(1).unique();
+    }
 
 
-    public static void updateScanImage(ScanImage scanImage){
+    public static void updateScanImage(ScanImage scanImage) {
         ScanImageDao dao = getDaoSession().getScanImageDao();
         dao.insertOrReplace(scanImage);
     }
 
-    public static void updateScanImageList(List<ScanImage> scanImageList){
+    public static void updateScanImageList(List<ScanImage> scanImageList) {
         ScanImageDao dao = getDaoSession().getScanImageDao();
         dao.insertOrReplaceInTx(scanImageList);
     }

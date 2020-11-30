@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_marginTop="1dp"
+    android:layout_height="80dp">
+
+    <TextView
+        android:id="@+id/tv_shelf_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        tools:text="货架号 A1"
+        android:textSize="@dimen/text_size_main"
+        android:textColor="@color/text_grey_6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_last_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="最后入库编号 A12234"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/text_grey_9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_shelf_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_shelf_name" />
+
+    <TextView
+        android:id="@+id/tv_shelf_del"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="15dp"
+        android:text="删除"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/text_grey_6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/_line"
+        android:layout_width="1px"
+        android:layout_height="20dp"
+        android:background="@color/line_main"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_shelf_del"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

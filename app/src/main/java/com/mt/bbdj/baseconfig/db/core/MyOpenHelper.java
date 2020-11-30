@@ -46,11 +46,14 @@ public class MyOpenHelper extends DaoMaster.OpenHelper {
         //操作数据库的更新 有几个表升级都可以传入到下面
         if (oldVersion < 37) {
             MigrationHelper.migrate(db, UserBaseMessageDao.class);
-            MigrationHelper.migrate(db, PickupCodeDao.class);
         }
 
         if (oldVersion < 38) {
             MigrationHelper.migrate(db, ScanImageDao.class);
+        }
+
+        if (oldVersion < 39) {
+            MigrationHelper.migrate(db, PickupCodeDao.class);
         }
 
     }
