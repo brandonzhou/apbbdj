@@ -4,6 +4,7 @@ import com.shshcom.module_base.network.KResults
 import com.shshcom.station.base.ICaseBack
 import com.shshcom.station.setting.http.ApiSetting
 import com.shshcom.station.setting.http.bean.AutoUrgeData
+import com.shshcom.station.setting.http.bean.SystemNotifyBean
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -36,4 +37,23 @@ object UrgeSettingUseCase {
 
         }
     }
+
+
+    fun getNoticeList(caseBack: ICaseBack<List<SystemNotifyBean>>) {
+        presenterScope.launch {
+            val result = ApiSetting.getNoticeList(1, true)
+
+            when (result) {
+                is KResults.Success -> {
+                    caseBack.onSuccess(result.data)
+                }
+                is KResults.Failure -> {
+                    val msg = result.error.message
+                    caseBack.onError(msg.orEmpty())
+                }
+            }
+
+        }
+    }
+
 }

@@ -6,6 +6,7 @@ import com.shshcom.module_base.network.ServiceCreator
 import com.shshcom.station.setting.http.bean.AutoUrgeData
 import com.shshcom.station.setting.http.bean.CompanySettingData
 import com.shshcom.station.setting.http.bean.CustomSMSTemplateData
+import com.shshcom.station.setting.http.bean.SystemNotifyBean
 import com.shshcom.station.storage.http.ApiStorage.await
 import com.shshcom.station.storage.http.bean.BaseResult
 import com.shshcom.station.util.ApiSignatureUtil
@@ -99,6 +100,18 @@ object ApiSetting {
             map["custom_address"] = custom_address
             ApiSignatureUtil.addSignature(map)
             service.saveCustomSMSTemplate(map).await()
+        }
+    }
+
+
+    suspend fun getNoticeList(number: Int, unread: Boolean): KResults<List<SystemNotifyBean>> {
+        return processApi {
+            val map = HashMap<String, Any>()
+            map["user_id"] = getStationId()
+            map["number"] = number
+            map["type"] = if(unread) 1 else 2 // 1-未读 2-全部
+            ApiSignatureUtil.addSignature(map)
+            service.getNoticeList(map).await()
         }
     }
 

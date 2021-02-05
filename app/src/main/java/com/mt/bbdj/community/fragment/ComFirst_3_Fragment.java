@@ -94,6 +94,9 @@ import com.mt.bbdj.community.adapter.MyGridViewAdapter;
 import com.mylhyl.circledialog.CircleDialog;
 import com.shshcom.station.base.ICaseBack;
 import com.shshcom.station.blockuser.ui.activity.BlockUserListActivity;
+import com.shshcom.station.setting.domain.UrgeSettingUseCase;
+import com.shshcom.station.setting.http.bean.SystemNotifyBean;
+import com.shshcom.station.setting.ui.activity.SystemNotifyListActivity;
 import com.shshcom.station.statistics.domain.PackageUseCase;
 import com.shshcom.station.statistics.http.bean.TodayExpressStatistics;
 import com.shshcom.station.statistics.http.bean.WeChatTodayNotice;
@@ -186,6 +189,8 @@ public class ComFirst_3_Fragment extends BaseFragment {
     TextView tv_wechat_notify_number;
     @BindView(R.id.tv_recharge)
     TextView tv_recharge;
+    @BindView(R.id.iv_notify_message)
+    ImageView iv_notify_message;
 
 
     View mView;
@@ -336,6 +341,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         notifyCheck();    //通知权限
         httpTodayExpressStatistics();
         httpWeChatTodayNotice();
+        getNotifyList();
     }
 
 
@@ -434,6 +440,8 @@ public class ComFirst_3_Fragment extends BaseFragment {
         ll_wechat_notify.setOnClickListener(v -> NotifyPackListActivity.Companion.openActivity(getActivity()));
 
         tv_recharge.setOnClickListener(v -> RechargeActivity.openActivity(getActivity()));
+
+        iv_notify_message.setOnClickListener(v -> SystemNotifyListActivity.Companion.openActivity(getActivity()));
 
     }
 
@@ -1505,6 +1513,37 @@ public class ComFirst_3_Fragment extends BaseFragment {
 
             @Override
             public void onError(@org.jetbrains.annotations.Nullable String error) {
+
+            }
+        });
+    }
+
+    // 查询未读公告
+    private void getNotifyList(){
+        UrgeSettingUseCase.INSTANCE.getNoticeList(new ICaseBack<List<SystemNotifyBean>>() {
+            @Override
+            public void onSuccess(List<SystemNotifyBean> result) {
+                int drawable = R.drawable.ic_notify_message;
+                if(!result.isEmpty()){
+                    drawable = R.drawable.ic_notify_message_unread;
+
+                    SystemNotifyBean bean = result.get(0);
+
+                    new XPopup.Builder(getActivity())
+                            .asConfirm("通知公告", bean.getTitle(), "", "查看",
+                                    () -> {
+                                        WebDetailActivity.actionTo(getActivity(), bean.getLink());
+                                    }, null, true).show();
+
+
+
+                }
+
+                iv_notify_message.setImageDrawable(getResources().getDrawable(drawable));
+            }
+
+            @Override
+            public void onError(@NotNull String error) {
 
             }
         });

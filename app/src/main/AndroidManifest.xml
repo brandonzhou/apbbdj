@@ -617,7 +617,11 @@
         <activity
             android:name="com.shshcom.station.storage.activity.ScanStorageActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.shshcom.station.storage.activity.ScanImageFailLocalActivity" />
+        <activity android:name="com.shshcom.station.storage.activity.ScanImageFailLocalActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.shshcom.station.setting.ui.activity.SystemNotifyListActivity"
+            android:screenOrientation="portrait" />
+
 
         <meta-data
             android:name="com.huawei.hms.client.appid"

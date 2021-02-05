@@ -1,9 +1,11 @@
 package com.shshcom.station.setting.http
 
 import com.shshcom.config.meng
+import com.shshcom.config.passport
 import com.shshcom.station.setting.http.bean.AutoUrgeData
 import com.shshcom.station.setting.http.bean.CompanySettingData
 import com.shshcom.station.setting.http.bean.CustomSMSTemplateData
+import com.shshcom.station.setting.http.bean.SystemNotifyBean
 import com.shshcom.station.storage.http.bean.BaseResult
 import retrofit2.Call
 import retrofit2.http.FieldMap
@@ -67,4 +69,13 @@ interface SettingService {
     @FormUrlEncoded
     @POST("$meng/express/station/saveCustomSMSTemplate")
     fun saveCustomSMSTemplate(@FieldMap fields: Map<String, Any>): Call<BaseResult<Any>>
+
+
+    /**
+     * 短信模版-获取驿站自定义短信内容
+     */
+    @JvmSuppressWildcards
+    @FormUrlEncoded
+    @POST("$passport/station/Station/noticeList")
+    fun getNoticeList(@FieldMap fields: Map<String, Any>): Call<BaseResult<List<SystemNotifyBean>>>
 }
