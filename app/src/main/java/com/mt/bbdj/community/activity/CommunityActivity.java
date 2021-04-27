@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -17,18 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.fragment.app.FragmentTransaction;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.mt.bbdj.R;
 import com.mt.bbdj.baseconfig.base.BaseActivity;
+import com.mt.bbdj.baseconfig.db.ExpressLogo;
 import com.mt.bbdj.baseconfig.db.ScannerMessageModel;
 import com.mt.bbdj.baseconfig.db.UserBaseMessage;
 import com.mt.bbdj.baseconfig.db.gen.CityDao;
 import com.mt.bbdj.baseconfig.db.gen.CountyDao;
 import com.mt.bbdj.baseconfig.db.gen.DaoSession;
-import com.mt.bbdj.baseconfig.db.ExpressLogo;
 import com.mt.bbdj.baseconfig.db.gen.ExpressLogoDao;
 import com.mt.bbdj.baseconfig.db.gen.ProvinceDao;
 import com.mt.bbdj.baseconfig.db.gen.ScannerMessageModelDao;
@@ -239,7 +237,7 @@ public class CommunityActivity extends BaseActivity {
 
         for (ExpressLogo expressLogo : mExpressLogoList) {
             //下载logo
-            upLogo(expressLogo.getExpress_id(), expressLogo.getLogoInterPath());
+           // upLogo(expressLogo.getExpress_id(), expressLogo.getLogoInterPath());
         }
     }
 
