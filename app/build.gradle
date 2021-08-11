@@ -102,7 +102,7 @@ android {
     }
 }
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'bintray/umsdk')
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.android.support:multidex:1.0.1'
     implementation 'com.android.support:support-annotations:22.2.0'
@@ -192,21 +192,21 @@ dependencies {
     implementation 'com.kdp:starbarcode:1.0.5'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
 
-    //PushSDK必须依赖基础组件库，所以需要加入对应依赖
-    implementation 'com.umeng.umsdk:common:1.5.4'
-    //PushSDK必须依赖utdid库，所以需要加入对应依赖
-    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
-    //PushSDK
-    implementation 'com.umeng.umsdk:push:6.0.1'
-
-    //华为Push通道
-    implementation 'com.umeng.umsdk:huawei-basetb:2.6.3.305'
-    implementation 'com.umeng.umsdk:huawei-pushtb:2.6.3.305'
-    implementation 'com.umeng.umsdk:huawei-umengaccs:1.2.1'
-
-    //小米Push通道
-    implementation 'com.umeng.umsdk:xiaomi-push:3.6.17'
-    implementation 'com.umeng.umsdk:xiaomi-umengaccs:1.1.0'
+//    //PushSDK必须依赖基础组件库，所以需要加入对应依赖
+//    implementation 'com.umeng.umsdk:common:1.5.4'
+//    //PushSDK必须依赖utdid库，所以需要加入对应依赖
+//    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
+//    //PushSDK
+//    implementation 'com.umeng.umsdk:push:6.0.1'
+//
+//    //华为Push通道
+//    implementation 'com.umeng.umsdk:huawei-basetb:2.6.3.305'
+//    implementation 'com.umeng.umsdk:huawei-pushtb:2.6.3.305'
+//    implementation 'com.umeng.umsdk:huawei-umengaccs:1.2.1'
+//
+//    //小米Push通道
+//    implementation 'com.umeng.umsdk:xiaomi-push:3.6.17'
+//    implementation 'com.umeng.umsdk:xiaomi-umengaccs:1.1.0'
 
 
     implementation project(':zxlib')

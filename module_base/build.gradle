@@ -48,5 +48,5 @@ dependencies {
 
     api 'com.drakeet.multitype:multitype:4.2.0'
 
-    api("com.louiscad.splitties:splitties-toast:$splitties_version")
+    api fileTree(include: ['*.jar', '*.aar'], dir: 'bintray/splitties')
 }

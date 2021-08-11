@@ -11,10 +11,10 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         mavenCentral()
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+//        maven { url 'https://dl.bintray.com/umsdk/release' }
         google()
-        jcenter()
-        maven { url 'https://dl.bintray.com/louiscad/splitties-dev' }
+//        jcenter()
+//        maven { url 'https://dl.bintray.com/louiscad/splitties-dev' }
     }
 
     dependencies {
@@ -38,11 +38,8 @@ allprojects {
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
         mavenCentral()
         google()
-        jcenter()
         maven { url "https://jitpack.io" }
         maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
-        maven { url 'https://dl.bintray.com/umsdk/release' }
-        maven { url 'https://dl.bintray.com/louiscad/splitties-dev' }
     }
 
     configurations.all {
