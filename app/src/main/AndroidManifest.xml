@@ -621,6 +621,7 @@
             android:screenOrientation="portrait" />
         <activity android:name="com.shshcom.station.setting.ui.activity.SystemNotifyListActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".community.activity.WebLocalFileActivity" />
 
 
         <meta-data

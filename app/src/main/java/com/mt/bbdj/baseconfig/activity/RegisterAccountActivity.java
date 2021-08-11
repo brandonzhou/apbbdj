@@ -21,6 +21,7 @@ import com.mt.bbdj.baseconfig.utls.SharedPreferencesUtil;
 import com.mt.bbdj.baseconfig.utls.StringUtil;
 import com.mt.bbdj.baseconfig.utls.ToastUtil;
 import com.mt.bbdj.community.activity.RegisterAggreementActivity;
+import com.mt.bbdj.community.activity.WebLocalFileActivity;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
@@ -127,7 +128,8 @@ public class RegisterAccountActivity extends BaseActivity {
 
     private void handleReadAgreementEvent() {
         Intent intent = new Intent(this, RegisterAggreementActivity.class);
-        startActivity(intent);
+//        startActivity(intent);
+        WebLocalFileActivity.Companion.openActivity(this, "bbdj_aggreement.html", "注册协议");
     }
 
     private void handleCompleteRegisterEvent() {
