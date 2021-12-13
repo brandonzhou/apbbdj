@@ -69,7 +69,7 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
 
     private var expressId = 0
 
-    // 	1全部通知状态 2通知
+    // 	1全部通知状态 2通知 3 通知失败 4 需要电联
     private var notify = 1
 
 
@@ -255,7 +255,8 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
             val item1 = SelectItem(1, "全部通知", notify ==1)
             val item2 = SelectItem(2, "通知到达", notify ==2)
             val item3 = SelectItem(3, "通知失败", notify ==3)
-            val list = listOf(item1, item2, item3)
+            val item4 = SelectItem(4, "需要电联", notify ==4)
+            val list = listOf(item1, item2, item3, item4)
             iv_notify.setImageDrawable(resources.getDrawable(R.drawable.icon_drop_up))
 
             popupView = showPopView(list) {
