@@ -487,7 +487,7 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
             pum.put("[servicePhone]", "400-775-0008");
             Set<String> keySet = pum.keySet();
             Iterator<String> iterator = keySet.iterator();
-            InputStream afis = this.getResources().getAssets().open("ZhongTong.txt");//打印模版放在assets文件夹里
+            InputStream afis = this.getResources().getAssets().open("zhongtong_100mm.txt");//打印模版放在assets文件夹里
             String path = new String(InputStreamToByte(afis), "utf-8");//打印模版以utf-8无bom格式保存
             while (iterator.hasNext()) {
                 String string = (String) iterator.next();
@@ -529,8 +529,8 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
 //            HPRTPrinterHelper.Expanded("20", "1450", bitmap3, (byte) 0);//第二联 兵兵logo
 
             HPRTPrinterHelper.AutLine("65", "395", 500, 5, true, false, Receiver_address + Receiver_address1);
-            HPRTPrinterHelper.AutLine("65", "890", 500, 5, true, false, Receiver_address + Receiver_address1);
-            HPRTPrinterHelper.AutLine("65", "1021", 500, 5, true, false, Sender_address + Sender_address1);
+            //HPRTPrinterHelper.AutLine("65", "890", 500, 5, true, false, Receiver_address + Receiver_address1);
+            //HPRTPrinterHelper.AutLine("65", "1021", 500, 5, true, false, Sender_address + Sender_address1);
             HPRTPrinterHelper.AutLine("65", "532", 500, 5, true, false, Sender_address + Sender_address1);
 
             fastLogoBig = "";
@@ -541,13 +541,13 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
             Bitmap bitmap5 = BitmapFactory.decodeStream(inbmp5);
             HPRTPrinterHelper.Expanded("410", "622", bitmap5, (byte) 0);//第一联 快递公司logo
 
-            InputStream inbmp1 = this.getResources().getAssets().open(fastLogoMini);
-            Bitmap bitmap1 = BitmapFactory.decodeStream(inbmp1);
-            HPRTPrinterHelper.Expanded("20", "725", bitmap1, (byte) 0);// 第二联 快递公司logo
-
-            InputStream inbmp2 = this.getResources().getAssets().open(fastLogoMini);
-            Bitmap bitmap2 = BitmapFactory.decodeStream(inbmp2);
-            HPRTPrinterHelper.Expanded("325", "1215", bitmap2, (byte) 0);//第三联 快递公司logo
+//            InputStream inbmp1 = this.getResources().getAssets().open(fastLogoMini);
+//            Bitmap bitmap1 = BitmapFactory.decodeStream(inbmp1);
+//            HPRTPrinterHelper.Expanded("20", "725", bitmap1, (byte) 0);// 第二联 快递公司logo
+//
+//            InputStream inbmp2 = this.getResources().getAssets().open(fastLogoMini);
+//            Bitmap bitmap2 = BitmapFactory.decodeStream(inbmp2);
+//            HPRTPrinterHelper.Expanded("325", "1215", bitmap2, (byte) 0);//第三联 快递公司logo
             if ("1".equals(BluetoothSearchActivity.paper)) {
                 HPRTPrinterHelper.Form();
             }
