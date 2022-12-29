@@ -130,7 +130,7 @@ class PackStockListActivity : AppCompatActivity(), XRecyclerView.LoadingListener
     }
 
     private fun initData() {
-        time = intent.getStringExtra("time")
+        time = intent.getStringExtra("time").toString()
         outState = intent.getIntExtra("outType", 1)
         isToday = intent.getBooleanExtra("isToday", true)
 

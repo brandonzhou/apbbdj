@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     signingConfigs {
         release {
@@ -31,7 +31,7 @@ android {
     defaultConfig {
         applicationId "com.mt.bbdj"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 17
         versionName "1.0.38"
         renderscriptTargetApi 19

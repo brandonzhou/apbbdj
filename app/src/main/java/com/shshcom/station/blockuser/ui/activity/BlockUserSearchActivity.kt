@@ -189,7 +189,9 @@ class BlockUserSearchActivity : AppCompatActivity(), XRecyclerView.LoadingListen
             val v = currentFocus
             if (isShouldHideInput(v, ev)) {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm?.hideSoftInputFromWindow(v.windowToken, 0)
+                if (v != null) {
+                    imm?.hideSoftInputFromWindow(v.windowToken, 0)
+                }
             }
             return super.dispatchTouchEvent(ev)
         }
