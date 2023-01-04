@@ -617,6 +617,9 @@
         <activity
             android:name="com.shshcom.station.storage.activity.ScanStorageActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.shshcom.station.storage.activity.ScanStorageActivity_ML"
+            android:screenOrientation="portrait" />
         <activity android:name="com.shshcom.station.storage.activity.ScanImageFailLocalActivity"
             android:screenOrientation="portrait" />
         <activity android:name="com.shshcom.station.setting.ui.activity.SystemNotifyListActivity"

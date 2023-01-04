@@ -294,5 +294,27 @@
         <item name="android:paddingLeft">10dp</item>
     </style>
 
+    <style name="greenButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
 
+        <item name="elevation">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="cornerRadius">22dp</item>
+
+    </style>
+    <style name="greenOutLineButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/text_green</item>
+        <item name="android:textSize">@dimen/text_size_main</item>
+        <item name="strokeColor">@color/color_main_theme</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="elevation">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">22dp</item>
+
+
+    </style>
 </resources>

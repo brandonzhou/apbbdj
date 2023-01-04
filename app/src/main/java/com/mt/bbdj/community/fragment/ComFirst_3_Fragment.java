@@ -106,6 +106,7 @@ import com.shshcom.station.statistics.ui.TotalPackStockActivity;
 import com.shshcom.station.storage.activity.ScanOnlyBarcodeActivity;
 import com.shshcom.station.storage.activity.ScanPickOutActivity;
 import com.shshcom.station.storage.activity.ScanStorageActivity;
+import com.shshcom.station.storage.activity.ScanStorageActivity_ML;
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -1495,7 +1496,8 @@ public class ComFirst_3_Fragment extends BaseFragment {
     private void handleEnterHourseByCameraEvent() {
         // Intent intent = new Intent(getActivity(), KotlinActivity.class);
 
-        Intent intent = new Intent(getActivity(), ScanStorageActivity.class);
+//        Intent intent = new Intent(getActivity(), ScanStorageActivity.class);
+        Intent intent = new Intent(getActivity(), ScanStorageActivity_ML.class);
         startActivity(intent);
     }
 

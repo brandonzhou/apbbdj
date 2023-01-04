@@ -51,5 +51,6 @@
     <string name="input_addressee_phone">请输入收件人手机号</string>
     <string name="phone_format_error">手机号格式不正确</string>
     <string name="express_code_regular">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890</string>
-
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
 </resources>

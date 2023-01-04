@@ -37,6 +37,7 @@ public class SharedPreferencesUtil {
     }
 
 
+
     public static void putInt(String key, int value){
         mEditor.putInt(key, value);
         mEditor.commit();
@@ -44,6 +45,26 @@ public class SharedPreferencesUtil {
 
     public static int getInt(String key, int defaultValue){
         return mSharedPreferences.getInt(key, defaultValue);
+    }
+
+    public static void putBoolean(String key, boolean value){
+        mEditor.putBoolean(key, value);
+        mEditor.commit();
+    }
+
+    public static boolean getBoolean(String key, boolean defaultValue){
+        return mSharedPreferences.getBoolean(key, defaultValue);
+    }
+
+
+
+    public static void putString(String key, String value){
+        mEditor.putString(key, value);
+        mEditor.commit();
+    }
+
+    public static String getString(String key, String defaultValue){
+        return mSharedPreferences.getString(key, defaultValue);
     }
 
 }

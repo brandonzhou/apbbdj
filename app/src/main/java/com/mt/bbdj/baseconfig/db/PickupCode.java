@@ -108,8 +108,7 @@ public class PickupCode implements Serializable {
 
         return currentStr;
     }
-
-    public String createRealPickCode(String barCode) {
+    public String createRealPickCode(String barCode, String phone) {
 
         if (Type.type_code.getDesc().equals(type)) {
             lastCode = startNumber + "";
@@ -144,14 +143,25 @@ public class PickupCode implements Serializable {
             currentStr = shelfNumber + "-" + tailNumber;
         }
 
+        if (Type.type_shelf_phone_tail.getDesc().equals(type)) {
+            if(phone != null && phone.length() >4){
+                currentStr = shelfNumber + "-" + phone.substring(phone.length() - 4, phone.length());
+            }else {
+                currentStr = shelfNumber + "-" + tailNumber;
+            }
+
+        }
+
         lastCode = currentStr;
 
         return currentStr;
     }
 
 
+
+
     public boolean isTail() {
-        return Type.type_shelf_tail.getDesc().equals(type) || Type.type_shelf_date_tail.getDesc().equals(type);
+        return Type.type_shelf_tail.getDesc().equals(type) || Type.type_shelf_date_tail.getDesc().equals(type) || Type.type_shelf_phone_tail.getDesc().equals(type);
     }
 
 
@@ -160,7 +170,8 @@ public class PickupCode implements Serializable {
         type_shelf_code(1, "货架号+编号累加"),
         type_shelf_date_code(2, "货架号+日期+编号累加"),
         type_shelf_date_tail(3, "货架号+日期+单号尾号"),
-        type_shelf_tail(4, "货架号+单号尾号");
+        type_shelf_tail(4, "货架号+单号尾号"),
+        type_shelf_phone_tail(5, "货架号+电话尾号");
 
         private String desc;
         private int rule;

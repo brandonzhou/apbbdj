@@ -134,7 +134,21 @@ public class StringUtil {
         String signature = EncryptUtil.toMD5(EncryptUtil.getSha1(str));
         return signature.toUpperCase();
     }
-
+    /**
+     * 验证95013格式
+     */
+    public static boolean is95013Num(String number) {
+        if (TextUtils.isEmpty(number)) {
+            return false;
+        }
+        if (number.length() < 6) {
+            return false;
+        }
+        if (number.length() > 17) {
+            return false;
+        }
+        return number.startsWith("95013");
+    }
     /**
      * 验证手机格式
      */

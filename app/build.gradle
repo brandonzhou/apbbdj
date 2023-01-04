@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+//apply plugin: 'kotlin-parcelize'
 android {
     compileSdkVersion 30
 
@@ -67,7 +67,6 @@ android {
         targetCompatibility = '1.8'
     }
 
-    buildToolsVersion = '28.0.3'
 
     greendao {
         schemaVersion 39    //版本
@@ -100,6 +99,7 @@ android {
             }
         }
     }
+
 }
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'bintray/umsdk')
@@ -139,6 +139,7 @@ dependencies {
     implementation files('libs/ocr-sdk.jar')
     implementation 'com.google.zxing:core:3.3.3'
     implementation files('libs/CPCLA300_V1.01.22.01PRO.jar')
+//    implementation files('libs/CPCL_SDK_V1.13.jar')
     implementation project(':idcardcamera')
     implementation 'org.raphets:roundimageview:1.2.0'
     implementation 'com.alibaba:fastjson:1.1.46.android'
@@ -164,7 +165,10 @@ dependencies {
 
 
     implementation 'com.lxj:xpopup:1.9.0'//弹窗
-
+//    implementation('com.github.li-xiaojun:XPopup:2.5.15') {
+//        exclude group: 'com.github.li-xiaojun', module: 'EasyAdapter'
+//        exclude group: 'com.github.bumptech.glide', module: 'glide'
+//    }
 
     // 基础依赖包，必须要依赖
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
@@ -230,7 +234,7 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
 
-   // implementation "me.drakeet.multitype:multitype:3.4.4"
+    // implementation "me.drakeet.multitype:multitype:3.4.4"
     implementation 'com.lxj:easyadapter:1.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
@@ -244,4 +248,10 @@ dependencies {
 
 
     implementation 'com.google.android:flexbox:2.0.1'
+
+    //Camera核心 (*必须项)
+    implementation 'com.github.jenly1314.MLKit:mlkit-camera-core:1.0.3'
+    //条码识别 (可选项)
+    implementation 'com.github.jenly1314.MLKit:mlkit-barcode-scanning:1.0.3'
+    implementation 'com.github.jenly1314.MLKit:mlkit-text-recognition:1.0.3'
 }

@@ -22,15 +22,15 @@ object ImageDetectionUseCase {
      *
      *
 
-      Mat destination = new Mat();
-      Mat matGray = new Mat();
-      Mat sourceMatImage = new Mat();
-      Utils.bitmapToMat(bitmap, sourceMatImage);
-      Imgproc.cvtColor(sourceMatImage, matGray, Imgproc.COLOR_BGR2GRAY);
-      Imgproc.Laplacian(matGray, destination, 3);
-      MatOfDouble median = new MatOfDouble();
-      MatOfDouble std = new MatOfDouble();
-      Core.meanStdDev(destination, median, std);
+    Mat destination = new Mat();
+    Mat matGray = new Mat();
+    Mat sourceMatImage = new Mat();
+    Utils.bitmapToMat(bitmap, sourceMatImage);
+    Imgproc.cvtColor(sourceMatImage, matGray, Imgproc.COLOR_BGR2GRAY);
+    Imgproc.Laplacian(matGray, destination, 3);
+    MatOfDouble median = new MatOfDouble();
+    MatOfDouble std = new MatOfDouble();
+    Core.meanStdDev(destination, median, std);
      */
 
 
@@ -76,7 +76,30 @@ object ImageDetectionUseCase {
 
 
 
+    fun cvtColor(bitmap: Bitmap): Bitmap {
+        val binaryMat = Mat()
+        val matGray = Mat()
 
+        val sourceMatImage = Mat()
+        Utils.bitmapToMat(bitmap, sourceMatImage)
+        Imgproc.cvtColor(sourceMatImage, matGray, Imgproc.COLOR_RGB2GRAY)
+        Imgproc.threshold(matGray, binaryMat, 0.0, 255.0, Imgproc.THRESH_OTSU)
+
+        val white = Core.countNonZero(binaryMat)
+
+        val black = binaryMat.size().area() - white
+
+
+        val dst = binaryMat.clone()
+        Core.bitwise_not(binaryMat,dst);
+
+
+        val bitmap1 = Bitmap.createBitmap(bitmap)
+
+        Utils.matToBitmap(dst, bitmap1)
+
+        return bitmap1
+    }
 
 
 

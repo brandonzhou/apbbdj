@@ -38,6 +38,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import me.shouheng.compress.Compress;
 
 /**
  * desc:
@@ -119,7 +120,28 @@ public class ScanStorageCase {
         return GreenDaoUtil.findScanImage(eId);
     }
 
+    public Observable<OpenCVData> getBitmap(Compress compress){
+        return Observable.just(compress)
+                .map(new Function<Compress, Bitmap>() {
+                    @Override
+                    public Bitmap apply(Compress compress) throws Exception {
+                        SHCameraHelp shCameraHelp = new SHCameraHelp();
 
+                        return shCameraHelp.getImageBitmap(compress);
+                    }
+                }).map(new Function<Bitmap, OpenCVData>() {
+                    @Override
+                    public OpenCVData apply(Bitmap bitmap) throws Exception {
+//                        String ocrText = StorageCase.INSTANCE.getOCRResult(bitmap);
+
+                        double score = ImageDetectionUseCase.INSTANCE.getSharpnessScoreFromOpenCV(bitmap);
+                        OpenCVData openCVData = new OpenCVData(bitmap, score);
+//                        openCVData.setText(ocrText);
+                        return openCVData;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
     public Observable<OpenCVData> getBitmap(byte[] imageData){
         return Observable.just(imageData)
                 .map(new Function<byte[], Bitmap>() {
@@ -152,7 +174,7 @@ public class ScanStorageCase {
         image.setBlurScore(cvData.getScore());
 
         // 根据规则，生成真正的取件码
-        String strPickCode = pickCode.createRealPickCode(eId);
+        String strPickCode = pickCode.createRealPickCode(eId,"");
         image.setPickCode(strPickCode);
         GreenDaoUtil.updateScanImage(image);
 

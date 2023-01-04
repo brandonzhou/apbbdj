@@ -379,7 +379,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
         }
 
         // 根据规则，生成真正的取件码
-        pickupCode.createRealPickCode(result);
+        pickupCode.createRealPickCode(result,"");
 
         PickupCode nextCode = pickupCode.nextPickCode();
         updateUI(result, pickupCode.getCurrentNumber(), nextCode.getCurrentNumber());
@@ -587,7 +587,7 @@ public class ScanStorageActivity extends CaptureActivity implements View.OnClick
                                     DialogUtil.promptDialog(activity, "无取件码，操作失败");
                                     return;
                                 }
-                                pickupCode.createRealPickCode(barCode);
+                                pickupCode.createRealPickCode(barCode,"");
 
                                 PickupCode nextCode = pickupCode.nextPickCode();
 

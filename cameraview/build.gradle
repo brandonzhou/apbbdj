@@ -201,63 +201,63 @@ jacoco {
     reportsDir = file(reportsDirectory)
 }
 
-task mergedCoverageReport(type: JacocoReport) {
-    dependsOn "testDebugUnitTest"
-    dependsOn "connectedCheck"
-
-    // Merge unit tests and android tests data
-    executionData = fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec", // Unit tests
-            "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec" // Android tests
-    ])
-
-    // Sources
-    sourceDirectories = files(android.sourceSets.main.java.sourceFiles)
-    additionalSourceDirs = files([ // Add BuildConfig and R.
-            "$buildDir/generated/source/buildConfig/debug",
-            "$buildDir/generated/source/r/debug"
-    ])
-
-    // Classes (.class files)
-    // Not everything in the filter relates to CameraView,
-    // but let's keep a generic filter
-    def classDir = "$buildDir/intermediates/javac/debug"
-    def classFilter = [
-            '**/R.class',
-            '**/R$*.class',
-            '**/BuildConfig.*',
-            '**/Manifest*.*',
-            'android/**',
-            'androidx/**',
-            'com/google/**',
-            '**/*$ViewInjector*.*',
-            '**/Dagger*Component.class',
-            '**/Dagger*Component$Builder.class',
-            '**/*Module_*Factory.class',
-    ]
-    if (travis) {
-        // All these classes are tested by the integration tests that we are not able to
-        // run on the travis emulator.
-        classFilter.add('**/com/otaliastudios/cameraview/engine/CameraEngine**.*')
-        classFilter.add('**/com/otaliastudios/cameraview/engine/Camera1Engine**.*')
-        classFilter.add('**/com/otaliastudios/cameraview/engine/Camera2Engine**.*')
-        classFilter.add('**/com/otaliastudios/cameraview/engine/action/**.*')
-        classFilter.add('**/com/otaliastudios/cameraview/engine/lock/**.*')
-        classFilter.add('**/com/otaliastudios/cameraview/engine/meter/**.*')
-        classFilter.add('**/com/otaliastudios/cameraview/picture/**.*')
-        classFilter.add('**/com/otaliastudios/cameraview/video/**.*')
-        // TODO these below could be easily testable ALSO outside of the integration tests
-        classFilter.add('**/com/otaliastudios/cameraview/video/encoding/**.*')
-    }
-    // We don't test OpenGL filters.
-    classFilter.add('**/com/otaliastudios/cameraview/filters/**.*')
-
-    classDirectories = fileTree(dir: classDir, excludes: classFilter);
-
-    reports.html.enabled = true
-    reports.xml.enabled = true
-    reports.xml.destination file("$reportsDirectory/mergedCoverageReport/report.xml")
-}
+//task mergedCoverageReport(type: JacocoReport) {
+//    dependsOn "testDebugUnitTest"
+//    dependsOn "connectedCheck"
+//
+//    // Merge unit tests and android tests data
+//    executionData = fileTree(dir: "$buildDir", includes: [
+//            "jacoco/testDebugUnitTest.exec", // Unit tests
+//            "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec" // Android tests
+//    ])
+//
+//    // Sources
+//    sourceDirectories = files(android.sourceSets.main.java.sourceFiles)
+//    additionalSourceDirs = files([ // Add BuildConfig and R.
+//            "$buildDir/generated/source/buildConfig/debug",
+//            "$buildDir/generated/source/r/debug"
+//    ])
+//
+//    // Classes (.class files)
+//    // Not everything in the filter relates to CameraView,
+//    // but let's keep a generic filter
+//    def classDir = "$buildDir/intermediates/javac/debug"
+//    def classFilter = [
+//            '**/R.class',
+//            '**/R$*.class',
+//            '**/BuildConfig.*',
+//            '**/Manifest*.*',
+//            'android/**',
+//            'androidx/**',
+//            'com/google/**',
+//            '**/*$ViewInjector*.*',
+//            '**/Dagger*Component.class',
+//            '**/Dagger*Component$Builder.class',
+//            '**/*Module_*Factory.class',
+//    ]
+//    if (travis) {
+//        // All these classes are tested by the integration tests that we are not able to
+//        // run on the travis emulator.
+//        classFilter.add('**/com/otaliastudios/cameraview/engine/CameraEngine**.*')
+//        classFilter.add('**/com/otaliastudios/cameraview/engine/Camera1Engine**.*')
+//        classFilter.add('**/com/otaliastudios/cameraview/engine/Camera2Engine**.*')
+//        classFilter.add('**/com/otaliastudios/cameraview/engine/action/**.*')
+//        classFilter.add('**/com/otaliastudios/cameraview/engine/lock/**.*')
+//        classFilter.add('**/com/otaliastudios/cameraview/engine/meter/**.*')
+//        classFilter.add('**/com/otaliastudios/cameraview/picture/**.*')
+//        classFilter.add('**/com/otaliastudios/cameraview/video/**.*')
+//        // TODO these below could be easily testable ALSO outside of the integration tests
+//        classFilter.add('**/com/otaliastudios/cameraview/video/encoding/**.*')
+//    }
+//    // We don't test OpenGL filters.
+//    classFilter.add('**/com/otaliastudios/cameraview/filters/**.*')
+//
+//    classDirectories = fileTree(dir: classDir, excludes: classFilter);
+//
+//    reports.html.enabled = true
+//    reports.xml.enabled = true
+//    reports.xml.destination file("$reportsDirectory/mergedCoverageReport/report.xml")
+//}
 
 //endregion
 

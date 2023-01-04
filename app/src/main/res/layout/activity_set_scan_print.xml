@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_main"
+    tools:context="com.shshcom.station.storage.activity.SetScanPrintActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_araw_left_grey" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="入库操作设置"
+            android:textColor="@color/grey_7"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/tv_set_code"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_setting_center"
+            android:visibility="gone"
+            android:contentDescription="设置" />
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/margin_top_10"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_alignTop="@id/iv_toggle"
+                android:layout_alignBottom="@id/iv_toggle"
+                android:text="需要校验手机号弹窗"
+                android:textColor="@color/text_main"
+                android:textSize="@dimen/text_size_main" />
+
+
+            <ToggleButton
+                android:id="@+id/iv_toggle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@drawable/toggle_drawable_selector"
+                android:textOff="@null"
+                android:checked="true"
+                android:textOn="@null"
+                android:layout_alignParentEnd="true"
+                />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="@dimen/margin_top_10"
+            android:text="建议打开手机号码校验弹窗进行检查，避免手机号码识别错误造成损失"
+            android:textColor="@color/text_orange"
+            android:textSize="@dimen/text_size_12" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/line_main" />
+    </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_ba_gun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/margin_top_10"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv_toggle_red_light"
+                android:layout_alignBottom="@id/iv_toggle_red_light"
+                android:gravity="center_vertical"
+                android:text="启用巴枪扫码入库"
+                android:textColor="@color/text_main"
+                android:textSize="@dimen/text_size_main" />
+
+
+            <ToggleButton
+                android:id="@+id/iv_toggle_red_light"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@drawable/toggle_drawable_selector"
+                android:checked="false"
+                android:textOff="@null"
+                android:textOn="@null" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="@dimen/margin_top_10"
+            android:text="开启时，请按下手机两侧巴枪按钮，并距离运单条码20厘米以上"
+            android:textColor="@color/text_orange"
+            android:textSize="@dimen/text_size_12" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/line_main" />
+    </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_set_print_page_size"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_54"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/margin_top_10"
+        android:paddingStart="@dimen/margin_15"
+        android:paddingEnd="@dimen/margin_15"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置取件码尺寸"
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/text_main"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text=""
+            tools:text="设置"
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/text_main"
+            android:layout_gravity="center_vertical" />
+
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_arrow_right"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp" />
+
+
+    </LinearLayout>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/margin_top_10"
+        >
+
+
+        <TextView
+            android:id="@+id/_tv_auto_pick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_toggle_print"
+            app:layout_constraintBottom_toBottomOf="@id/iv_toggle_print"
+            android:text="自动打印取件码"
+            android:textColor="@color/text_main"
+            android:textSize="@dimen/text_size_main" />
+
+        <ToggleButton
+            android:id="@+id/iv_toggle_print"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@drawable/toggle_drawable_selector"
+            android:textOff="@null"
+            android:checked="true"
+            android:textOn="@null"
+
+            />
+
+
+        <TextView
+            android:id="@+id/_tv_printer_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_top_10"
+            android:text="当使用的打印机："
+            android:textColor="@color/text_grey_6"
+            android:textSize="@dimen/text_size_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/_tv_auto_pick"
+            app:layout_constraintTop_toBottomOf="@id/iv_toggle_print" />
+
+        <TextView
+            android:id="@+id/tv_printer_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintTop_toTopOf="@id/_tv_printer_name"
+            app:layout_constraintBottom_toBottomOf="@id/_tv_printer_name"
+            app:layout_constraintStart_toEndOf="@id/_tv_printer_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="HM-5de"
+            android:textColor="@color/text_green"
+            android:textSize="@dimen/text_size_14" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_bt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/line_main" />
+
+        <LinearLayout
+            android:id="@+id/ll_select"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="请选择打印机"
+                android:textColor="@color/text_main"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:gravity="center_vertical"
+                android:text="点击刷新"
+                android:textColor="@color/grey_7"
+                android:textSize="14dp" />
+
+            <ProgressBar
+                android:id="@+id/pb_search"
+                style="@android:style/Widget.ProgressBar.Large"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="7dp"
+                android:indeterminateDrawable="@drawable/shape_progressbar" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/line_main" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rl_bluetooth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:minHeight="250dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp" />
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
