@@ -32,8 +32,8 @@ android {
         applicationId "com.mt.bbdj"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 17
-        versionName "1.0.38"
+        versionCode 18
+        versionName "1.0.39"
         renderscriptTargetApi 19
         multiDexKeepProguard file("./tinker_multidexkeep.pro")
         renderscriptSupportModeEnabled true
@@ -81,7 +81,7 @@ android {
             variant.outputs.all { output ->
                 logger.error('\n================================ =====================================================\n ')
                 def releaseTime = new Date().format("yyyyMMddHHmm", TimeZone.getTimeZone("GMT+08:00"))
-                def baseFileName = "app_bbdj_station_V${variant.versionName}_C${variant.versionCode}_${releaseTime}"
+                def baseFileName = "app_Azhan_station_V${variant.versionName}_C${variant.versionCode}_${releaseTime}"
                 outputFileName = baseFileName + ".apk"
 
                 logger.error('outputFileName ---> ' + outputFileName)

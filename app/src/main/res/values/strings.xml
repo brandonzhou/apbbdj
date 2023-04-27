@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">兵兵驿站</string>
-    <string name="title_select">兵兵驿站</string>
+    <string name="app_name">A栈</string>
+    <string name="title_select">A栈</string>
     <string name="main_tab_first_page">首页</string>
     <string name="main_tab_first_order">订单</string>
     <string name="main_tab_first_data">数据</string>
