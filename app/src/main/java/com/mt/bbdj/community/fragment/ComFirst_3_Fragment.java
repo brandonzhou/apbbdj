@@ -665,7 +665,7 @@ public class ComFirst_3_Fragment extends BaseFragment {
         WXMediaMessage mediaMessage = new WXMediaMessage(miniProgram);
         miniProgram.miniprogramType = WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE;
         mediaMessage.title = shareTitle;//自定义
-        mediaMessage.description = "这是兵兵驿站的商铺";//自定义
+        mediaMessage.description = "这是A栈的商铺";//自定义
         Bitmap bitmap = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_logo_);
         Bitmap sendBitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
         bitmap.recycle();

@@ -348,7 +348,7 @@
                         android:layout_height="40dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="5dp"
-                        android:text="如何在兵兵驿站app下单寄件"
+                        android:text="如何在A栈app下单寄件"
                         android:textColor="@color/grey_7" />
 
 
@@ -378,7 +378,7 @@
                         android:layout_height="40dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="5dp"
-                        android:text="如何在兵兵驿站公众号查询物流信息"
+                        android:text="如何在A栈公众号查询物流信息"
                         android:textColor="@color/grey_7" />
 
 
@@ -407,7 +407,7 @@
                         android:layout_height="40dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="5dp"
-                        android:text="如何在兵兵驿站app查询物流信息"
+                        android:text="如何在A栈app查询物流信息"
                         android:textColor="@color/grey_7" />
 
 
@@ -438,7 +438,7 @@
                         android:layout_marginBottom="20dp"
                         android:gravity="center_vertical"
                         android:paddingLeft="5dp"
-                        android:text="如何在兵兵驿站app上交接管理"
+                        android:text="如何在A栈app上交接管理"
                         android:textColor="@color/grey_7" />
 
 

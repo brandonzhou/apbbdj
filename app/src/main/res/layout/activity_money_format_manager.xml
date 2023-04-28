@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="兵兵驿站店铺"
+                android:text="A栈店铺"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />

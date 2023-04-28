@@ -499,9 +499,9 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
             HPRTPrinterHelper.openEndStatic(true);//开启
             HPRTPrinterHelper.PrintData(path);//打印机打印
 
-            InputStream inbmpBingBingLogo = this.getResources().getAssets().open("ic_logo_mini.png");// 顶部兵兵logo
+            InputStream inbmpBingBingLogo = this.getResources().getAssets().open("ic_logo_mini.png");// 顶部A栈logo
             Bitmap bitmap = BitmapFactory.decodeStream(inbmpBingBingLogo);
-            HPRTPrinterHelper.Expanded("20", "10", bitmap, (byte) 0);//第一联 顶部兵兵logo
+           // HPRTPrinterHelper.Expanded("20", "10", bitmap, (byte) 0);//第一联 顶部A栈logo
 
 //            InputStream inbmp6 = this.getResources().getAssets().open("ic_send_logo.png");
 //            Bitmap bitmap6 = BitmapFactory.decodeStream(inbmp6);
@@ -519,14 +519,14 @@ public class PrintPannelActivity extends BaseActivity implements View.OnClickLis
              * TEXT 8 0 110 1540 客服热线 [servicePhone]
              * TEXT 5 0 280 1460 驿站代码
              * TEXT 5 0 275 1495 [stageCode]
-             * TEXT 55 0 448 1552 兵兵驿站公众号
+             * TEXT 55 0 448 1552 A栈公众号
              */
 //            InputStream inbmp4 = this.getResources().getAssets().open("ic_code.png");
 //            Bitmap bitmap4 = BitmapFactory.decodeStream(inbmp4);
 //            HPRTPrinterHelper.Expanded("443", "1430", bitmap4, (byte) 0);//二维码
 //            InputStream inbmp3 = this.getResources().getAssets().open("ic_logo_mini.png");
 //            Bitmap bitmap3 = BitmapFactory.decodeStream(inbmp3);
-//            HPRTPrinterHelper.Expanded("20", "1450", bitmap3, (byte) 0);//第二联 兵兵logo
+//            HPRTPrinterHelper.Expanded("20", "1450", bitmap3, (byte) 0);//第二联 A栈logo
 
             HPRTPrinterHelper.AutLine("65", "395", 500, 5, true, false, Receiver_address + Receiver_address1);
             //HPRTPrinterHelper.AutLine("65", "890", 500, 5, true, false, Receiver_address + Receiver_address1);

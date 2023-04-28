@@ -87,7 +87,7 @@ TEXT 3 0 65  828 [Sender_address_all]
 TEXT 8 0 110 1050 客服热线 [servicePhone]
 TEXT 5 0 280 970 驿站代码
 TEXT 5 0 275 1005 [stageCode]
-TEXT 55 0 448 1062 兵兵驿站公众号
+TEXT 55 0 448 1062 A栈公众号
 SETBOLD 0
 TEXT 3 0 65  878 内容品名:[goodName]
 TEXT 3 0 230  878 计费重量:[wight]

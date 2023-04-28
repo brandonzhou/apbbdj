@@ -48,7 +48,7 @@ public class MonitorPhoneService extends Service {
         Intent nfIntent = new Intent(this, MainActivity.class);
         builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0))
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_logo_))
-                .setContentTitle("兵兵驿站")
+                .setContentTitle("A栈")
                 .setSmallIcon(R.drawable.ic_logo_)
                 .setContentText("正在运行");
         Notification notification = builder.build(); // 获取构建好的Notificationnotification.defaults = Notification.DEFAULT_SOUND; //设置为默认的声音

@@ -112,7 +112,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="兵兵驿站版本号"
+            android:text="A栈版本号"
             android:textColor="@color/grey_7"
             android:textSize="15sp" />
 
@@ -141,7 +141,7 @@
         android:layout_height="25dp" />
 
     <TextView
-        android:text="兵兵驿站版权所有"
+        android:text="A栈版权所有"
         android:textColor="@color/grey_2"
         android:gravity="center"
         android:textSize="14sp"

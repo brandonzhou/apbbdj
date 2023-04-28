@@ -628,7 +628,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="《兵兵驿站服务协议》"
+            android:text="《A栈服务协议》"
             android:textColor="@color/mainColor"
             android:textSize="@dimen/standardTextSize" />
 

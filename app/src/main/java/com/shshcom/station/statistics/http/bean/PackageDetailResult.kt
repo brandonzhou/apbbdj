@@ -48,7 +48,7 @@ http://task.shkjplus.cn:8100/T629
 "out_type": 1,
 "unusual": 1,
 "out_picture": "",
-"sms_content": "【兵兵驿站】快递已到大柳树路21号，取件码:1000，电话:18811321040",
+"sms_content": "【A栈】快递已到大柳树路21号，取件码:1000，电话:18811321040",
 "sms_states": 1,
 "sms_time": "2020-06-22 19:35:02",
 "voice_states": 0,

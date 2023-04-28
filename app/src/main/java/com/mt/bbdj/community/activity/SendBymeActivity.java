@@ -111,7 +111,7 @@ public class SendBymeActivity extends BaseActivity {
             public void onClick(View view) {
                 OpenMapUtil.openGaoDeMap(SendBymeActivity.this,intentData.getLatitude(),intentData.getLongitude(),intentData.getAddress());
               /*  OpenExternalMapAppUtils.openMapMarker(SendBymeActivity.this,intentData.getLongitude(),intentData.getLatitude(),
-                        intentData.getAddress(),  intentData.getAddress(),"兵兵驿站",0);*/
+                        intentData.getAddress(),  intentData.getAddress(),"A栈",0);*/
             }
         });
 
@@ -120,7 +120,7 @@ public class SendBymeActivity extends BaseActivity {
             public void onClick(View view) {
                 OpenMapUtil.openBaiduMap(SendBymeActivity.this,intentData.getLatitude(),intentData.getLongitude(),intentData.getAddress());
               /*  OpenExternalMapAppUtils.openMapMarker(SendBymeActivity.this,intentData.getLongitude(),intentData.getLatitude(),
-                        intentData.getAddress(),  intentData.getAddress(),"兵兵驿站",1);*/
+                        intentData.getAddress(),  intentData.getAddress(),"A栈",1);*/
             }
         });
 

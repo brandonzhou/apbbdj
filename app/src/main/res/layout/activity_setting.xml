@@ -283,7 +283,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:text="关于兵兵"
+            android:text="关于A栈"
             android:textColor="@color/black"
             android:textSize="15dp" />
 
@@ -317,7 +317,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:text="兵兵驿站版本号"
+            android:text="A栈版本号"
             android:textColor="@color/black"
             android:textSize="15dp" />
 

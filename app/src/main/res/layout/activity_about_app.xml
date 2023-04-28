@@ -35,7 +35,7 @@
             android:layout_height="30dp"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="关于兵兵"
+            android:text="关于A栈"
             android:textColor="@color/whilte"
             android:textSize="15sp" />
     </RelativeLayout>

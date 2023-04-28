@@ -62,7 +62,7 @@
             android:layout_marginEnd="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_10"
             android:layout_marginBottom="@dimen/margin_10"
-            android:text="顾客关注“兵兵驿站”公众号，并绑定手机号，可以显著降低驿站信息费" />
+            android:text="顾客关注“A栈”公众号，并绑定手机号，可以显著降低驿站信息费" />
 
         <View
             android:layout_width="match_parent"

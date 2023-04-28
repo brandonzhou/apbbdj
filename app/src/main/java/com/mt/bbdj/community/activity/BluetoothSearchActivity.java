@@ -604,7 +604,7 @@ public class BluetoothSearchActivity extends BaseActivity {
 
             InputStream inbmp = this.getResources().getAssets().open("ic_logo_mini.png");
             Bitmap bitmap = BitmapFactory.decodeStream(inbmp);
-            HPRTPrinterHelper.Expanded("20", "10", bitmap, (byte) 0);//第一联 顶部兵兵logo
+            HPRTPrinterHelper.Expanded("20", "10", bitmap, (byte) 0);//第一联 顶部A栈logo
 
             InputStream inbmp6 = this.getResources().getAssets().open("ic_send_logo.png");
             Bitmap bitmap6 = BitmapFactory.decodeStream(inbmp6);
@@ -620,7 +620,7 @@ public class BluetoothSearchActivity extends BaseActivity {
             HPRTPrinterHelper.Expanded("443", "1430", bitmap4, (byte) 0);//二维码
             InputStream inbmp3 = this.getResources().getAssets().open("ic_logo_mini.png");
             Bitmap bitmap3 = BitmapFactory.decodeStream(inbmp3);
-            HPRTPrinterHelper.Expanded("20", "1450", bitmap3, (byte) 0);//第二联 兵兵logo
+            HPRTPrinterHelper.Expanded("20", "1450", bitmap3, (byte) 0);//第二联 A栈logo
 
             HPRTPrinterHelper.AutLine("65","395",500,5,true,false,Receiver_address + Receiver_address1);
             HPRTPrinterHelper.AutLine("65","890",500,5,true,false,Receiver_address + Receiver_address1);

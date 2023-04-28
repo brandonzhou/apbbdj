@@ -558,7 +558,7 @@ public class BluetoothNumberActivity extends BaseActivity {
 
 //            InputStream inbmp = this.getResources().getAssets().open("ic_logo_mini.png");
 //            Bitmap bitmap = BitmapFactory.decodeStream(inbmp);
-//            HPRTPrinterHelper.Expanded("35", "10", bitmap, (byte) 0);//第一联 顶部兵兵logo
+//            HPRTPrinterHelper.Expanded("35", "10", bitmap, (byte) 0);//第一联 顶部A栈logo
 
             if ("1".equals(BluetoothNumberActivity.paper)) {
                 HPRTPrinterHelper.Form();
